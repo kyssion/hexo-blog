@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>groovy-区别特性梳理(1)-基本信息 | Hexo</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A simple dark Hexo theme inspired by code.">
+  <meta name="keywords" content="groovy">
+  <meta name="author" content="John Doe">
+  <link rel="canonical" href="http://example.com">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="groovy-区别特性梳理(1)-基本信息 | Hexo">
+  <meta property="og:description" content="A simple dark Hexo theme inspired by code.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://example.com">
+  <meta property="og:site_name" content="Hexo">
+  <meta property="article:published_time" content="2024-12-31T15:09:00.000Z">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="groovy-区别特性梳理(1)-基本信息 | Hexo">
+  <meta name="twitter:description" content="A simple dark Hexo theme inspired by code.">
+
+  <!-- Favicon 配置 -->
+  
+
+  <!-- 外部样式 - 统一使用 jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- 代码高亮样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+  <!-- Mermaid.js 库 (defer加载) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <!-- 主题样式 -->
+  <link rel="stylesheet" href="../../../../css/theme-colors.css">
+  <link rel="stylesheet" href="../../../../css/main.css">
+  <link rel="stylesheet" href="../../../../css/code.css">
+  <link rel="stylesheet" href="../../../../css/code-custom.css">
+  <link rel="stylesheet" href="../../../../css/code-languages.css">
+  <link rel="stylesheet" href="../../../../css/mermaid.css">
+
+  <link rel="stylesheet" href="../../../../css/vs-code.css">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192131">
+  <link rel="stylesheet" href="../../../../css/tag.css">
+  <link rel="stylesheet" href="../../../../css/categories.css">
+  <link rel="stylesheet" href="../../../../css/archive.css">
+  <link rel="stylesheet" href="../../../../css/search.css">
+  <link rel="stylesheet" href="../../../../css/mobile.css">  <link rel="stylesheet" href="../../../../css/responsive.css">
+  <link rel="stylesheet" href="../../../../css/elements.css">
+
+  <!-- 添加 JetBrains Mono 字体 -->  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Add any custom head content here -->
+
+  <script defer src="../../../../js/explorer.js"></script>
+  <script defer src="../../../../js/code-enhance.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+      <div class="mobile-menu-toggle" aria-label="Toggle sidebar menu" role="button" tabindex="0">
+        <i class="fas fa-bars"></i>
+      </div>
+      <!-- 移动端侧边栏遮罩层 -->
+      <div class="sidebar-overlay" aria-hidden="true"></div>
+      <header class="vs-header">
+  <nav class="vs-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-brand">
+        <i class="fas fa-terminal"></i>
+        Hexo
+      </a>
+    </div>
+    
+    <div class="nav-right">
+      <a href="/" class="nav-item ">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="/archives/" class="nav-item ">
+        <i class="fas fa-archive"></i>
+        <span>Archives</span>
+      </a>
+      <a href="/categories/" class="nav-item ">
+        <i class="fas fa-folder"></i>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" class="nav-item ">
+        <i class="fas fa-tags"></i>
+        <span>Tags</span>
+      </a>
+      <a href="/search/" class="nav-item ">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="/about/" class="nav-item ">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function smoothScroll(event, target) {
+    event.preventDefault();
+    const targetId = target.substring(target.indexOf('#') + 1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 50, // 调整偏移量
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = target;
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.vs-header');
+    const nav = document.querySelector('.vs-nav');
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    
+    nav.style.setProperty('--scroll-percent', `${scrollPercent}%`);
+    
+    if (window.scrollY > 0) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // 添加标签页切换动画
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('nav-ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+</script>
+
+
+<div class="vscode-container">
+  <!-- 左侧资源管理器 -->
+  <div class="sidebar-explorer">
+    <!-- TOC导航 -->
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-list"></i>
+        <span>TABLE OF CONTENTS</span>
+      </div>
+      <div class="section-content">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#groovy%E7%9B%B8%E6%AF%94%E8%BE%83java%E7%9A%84%E7%89%B9%E6%AE%8A%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C"><span class="toc-text">groovy相比较java的特殊的字符串操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#groovy%E4%B8%AD%E7%9B%B8%E6%AF%94%E8%BE%83java%E7%89%B9%E6%AE%8A%E7%9A%84%E5%8F%98%E9%87%8F%E5%90%8D%E7%A7%B0%E6%93%8D%E4%BD%9C"><span class="toc-text">groovy中相比较java特殊的变量名称操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#groovy%E7%9B%B8%E6%AF%94%E8%BE%83java%E7%89%B9%E6%AE%8A%E7%9A%84%E5%AF%B9%E8%B1%A1%E6%93%8D%E4%BD%9C"><span class="toc-text">groovy相比较java特殊的对象操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#groovy-%E7%9B%B8%E5%AF%B9%E6%AF%94java-%E7%89%B9%E6%AE%8A%E7%9A%84%E5%87%BD%E6%95%B0%E7%94%A8%E6%B3%95"><span class="toc-text">groovy 相对比java 特殊的函数用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#groovy-%E7%9B%B8%E5%AF%B9%E6%AF%94java%E7%9A%84%E7%89%B9%E6%AE%8A%E6%95%B0%E7%BB%84%E7%94%A8%E6%B3%95"><span class="toc-text">groovy 相对比java的特殊数组用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#groovy%E5%92%8Cjava-%E5%9C%A8%E6%AF%94%E8%BE%83%E6%96%B9%E6%B3%95%E4%B8%AD%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-text">groovy和java 在比较方法中的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#groovy-%E4%B8%8Ejava%E4%B8%8D%E7%94%A8%E7%9A%84%E8%BF%90%E7%AE%97%E7%AC%A6%E7%94%A8%E6%B3%95"><span class="toc-text">groovy 与java不用的运算符用法</span></a></li></ol>
+      </div>
+    </div>
+
+    <!-- 同分类文章 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-folder"></i>
+        <span>CATEGORY POSTS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-1--dubbo%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%92%8C%E6%80%9D%E6%83%B3/">dubbo-学习和使用(1)-dubbo架构设计和思想</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-8--dubbo%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83/">dubbo-学习和使用(8)-dubbo配置参考</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-1--%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2/">dubbo-深入(1)-基本使用初探</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-3--%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/">dubbo-深入(3)-注册中心</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-3--%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83/">dubbo-深入(3)-配置参考</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-4---%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">dubbo-深入(4)- 集群架构设计</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-2--%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95/">dubbo学习和使用(2)-使用初探和配置方法</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-3--dubbo%E5%8A%9F%E8%83%BD-1-/">dubbo学习和使用(3)-dubbo功能(1)</a>
+          </div>
+        
+      </div>
+    </div>
+    
+    
+    <!-- 标签列表 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-tags"></i>
+        <span>ARTICLE TAGS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../../../tags/groovy/">groovy</a>
+            <span class="count">(4)</span>
+          </div>
+        
+      </div>
+    </div>
+    
+  </div>
+
+  <!-- 主要内容区域 -->
+  <div class="editor-content">
+    <div class="tab-bar">
+      <div class="tab active">
+        <i class="fas fa-file-alt"></i>
+        <span>groovy-区别特性梳理(1)-基本信息.md</span>
+      </div>
+    </div>
+    
+    <div class="content-area">
+      <article class="post-content">
+        <div class="post-header">
+          <h1>groovy-区别特性梳理(1)-基本信息</h1>
+          <div class="post-meta">
+            <span class="date">
+              <i class="fas fa-calendar-alt"></i>
+              2024-12-31
+            </span>
+            
+            <span class="updated-date">
+              <i class="fas fa-sync-alt"></i>
+              Updated 2026-02-18
+            </span>
+                        
+              <span class="categories">
+                <i class="fas fa-folder"></i>
+                <div class="categories-list">
+                  <ul class="category-item-post-list"><li class="category-item-post-list-item"><a class="category-item-post-list-link" href="../../../../categories/java/">java</a></li></ul>
+                </div>
+              </span>
+            
+            
+              <span class="tags">
+                <i class="fas fa-tags"></i>
+                <div class="tags-list">
+                  <ul class="tag-item-post-list" itemprop="keywords"><li class="tag-item-post-list-item"><a class="tag-item-post-list-link" href="../../../../tags/groovy/" rel="tag">groovy</a></li></ul>
+                </div>
+              </span>
+            
+          </div>
+        </div>
+        
+        <div class="post-body vscode-markdown">
+          <h2 id="groovy相比较java的特殊的字符串操作"><a href="#groovy相比较java的特殊的字符串操作" class="headerlink" title="groovy相比较java的特殊的字符串操作"></a>groovy相比较java的特殊的字符串操作</h2><ol>
+<li>$ 引用当前作用域中的变量名称,这种方法叫插值</li>
+</ol>
+<p>groovy中可以使用${xxx sxx}或者 $xxx 来直接在字符串中拼接信息</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">def</span> name = <span class="hljs-string">&quot;item&quot;</span><br><span class="hljs-keyword">def</span> name2 = <span class="hljs-string">&quot;name is $&#123;item&#125;&quot;</span><br><span class="hljs-keyword">def</span> name3 = <span class="hljs-string">&quot;name is $item&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>groovy 插值方法还有两种特殊用法</p>
+<blockquote>
+<p>表达式使用方法</p>
+</blockquote>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs groovy">$&#123;-&gt;<span class="hljs-number">1</span>+<span class="hljs-number">2</span>*<span class="hljs-number">10</span>&#125;<span class="hljs-comment">//插入一个表达式</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-string">&quot;charu*$&#123;w-&gt;w&lt;&lt;&quot;</span>dddd<span class="hljs-string">&quot;&#125;&quot;</span> <span class="hljs-comment">//这里的w就是charu*</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意: 如果&lt;&lt;后面是字符串的时候,将表示插入方法,如果是字符串就是位移逻辑</p>
+</blockquote>
+<ol start="2">
+<li>‘x’ ,”xx”, ‘’’xxxx’’’,&#x2F;xxx&#x2F;,四种字符串的区别</li>
+</ol>
+<p>在很多编程语言中都有这个特性</p>
+<ul>
+<li>‘’ : 简单的一个字符串,在groovy中这个字符串不支持插值($)操作</li>
+<li>“” : ‘’ 特性加上支持插值<br>-‘’’ ‘’’ : 保留格式,有些地方需要使用\ 来消除 ‘\n’ 换行问题<br>-&#x2F;xx&#x2F; : 特殊字符不需要转义(只有&#x2F;需要使用\进行转义),正则表达式专用</li>
+</ul>
+<ol start="3">
+<li>使用~ 或者&#x3D;~快速创建正则表达匹配式</li>
+</ol>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">def</span> pattern = <span class="hljs-regexp">~/foo/</span><br></code></pre></td></tr></table></figure>
+
+<p>通过~ 这个方法可以快速的创建java中的java.utilregex.pattern对象,注意这种方法&#x3D;和~ 之间一定要有空格,否则会解释成~&#x3D;操作运算符</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">def</span> text = <span class="hljs-string">&quot;some text to matcher&quot;</span><br><span class="hljs-keyword">def</span> Matcher = text =~ <span class="hljs-regexp">/txt/</span><br></code></pre></td></tr></table></figure>
+
+<p>引申: 匹配运算符（&#x3D;&#x3D;~）是find运算符的一个小变体，它不返回Matcher一个布尔值，并且需要输入字符串的严格匹配</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">def</span> m = text ==~ <span class="hljs-regexp">/match/</span>                                              <br><span class="hljs-keyword">assert</span> m <span class="hljs-keyword">instanceof</span> Boolean                                       <br><span class="hljs-keyword">if</span> (m) &#123;                                                          <br>    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">&quot;Should not reach that point!&quot;</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="groovy中相比较java特殊的变量名称操作"><a href="#groovy中相比较java特殊的变量名称操作" class="headerlink" title="groovy中相比较java特殊的变量名称操作"></a>groovy中相比较java特殊的变量名称操作</h2><ol>
+<li>groovy中可以使用字符串变量来作为变量名称</li>
+</ol>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">def</span> map = [:]<br>map.<span class="hljs-string">&quot;item hhh *&quot;</span> = <span class="hljs-number">1234</span><br>print(map.<span class="hljs-string">&quot;item hhh *&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+<h2 id="groovy相比较java特殊的对象操作"><a href="#groovy相比较java特殊的对象操作" class="headerlink" title="groovy相比较java特殊的对象操作"></a>groovy相比较java特殊的对象操作</h2><ol>
+<li>空指针的安全保证</li>
+</ol>
+<p>groovy中如果对象为空,可以使用?.的方法来消除异常</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">def</span> person = <span class="hljs-literal">null</span><br><span class="hljs-keyword">def</span> item person?.name<br>println(item)<span class="hljs-comment">// show null</span><br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>对象的getter和setter的不同之处</li>
+</ol>
+<p>在groovy中如果设置了getter使用对象.xx的时候将会自动的调用getter方法,如果没有设置,将会直接使用这个变量<br>groovy还是支持使用对象.@xx方法来直接的调用对应的变量</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> name<br>    User(item)&#123;<br>        <span class="hljs-variable language_">this</span>.name= item<br>    &#125;<br>    <span class="hljs-keyword">def</span> getName() &#123;<br>        <span class="hljs-string">&quot;this name is $name&quot;</span><br>    &#125;<br>&#125;<br><span class="hljs-keyword">def</span> user = <span class="hljs-keyword">new</span> User(<span class="hljs-string">&quot;bod&quot;</span>)<br>println(user.name)<br>println(user.<span class="hljs-meta">@name</span>)<br></code></pre></td></tr></table></figure>
+
+<p>注意其实本质上是groovy默认就为每一个参数声明了getter和setter方法罢了,我们可以不使用getxx而是直接使用对象.xxx来调用getter或者setter方法</p>
+<ol start="3">
+<li>方法指针</li>
+</ol>
+<p>这个算是一个高级特性了,通过这种方法,可以快速的拉取一个对象的方法引用,类似js,function也是变量</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">class</span> <span class="hljs-title class_">User</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> name<br>    User(item)&#123;<br>        <span class="hljs-variable language_">this</span>.name= item<br>    &#125;<br><br>    <span class="hljs-keyword">def</span> getName() &#123;<br>        <span class="hljs-string">&quot;this name is $name&quot;</span><br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">def</span> user1 = <span class="hljs-keyword">new</span> User(<span class="hljs-string">&quot;tom&quot;</span>)<br><span class="hljs-keyword">def</span> user2 = <span class="hljs-keyword">new</span> User(<span class="hljs-string">&quot;jerry&quot;</span>)<br><br><span class="hljs-keyword">def</span> user1getter = user1.&amp;getName<br><span class="hljs-keyword">def</span> user2getter = user2.&amp;getName<br><br>println(user1getter())<br>println(user2getter())<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意:groovy是引用了对应对象的方法</p>
+</blockquote>
+<ol start="4">
+<li>对象属性聚合操作 *.</li>
+</ol>
+<p>在groovy中可以使用*.操作将一个对象数组中的对象的某个属性聚合起来,表达式cars*.make相当于cars.collect{ it.make },区别是groovy的*,表达式可以使用null  </p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Make</span> &#123;<br>    String name<br>    List&lt;Model&gt; models<br>&#125;<br><span class="hljs-meta">@Canonical</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Model</span> &#123;<br>    String name<br>&#125;<br><span class="hljs-keyword">def</span> cars = [<br>    <span class="hljs-keyword">new</span> Make(<span class="hljs-attr">name:</span> <span class="hljs-string">&#x27;Peugeot&#x27;</span>,<br>             <span class="hljs-symbol">models:</span> [<span class="hljs-keyword">new</span> Model(<span class="hljs-string">&#x27;408&#x27;</span>), <span class="hljs-keyword">new</span> Model(<span class="hljs-string">&#x27;508&#x27;</span>)]),<br>    <span class="hljs-keyword">new</span> Make(<span class="hljs-attr">name:</span> <span class="hljs-string">&#x27;Renault&#x27;</span>,<br>             <span class="hljs-symbol">models:</span> [<span class="hljs-keyword">new</span> Model(<span class="hljs-string">&#x27;Clio&#x27;</span>), <span class="hljs-keyword">new</span> Model(<span class="hljs-string">&#x27;Captur&#x27;</span>)])<br>]<br><span class="hljs-keyword">def</span> makes = cars*.name<br><span class="hljs-keyword">assert</span> makes == [<span class="hljs-string">&#x27;Peugeot&#x27;</span>, <span class="hljs-string">&#x27;Renault&#x27;</span>]<br><br><span class="hljs-keyword">def</span> models = cars*.models*.name<br><span class="hljs-keyword">assert</span> models == [[<span class="hljs-string">&#x27;408&#x27;</span>, <span class="hljs-string">&#x27;508&#x27;</span>], [<span class="hljs-string">&#x27;Clio&#x27;</span>, <span class="hljs-string">&#x27;Captur&#x27;</span>]]<br><span class="hljs-keyword">assert</span> models.sum() == [<span class="hljs-string">&#x27;408&#x27;</span>, <span class="hljs-string">&#x27;508&#x27;</span>, <span class="hljs-string">&#x27;Clio&#x27;</span>, <span class="hljs-string">&#x27;Captur&#x27;</span>] <span class="hljs-comment">// flatten one level</span><br><span class="hljs-keyword">assert</span> models.flatten() == [<span class="hljs-string">&#x27;408&#x27;</span>, <span class="hljs-string">&#x27;508&#x27;</span>, <span class="hljs-string">&#x27;Clio&#x27;</span>, <span class="hljs-string">&#x27;Captur&#x27;</span>] <span class="hljs-comment">// flatten all levels (one in this case)  </span><br></code></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>对象中的call用法</li>
+</ol>
+<p>在groovy中,对象也可以抽象成一个函数,使用对象名()方法的时候,将会隐式的调用对象中的call方法</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyCallable</span> &#123;<br>    <span class="hljs-type">int</span> call(<span class="hljs-type">int</span> x) &#123;<br>        <span class="hljs-number">2</span>*x<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">def</span> mc = <span class="hljs-keyword">new</span> MyCallable()<br><span class="hljs-keyword">assert</span> mc.call(<span class="hljs-number">2</span>) == <span class="hljs-number">4</span><br><span class="hljs-keyword">assert</span> mc(<span class="hljs-number">2</span>) == <span class="hljs-number">4</span><br></code></pre></td></tr></table></figure>
+
+
+<h2 id="groovy-相对比java-特殊的函数用法"><a href="#groovy-相对比java-特殊的函数用法" class="headerlink" title="groovy 相对比java 特殊的函数用法"></a>groovy 相对比java 特殊的函数用法</h2><ol>
+<li>函数参数数组化映射</li>
+</ol>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-type">int</span> function(<span class="hljs-type">int</span> x, <span class="hljs-type">int</span> y, <span class="hljs-type">int</span> z) &#123;<br>    x*y+z<br>&#125;<br><br><span class="hljs-keyword">def</span> args = [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>]<br><br><span class="hljs-keyword">assert</span> function(*args) == <span class="hljs-number">26</span> <span class="hljs-comment">//</span><br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>函数参数map化映射</li>
+</ol>
+<p>在groovy中使用map可以动态的指定相关的参数</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">def</span> foo(Map args) &#123; <span class="hljs-string">&quot;$&#123;args.name&#125;: $&#123;args.age&#125;&quot;</span> &#125;<br>foo(<span class="hljs-attr">name:</span> <span class="hljs-string">&#x27;Marie&#x27;</span>, <span class="hljs-attr">age:</span> <span class="hljs-number">1</span>)<span class="hljs-comment">//指定参数的名称和对应的信息</span><br><br><span class="hljs-comment">//支持命名空间混合</span><br><span class="hljs-keyword">def</span> foo(Map args, Integer number) &#123; <span class="hljs-string">&quot;$&#123;args.name&#125;: $&#123;args.age&#125;, and the number is $&#123;number&#125;&quot;</span> &#125;<br>foo(<span class="hljs-attr">name:</span> <span class="hljs-string">&#x27;Marie&#x27;</span>, <span class="hljs-attr">age:</span> <span class="hljs-number">1</span>, <span class="hljs-number">23</span>)  <br>foo(<span class="hljs-number">23</span>, <span class="hljs-attr">name:</span> <span class="hljs-string">&#x27;Marie&#x27;</span>, <span class="hljs-attr">age:</span> <span class="hljs-number">1</span>) <br></code></pre></td></tr></table></figure>
+
+<p>注意groovy支持map和其他类型参数混用的逻辑,只有一点需要注意,定义的函数,他的传参的第一个一定是map类型,否则必须显示的指定参数</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">def</span> foo(Integer number, Map args) &#123; <span class="hljs-string">&quot;$&#123;args.name&#125;: $&#123;args.age&#125;, and the number is $&#123;number&#125;&quot;</span> &#125;<br>foo(<span class="hljs-number">23</span>, [<span class="hljs-attr">name:</span> <span class="hljs-string">&#x27;Marie&#x27;</span>, <span class="hljs-attr">age:</span> <span class="hljs-number">1</span>])<br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>def 返回值参数</li>
+</ol>
+<p>groovy是弱类型编程语言,所以返回值支持def弱类型的返回值</p>
+<h2 id="groovy-相对比java的特殊数组用法"><a href="#groovy-相对比java的特殊数组用法" class="headerlink" title="groovy 相对比java的特殊数组用法"></a>groovy 相对比java的特殊数组用法</h2><ol>
+<li>groovy的快速添加数据</li>
+</ol>
+<p>groovy提供了引用的方法,赖在第二个数组中应用另一个数组中的内容</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//针对arr</span><br><span class="hljs-keyword">def</span> items = [<span class="hljs-number">4</span>,<span class="hljs-number">5</span>]<br><span class="hljs-keyword">def</span> list = [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,*items,<span class="hljs-number">6</span>]<br><span class="hljs-keyword">assert</span> list == [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>]<br><span class="hljs-comment">//针对map</span><br><span class="hljs-keyword">def</span> m1 = [<span class="hljs-attr">c:</span><span class="hljs-number">3</span>, <span class="hljs-attr">d:</span><span class="hljs-number">4</span>]<br><span class="hljs-keyword">def</span> map = [<span class="hljs-attr">a:</span><span class="hljs-number">1</span>, <span class="hljs-attr">b:</span><span class="hljs-number">2</span>, *:m1]<br><span class="hljs-keyword">assert</span> map == [<span class="hljs-attr">a:</span><span class="hljs-number">1</span>, <span class="hljs-attr">b:</span><span class="hljs-number">2</span>, <span class="hljs-attr">c:</span><span class="hljs-number">3</span>, <span class="hljs-attr">d:</span><span class="hljs-number">4</span>]<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>快速创建数组信息</li>
+</ol>
+<p>通过这种方法可以快速的创建一个指定迭代规律的字符串</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">def</span> range = <span class="hljs-number">0.</span><span class="hljs-number">.5</span>                                    <br><span class="hljs-keyword">assert</span> (<span class="hljs-number">0.</span><span class="hljs-number">.5</span>).collect() == [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]<br><span class="hljs-keyword">assert</span> (<span class="hljs-number">0.</span>.&lt;<span class="hljs-number">5</span>).collect() == [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]<br><span class="hljs-keyword">assert</span> (<span class="hljs-number">0.</span><span class="hljs-number">.5</span>) <span class="hljs-keyword">instanceof</span> List<br><span class="hljs-keyword">assert</span> (<span class="hljs-number">0.</span><span class="hljs-number">.5</span>).size() == <span class="hljs-number">6</span><br><span class="hljs-comment">//同样的规则也可应用在字符串中</span><br><span class="hljs-keyword">assert</span> (<span class="hljs-string">&#x27;a&#x27;</span>..<span class="hljs-string">&#x27;d&#x27;</span>).collect() == [<span class="hljs-string">&#x27;a&#x27;</span>,<span class="hljs-string">&#x27;b&#x27;</span>,<span class="hljs-string">&#x27;c&#x27;</span>,<span class="hljs-string">&#x27;d&#x27;</span>]<br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>数组批量赋值</li>
+</ol>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">def</span> list = [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>]<br><span class="hljs-keyword">assert</span> list[<span class="hljs-number">2</span>] == <span class="hljs-number">2</span><br>list[<span class="hljs-number">2</span>] = <span class="hljs-number">4</span><br><span class="hljs-keyword">assert</span> list[<span class="hljs-number">0.</span><span class="hljs-number">.2</span>] == [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>,<span class="hljs-number">4</span>]<br>list[<span class="hljs-number">0.</span><span class="hljs-number">.2</span>] = [<span class="hljs-number">6</span>,<span class="hljs-number">6</span>,<span class="hljs-number">6</span>]<br><span class="hljs-keyword">assert</span> list == [<span class="hljs-number">6</span>,<span class="hljs-number">6</span>,<span class="hljs-number">6</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>]<br></code></pre></td></tr></table></figure>
+
+<h2 id="groovy和java-在比较方法中的区别"><a href="#groovy和java-在比较方法中的区别" class="headerlink" title="groovy和java 在比较方法中的区别"></a>groovy和java 在比较方法中的区别</h2><ol>
+<li>&#x3D;&#x3D; 和 equal的区别</li>
+</ol>
+<p>在groovy中&#x3D;&#x3D; 将会调用java中的equal 方法,如果要比较值是否相等,应该使用is方法</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">def</span> list1 = [<span class="hljs-string">&#x27;Groovy 1.8&#x27;</span>,<span class="hljs-string">&#x27;Groovy 2.0&#x27;</span>,<span class="hljs-string">&#x27;Groovy 2.3&#x27;</span>]<br><span class="hljs-keyword">def</span> list2 = [<span class="hljs-string">&#x27;Groovy 1.8&#x27;</span>,<span class="hljs-string">&#x27;Groovy 2.0&#x27;</span>,<span class="hljs-string">&#x27;Groovy 2.3&#x27;</span>]<br><span class="hljs-keyword">assert</span> list1 == list2 <span class="hljs-comment">//false</span><br><span class="hljs-keyword">assert</span> !list1.is(list2) <span class="hljs-comment">//true</span><br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>compareTo快速创建方法</li>
+</ol>
+<p>在groovy中可以使用&lt;&#x3D;&gt;来替代compareTo</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">assert</span> (<span class="hljs-number">1</span> &lt;=&gt; <span class="hljs-number">1</span>) == <span class="hljs-number">0</span><br><span class="hljs-keyword">assert</span> (<span class="hljs-number">1</span> &lt;=&gt; <span class="hljs-number">2</span>) == <span class="hljs-number">-1</span><br><span class="hljs-keyword">assert</span> (<span class="hljs-number">2</span> &lt;=&gt; <span class="hljs-number">1</span>) == <span class="hljs-number">1</span><br><span class="hljs-keyword">assert</span> (<span class="hljs-string">&#x27;a&#x27;</span> &lt;=&gt; <span class="hljs-string">&#x27;z&#x27;</span>) == <span class="hljs-number">-1</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="groovy-与java不用的运算符用法"><a href="#groovy-与java不用的运算符用法" class="headerlink" title="groovy 与java不用的运算符用法"></a>groovy 与java不用的运算符用法</h2><ol>
+<li>运算符重载</li>
+</ol>
+<p>在groovy中只要事先指定函数的对象就能将函数对应的运算法运算方法集成到这个对象中</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Bucket</span> &#123;<br>    <span class="hljs-type">int</span> size<br>    Bucket(<span class="hljs-type">int</span> size) &#123; <span class="hljs-variable language_">this</span>.size = size &#125;<br>    Bucket plus(Bucket other) &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Bucket(<span class="hljs-variable language_">this</span>.size + other.size)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">def</span> b1 = <span class="hljs-keyword">new</span> Bucket(<span class="hljs-number">4</span>)<br><span class="hljs-keyword">def</span> b2 = <span class="hljs-keyword">new</span> Bucket(<span class="hljs-number">11</span>)<br><span class="hljs-keyword">assert</span> (b1 + b2).size == <span class="hljs-number">15</span><br></code></pre></td></tr></table></figure>
+
+<p>运算符号对应的方法见下表</p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Method</th>
+<th>Operator</th>
+<th>Method</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>+</td>
+<td>a.plus(b)</td>
+<td>a[b]</td>
+<td>a.getAt(b)</td>
+</tr>
+<tr>
+<td>-</td>
+<td>a.minus(b)</td>
+<td>a[b] &#x3D; c</td>
+<td>a.putAt(b, c)</td>
+</tr>
+<tr>
+<td>*</td>
+<td>a.multiply(b)</td>
+<td>a in b</td>
+<td>b.isCase(a)</td>
+</tr>
+<tr>
+<td>&#x2F;</td>
+<td>a.div(b)</td>
+<td>&lt;&lt;</td>
+<td>a.leftShift(b)</td>
+</tr>
+<tr>
+<td>%</td>
+<td>a.mod(b)</td>
+<td>&gt;&gt;</td>
+<td>a.rightShift(b)</td>
+</tr>
+<tr>
+<td>**</td>
+<td>a.power(b)</td>
+<td>&gt;&gt;&gt;</td>
+<td>a.rightShiftUnsigned(b)</td>
+</tr>
+<tr>
+<td>|</td>
+<td>a.or(b)</td>
+<td>++</td>
+<td>a.next()</td>
+</tr>
+<tr>
+<td>&amp;</td>
+<td>a.and(b)</td>
+<td>–</td>
+<td>a.previous()</td>
+</tr>
+<tr>
+<td>^</td>
+<td>a.xor(b)</td>
+<td>+a</td>
+<td>a.positive()</td>
+</tr>
+<tr>
+<td>as</td>
+<td>a.asType(b)</td>
+<td>-a</td>
+<td>a.negative()</td>
+</tr>
+<tr>
+<td>a()</td>
+<td>a.call()</td>
+<td>~a</td>
+<td>a.bitwiseNegate()</td>
+</tr>
+</tbody></table>
+
+        </div>
+        
+        <!-- 文章导航 - 只在同分类有多篇文章时显示 -->
+        
+        
+        
+        <nav class="post-nav">
+          
+            <a class="prev" href="../gradle-%E8%BF%9B%E9%98%B6-7--gradle%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/">
+              <i class="fas fa-chevron-left"></i>
+              gradle-进阶(7)-gradle文件操作
+            </a>
+          
+          
+            <a class="next" href="../groovy-%E5%8C%BA%E5%88%AB%E7%89%B9%E6%80%A7%E6%A2%B3%E7%90%86-2--%E5%8C%85%E7%AE%A1%E7%90%86%E5%BC%95%E7%94%A8/">
+              groovy-区别特性梳理(2)-包管理引用
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          
+        </nav>
+        
+        
+        <!-- 推荐文章 -->
+        
+
+
+<div class="vs-recommended-posts">
+  <div class="vs-recommended-header">
+    <div class="section-header">
+      <i class="fas fa-lightbulb"></i>
+      <span>RELATED POSTS</span>
+    </div>
+  </div>
+  
+  <div class="vs-recommended-grid">
+    
+      <div class="vs-recommended-item" data-index="0" tabindex="0">
+        <a href="../groovy-%E5%8C%BA%E5%88%AB%E7%89%B9%E6%80%A7%E6%A2%B3%E7%90%86-2--%E5%8C%85%E7%AE%A1%E7%90%86%E5%BC%95%E7%94%A8/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>groovy-区别特性梳理(2)-包管理引用</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              groovy 和java 在包管理特性上的不同其实本质上groovy和java 在包管理上其实是类似的,但是groovy提供了更加强大的静态功能 许您定义与导入方法同名的方法，只要您有不同的类型 12345678910111213impor...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  groovy
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="1" tabindex="0">
+        <a href="../groovy-%E5%8C%BA%E5%88%AB%E7%89%B9%E6%80%A7%E6%A2%B3%E7%90%86-3--%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%89%B9%E6%AE%8A%E7%82%B9/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>groovy-区别特性梳理(3)-面向对象的特殊点</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              groovy 变量可见性和javabean相比较java的不同点groovy如果没有定义可见性(public private),默认使用public groovy 不提供getter和setter 在groovy中如果设置了getter使用...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  groovy
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="2" tabindex="0">
+        <a href="../groovy-%E5%AD%A6%E4%B9%A0%E4%BD%BF%E7%94%A8-%E4%B8%80-/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>groovy-学习使用(一)</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  groovy
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="3" tabindex="0">
+        <a href="../gradle-%E8%BF%9B%E9%98%B6-7--gradle%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>gradle-进阶(7)-gradle文件操作</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              其实对于任何一种构建工具来说，针对文件操作的功能是必不可少的，这里整理一下gradle针对文件提供的功能 gradle 中的文件路径 gradle 的 Project.file方法 作用： 指定单个文件或者目录的位置，解析规则（相对路径相对...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  gradle
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  5 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="4" tabindex="0">
+        <a href="../gradle-%E8%BF%9B%E9%98%B6-6--%E5%A2%9E%E5%BC%BA%E7%89%88task%E6%9E%84%E5%BB%BA/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>gradle-进阶(6)-增强版task构建</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              增强版task构建之前的一篇文章整理gradle task的一个简单创建，这里整理一下task的高级应用方法 任务的定义方法如果是简单的任务我们可以这样进行定义12345678task hello&amp;#123; doLast&amp;#123; pr...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  gradle
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  3 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="5" tabindex="0">
+        <a href="../gradle-%E8%BF%9B%E9%98%B6-5--gradle%E5%88%9B%E5%BB%BA%E5%92%8C%E8%84%9A%E6%9C%AC/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>gradle-进阶(5)-gradle创建和脚本</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              通过之前的入门学习，一个gradle构建可以理解成有一个或者多个task组成，这里简单回顾一下gradle脚本如何构建一个简单的task 使用gradle脚本创建一个简单的task在build.gradle 文件夹中写入一个任务 12345...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  gradle
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  2 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+  </div>
+  
+  <!-- 查看更多 -->
+  <div class="vs-recommended-footer">
+    <a href="../../../../archives/" class="vs-view-more">
+      <i class="fas fa-folder-open"></i>
+      <span>View More Posts</span>
+      <i class="fas fa-chevron-right"></i>
+    </a>
+  </div>
+</div>
+
+<script>
+// 键盘导航支持
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.vs-recommended-item');
+  let currentIndex = -1;
+  
+  // 键盘事件
+  document.addEventListener('keydown', function(e) {
+    if (!items.length) return;
+    
+    if (e.key === 'Tab') {
+      // Tab键导航由浏览器处理
+      return;
+    }
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      
+      // 移除当前高亮
+      if (currentIndex >= 0) {
+        items[currentIndex].classList.remove('vs-focused');
+      }
+      
+      // 更新索引
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % items.length;
+      } else {
+        currentIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+      }
+      
+      // 添加新高亮
+      items[currentIndex].classList.add('vs-focused');
+      items[currentIndex].focus();
+    }
+    
+    if (e.key === 'Enter' && currentIndex >= 0) {
+      const link = items[currentIndex].querySelector('a');
+      if (link) link.click();
+    }
+  });
+  
+  // 鼠标悬停时更新当前索引
+  items.forEach((item, index) => {
+    item.addEventListener('mouseenter', function() {
+      currentIndex = index;
+      items.forEach(i => i.classList.remove('vs-focused'));
+      item.classList.add('vs-focused');
+    });
+  });
+});
+</script>
+
+        
+        <!-- 评论区 -->
+        
+  <div class="vs-comments-section">
+    <div class="section-header">
+      <i class="fas fa-comments"></i>
+      <span>COMMENTS</span>
+    </div>
+    
+    
+      <!-- Waline 评论系统 -->
+      <div id="waline"></div>
+      <script>
+        // 加载 Waline CSS
+        const walineCSS = document.createElement('link');
+        walineCSS.rel = 'stylesheet';
+        walineCSS.href = 'https://unpkg.com/@waline/client@v3/dist/waline.css';
+        document.head.appendChild(walineCSS);
+        
+        // 加载 Waline JS
+        const walineScript = document.createElement('script');
+        walineScript.type = 'module';
+        walineScript.onload = function() {
+          // 确保 Waline 加载后再初始化
+          import('https://unpkg.com/@waline/client@v3/dist/waline.js').then(({ init }) => {
+            const waline = init({
+              el: '#waline',
+              serverURL: 'https://vsc4tblackcat1337.vercel.app/',
+              lang: 'zh-CN',
+              locale: {},
+              emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus"],
+              requiredMeta: [],
+              login: 'disable',
+              wordLimit: 0,
+              pageSize: 10,
+              imageUploader: false,
+              highlighter: true,
+              texRenderer: false,
+              search: false,
+              pageview: false,
+              comment: true,
+              copyright: false,
+              
+              // 自动适配主题
+              dark: document.documentElement.getAttribute('data-theme') === 'dark' ? 'auto' : false,
+              
+              // 评论框占位符
+              placeholder: 'Feel free to leave a comment, no login required!',
+              
+              // 元数据配置
+              meta: ['nick', 'mail', 'link'],
+              
+              // 表情配置
+              emojiCDN: 'https://unpkg.com/@waline/emojis@1.2.0/',
+            });
+            
+            // 监听主题变化
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                  // Waline 会自动处理主题切换
+                  if (waline) {
+                    waline.update({ dark: isDark ? 'auto' : false });
+                  }
+                }
+              });
+            });
+            
+            observer.observe(document.documentElement, {
+              attributes: true,
+              attributeFilter: ['data-theme']
+            });
+          });
+        };
+        walineScript.src = 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+        document.body.appendChild(walineScript);
+      </script>
+    
+    
+  </div>
+
+      </article>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code-branch"></i>
+      master
+    </div>
+    <div class="status-item">
+      <i class="fas fa-sync"></i>
+      John Doe
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      2026-02-18
+    </div>
+    <div class="status-item">
+      Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
+    </div>
+    <div class="status-item github">
+      <a href="#" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 搜索专用配置 (HEXO_CONFIG 在 scripts.ejs 中统一定义) -->
+    <script>
+      window.VSC4T_SEARCH = {
+        root: "/"
+      };
+    </script>
+
+    <!-- 外部脚本 - 统一使用 cdnjs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
+    <script>if(typeof hljs !== 'undefined') hljs.highlightAll();</script>
+    <!-- 这里可以放置自定义脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Apply smooth scroll to non-TOC anchor links
+  document.querySelectorAll('a[href^="#"]:not(.toc-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Check if querySelector is valid before using it
+      try {
+        const targetSelector = this.getAttribute('href');
+        // Basic check for potentially invalid selectors (though not exhaustive)
+        if (targetSelector && targetSelector.length > 1) { 
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            console.warn('Smooth scroll target not found:', targetSelector);
+          }
+        } else {
+           console.warn('Invalid href for smooth scroll:', targetSelector);
+        }
+      } catch (error) {
+        console.error('Error during smooth scroll:', error, 'Selector:', this.getAttribute('href'));
+        // Fallback or alternative behavior if needed
+        // For example, try getElementById if it's just an ID
+        const targetId = this.getAttribute('href').slice(1);
+        try {
+            const targetElementById = document.getElementById(decodeURIComponent(targetId));
+            if (targetElementById) {
+                targetElementById.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (idError) {
+             console.error('Fallback getElementById also failed:', idError);
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Scripts -->
+<script>
+  // 全局配置 - 包含 i18n 字符串和主题配置
+  window.HEXO_CONFIG = {
+    language: "en",
+    root: "/",
+    
+    theme_switch: {
+      enabled: false,
+      light_start: "06:00",
+      light_end: "18:00"
+    },
+    
+    // Search i18n strings
+    search_placeholder: "Type to search...",
+    search_no_results: "No results found",
+    search_result: "result",
+    search_results: "results",
+    search_results_found: "Found undefined results",
+    search_in: "Search in",
+    search_in_title: "Title",
+    search_in_content: "Content",
+    search_in_tags: "Tags",
+    search_in_categories: "Categories",
+    search_filters: "Search Filters",
+    search_recent: "Recent Searches",
+    search_clear: "Clear",
+    search_loading: "Loading...",
+    search_error: "Error loading search data",
+    // Encryption i18n strings
+    encrypt_badge: "Protected",
+    encrypt_title: "Protected Content",
+    encrypt_description: "Enter the password to unlock this article. The password will be saved locally until you choose to re-encrypt.",
+    encrypt_label: "Password",
+    encrypt_placeholder: "Enter password to unlock",
+    encrypt_button: "Unlock",
+    encrypt_button_loading: "Unlocking...",
+    encrypt_hint: "Press Enter to submit. Password will be remembered on this device.",
+    encrypt_success: "Content unlocked successfully!",
+    encrypt_unlocked_note: "Content unlocked. You can re-encrypt at any time.",
+    encrypt_again: "Re-encrypt",
+    encrypt_wrong_password: "Incorrect password. Please try again.",
+    encrypt_show_password: "Show password",
+    encrypt_hide_password: "Hide password",
+    // Sidebar i18n strings
+    sidebar_about: "About",
+    sidebar_categories: "Categories",
+    sidebar_tags: "Tags",
+    // Post page i18n strings
+    post_toc: "TABLE OF CONTENTS",
+    post_category_posts: "CATEGORY POSTS",
+    post_article_tags: "ARTICLE TAGS"
+  };
+</script>
+
+
+
+<!-- 添加所有需要的脚本 -->
+<script src="../../../../js/search.js"></script>
+<script src="../../../../js/theme-switch.js"></script>
+
+<script src="../../../../js/password-protect.js?v=1771424192131"></script>
+
+    <script>
+      // 移动端菜单切换
+      $(document).ready(function() {
+        var $body = $('body');
+        var $sidebar = $('.sidebar-explorer');
+        var $overlay = $('.sidebar-overlay');
+        var $toggle = $('.mobile-menu-toggle');
+
+        function openSidebar() {
+          $sidebar.addClass('show');
+          $overlay.addClass('show');
+          $toggle.addClass('active');
+          $body.addClass('sidebar-open');
+        }
+
+        function closeSidebar() {
+          $sidebar.removeClass('show');
+          $overlay.removeClass('show');
+          $toggle.removeClass('active');
+          $body.removeClass('sidebar-open');
+        }
+
+        // 汉堡按钮点击切换
+        $toggle.on('click', function(e) {
+          e.stopPropagation();
+          if ($sidebar.hasClass('show')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+
+        // 点击遮罩层关闭
+        $overlay.on('click', function() {
+          closeSidebar();
+        });
+
+        // ESC 键关闭
+        $(document).on('keydown', function(e) {
+          if (e.key === 'Escape' && $sidebar.hasClass('show')) {
+            closeSidebar();
+          }
+        });
+
+        // 点击侧边栏内的链接时自动关闭侧边栏，确保锚点跳转正常
+        $sidebar.on('click', 'a', function() {
+          closeSidebar();
+        });
+      });
+    </script>
+  </body>
+</html>

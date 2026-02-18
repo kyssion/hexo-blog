@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>docker(2)-镜像使用和命令 | Hexo</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A simple dark Hexo theme inspired by code.">
+  <meta name="keywords" content="">
+  <meta name="author" content="John Doe">
+  <link rel="canonical" href="http://example.com">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="docker(2)-镜像使用和命令 | Hexo">
+  <meta property="og:description" content="A simple dark Hexo theme inspired by code.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://example.com">
+  <meta property="og:site_name" content="Hexo">
+  <meta property="article:published_time" content="2024-12-31T15:58:00.000Z">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="docker(2)-镜像使用和命令 | Hexo">
+  <meta name="twitter:description" content="A simple dark Hexo theme inspired by code.">
+
+  <!-- Favicon 配置 -->
+  
+
+  <!-- 外部样式 - 统一使用 jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- 代码高亮样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+  <!-- Mermaid.js 库 (defer加载) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <!-- 主题样式 -->
+  <link rel="stylesheet" href="../../../../css/theme-colors.css">
+  <link rel="stylesheet" href="../../../../css/main.css">
+  <link rel="stylesheet" href="../../../../css/code.css">
+  <link rel="stylesheet" href="../../../../css/code-custom.css">
+  <link rel="stylesheet" href="../../../../css/code-languages.css">
+  <link rel="stylesheet" href="../../../../css/mermaid.css">
+
+  <link rel="stylesheet" href="../../../../css/vs-code.css">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192107">
+  <link rel="stylesheet" href="../../../../css/tag.css">
+  <link rel="stylesheet" href="../../../../css/categories.css">
+  <link rel="stylesheet" href="../../../../css/archive.css">
+  <link rel="stylesheet" href="../../../../css/search.css">
+  <link rel="stylesheet" href="../../../../css/mobile.css">  <link rel="stylesheet" href="../../../../css/responsive.css">
+  <link rel="stylesheet" href="../../../../css/elements.css">
+
+  <!-- 添加 JetBrains Mono 字体 -->  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Add any custom head content here -->
+
+  <script defer src="../../../../js/explorer.js"></script>
+  <script defer src="../../../../js/code-enhance.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+      <div class="mobile-menu-toggle" aria-label="Toggle sidebar menu" role="button" tabindex="0">
+        <i class="fas fa-bars"></i>
+      </div>
+      <!-- 移动端侧边栏遮罩层 -->
+      <div class="sidebar-overlay" aria-hidden="true"></div>
+      <header class="vs-header">
+  <nav class="vs-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-brand">
+        <i class="fas fa-terminal"></i>
+        Hexo
+      </a>
+    </div>
+    
+    <div class="nav-right">
+      <a href="/" class="nav-item ">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="/archives/" class="nav-item ">
+        <i class="fas fa-archive"></i>
+        <span>Archives</span>
+      </a>
+      <a href="/categories/" class="nav-item ">
+        <i class="fas fa-folder"></i>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" class="nav-item ">
+        <i class="fas fa-tags"></i>
+        <span>Tags</span>
+      </a>
+      <a href="/search/" class="nav-item ">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="/about/" class="nav-item ">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function smoothScroll(event, target) {
+    event.preventDefault();
+    const targetId = target.substring(target.indexOf('#') + 1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 50, // 调整偏移量
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = target;
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.vs-header');
+    const nav = document.querySelector('.vs-nav');
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    
+    nav.style.setProperty('--scroll-percent', `${scrollPercent}%`);
+    
+    if (window.scrollY > 0) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // 添加标签页切换动画
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('nav-ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+</script>
+
+
+<div class="vscode-container">
+  <!-- 左侧资源管理器 -->
+  <div class="sidebar-explorer">
+    <!-- TOC导航 -->
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-list"></i>
+        <span>TABLE OF CONTENTS</span>
+      </div>
+      <div class="section-content">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E9%95%9C%E5%83%8F-pull"><span class="toc-text">获取镜像 pull</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E9%95%9C%E5%83%8F-run"><span class="toc-text">运行镜像 run</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#docker-container-start"><span class="toc-text">docker container start</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%97%E5%87%BA%E9%95%9C%E5%83%8F-image-ls"><span class="toc-text">列出镜像 image ls</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8Bdocker-%E7%A3%81%E7%9B%98%E7%9A%84%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5"><span class="toc-text">查看docker 磁盘的使用情况</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%89%B9%E6%AE%8A%E7%9A%84%E7%8E%84%E8%99%9A%E9%95%9C%E5%83%8F"><span class="toc-text">特殊的玄虚镜像</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%AD%E9%97%B4%E5%B1%82%E9%95%9C%E5%83%8F"><span class="toc-text">中间层镜像</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%97%E5%87%BA%E9%83%A8%E5%88%86%E9%95%9C%E5%83%8F"><span class="toc-text">列出部分镜像</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%A9%E7%94%A8-docker-image-ls-%E6%8A%8A%E6%89%80%E6%9C%89%E7%9A%84%E8%99%9A%E6%82%AC%E9%95%9C%E5%83%8F%E7%9A%84-ID-%E5%88%97%E5%87%BA%E6%9D%A5"><span class="toc-text">利用 docker image ls 把所有的虚悬镜像的 ID 列出来</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%85%8D%E5%90%88%E4%BD%BF%E7%94%A8go-%E6%A8%A1%E6%9D%BF%E8%AF%AD%E6%B3%95"><span class="toc-text">配合使用go 模板语法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E6%9C%AC%E5%9C%B0%E9%95%9C%E5%83%8F"><span class="toc-text">删除本地镜像</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8-ID%E3%80%81%E9%95%9C%E5%83%8F%E5%90%8D%E3%80%81%E6%91%98%E8%A6%81%E5%88%A0%E9%99%A4%E9%95%9C%E5%83%8F"><span class="toc-text">用 ID、镜像名、摘要删除镜像</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Untagged-%E5%92%8C-Deleted"><span class="toc-text">Untagged 和 Deleted</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8-docker-image-ls-%E5%91%BD%E4%BB%A4%E6%9D%A5%E9%85%8D%E5%90%88"><span class="toc-text">用 docker image ls 命令来配合</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#docker-commit-%E5%91%BD%E4%BB%A4%E5%92%8C%E7%9B%B8%E5%85%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">docker commit 命令和相关的问题</span></a></li></ol>
+      </div>
+    </div>
+
+    <!-- 同分类文章 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-folder"></i>
+        <span>CATEGORY POSTS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../docker-1--%E5%9F%BA%E7%A1%80/">docker(1)-基础</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../docker-4--dockerfile%E5%AE%9A%E5%88%B6%E9%95%9C%E5%83%8F/">docker(4)-dockerfile定制镜像</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../docker-4--dockerfile%E6%8C%87%E4%BB%A4/">docker(4)-dockerfile指令</a>
+          </div>
+        
+      </div>
+    </div>
+    
+    
+    <!-- 标签列表 -->
+    
+  </div>
+
+  <!-- 主要内容区域 -->
+  <div class="editor-content">
+    <div class="tab-bar">
+      <div class="tab active">
+        <i class="fas fa-file-alt"></i>
+        <span>docker(2)-镜像使用和命令.md</span>
+      </div>
+    </div>
+    
+    <div class="content-area">
+      <article class="post-content">
+        <div class="post-header">
+          <h1>docker(2)-镜像使用和命令</h1>
+          <div class="post-meta">
+            <span class="date">
+              <i class="fas fa-calendar-alt"></i>
+              2024-12-31
+            </span>
+            
+            <span class="updated-date">
+              <i class="fas fa-sync-alt"></i>
+              Updated 2026-02-18
+            </span>
+                        
+              <span class="categories">
+                <i class="fas fa-folder"></i>
+                <div class="categories-list">
+                  <ul class="category-item-post-list"><li class="category-item-post-list-item"><a class="category-item-post-list-link" href="../../../../categories/docker/">docker</a></li></ul>
+                </div>
+              </span>
+            
+            
+          </div>
+        </div>
+        
+        <div class="post-body vscode-markdown">
+          <h3 id="获取镜像-pull"><a href="#获取镜像-pull" class="headerlink" title="获取镜像 pull"></a>获取镜像 pull</h3><p>关键命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker pull [选项] [Docker Registry 地址[:端口号]/]仓库名[:标签]<br></code></pre></td></tr></table></figure>
+
+<p>命名格式</p>
+<ul>
+<li>Docker 镜像仓库地址：地址的格式一般是 &lt;域名&#x2F;IP&gt;[:端口号]。默认地址是 Docker Hub。</li>
+<li>仓库名：如之前所说，这里的仓库名是两段式名称，即 &lt;用户名&gt;&#x2F;&lt;软件名&gt;。对于 Docker Hub，如果不给出用户名，则默认为 library，也就是官方镜像。</li>
+</ul>
+<h3 id="运行镜像-run"><a href="#运行镜像-run" class="headerlink" title="运行镜像 run"></a>运行镜像 run</h3><p>镜像格式</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker run [OPTIONS] IMAGE [COMMAND] [ARG...]<br></code></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker run -it --rm ubuntu:16.04 bash<br></code></pre></td></tr></table></figure>
+
+<p>启动容器有两种方式，一种是基于镜像新建一个容器并启动，另外一个是将在终止状态（stopped）的容器重新启动。</p>
+<p>因为 Docker 的容器实在太轻量级了，很多时候用户都是随时删除和新创建容器。</p>
+<p>OPTIONS说明：</p>
+<ul>
+<li><p>-a stdin: 指定标准输入输出内容类型，可选 STDIN&#x2F;STDOUT&#x2F;STDERR 三项；</p>
+</li>
+<li><p>-d: 后台运行容器，并返回容器ID；</p>
+</li>
+<li><p>-i: 以交互模式运行容器，通常与 -t 同时使用；</p>
+</li>
+<li><p>-t: 为容器重新分配一个伪输入终端，通常与 -i 同时使用；</p>
+</li>
+<li><p>–name&#x3D;”nginx-lb”: 为容器指定一个名称；</p>
+</li>
+<li><p>–dns 8.8.8.8: 指定容器使用的DNS服务器，默认和宿主一致；</p>
+</li>
+<li><p>–dns-search example.com: 指定容器DNS搜索域名，默认和宿主一致；</p>
+</li>
+<li><p>-h “mars”: 指定容器的hostname；</p>
+</li>
+<li><p>-e username&#x3D;”ritchie”: 设置环境变量；</p>
+</li>
+<li><p>–env-file&#x3D;[]: 从指定文件读入环境变量；</p>
+</li>
+<li><p>–cpuset&#x3D;”0-2” or –cpuset&#x3D;”0,1,2”: 绑定容器到指定CPU运行；</p>
+</li>
+<li><p>-m :设置容器使用内存最大值；</p>
+</li>
+<li><p>–net&#x3D;”bridge”: 指定容器的网络连接类型，支持 bridge&#x2F;host&#x2F;none&#x2F;container: 四种类型；</p>
+</li>
+<li><p>–link&#x3D;[]: 添加链接到另一个容器；</p>
+</li>
+<li><p>–expose&#x3D;[]: 开放一个端口或一组端口；</p>
+</li>
+</ul>
+<p>当利用 docker run 来创建容器时，Docker 在后台运行的标准操作包括：</p>
+<ul>
+<li>检查本地是否存在指定的镜像，不存在就从公有仓库下载</li>
+<li>利用镜像创建并启动一个容器</li>
+<li>分配一个文件系统，并在只读的镜像层外面挂载一层可读写层</li>
+<li>从宿主主机配置的网桥接口中桥接一个虚拟接口到容器中去</li>
+<li>从地址池配置一个 ip 地址给容器</li>
+<li>执行用户指定的应用程序</li>
+<li>执行完毕后容器被终止</li>
+</ul>
+<h3 id="docker-container-start"><a href="#docker-container-start" class="headerlink" title="docker container start"></a>docker container start</h3><h3 id="列出镜像-image-ls"><a href="#列出镜像-image-ls" class="headerlink" title="列出镜像 image ls"></a>列出镜像 image ls</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker image ls<br></code></pre></td></tr></table></figure>
+
+<p>打印输出所有的镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE<br>nginx               v3                  57bd2e54ef1b        24 hours ago        109MB<br>nginx               latest              5699ececb21c        6 days ago          109MB<br>ubuntu              16.04               5e8b97a2a082        3 weeks ago         114MB<br>hello-world         latest              e38bc07ac18e        2 months ago        1.85kB<br></code></pre></td></tr></table></figure>
+
+<h4 id="查看docker-磁盘的使用情况"><a href="#查看docker-磁盘的使用情况" class="headerlink" title="查看docker 磁盘的使用情况"></a>查看docker 磁盘的使用情况</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker system df<br></code></pre></td></tr></table></figure>
+
+<p>注意：这里引申一下docker image 命令显示出来的各种信息，docker image ls 列表中的镜像体积总和并非是所有镜像实际硬盘消耗。由于 Docker 镜像是多层存储结构，并且可以继承、复用，因此不同镜像可能会因为使用相同的基础镜像，从而拥有共同的层。由于 Docker 使用 Union FS，相同的层只需要保存一份即可，因此实际镜像硬盘占用空间很可能要比这个列表镜像大小的总和要小的多。</p>
+<h4 id="特殊的玄虚镜像"><a href="#特殊的玄虚镜像" class="headerlink" title="特殊的玄虚镜像"></a>特殊的玄虚镜像</h4><p>由于新旧镜像同名，旧镜像名称被取消等，出现仓库名、标签均为 <none> 的镜二维码像。这类无标签镜像也被称为 虚悬镜像(dangling image)</p>
+<blockquote>
+<p>使用这个命令将会直接的看到这些镜像</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">$ docker image ls -f dangling=true<br>REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE<br>&lt;none&gt;              &lt;none&gt;              00285df0df87        5 days ago          342 MB<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>一般来说，虚悬镜像已经失去了存在的价值，是可以随意删除的，可以用下面的命令删除。</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">docker image prune</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="中间层镜像"><a href="#中间层镜像" class="headerlink" title="中间层镜像"></a>中间层镜像</h4><p>默认的 docker image ls 列表中只会显示顶层镜像，如果希望显示包括中间层镜像在内的所有镜像的话，需要加 -a 参数。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">docker image <span class="hljs-built_in">ls</span> -a</span><br></code></pre></td></tr></table></figure>
+
+<p>这样会看到很多无标签的镜像，与之前的虚悬镜像不同，这些无标签的镜像很多都是中间层镜像，是其它镜像所依赖的镜像。这些无标签镜像不应该删除，否则会导致上层镜像因为依赖丢失而出错。实际上，这些镜像也没必要删除，因为之前说过，相同的层只会存一遍，而这些镜像是别的镜像的依赖，因此并不会因为它们被列出来而多存了一份，无论如何你也会需要它们。只要删除那些依赖它们的镜像后，这些依赖的中间层镜像也会被连带删除。</p>
+<h4 id="列出部分镜像"><a href="#列出部分镜像" class="headerlink" title="列出部分镜像"></a>列出部分镜像</h4><p>不加任何参数的情况下，docker image ls 会列出所有顶级镜像，但是有时候我们只希望列出部分镜像。docker image ls 有好几个参数可以帮助做到这个事情。</p>
+<blockquote>
+<p>根据仓库名列出镜像</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">docker image <span class="hljs-built_in">ls</span> ubuntu</span><br>REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE<br>ubuntu              16.04               f753707788c5        4 weeks ago         127 MB<br>ubuntu              latest              f753707788c5        4 weeks ago         127 MB<br>ubuntu              14.04               1e0c3dd64ccd        4 weeks ago         188 MB<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>显示镜像详细信息</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">docker image <span class="hljs-built_in">ls</span> --digests</span><br></code></pre></td></tr></table></figure>
+
+<p>这个方法将会显示出这个镜像的长id等信息</p>
+<blockquote>
+<p>列出特定的某个镜像，也就是说指定仓库名和标签</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">docker image <span class="hljs-built_in">ls</span> ubuntu:16.04</span><br>REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE<br>ubuntu              16.04               f753707788c5        4 weeks ago         127 MB<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>docker image ls 还支持强大的过滤器参数 –filter，或者简写 -f</p>
+</blockquote>
+<p>比如，我们希望看到在 mongo:3.2 之后建立的镜像，可以用下面的命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">docker image <span class="hljs-built_in">ls</span> -f since=mongo:3.2</span><br>REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE<br>redis               latest              5f515359c7f8        5 days ago          183 MB<br>nginx               latest              05a60462f8ba        5 days ago          181 MB<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>想查看某个位置之前的镜像也可以，只需要把 since 换成 before 即可。</p>
+</blockquote>
+<h4 id="利用-docker-image-ls-把所有的虚悬镜像的-ID-列出来"><a href="#利用-docker-image-ls-把所有的虚悬镜像的-ID-列出来" class="headerlink" title="利用 docker image ls 把所有的虚悬镜像的 ID 列出来"></a>利用 docker image ls 把所有的虚悬镜像的 ID 列出来</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">docker image <span class="hljs-built_in">ls</span> -q</span><br>5f515359c7f8<br>05a60462f8ba<br>fe9198c04d62<br>00285df0df87<br>f753707788c5<br>f753707788c5<br>1e0c3dd64ccd<br></code></pre></td></tr></table></figure>
+
+<h4 id="配合使用go-模板语法"><a href="#配合使用go-模板语法" class="headerlink" title="配合使用go 模板语法"></a>配合使用go 模板语法</h4><p>下面的命令会直接列出镜像结果，并且只包含镜像ID和仓库名：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">docker image <span class="hljs-built_in">ls</span> --format <span class="hljs-string">&quot;&#123;&#123;.ID&#125;&#125;: &#123;&#123;.Repository&#125;&#125;&quot;</span></span><br>5f515359c7f8: redis<br>05a60462f8ba: nginx<br>fe9198c04d62: mongo<br>00285df0df87: &lt;none&gt;<br>f753707788c5: ubuntu<br>f753707788c5: ubuntu<br>1e0c3dd64ccd: ubuntu<br></code></pre></td></tr></table></figure>
+
+<p>或者打算以表格等距显示，并且有标题行，和默认一样，不过自己定义列：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">docker image <span class="hljs-built_in">ls</span> --format <span class="hljs-string">&quot;table &#123;&#123;.ID&#125;&#125;\t&#123;&#123;.Repository&#125;&#125;\t&#123;&#123;.Tag&#125;&#125;&quot;</span></span><br>IMAGE ID            REPOSITORY          TAG<br>5f515359c7f8        redis               latest<br>05a60462f8ba        nginx               latest<br>fe9198c04d62        mongo               3.2<br>00285df0df87        &lt;none&gt;              &lt;none&gt;<br>f753707788c5        ubuntu              16.04<br>f753707788c5        ubuntu              latest<br>1e0c3dd64ccd        ubuntu              14.04<br></code></pre></td></tr></table></figure>
+
+<h3 id="删除本地镜像"><a href="#删除本地镜像" class="headerlink" title="删除本地镜像"></a>删除本地镜像</h3><h4 id="用-ID、镜像名、摘要删除镜像"><a href="#用-ID、镜像名、摘要删除镜像" class="headerlink" title="用 ID、镜像名、摘要删除镜像"></a>用 ID、镜像名、摘要删除镜像</h4><p>如果要删除本地的镜像，可以使用 docker image rm 命令，其格式为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">docker image <span class="hljs-built_in">rm</span> [选项] &lt;镜像1&gt; [&lt;镜像2&gt; ...]</span><br></code></pre></td></tr></table></figure>
+
+<p>&lt;镜像&gt; 可以是 镜像短 ID、镜像长 ID、镜像名(&lt;仓库名&gt;:&lt;标签&gt;) 或者 镜像摘要</p>
+<blockquote>
+<p>引申： 短id 其实就是docker image ls 展示的相关的id</p>
+</blockquote>
+<h4 id="Untagged-和-Deleted"><a href="#Untagged-和-Deleted" class="headerlink" title="Untagged 和 Deleted"></a>Untagged 和 Deleted</h4><p>首先观察一个删除的命令和结果</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">docker image <span class="hljs-built_in">rm</span> centos</span><br>Untagged: centos:latest<br>Untagged: centos@sha256:b2f9d1c0ff5f87a4743104d099a3d561002ac500db1b9bfa02a783a46e0d366c<br>Deleted: sha256:0584b3d2cf6d235ee310cf14b54667d889887b838d3f3d3033acd70fc3c48b8a<br>Deleted: sha256:97ca462ad9eeae25941546209454496e1d66749d53dfa2ee32bf1faabd239d38<br></code></pre></td></tr></table></figure>
+
+<p>删除行为分为两类，一类是 Untagged，另一类是 Deleted。我们之前介绍过，镜像的唯一标识是其 ID 和摘要，而一个镜像可以有多个标签。</p>
+<p>因此当我们使用上面命令删除镜像的时候，实际上是在要求删除某个标签的镜像。所以首先需要做的是将满足我们要求的所有镜像标签都取消，这就是我们看到的 Untagged 的信息。因为一个镜像可以对应多个标签，因此当我们删除了所指定的标签后，可能还有别的标签指向了这个镜像，如果是这种情况，那么 Delete 行为就不会发生。所以并非所有的 docker image rm 都会产生删除镜像的行为，有可能仅仅是取消了某个标签而已。</p>
+<p>当该镜像所有的标签都被取消了，该镜像很可能会失去了存在的意义，因此会触发删除行为。镜像是多层存储结构，因此在删除的时候也是从上层向基础层方向依次进行判断删除。镜像的多层结构让镜像复用变动非常容易，因此很有可能某个其它镜像正依赖于当前镜像的某一层。这种情况，依旧不会触发删除该层的行为。直到没有任何层依赖当前层时，才会真实的删除当前层。这就是为什么，有时候会奇怪，为什么明明没有别的标签指向这个镜像，但是它还是存在的原因，也是为什么有时候会发现所删除的层数和自己 docker pull 看到的层数不一样的源。</p>
+<p>除了镜像依赖以外，还需要注意的是容器对镜像的依赖。如果有用这个镜像启动的容器存在（即使容器没有运行），那么同样不可以删除这个镜像。之前讲过，容器是以镜像为基础，再加一层容器存储层，组成这样的多层存储结构去运行的。因此该镜像如果被这个容器所依赖的，那么删除必然会导致故障。如果这些容器是不需要的，应该先将它们删除，然后再来删除镜像。</p>
+<h4 id="用-docker-image-ls-命令来配合"><a href="#用-docker-image-ls-命令来配合" class="headerlink" title="用 docker image ls 命令来配合"></a>用 docker image ls 命令来配合</h4><p>像其它可以承接多个实体的命令一样，可以使用 docker image ls -q 来配合使用 docker image rm，这样可以成批的删除希望删除的镜像。我们在“镜像列表”章节介绍过很多过滤镜像列表的方式都可以拿过来使用。</p>
+<blockquote>
+<p>比如，我们需要删除所有仓库名为 redis 的镜像：</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">docker image <span class="hljs-built_in">rm</span> $(docker image <span class="hljs-built_in">ls</span> -q redis)</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>或者删除所有在 mongo:3.2 之前的镜像：</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">docker image <span class="hljs-built_in">rm</span> $(docker image <span class="hljs-built_in">ls</span> -q -f before=mongo:3.2)</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>充分利用你的想象力和 Linux 命令行的强大，你可以完成很多非常赞的功能。</p>
+</blockquote>
+<h3 id="docker-commit-命令和相关的问题"><a href="#docker-commit-命令和相关的问题" class="headerlink" title="docker commit 命令和相关的问题"></a>docker commit 命令和相关的问题</h3><p>docker commit 的语法格式为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">docker commit [选项] &lt;容器ID或容器名&gt; [&lt;仓库名&gt;[:&lt;标签&gt;]]<br></code></pre></td></tr></table></figure>
+
+<p>可以使用如下的方法将指定的容器打包成镜像</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">docker commit \</span><br><span class="language-bash">    --author <span class="hljs-string">&quot;Tao Wang &lt;twang2218@gmail.com&gt;&quot;</span> \</span><br><span class="language-bash">    --message <span class="hljs-string">&quot;修改了默认网页&quot;</span> \</span><br><span class="language-bash">    webserver \</span><br><span class="language-bash">    nginx:v2</span><br>sha256:07e33465974800ce65751acc279adc6ed2dc5ed4e0838f8b86f0c87aa1795214<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>引申：其中 –author 是指定修改的作者，而 –message 则是记录本次修改的内容。这点和 git 版本控制相似，不过这里这些信息可以省略留空。</p>
+</blockquote>
+<p>使用 docker commit 命令虽然可以比较直观的帮助理解镜像分层存储的概念，但是实际环境中并不会这样使用。</p>
+<p>首先，如果仔细观察之前的 docker diff webserver 的结果，你会发现除了真正想要修改的 &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html&#x2F;index.html 文件外，由于命令的执行，还有很多文件被改动或添加了。这还仅仅是最简单的操作，如果是安装软件包、编译构建，那会有大量的无关内容被添加进来，如果不小心清理，将会导致镜像极为臃肿。</p>
+<p>此外，使用 docker commit 意味着所有对镜像的操作都是黑箱操作，生成的镜像也被称为黑箱镜像，换句话说，就是除了制作镜像的人知道执行过什么命令、怎么生成的镜像，别人根本无从得知。而且，即使是这个制作镜像的人，过一段时间后也无法记清具体在操作的。虽然 docker diff 或许可以告诉得到一些线索，但是远远不到可以确保生成一致镜像的地步。这种黑箱镜像的维护工作是非常痛苦的。</p>
+<blockquote>
+<p>注意： 应该使用dockerfile 进行相关的镜像生成和维护工作</p>
+</blockquote>
+
+        </div>
+        
+        <!-- 文章导航 - 只在同分类有多篇文章时显示 -->
+        
+        
+        
+        <nav class="post-nav">
+          
+            <a class="prev" href="../docker-1--%E5%9F%BA%E7%A1%80/">
+              <i class="fas fa-chevron-left"></i>
+              docker(1)-基础
+            </a>
+          
+          
+            <a class="next" href="../docker-4--dockerfile%E5%AE%9A%E5%88%B6%E9%95%9C%E5%83%8F/">
+              docker(4)-dockerfile定制镜像
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          
+        </nav>
+        
+        
+        <!-- 推荐文章 -->
+        
+
+
+<div class="vs-recommended-posts">
+  <div class="vs-recommended-header">
+    <div class="section-header">
+      <i class="fas fa-lightbulb"></i>
+      <span>RELATED POSTS</span>
+    </div>
+  </div>
+  
+  <div class="vs-recommended-grid">
+    
+      <div class="vs-recommended-item" data-index="0" tabindex="0">
+        <a href="../docker-1--%E5%9F%BA%E7%A1%80/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>docker(1)-基础</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              docker 不多说就是拥有独立的存储空间的更加优秀的类虚拟机系统，他拥有许多优秀的思想，比如吸收了git的存储仓库的思想，使用image参照git中的仓库等。 docker 之分层存储Docker 设计时，就充分利用 Union FS 的...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="1" tabindex="0">
+        <a href="../docker-4--dockerfile%E5%AE%9A%E5%88%B6%E9%95%9C%E5%83%8F/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>docker(4)-dockerfile定制镜像</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              使用 Dockerfile 定制镜像从刚才的 docker commit 的学习中，我们可以了解到，镜像的定制实际上就是定制每一层所添加的配置、文件。如果我们可以把每一层修改、安装、构建、操作的命令都写入一个脚本，用这个脚本来构建、定制镜像...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  2 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="2" tabindex="0">
+        <a href="../docker-4--dockerfile%E6%8C%87%E4%BB%A4/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>docker(4)-dockerfile指令</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              COPY 复制文件格式： 12COPY &amp;lt;源路径&amp;gt;... &amp;lt;目标路径&amp;gt;COPY [&amp;quot;&amp;lt;源路径1&amp;gt;&amp;quot;,... &amp;quot;&amp;lt;目标路径&amp;gt;&amp;quot;] &amp;lt;源路径&amp;gt; ...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  4 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="3" tabindex="0">
+        <a href="../git-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>git-基本使用教程</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              今天刚刚进行工作一个星期，感觉自己以前在大学里自己做项目的时候许多欠缺的地方，比如说版本控制上的欠缺，这里写几篇博客补充一下自己在版本控制上面的坑 将一个纳入git的控制之中1git init 这个命令将一个文件夹新建成一个git仓库 将文...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="4" tabindex="0">
+        <a href="../git_%E5%9C%A8linux-%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>git_在linux 环境下中文乱码问题解决</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              看了网上好多教程 其实一行命令就可以解决 1234git config --global core.quotepath falsegit config --global i18n.logoutputencoding utf-8git con...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="5" tabindex="0">
+        <a href="../golang%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-1--%E5%8C%85%E5%8F%98%E9%87%8F%E5%87%BD%E6%95%B0/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>golang学习笔记(1)-包变量函数</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              golang的包管理和变量管理都是非常容易的 golang 包golang在使用的时候可以通过import 关键字引入包 其他的包在定义的时候可以使用package 来定义一个包 注意 main包是一个特殊的包，这个包表示golang执行的...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+  </div>
+  
+  <!-- 查看更多 -->
+  <div class="vs-recommended-footer">
+    <a href="../../../../archives/" class="vs-view-more">
+      <i class="fas fa-folder-open"></i>
+      <span>View More Posts</span>
+      <i class="fas fa-chevron-right"></i>
+    </a>
+  </div>
+</div>
+
+<script>
+// 键盘导航支持
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.vs-recommended-item');
+  let currentIndex = -1;
+  
+  // 键盘事件
+  document.addEventListener('keydown', function(e) {
+    if (!items.length) return;
+    
+    if (e.key === 'Tab') {
+      // Tab键导航由浏览器处理
+      return;
+    }
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      
+      // 移除当前高亮
+      if (currentIndex >= 0) {
+        items[currentIndex].classList.remove('vs-focused');
+      }
+      
+      // 更新索引
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % items.length;
+      } else {
+        currentIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+      }
+      
+      // 添加新高亮
+      items[currentIndex].classList.add('vs-focused');
+      items[currentIndex].focus();
+    }
+    
+    if (e.key === 'Enter' && currentIndex >= 0) {
+      const link = items[currentIndex].querySelector('a');
+      if (link) link.click();
+    }
+  });
+  
+  // 鼠标悬停时更新当前索引
+  items.forEach((item, index) => {
+    item.addEventListener('mouseenter', function() {
+      currentIndex = index;
+      items.forEach(i => i.classList.remove('vs-focused'));
+      item.classList.add('vs-focused');
+    });
+  });
+});
+</script>
+
+        
+        <!-- 评论区 -->
+        
+  <div class="vs-comments-section">
+    <div class="section-header">
+      <i class="fas fa-comments"></i>
+      <span>COMMENTS</span>
+    </div>
+    
+    
+      <!-- Waline 评论系统 -->
+      <div id="waline"></div>
+      <script>
+        // 加载 Waline CSS
+        const walineCSS = document.createElement('link');
+        walineCSS.rel = 'stylesheet';
+        walineCSS.href = 'https://unpkg.com/@waline/client@v3/dist/waline.css';
+        document.head.appendChild(walineCSS);
+        
+        // 加载 Waline JS
+        const walineScript = document.createElement('script');
+        walineScript.type = 'module';
+        walineScript.onload = function() {
+          // 确保 Waline 加载后再初始化
+          import('https://unpkg.com/@waline/client@v3/dist/waline.js').then(({ init }) => {
+            const waline = init({
+              el: '#waline',
+              serverURL: 'https://vsc4tblackcat1337.vercel.app/',
+              lang: 'zh-CN',
+              locale: {},
+              emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus"],
+              requiredMeta: [],
+              login: 'disable',
+              wordLimit: 0,
+              pageSize: 10,
+              imageUploader: false,
+              highlighter: true,
+              texRenderer: false,
+              search: false,
+              pageview: false,
+              comment: true,
+              copyright: false,
+              
+              // 自动适配主题
+              dark: document.documentElement.getAttribute('data-theme') === 'dark' ? 'auto' : false,
+              
+              // 评论框占位符
+              placeholder: 'Feel free to leave a comment, no login required!',
+              
+              // 元数据配置
+              meta: ['nick', 'mail', 'link'],
+              
+              // 表情配置
+              emojiCDN: 'https://unpkg.com/@waline/emojis@1.2.0/',
+            });
+            
+            // 监听主题变化
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                  // Waline 会自动处理主题切换
+                  if (waline) {
+                    waline.update({ dark: isDark ? 'auto' : false });
+                  }
+                }
+              });
+            });
+            
+            observer.observe(document.documentElement, {
+              attributes: true,
+              attributeFilter: ['data-theme']
+            });
+          });
+        };
+        walineScript.src = 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+        document.body.appendChild(walineScript);
+      </script>
+    
+    
+  </div>
+
+      </article>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code-branch"></i>
+      master
+    </div>
+    <div class="status-item">
+      <i class="fas fa-sync"></i>
+      John Doe
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      2026-02-18
+    </div>
+    <div class="status-item">
+      Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
+    </div>
+    <div class="status-item github">
+      <a href="#" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 搜索专用配置 (HEXO_CONFIG 在 scripts.ejs 中统一定义) -->
+    <script>
+      window.VSC4T_SEARCH = {
+        root: "/"
+      };
+    </script>
+
+    <!-- 外部脚本 - 统一使用 cdnjs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
+    <script>if(typeof hljs !== 'undefined') hljs.highlightAll();</script>
+    <!-- 这里可以放置自定义脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Apply smooth scroll to non-TOC anchor links
+  document.querySelectorAll('a[href^="#"]:not(.toc-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Check if querySelector is valid before using it
+      try {
+        const targetSelector = this.getAttribute('href');
+        // Basic check for potentially invalid selectors (though not exhaustive)
+        if (targetSelector && targetSelector.length > 1) { 
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            console.warn('Smooth scroll target not found:', targetSelector);
+          }
+        } else {
+           console.warn('Invalid href for smooth scroll:', targetSelector);
+        }
+      } catch (error) {
+        console.error('Error during smooth scroll:', error, 'Selector:', this.getAttribute('href'));
+        // Fallback or alternative behavior if needed
+        // For example, try getElementById if it's just an ID
+        const targetId = this.getAttribute('href').slice(1);
+        try {
+            const targetElementById = document.getElementById(decodeURIComponent(targetId));
+            if (targetElementById) {
+                targetElementById.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (idError) {
+             console.error('Fallback getElementById also failed:', idError);
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Scripts -->
+<script>
+  // 全局配置 - 包含 i18n 字符串和主题配置
+  window.HEXO_CONFIG = {
+    language: "en",
+    root: "/",
+    
+    theme_switch: {
+      enabled: false,
+      light_start: "06:00",
+      light_end: "18:00"
+    },
+    
+    // Search i18n strings
+    search_placeholder: "Type to search...",
+    search_no_results: "No results found",
+    search_result: "result",
+    search_results: "results",
+    search_results_found: "Found undefined results",
+    search_in: "Search in",
+    search_in_title: "Title",
+    search_in_content: "Content",
+    search_in_tags: "Tags",
+    search_in_categories: "Categories",
+    search_filters: "Search Filters",
+    search_recent: "Recent Searches",
+    search_clear: "Clear",
+    search_loading: "Loading...",
+    search_error: "Error loading search data",
+    // Encryption i18n strings
+    encrypt_badge: "Protected",
+    encrypt_title: "Protected Content",
+    encrypt_description: "Enter the password to unlock this article. The password will be saved locally until you choose to re-encrypt.",
+    encrypt_label: "Password",
+    encrypt_placeholder: "Enter password to unlock",
+    encrypt_button: "Unlock",
+    encrypt_button_loading: "Unlocking...",
+    encrypt_hint: "Press Enter to submit. Password will be remembered on this device.",
+    encrypt_success: "Content unlocked successfully!",
+    encrypt_unlocked_note: "Content unlocked. You can re-encrypt at any time.",
+    encrypt_again: "Re-encrypt",
+    encrypt_wrong_password: "Incorrect password. Please try again.",
+    encrypt_show_password: "Show password",
+    encrypt_hide_password: "Hide password",
+    // Sidebar i18n strings
+    sidebar_about: "About",
+    sidebar_categories: "Categories",
+    sidebar_tags: "Tags",
+    // Post page i18n strings
+    post_toc: "TABLE OF CONTENTS",
+    post_category_posts: "CATEGORY POSTS",
+    post_article_tags: "ARTICLE TAGS"
+  };
+</script>
+
+
+
+<!-- 添加所有需要的脚本 -->
+<script src="../../../../js/search.js"></script>
+<script src="../../../../js/theme-switch.js"></script>
+
+<script src="../../../../js/password-protect.js?v=1771424192107"></script>
+
+    <script>
+      // 移动端菜单切换
+      $(document).ready(function() {
+        var $body = $('body');
+        var $sidebar = $('.sidebar-explorer');
+        var $overlay = $('.sidebar-overlay');
+        var $toggle = $('.mobile-menu-toggle');
+
+        function openSidebar() {
+          $sidebar.addClass('show');
+          $overlay.addClass('show');
+          $toggle.addClass('active');
+          $body.addClass('sidebar-open');
+        }
+
+        function closeSidebar() {
+          $sidebar.removeClass('show');
+          $overlay.removeClass('show');
+          $toggle.removeClass('active');
+          $body.removeClass('sidebar-open');
+        }
+
+        // 汉堡按钮点击切换
+        $toggle.on('click', function(e) {
+          e.stopPropagation();
+          if ($sidebar.hasClass('show')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+
+        // 点击遮罩层关闭
+        $overlay.on('click', function() {
+          closeSidebar();
+        });
+
+        // ESC 键关闭
+        $(document).on('keydown', function(e) {
+          if (e.key === 'Escape' && $sidebar.hasClass('show')) {
+            closeSidebar();
+          }
+        });
+
+        // 点击侧边栏内的链接时自动关闭侧边栏，确保锚点跳转正常
+        $sidebar.on('click', 'a', function() {
+          closeSidebar();
+        });
+      });
+    </script>
+  </body>
+</html>

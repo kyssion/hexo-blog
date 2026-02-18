@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>docker(4)-dockerfile指令 | Hexo</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A simple dark Hexo theme inspired by code.">
+  <meta name="keywords" content="">
+  <meta name="author" content="John Doe">
+  <link rel="canonical" href="http://example.com">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="docker(4)-dockerfile指令 | Hexo">
+  <meta property="og:description" content="A simple dark Hexo theme inspired by code.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://example.com">
+  <meta property="og:site_name" content="Hexo">
+  <meta property="article:published_time" content="2024-12-31T15:56:00.000Z">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="docker(4)-dockerfile指令 | Hexo">
+  <meta name="twitter:description" content="A simple dark Hexo theme inspired by code.">
+
+  <!-- Favicon 配置 -->
+  
+
+  <!-- 外部样式 - 统一使用 jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- 代码高亮样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+  <!-- Mermaid.js 库 (defer加载) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <!-- 主题样式 -->
+  <link rel="stylesheet" href="../../../../css/theme-colors.css">
+  <link rel="stylesheet" href="../../../../css/main.css">
+  <link rel="stylesheet" href="../../../../css/code.css">
+  <link rel="stylesheet" href="../../../../css/code-custom.css">
+  <link rel="stylesheet" href="../../../../css/code-languages.css">
+  <link rel="stylesheet" href="../../../../css/mermaid.css">
+
+  <link rel="stylesheet" href="../../../../css/vs-code.css">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192107">
+  <link rel="stylesheet" href="../../../../css/tag.css">
+  <link rel="stylesheet" href="../../../../css/categories.css">
+  <link rel="stylesheet" href="../../../../css/archive.css">
+  <link rel="stylesheet" href="../../../../css/search.css">
+  <link rel="stylesheet" href="../../../../css/mobile.css">  <link rel="stylesheet" href="../../../../css/responsive.css">
+  <link rel="stylesheet" href="../../../../css/elements.css">
+
+  <!-- 添加 JetBrains Mono 字体 -->  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Add any custom head content here -->
+
+  <script defer src="../../../../js/explorer.js"></script>
+  <script defer src="../../../../js/code-enhance.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+      <div class="mobile-menu-toggle" aria-label="Toggle sidebar menu" role="button" tabindex="0">
+        <i class="fas fa-bars"></i>
+      </div>
+      <!-- 移动端侧边栏遮罩层 -->
+      <div class="sidebar-overlay" aria-hidden="true"></div>
+      <header class="vs-header">
+  <nav class="vs-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-brand">
+        <i class="fas fa-terminal"></i>
+        Hexo
+      </a>
+    </div>
+    
+    <div class="nav-right">
+      <a href="/" class="nav-item ">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="/archives/" class="nav-item ">
+        <i class="fas fa-archive"></i>
+        <span>Archives</span>
+      </a>
+      <a href="/categories/" class="nav-item ">
+        <i class="fas fa-folder"></i>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" class="nav-item ">
+        <i class="fas fa-tags"></i>
+        <span>Tags</span>
+      </a>
+      <a href="/search/" class="nav-item ">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="/about/" class="nav-item ">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function smoothScroll(event, target) {
+    event.preventDefault();
+    const targetId = target.substring(target.indexOf('#') + 1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 50, // 调整偏移量
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = target;
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.vs-header');
+    const nav = document.querySelector('.vs-nav');
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    
+    nav.style.setProperty('--scroll-percent', `${scrollPercent}%`);
+    
+    if (window.scrollY > 0) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // 添加标签页切换动画
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('nav-ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+</script>
+
+
+<div class="vscode-container">
+  <!-- 左侧资源管理器 -->
+  <div class="sidebar-explorer">
+    <!-- TOC导航 -->
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-list"></i>
+        <span>TABLE OF CONTENTS</span>
+      </div>
+      <div class="section-content">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#COPY-%E5%A4%8D%E5%88%B6%E6%96%87%E4%BB%B6"><span class="toc-text">COPY 复制文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ADD-%E6%9B%B4%E9%AB%98%E7%BA%A7%E7%9A%84%E5%A4%8D%E5%88%B6%E6%96%87%E4%BB%B6"><span class="toc-text">ADD 更高级的复制文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CMD-%E5%AE%B9%E5%99%A8%E5%90%AF%E5%8A%A8%E5%91%BD%E4%BB%A4"><span class="toc-text">CMD 容器启动命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ENTRYPOINT-%E5%85%A5%E5%8F%A3%E7%82%B9"><span class="toc-text">ENTRYPOINT 入口点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RUN-vs-CMD-vs-ENTRYPOINT"><span class="toc-text">RUN vs CMD vs ENTRYPOINT</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ENV-%E8%AE%BE%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-text">ENV 设置环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ARG%E8%AE%BE%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-text">ARG	设置环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VOLUME-%E5%AE%9A%E4%B9%89%E5%8C%BF%E5%90%8D%E5%8D%B7"><span class="toc-text">VOLUME 定义匿名卷</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#EXPOSE-%E5%A3%B0%E6%98%8E%E7%AB%AF%E5%8F%A3"><span class="toc-text">EXPOSE 声明端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WORKDIR-%E6%8C%87%E5%AE%9A%E5%B7%A5%E4%BD%9C%E7%9B%AE%E5%BD%95"><span class="toc-text">WORKDIR 指定工作目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#USER-%E6%8C%87%E5%AE%9A%E5%BD%93%E5%89%8D%E7%94%A8%E6%88%B7"><span class="toc-text">USER 指定当前用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HEALTHCHECK-%E5%81%A5%E5%BA%B7%E6%A3%80%E6%9F%A5"><span class="toc-text">HEALTHCHECK 健康检查</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ONBUILD-%E4%B8%BA%E4%BB%96%E4%BA%BA%E5%81%9A%E5%AB%81%E8%A1%A3%E8%A3%B3"><span class="toc-text">ONBUILD 为他人做嫁衣裳</span></a></li></ol>
+      </div>
+    </div>
+
+    <!-- 同分类文章 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-folder"></i>
+        <span>CATEGORY POSTS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../docker-1--%E5%9F%BA%E7%A1%80/">docker(1)-基础</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../docker-2--%E9%95%9C%E5%83%8F%E4%BD%BF%E7%94%A8%E5%92%8C%E5%91%BD%E4%BB%A4/">docker(2)-镜像使用和命令</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../docker-4--dockerfile%E5%AE%9A%E5%88%B6%E9%95%9C%E5%83%8F/">docker(4)-dockerfile定制镜像</a>
+          </div>
+        
+      </div>
+    </div>
+    
+    
+    <!-- 标签列表 -->
+    
+  </div>
+
+  <!-- 主要内容区域 -->
+  <div class="editor-content">
+    <div class="tab-bar">
+      <div class="tab active">
+        <i class="fas fa-file-alt"></i>
+        <span>docker(4)-dockerfile指令.md</span>
+      </div>
+    </div>
+    
+    <div class="content-area">
+      <article class="post-content">
+        <div class="post-header">
+          <h1>docker(4)-dockerfile指令</h1>
+          <div class="post-meta">
+            <span class="date">
+              <i class="fas fa-calendar-alt"></i>
+              2024-12-31
+            </span>
+            
+            <span class="updated-date">
+              <i class="fas fa-sync-alt"></i>
+              Updated 2026-02-18
+            </span>
+                        
+              <span class="categories">
+                <i class="fas fa-folder"></i>
+                <div class="categories-list">
+                  <ul class="category-item-post-list"><li class="category-item-post-list-item"><a class="category-item-post-list-link" href="../../../../categories/docker/">docker</a></li></ul>
+                </div>
+              </span>
+            
+            
+          </div>
+        </div>
+        
+        <div class="post-body vscode-markdown">
+          <h3 id="COPY-复制文件"><a href="#COPY-复制文件" class="headerlink" title="COPY 复制文件"></a>COPY 复制文件</h3><p>格式：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">COPY &lt;源路径&gt;... &lt;目标路径&gt;<br>COPY [&quot;&lt;源路径1&gt;&quot;,... &quot;&lt;目标路径&gt;&quot;]<br></code></pre></td></tr></table></figure>
+
+<p>&lt;源路径&gt; 可以是多个，甚至可以是通配符，其通配符规则要满足 Go 的 filepath.Match 规则，如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">COPY hom* /mydir/<br>COPY hom?.txt /mydir/<br></code></pre></td></tr></table></figure>
+
+<p>&lt;目标路径&gt; 可以是容器内的绝对路径，也可以是相对于工作目录的相对路径（工作目录可以用 WORKDIR 指令来指定）。目标路径不需要事先创建，如果目录不存在会在复制文件前先行创建缺失目录。</p>
+<p>此外，还需要注意一点，使用 COPY 指令，源文件的各种元数据都会保留。比如读、写、执行权限、文件变更时间等。这个特性对于镜像定制很有用。特别是构建相关文件都在使用 Git 进行管理的时候。</p>
+<h3 id="ADD-更高级的复制文件"><a href="#ADD-更高级的复制文件" class="headerlink" title="ADD 更高级的复制文件"></a>ADD 更高级的复制文件</h3><p>ADD 指令和 COPY 的格式和性质基本一致。但是在 COPY 基础上增加了一些功能。</p>
+<p>比如 &lt;源路径&gt; 可以是一个 URL，这种情况下，Docker 引擎会试图去下载这个链接的文件放到 &lt;目标路径&gt; 去。下载后的文件权限自动设置为 600，如果这并不是想要的权限，那么还需要增加额外的一层 RUN 进行权限调整，另外，如果下载的是个压缩包，需要解压缩，也一样还需要额外的一层 RUN 指令进行解压缩。</p>
+<blockquote>
+<p>注意: 如果 &lt;源路径&gt; 为一个 tar 压缩文件的话，压缩格式为 gzip, bzip2 以及 xz 的情况下，ADD 指令将会自动解压缩这个压缩文件到 &lt;目标路径&gt; 去。</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">FROM scratch<br>ADD ubuntu-xenial-core-cloudimg-amd64-root.tar.gz /<br>...<br></code></pre></td></tr></table></figure>
+
+<p>在 Docker 官方的 Dockerfile 最佳实践文档 中要求，尽可能的使用 COPY，因为 COPY 的语义很明确，就是复制文件而已，而 ADD 则包含了更复杂的功能，其行为也不一定很清晰。最适合使用 ADD 的场合，就是所提及的需要自动解压缩的场合。</p>
+<h3 id="CMD-容器启动命令"><a href="#CMD-容器启动命令" class="headerlink" title="CMD 容器启动命令"></a>CMD 容器启动命令</h3><p>CMD 指令的格式和 RUN 相似，也是两种格式：</p>
+<ul>
+<li>shell 格式：CMD &lt;命令&gt;</li>
+<li>exec 格式：CMD [“可执行文件”, “参数1”, “参数2”…]</li>
+<li>参数列表格式：CMD [“参数1”, “参数2”…]。在指定了 ENTRYPOINT 指令后，用 CMD 指定具体的参数。 之后使用docker run 的时候可以动态的添加命令到指定的数据中<br>之前介绍容器的时候曾经说过，Docker 不是虚拟机，容器就是进程。既然是进程，那么在启动容器的时候，需要指定所运行的程序及参数。CMD 指令就是用于指定默认的容器主进程的启动命令的。</li>
+</ul>
+<blockquote>
+<p>注意： 在指令格式上，一般推荐使用 exec 格式，这类格式在解析时会被解析为 JSON 数组，因此一定要使用双引号 “，而不要使用单引号。</p>
+</blockquote>
+<p>如果使用 shell 格式的话，实际的命令会被包装为 sh -c 的参数的形式进行执行。比如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">CMD echo $HOME<br></code></pre></td></tr></table></figure>
+
+<p>在实际执行中，会将其变更为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">CMD [ &quot;sh&quot;, &quot;-c&quot;, &quot;echo $HOME&quot; ]<br></code></pre></td></tr></table></figure>
+
+<p>这就是为什么我们可以使用环境变量的原因，因为这些环境变量会被 shell 进行解析处理。</p>
+<p>注意：Docker 不是虚拟机，容器中的应用都应该以前台执行，而不是像虚拟机、物理机里面那样，用 upstart&#x2F;systemd 去启动后台服务，容器内没有后台服务的概念。</p>
+<p>比如 使用 CMD service nginx start 容器执行后就立即退出</p>
+<p>使用 service nginx start 命令，则是希望 upstart 来以后台守护进程形式启动 nginx 服务。而刚才说了 CMD service nginx start 会被理解为 CMD [ “sh”, “-c”, “service nginx start”]，因此主进程实际上是 sh。那么当 service nginx start 命令结束后，sh 也就结束了，sh 作为主进程退出了，自然就会令容器退出。</p>
+<p>正确的做法是直接执行 nginx 可执行文件，并且要求以前台形式运行。比如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">CMD [&quot;nginx&quot;, &quot;-g&quot;, &quot;daemon off;&quot;]<br></code></pre></td></tr></table></figure>
+
+<p>注意： 如果 docker run 指定了其他命令，CMD 指定的默认命令将被忽略。如果 Dockerfile 中有多个 CMD 指令，只有最后一个 CMD 有效。</p>
+<h3 id="ENTRYPOINT-入口点"><a href="#ENTRYPOINT-入口点" class="headerlink" title="ENTRYPOINT 入口点"></a>ENTRYPOINT 入口点</h3><p>这个方法相当于默认容器启动的时候运行的命令</p>
+<p>ENTRYPOINT 的格式和 RUN 指令格式一样，分为 exec 格式和 shell 格式。</p>
+<p>ENTRYPOINT 的目的和 CMD 一样，都是在指定容器启动程序及参数。ENTRYPOINT 在运行时也可以替代，不过比 CMD 要略显繁琐，需要通过 docker run 的参数 –entrypoint 来指定。</p>
+<p>当指定了 ENTRYPOINT 后，CMD 的含义就发生了改变，不再是直接的运行其命令，而是将 CMD 的内容作为参数传给 ENTRYPOINT 指令，换句话说实际执行时，将变为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">&lt;ENTRYPOINT&gt; &quot;&lt;CMD&gt;&quot;<br></code></pre></td></tr></table></figure>
+<p>高级应用类似 redis 官方镜像，自定义启动效果</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs shell">FROM alpine:3.4<br>...<br>RUN addgroup -S redis &amp;&amp; adduser -S -G redis redis<br>...<br>ENTRYPOINT [&quot;docker-entrypoint.sh&quot;]<br><br>EXPOSE 6379<br>CMD [ &quot;redis-server&quot; ]<br></code></pre></td></tr></table></figure>
+
+<p>可以看到其中为了 redis 服务创建了 redis 用户，并在最后指定了 ENTRYPOINT 为 docker-entrypoint.sh 脚本。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">#</span><span class="language-bash">!/bin/sh</span><br>...<br><span class="hljs-meta prompt_"># </span><span class="language-bash">allow the container to be started with `--user`</span><br>if [ &quot;$1&quot; = &#x27;redis-server&#x27; -a &quot;$(id -u)&quot; = &#x27;0&#x27; ]; then<br>    chown -R redis .<br>    exec su-exec redis &quot;$0&quot; &quot;$@&quot;<br>fi<br><br>exec &quot;$@&quot;<br></code></pre></td></tr></table></figure>
+
+<p>该脚本的内容就是根据 CMD 的内容来判断，如果是 redis-server 的话，则切换到 redis 用户身份启动服务器，否则依旧使用 root 身份执行。比如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">docker run -it redis <span class="hljs-built_in">id</span></span><br>uid=0(root) gid=0(root) groups=0(root)<br></code></pre></td></tr></table></figure>
+
+<h3 id="RUN-vs-CMD-vs-ENTRYPOINT"><a href="#RUN-vs-CMD-vs-ENTRYPOINT" class="headerlink" title="RUN vs CMD vs ENTRYPOINT"></a>RUN vs CMD vs ENTRYPOINT</h3><p>RUN、CMD 和 ENTRYPOINT 这三个 Dockerfile 指令看上去很类似，很容易混淆。本节将通过实践详细讨论它们的区别。</p>
+<p>简单的说：</p>
+<ul>
+<li><p>RUN 执行命令并创建新的镜像层，RUN 经常用于安装软件包。</p>
+</li>
+<li><p>CMD 设置容器启动后默认执行的命令及其参数，但 CMD 能够被 docker run 后面跟的命令行参数替换。</p>
+</li>
+<li><p>ENTRYPOINT 配置容器启动时运行的命令。</p>
+</li>
+</ul>
+<p>最佳实践</p>
+<ul>
+<li><p>使用 RUN 指令安装应用和软件包，构建镜像。</p>
+</li>
+<li><p>如果 Docker 镜像的用途是运行应用程序或服务，比如运行一个 MySQL，应该优先使用 Exec 格式的 ENTRYPOINT 指令。CMD 可为 ENTRYPOINT 提供额外的默认参数，同时可利用 docker run 命令行替换默认参数。</p>
+</li>
+<li><p>如果想为容器设置默认的启动命令，可使用 CMD 指令。用户可在 docker run 命令行中替换此默认命令。</p>
+</li>
+</ul>
+<h3 id="ENV-设置环境变量"><a href="#ENV-设置环境变量" class="headerlink" title="ENV 设置环境变量"></a>ENV 设置环境变量</h3><p>格式有两种：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">- ENV &lt;key&gt; &lt;value&gt;<br>- ENV &lt;key1&gt;=&lt;value1&gt; &lt;key2&gt;=&lt;value2&gt;...<br></code></pre></td></tr></table></figure>
+
+<p>这个指令很简单，就是设置环境变量而已，无论是后面的其它指令，如 RUN，还是运行时的应用，都可以直接使用这里定义的环境变量。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">ENV VERSION=1.0 DEBUG=on \<br>    NAME=&quot;Happy Feet&quot;<br></code></pre></td></tr></table></figure>
+
+<p>除此之外还能使用环境变量在编写docker文件的时候进行使用，专业术语变量展开</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs shell">ENV NODE_VERSION 7.2.0<br><br>RUN curl -SLO &quot;https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.xz&quot; \<br>  &amp;&amp; curl -SLO &quot;https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc&quot; \<br>  &amp;&amp; gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc \<br>  &amp;&amp; grep &quot; node-v$NODE_VERSION-linux-x64.tar.xz\$&quot; SHASUMS256.txt | sha256sum -c - \<br>  &amp;&amp; tar -xJf &quot;node-v$NODE_VERSION-linux-x64.tar.xz&quot; -C /usr/local --strip-components=1 \<br>  &amp;&amp; rm &quot;node-v$NODE_VERSION-linux-x64.tar.xz&quot; SHASUMS256.txt.asc SHASUMS256.txt \<br>  &amp;&amp; ln -s /usr/local/bin/node /usr/local/bin/nodejs<br></code></pre></td></tr></table></figure>
+
+<p>下列指令可以支持环境变量展开： ADD、COPY、ENV、EXPOSE、LABEL、USER、WORKDIR、VOLUME、STOPSIGNAL、ONBUILD。</p>
+<p>可以从这个指令列表里感觉到，环境变量可以使用的地方很多，很强大。通过环境变量，我们可以让一份 Dockerfile 制作更多的镜像，只需使用不同的环境变量即可。</p>
+<h3 id="ARG设置环境变量"><a href="#ARG设置环境变量" class="headerlink" title="ARG	设置环境变量"></a>ARG	设置环境变量</h3><p>构建参数和ENV的效果一样,都是设置环境变量。但是arg还可以将相关的变量使用进编译过程中</p>
+<h3 id="VOLUME-定义匿名卷"><a href="#VOLUME-定义匿名卷" class="headerlink" title="VOLUME 定义匿名卷"></a>VOLUME 定义匿名卷</h3><p>格式为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">VOLUME [&quot;&lt;路径1&gt;&quot;, &quot;&lt;路径2&gt;&quot;...]<br>VOLUME &lt;路径&gt;<br></code></pre></td></tr></table></figure>
+
+<p>之前我们说过，容器运行时应该尽量保持容器存储层不发生写操作，对于数据库类需要保存动态数据的应用，其数据库文件应该保存于卷(volume)中，后面的章节我们会进一步介绍 Docker 卷的概念。</p>
+<p>之前我们说过，容器运行时应该尽量保持容器存储层不发生写操作，对于数据库类需要保存动态数据的应用，其数据库文件应该保存于卷(volume)中</p>
+<h3 id="EXPOSE-声明端口"><a href="#EXPOSE-声明端口" class="headerlink" title="EXPOSE 声明端口"></a>EXPOSE 声明端口</h3><p>格式为 EXPOSE &lt;端口1&gt; [&lt;端口2&gt;…]。</p>
+<p>在 Dockerfile 中写入这样的声明有两个好处：</p>
+<ul>
+<li>帮助镜像使用者理解这个镜像服务的守护端口，以方便配置映射。</li>
+<li>在运行时使用随机端口映射时，也就是 docker run -P 时，会自动随机映射 EXPOSE 的端口。</li>
+</ul>
+<p>早期 Docker 版本中还有一个特殊的用处，解决以前所有容器都运行于默认桥接网络中，所有容器互相之间都可以直接访问导致的安全性问题。</p>
+<p>于是有了一个 Docker 引擎参数 –icc&#x3D;false</p>
+<blockquote>
+<p>–icc&#x3D;false参数作用：当指定该参数后，容器间将默认无法互访，除非互相间使用了 –links 参数的容器才可以互通，并且只有镜像中 EXPOSE 所声明的端口才可以被访问。这个 –icc&#x3D;false 的用法，在引入了 docker network 后已经基本不用了，通过自定义网络可以很轻松的实现容器间的互联与隔离。</p>
+</blockquote>
+<p>注意：要将 EXPOSE 和在运行时使用 -p &lt;宿主端口&gt;:&lt;容器端口&gt; 区分开来。-p，是映射宿主端口和容器端口，换句话说，就是将容器的对应端口服务公开给外界访问，而 EXPOSE 仅仅是声明容器打算使用什么端口而已，并不会自动在宿主进行端口映射。</p>
+<h3 id="WORKDIR-指定工作目录"><a href="#WORKDIR-指定工作目录" class="headerlink" title="WORKDIR 指定工作目录"></a>WORKDIR 指定工作目录</h3><p>格式为 WORKDIR &lt;工作目录路径&gt;。</p>
+<p>这个命令是为了解决，如下shell 命令会产生的问题</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs shell">RUN cd /app<br>RUN echo &quot;hello&quot; &gt; world.txt<br></code></pre></td></tr></table></figure>
+
+<p>因为每一个run 命令都会产生一个容易所以会导致对应的文件目录不同，通过使用这个名利可以相关的文件目录统一</p>
+<h3 id="USER-指定当前用户"><a href="#USER-指定当前用户" class="headerlink" title="USER 指定当前用户"></a>USER 指定当前用户</h3><p>和WORKDIR都是解决docker run类似的命令产生新的容器导致环境不同的问题，只不过WORKDIR针对目录USER针对用户</p>
+<h3 id="HEALTHCHECK-健康检查"><a href="#HEALTHCHECK-健康检查" class="headerlink" title="HEALTHCHECK 健康检查"></a>HEALTHCHECK 健康检查</h3><p>格式：</p>
+<ul>
+<li>HEALTHCHECK [选项] CMD &lt;命令&gt;：设置检查容器健康状况的命令</li>
+<li>HEALTHCHECK NONE：如果基础镜像有健康检查指令，使用这行可以屏蔽掉其健康检查指令</li>
+</ul>
+<p>HEALTHCHECK 指令是告诉 Docker 应该如何进行判断容器的状态是否正常，这是 Docker 1.12 引入的新指令。</p>
+<p>HEALTHCHECK 支持下列选项：</p>
+<ul>
+<li>–interval&#x3D;&lt;间隔&gt;：两次健康检查的间隔，默认为 30 秒；</li>
+<li>–timeout&#x3D;&lt;时长&gt;：健康检查命令运行超时时间，如果超过这个时间，本次健康检查就被视为失败，默认 30 秒；</li>
+<li>–retries&#x3D;&lt;次数&gt;：当连续失败指定次数后，则将容器状态视为 unhealthy，默认 3 次。<br>和 CMD, ENTRYPOINT 一样，HEALTHCHECK 只可以出现一次，如果写了多个，只有最后一个生效。</li>
+</ul>
+<p>在 HEALTHCHECK [选项] CMD 后面的命令，格式和 ENTRYPOINT 一样，分为 shell 格式，和 exec 格式。命令的返回值决定了该次健康检查的成功与否：0：成功；1：失败；2：保留，不要使用这个值。</p>
+<p>假设我们有个镜像是个最简单的 Web 服务，我们希望增加健康检查来判断其 Web 服务是否在正常工作，我们可以用 curl 来帮助判断，其 Dockerfile 的 HEALTHCHECK 可以这么写：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell">FROM nginx<br>RUN apt-get update &amp;&amp; apt-get install -y curl &amp;&amp; rm -rf /var/lib/apt/lists/*<br>HEALTHCHECK --interval=5s --timeout=3s \<br>  CMD curl -fs http://localhost/ || exit 1<br></code></pre></td></tr></table></figure>
+
+<p>当运行该镜像后，可以通过 docker container ls 看到最初的状态为 (health: starting)：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">docker container <span class="hljs-built_in">ls</span></span><br>CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                            PORTS               NAMES<br>03e28eb00bd0        myweb:v1            &quot;nginx -g &#x27;daemon off&quot;   3 seconds ago       Up 2 seconds (health: starting)   80/tcp, 443/tcp     web<br></code></pre></td></tr></table></figure>
+
+<p>在等待几秒钟后，再次 docker container ls，就会看到健康状态变化为了 (healthy)：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">docker container <span class="hljs-built_in">ls</span></span><br>CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                    PORTS               NAMES<br>03e28eb00bd0        myweb:v1            &quot;nginx -g &#x27;daemon off&quot;   18 seconds ago      Up 16 seconds (healthy)   80/tcp, 443/tcp     web<br>如果健康检查连续失败超过了重试次数，状态就会变为 (unhealthy)。<br></code></pre></td></tr></table></figure>
+
+<h3 id="ONBUILD-为他人做嫁衣裳"><a href="#ONBUILD-为他人做嫁衣裳" class="headerlink" title="ONBUILD 为他人做嫁衣裳"></a>ONBUILD 为他人做嫁衣裳</h3><p>格式：ONBUILD &lt;其它指令&gt;。</p>
+<p>ONBUILD 是一个特殊的指令，它后面跟的是其它指令，比如 RUN, COPY 等，而这些指令，在当前镜像构建时并不会被执行。只有当以当前镜像为基础镜像，去构建下一级镜像的时候才会被执行。</p>
+<p>Dockerfile 中的其它指令都是为了定制当前镜像而准备的，唯有 ONBUILD 是为了帮助别人定制自己而准备的。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell">FROM node:slim<br>RUN mkdir /app<br>WORKDIR /app<br>ONBUILD COPY ./package.json /app<br>ONBUILD RUN [ &quot;npm&quot;, &quot;install&quot; ]<br>ONBUILD COPY . /app/<br>CMD [ &quot;npm&quot;, &quot;start&quot; ]<br></code></pre></td></tr></table></figure>
+
+
+        </div>
+        
+        <!-- 文章导航 - 只在同分类有多篇文章时显示 -->
+        
+        
+        
+        <nav class="post-nav">
+          
+            <a class="prev" href="../docker-4--dockerfile%E5%AE%9A%E5%88%B6%E9%95%9C%E5%83%8F/">
+              <i class="fas fa-chevron-left"></i>
+              docker(4)-dockerfile定制镜像
+            </a>
+          
+          
+            <a class="next" href="../git-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">
+              git-基本使用教程
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          
+        </nav>
+        
+        
+        <!-- 推荐文章 -->
+        
+
+
+<div class="vs-recommended-posts">
+  <div class="vs-recommended-header">
+    <div class="section-header">
+      <i class="fas fa-lightbulb"></i>
+      <span>RELATED POSTS</span>
+    </div>
+  </div>
+  
+  <div class="vs-recommended-grid">
+    
+      <div class="vs-recommended-item" data-index="0" tabindex="0">
+        <a href="../docker-4--dockerfile%E5%AE%9A%E5%88%B6%E9%95%9C%E5%83%8F/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>docker(4)-dockerfile定制镜像</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              使用 Dockerfile 定制镜像从刚才的 docker commit 的学习中，我们可以了解到，镜像的定制实际上就是定制每一层所添加的配置、文件。如果我们可以把每一层修改、安装、构建、操作的命令都写入一个脚本，用这个脚本来构建、定制镜像...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  2 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="1" tabindex="0">
+        <a href="../docker-2--%E9%95%9C%E5%83%8F%E4%BD%BF%E7%94%A8%E5%92%8C%E5%91%BD%E4%BB%A4/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>docker(2)-镜像使用和命令</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              获取镜像 pull关键命令 1docker pull [选项] [Docker Registry 地址[:端口号]/]仓库名[:标签] 命名格式 Docker 镜像仓库地址：地址的格式一般是 &amp;lt;域名&amp;#x2F;IP&amp;gt;[:端口号]...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  3 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="2" tabindex="0">
+        <a href="../docker-1--%E5%9F%BA%E7%A1%80/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>docker(1)-基础</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              docker 不多说就是拥有独立的存储空间的更加优秀的类虚拟机系统，他拥有许多优秀的思想，比如吸收了git的存储仓库的思想，使用image参照git中的仓库等。 docker 之分层存储Docker 设计时，就充分利用 Union FS 的...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="3" tabindex="0">
+        <a href="../git-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>git-基本使用教程</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              今天刚刚进行工作一个星期，感觉自己以前在大学里自己做项目的时候许多欠缺的地方，比如说版本控制上的欠缺，这里写几篇博客补充一下自己在版本控制上面的坑 将一个纳入git的控制之中1git init 这个命令将一个文件夹新建成一个git仓库 将文...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="4" tabindex="0">
+        <a href="../git_%E5%9C%A8linux-%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>git_在linux 环境下中文乱码问题解决</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              看了网上好多教程 其实一行命令就可以解决 1234git config --global core.quotepath falsegit config --global i18n.logoutputencoding utf-8git con...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="5" tabindex="0">
+        <a href="../golang%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-1--%E5%8C%85%E5%8F%98%E9%87%8F%E5%87%BD%E6%95%B0/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>golang学习笔记(1)-包变量函数</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              golang的包管理和变量管理都是非常容易的 golang 包golang在使用的时候可以通过import 关键字引入包 其他的包在定义的时候可以使用package 来定义一个包 注意 main包是一个特殊的包，这个包表示golang执行的...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+  </div>
+  
+  <!-- 查看更多 -->
+  <div class="vs-recommended-footer">
+    <a href="../../../../archives/" class="vs-view-more">
+      <i class="fas fa-folder-open"></i>
+      <span>View More Posts</span>
+      <i class="fas fa-chevron-right"></i>
+    </a>
+  </div>
+</div>
+
+<script>
+// 键盘导航支持
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.vs-recommended-item');
+  let currentIndex = -1;
+  
+  // 键盘事件
+  document.addEventListener('keydown', function(e) {
+    if (!items.length) return;
+    
+    if (e.key === 'Tab') {
+      // Tab键导航由浏览器处理
+      return;
+    }
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      
+      // 移除当前高亮
+      if (currentIndex >= 0) {
+        items[currentIndex].classList.remove('vs-focused');
+      }
+      
+      // 更新索引
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % items.length;
+      } else {
+        currentIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+      }
+      
+      // 添加新高亮
+      items[currentIndex].classList.add('vs-focused');
+      items[currentIndex].focus();
+    }
+    
+    if (e.key === 'Enter' && currentIndex >= 0) {
+      const link = items[currentIndex].querySelector('a');
+      if (link) link.click();
+    }
+  });
+  
+  // 鼠标悬停时更新当前索引
+  items.forEach((item, index) => {
+    item.addEventListener('mouseenter', function() {
+      currentIndex = index;
+      items.forEach(i => i.classList.remove('vs-focused'));
+      item.classList.add('vs-focused');
+    });
+  });
+});
+</script>
+
+        
+        <!-- 评论区 -->
+        
+  <div class="vs-comments-section">
+    <div class="section-header">
+      <i class="fas fa-comments"></i>
+      <span>COMMENTS</span>
+    </div>
+    
+    
+      <!-- Waline 评论系统 -->
+      <div id="waline"></div>
+      <script>
+        // 加载 Waline CSS
+        const walineCSS = document.createElement('link');
+        walineCSS.rel = 'stylesheet';
+        walineCSS.href = 'https://unpkg.com/@waline/client@v3/dist/waline.css';
+        document.head.appendChild(walineCSS);
+        
+        // 加载 Waline JS
+        const walineScript = document.createElement('script');
+        walineScript.type = 'module';
+        walineScript.onload = function() {
+          // 确保 Waline 加载后再初始化
+          import('https://unpkg.com/@waline/client@v3/dist/waline.js').then(({ init }) => {
+            const waline = init({
+              el: '#waline',
+              serverURL: 'https://vsc4tblackcat1337.vercel.app/',
+              lang: 'zh-CN',
+              locale: {},
+              emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus"],
+              requiredMeta: [],
+              login: 'disable',
+              wordLimit: 0,
+              pageSize: 10,
+              imageUploader: false,
+              highlighter: true,
+              texRenderer: false,
+              search: false,
+              pageview: false,
+              comment: true,
+              copyright: false,
+              
+              // 自动适配主题
+              dark: document.documentElement.getAttribute('data-theme') === 'dark' ? 'auto' : false,
+              
+              // 评论框占位符
+              placeholder: 'Feel free to leave a comment, no login required!',
+              
+              // 元数据配置
+              meta: ['nick', 'mail', 'link'],
+              
+              // 表情配置
+              emojiCDN: 'https://unpkg.com/@waline/emojis@1.2.0/',
+            });
+            
+            // 监听主题变化
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                  // Waline 会自动处理主题切换
+                  if (waline) {
+                    waline.update({ dark: isDark ? 'auto' : false });
+                  }
+                }
+              });
+            });
+            
+            observer.observe(document.documentElement, {
+              attributes: true,
+              attributeFilter: ['data-theme']
+            });
+          });
+        };
+        walineScript.src = 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+        document.body.appendChild(walineScript);
+      </script>
+    
+    
+  </div>
+
+      </article>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code-branch"></i>
+      master
+    </div>
+    <div class="status-item">
+      <i class="fas fa-sync"></i>
+      John Doe
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      2026-02-18
+    </div>
+    <div class="status-item">
+      Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
+    </div>
+    <div class="status-item github">
+      <a href="#" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 搜索专用配置 (HEXO_CONFIG 在 scripts.ejs 中统一定义) -->
+    <script>
+      window.VSC4T_SEARCH = {
+        root: "/"
+      };
+    </script>
+
+    <!-- 外部脚本 - 统一使用 cdnjs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
+    <script>if(typeof hljs !== 'undefined') hljs.highlightAll();</script>
+    <!-- 这里可以放置自定义脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Apply smooth scroll to non-TOC anchor links
+  document.querySelectorAll('a[href^="#"]:not(.toc-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Check if querySelector is valid before using it
+      try {
+        const targetSelector = this.getAttribute('href');
+        // Basic check for potentially invalid selectors (though not exhaustive)
+        if (targetSelector && targetSelector.length > 1) { 
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            console.warn('Smooth scroll target not found:', targetSelector);
+          }
+        } else {
+           console.warn('Invalid href for smooth scroll:', targetSelector);
+        }
+      } catch (error) {
+        console.error('Error during smooth scroll:', error, 'Selector:', this.getAttribute('href'));
+        // Fallback or alternative behavior if needed
+        // For example, try getElementById if it's just an ID
+        const targetId = this.getAttribute('href').slice(1);
+        try {
+            const targetElementById = document.getElementById(decodeURIComponent(targetId));
+            if (targetElementById) {
+                targetElementById.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (idError) {
+             console.error('Fallback getElementById also failed:', idError);
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Scripts -->
+<script>
+  // 全局配置 - 包含 i18n 字符串和主题配置
+  window.HEXO_CONFIG = {
+    language: "en",
+    root: "/",
+    
+    theme_switch: {
+      enabled: false,
+      light_start: "06:00",
+      light_end: "18:00"
+    },
+    
+    // Search i18n strings
+    search_placeholder: "Type to search...",
+    search_no_results: "No results found",
+    search_result: "result",
+    search_results: "results",
+    search_results_found: "Found undefined results",
+    search_in: "Search in",
+    search_in_title: "Title",
+    search_in_content: "Content",
+    search_in_tags: "Tags",
+    search_in_categories: "Categories",
+    search_filters: "Search Filters",
+    search_recent: "Recent Searches",
+    search_clear: "Clear",
+    search_loading: "Loading...",
+    search_error: "Error loading search data",
+    // Encryption i18n strings
+    encrypt_badge: "Protected",
+    encrypt_title: "Protected Content",
+    encrypt_description: "Enter the password to unlock this article. The password will be saved locally until you choose to re-encrypt.",
+    encrypt_label: "Password",
+    encrypt_placeholder: "Enter password to unlock",
+    encrypt_button: "Unlock",
+    encrypt_button_loading: "Unlocking...",
+    encrypt_hint: "Press Enter to submit. Password will be remembered on this device.",
+    encrypt_success: "Content unlocked successfully!",
+    encrypt_unlocked_note: "Content unlocked. You can re-encrypt at any time.",
+    encrypt_again: "Re-encrypt",
+    encrypt_wrong_password: "Incorrect password. Please try again.",
+    encrypt_show_password: "Show password",
+    encrypt_hide_password: "Hide password",
+    // Sidebar i18n strings
+    sidebar_about: "About",
+    sidebar_categories: "Categories",
+    sidebar_tags: "Tags",
+    // Post page i18n strings
+    post_toc: "TABLE OF CONTENTS",
+    post_category_posts: "CATEGORY POSTS",
+    post_article_tags: "ARTICLE TAGS"
+  };
+</script>
+
+
+
+<!-- 添加所有需要的脚本 -->
+<script src="../../../../js/search.js"></script>
+<script src="../../../../js/theme-switch.js"></script>
+
+<script src="../../../../js/password-protect.js?v=1771424192107"></script>
+
+    <script>
+      // 移动端菜单切换
+      $(document).ready(function() {
+        var $body = $('body');
+        var $sidebar = $('.sidebar-explorer');
+        var $overlay = $('.sidebar-overlay');
+        var $toggle = $('.mobile-menu-toggle');
+
+        function openSidebar() {
+          $sidebar.addClass('show');
+          $overlay.addClass('show');
+          $toggle.addClass('active');
+          $body.addClass('sidebar-open');
+        }
+
+        function closeSidebar() {
+          $sidebar.removeClass('show');
+          $overlay.removeClass('show');
+          $toggle.removeClass('active');
+          $body.removeClass('sidebar-open');
+        }
+
+        // 汉堡按钮点击切换
+        $toggle.on('click', function(e) {
+          e.stopPropagation();
+          if ($sidebar.hasClass('show')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+
+        // 点击遮罩层关闭
+        $overlay.on('click', function() {
+          closeSidebar();
+        });
+
+        // ESC 键关闭
+        $(document).on('keydown', function(e) {
+          if (e.key === 'Escape' && $sidebar.hasClass('show')) {
+            closeSidebar();
+          }
+        });
+
+        // 点击侧边栏内的链接时自动关闭侧边栏，确保锚点跳转正常
+        $sidebar.on('click', 'a', function() {
+          closeSidebar();
+        });
+      });
+    </script>
+  </body>
+</html>

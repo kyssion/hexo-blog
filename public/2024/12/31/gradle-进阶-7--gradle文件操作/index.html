@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>gradle-进阶(7)-gradle文件操作 | Hexo</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A simple dark Hexo theme inspired by code.">
+  <meta name="keywords" content="gradle">
+  <meta name="author" content="John Doe">
+  <link rel="canonical" href="http://example.com">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="gradle-进阶(7)-gradle文件操作 | Hexo">
+  <meta property="og:description" content="A simple dark Hexo theme inspired by code.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://example.com">
+  <meta property="og:site_name" content="Hexo">
+  <meta property="article:published_time" content="2024-12-31T15:10:00.000Z">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="gradle-进阶(7)-gradle文件操作 | Hexo">
+  <meta name="twitter:description" content="A simple dark Hexo theme inspired by code.">
+
+  <!-- Favicon 配置 -->
+  
+
+  <!-- 外部样式 - 统一使用 jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- 代码高亮样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+  <!-- Mermaid.js 库 (defer加载) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <!-- 主题样式 -->
+  <link rel="stylesheet" href="../../../../css/theme-colors.css">
+  <link rel="stylesheet" href="../../../../css/main.css">
+  <link rel="stylesheet" href="../../../../css/code.css">
+  <link rel="stylesheet" href="../../../../css/code-custom.css">
+  <link rel="stylesheet" href="../../../../css/code-languages.css">
+  <link rel="stylesheet" href="../../../../css/mermaid.css">
+
+  <link rel="stylesheet" href="../../../../css/vs-code.css">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192132">
+  <link rel="stylesheet" href="../../../../css/tag.css">
+  <link rel="stylesheet" href="../../../../css/categories.css">
+  <link rel="stylesheet" href="../../../../css/archive.css">
+  <link rel="stylesheet" href="../../../../css/search.css">
+  <link rel="stylesheet" href="../../../../css/mobile.css">  <link rel="stylesheet" href="../../../../css/responsive.css">
+  <link rel="stylesheet" href="../../../../css/elements.css">
+
+  <!-- 添加 JetBrains Mono 字体 -->  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Add any custom head content here -->
+
+  <script defer src="../../../../js/explorer.js"></script>
+  <script defer src="../../../../js/code-enhance.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+      <div class="mobile-menu-toggle" aria-label="Toggle sidebar menu" role="button" tabindex="0">
+        <i class="fas fa-bars"></i>
+      </div>
+      <!-- 移动端侧边栏遮罩层 -->
+      <div class="sidebar-overlay" aria-hidden="true"></div>
+      <header class="vs-header">
+  <nav class="vs-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-brand">
+        <i class="fas fa-terminal"></i>
+        Hexo
+      </a>
+    </div>
+    
+    <div class="nav-right">
+      <a href="/" class="nav-item ">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="/archives/" class="nav-item ">
+        <i class="fas fa-archive"></i>
+        <span>Archives</span>
+      </a>
+      <a href="/categories/" class="nav-item ">
+        <i class="fas fa-folder"></i>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" class="nav-item ">
+        <i class="fas fa-tags"></i>
+        <span>Tags</span>
+      </a>
+      <a href="/search/" class="nav-item ">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="/about/" class="nav-item ">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function smoothScroll(event, target) {
+    event.preventDefault();
+    const targetId = target.substring(target.indexOf('#') + 1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 50, // 调整偏移量
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = target;
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.vs-header');
+    const nav = document.querySelector('.vs-nav');
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    
+    nav.style.setProperty('--scroll-percent', `${scrollPercent}%`);
+    
+    if (window.scrollY > 0) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // 添加标签页切换动画
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('nav-ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+</script>
+
+
+<div class="vscode-container">
+  <!-- 左侧资源管理器 -->
+  <div class="sidebar-explorer">
+    <!-- TOC导航 -->
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-list"></i>
+        <span>TABLE OF CONTENTS</span>
+      </div>
+      <div class="section-content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#gradle-%E4%B8%AD%E7%9A%84%E6%96%87%E4%BB%B6%E8%B7%AF%E5%BE%84"><span class="toc-text">gradle 中的文件路径</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#gradle-%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="toc-text">gradle 文件操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E9%9B%86%E5%90%88"><span class="toc-text">文件集合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E6%A0%91"><span class="toc-text">文件树</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%A4%8D%E5%88%B6"><span class="toc-text">文件复制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#zip-%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6"><span class="toc-text">zip 压缩文件</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%A3%E5%8E%8B%E7%BC%A9"><span class="toc-text">解压缩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E7%A7%BB%E5%8A%A8"><span class="toc-text">文件移动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%87%8D%E6%96%B0%E5%91%BD%E5%90%8D%E6%96%B9%E6%B3%95"><span class="toc-text">重新命名方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%88%A0%E9%99%A4"><span class="toc-text">文件删除</span></a></li></ol></li></ol>
+      </div>
+    </div>
+
+    <!-- 同分类文章 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-folder"></i>
+        <span>CATEGORY POSTS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-1--dubbo%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%92%8C%E6%80%9D%E6%83%B3/">dubbo-学习和使用(1)-dubbo架构设计和思想</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-8--dubbo%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83/">dubbo-学习和使用(8)-dubbo配置参考</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-1--%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2/">dubbo-深入(1)-基本使用初探</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-3--%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/">dubbo-深入(3)-注册中心</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-3--%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83/">dubbo-深入(3)-配置参考</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-4---%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">dubbo-深入(4)- 集群架构设计</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-2--%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95/">dubbo学习和使用(2)-使用初探和配置方法</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-3--dubbo%E5%8A%9F%E8%83%BD-1-/">dubbo学习和使用(3)-dubbo功能(1)</a>
+          </div>
+        
+      </div>
+    </div>
+    
+    
+    <!-- 标签列表 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-tags"></i>
+        <span>ARTICLE TAGS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../../../tags/gradle/">gradle</a>
+            <span class="count">(14)</span>
+          </div>
+        
+      </div>
+    </div>
+    
+  </div>
+
+  <!-- 主要内容区域 -->
+  <div class="editor-content">
+    <div class="tab-bar">
+      <div class="tab active">
+        <i class="fas fa-file-alt"></i>
+        <span>gradle-进阶(7)-gradle文件操作.md</span>
+      </div>
+    </div>
+    
+    <div class="content-area">
+      <article class="post-content">
+        <div class="post-header">
+          <h1>gradle-进阶(7)-gradle文件操作</h1>
+          <div class="post-meta">
+            <span class="date">
+              <i class="fas fa-calendar-alt"></i>
+              2024-12-31
+            </span>
+            
+            <span class="updated-date">
+              <i class="fas fa-sync-alt"></i>
+              Updated 2026-02-18
+            </span>
+                        
+              <span class="categories">
+                <i class="fas fa-folder"></i>
+                <div class="categories-list">
+                  <ul class="category-item-post-list"><li class="category-item-post-list-item"><a class="category-item-post-list-link" href="../../../../categories/java/">java</a></li></ul>
+                </div>
+              </span>
+            
+            
+              <span class="tags">
+                <i class="fas fa-tags"></i>
+                <div class="tags-list">
+                  <ul class="tag-item-post-list" itemprop="keywords"><li class="tag-item-post-list-item"><a class="tag-item-post-list-link" href="../../../../tags/gradle/" rel="tag">gradle</a></li></ul>
+                </div>
+              </span>
+            
+          </div>
+        </div>
+        
+        <div class="post-body vscode-markdown">
+          <p>其实对于任何一种构建工具来说，针对文件操作的功能是必不可少的，这里整理一下gradle针对文件提供的功能</p>
+<h1 id="gradle-中的文件路径"><a href="#gradle-中的文件路径" class="headerlink" title="gradle 中的文件路径"></a>gradle 中的文件路径</h1><ol>
+<li>gradle 的 Project.file方法</li>
+</ol>
+<p>作用： 指定单个文件或者目录的位置，解析规则（相对路径相对于项目目录进行解析，而绝对路径保持不变）。</p>
+<p>例子：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">// 使用相对路径</span><br>File configFile = file(<span class="hljs-string">&#x27;src/config.xml&#x27;</span>)<br><br><span class="hljs-comment">//使用绝对路径</span><br>configFile = file(configFile.absolutePath)<br><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：gradle不可使用new File(relative path) 这个方法，），因为new File（relative）会创建相对与运行时的（当时的）路径，gradle不能保证运行时路径相同（内部的守护任务可能会切换路径）</p>
+</blockquote>
+<ol start="2">
+<li>Project.getRootDir</li>
+</ol>
+<p>作用： 获取项目的根路径</p>
+<p>例子：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs groovy">File configFile = file(<span class="hljs-string">&quot;$rootDir/shared/config.xml&quot;</span>)<br></code></pre></td></tr></table></figure>
+
+
+<h1 id="gradle-文件操作"><a href="#gradle-文件操作" class="headerlink" title="gradle 文件操作"></a>gradle 文件操作</h1><h2 id="文件集合"><a href="#文件集合" class="headerlink" title="文件集合"></a>文件集合</h2><p>gradle这么定义文件集合的-就是一组文件，不考虑目录什么</p>
+<p>获取文件集合</p>
+<p>gradle推荐使用 ProjectLayout.files（java.lang.Object …）方法获取文件集合，本方法返回一个FileCollection实例，此方法非常灵活，允许您传递多个字符串，File实例，字符串集合，Files 集合等</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs groovy">FileCollection collection = layout.files(<span class="hljs-string">&#x27;src/file1.txt&#x27;</span>,<br>                                  <span class="hljs-keyword">new</span> File(<span class="hljs-string">&#x27;src/file2.txt&#x27;</span>),<br>                                  [<span class="hljs-string">&#x27;src/file3.csv&#x27;</span>, <span class="hljs-string">&#x27;src/file4.csv&#x27;</span>],<br>                                  Paths.get(<span class="hljs-string">&#x27;src&#x27;</span>, <span class="hljs-string">&#x27;file5.txt&#x27;</span>))<br></code></pre></td></tr></table></figure>
+
+<p>这里写一个例子在指定的目录下寻找文件</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs groovy">task list &#123;<br>    doLast &#123;<br>        File srcDir<br>        <span class="hljs-comment">// Create a file collection using a closure</span><br>        FileCollection collection = layout.files &#123; srcDir.listFiles() &#125;<br><br>        srcDir = file(<span class="hljs-string">&#x27;src&#x27;</span>)<br>        println <span class="hljs-string">&quot;Contents of $srcDir.name&quot;</span><br>        collection.collect &#123; relativePath(it) &#125;.sort().each &#123; println it &#125;<br><br>        srcDir = file(<span class="hljs-string">&#x27;src2&#x27;</span>)<br>        println <span class="hljs-string">&quot;Contents of $srcDir.name&quot;</span><br>        collection.collect &#123; relativePath(it) &#125;.sort().each &#123; println it &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>文件集合的一些操作</p>
+</blockquote>
+<ol>
+<li>改变集合类型</li>
+</ol>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs groovy">Set set = collection.files<br>Set set2 = collection <span class="hljs-keyword">as</span> Set<br>List list = collection <span class="hljs-keyword">as</span> List<br>String path = collection.asPath<br>File file = collection.singleFile<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>集合间进行集合操作</li>
+</ol>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-keyword">def</span> union = collection + layout.files(<span class="hljs-string">&#x27;src/file2.txt&#x27;</span>)<br><span class="hljs-keyword">def</span> difference = collection - layout.files(<span class="hljs-string">&#x27;src/file2.txt&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>groovy 使用+ 表示union操作 使用 - 表示 defference操作</p>
+<p>注意如果使用这些集合方法无法满足要求，需要使用filter方法来对集合进行过滤操作</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs groovy">FileCollection textFiles = collection.filter &#123; File f -&gt;<br>    f.name.endsWith(<span class="hljs-string">&quot;.txt&quot;</span>)<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="文件树"><a href="#文件树" class="headerlink" title="文件树"></a>文件树</h2><p>和文件的区别，其实本质上文件树是文件集合的一种延伸，不过文件树保留了树状结构</p>
+<ol>
+<li>创建文件树</li>
+</ol>
+<p>简单方法</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">// Create a file tree with a base directory</span><br>ConfigurableFileTree tree = fileTree(<span class="hljs-attr">dir:</span> <span class="hljs-string">&#x27;src/main&#x27;</span>)<br><span class="hljs-comment">// Add include and exclude patterns to the tree</span><br>tree.include <span class="hljs-string">&#x27;**/*.java&#x27;</span><br>tree.exclude <span class="hljs-string">&#x27;**/Abstract*&#x27;</span><br><span class="hljs-comment">// Create a tree using closure</span><br>tree = fileTree(<span class="hljs-string">&#x27;src&#x27;</span>) &#123;<br>    include <span class="hljs-string">&#x27;**/*.java&#x27;</span><br>&#125;<br><span class="hljs-comment">// Create a tree using a map</span><br>tree = fileTree(<span class="hljs-attr">dir:</span> <span class="hljs-string">&#x27;src&#x27;</span>, <span class="hljs-attr">include:</span> <span class="hljs-string">&#x27;**/*.java&#x27;</span>)<br>tree = fileTree(<span class="hljs-attr">dir:</span> <span class="hljs-string">&#x27;src&#x27;</span>, <span class="hljs-attr">includes:</span> [<span class="hljs-string">&#x27;**/*.java&#x27;</span>, <span class="hljs-string">&#x27;**/*.xml&#x27;</span>])<br>tree = fileTree(<span class="hljs-attr">dir:</span> <span class="hljs-string">&#x27;src&#x27;</span>, <span class="hljs-attr">include:</span> <span class="hljs-string">&#x27;**/*.java&#x27;</span>, <span class="hljs-attr">exclude:</span> <span class="hljs-string">&#x27;**/*test*/**&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<p>从zip或者tar中创建文件树</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">// Create a ZIP file tree using path</span><br>FileTree zip = zipTree(<span class="hljs-string">&#x27;someFile.zip&#x27;</span>)<br><span class="hljs-comment">// Create a TAR file tree using path</span><br>FileTree tar = tarTree(<span class="hljs-string">&#x27;someFile.tar&#x27;</span>)<br><span class="hljs-comment">//tar tree attempts to guess the compression based on the file extension</span><br><span class="hljs-comment">//however if you must specify the compression explicitly you can:</span><br>FileTree someTar = tarTree(resources.gzip(<span class="hljs-string">&#x27;someTar.ext&#x27;</span>))<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>引申：文件集合（包括文件树，作为参数进行传递的时候的处理方法）</p>
+</blockquote>
+<p>在gradle 中，很多时候source——资源被解释称一个文件目录或者一个文件集合，如果传入的参数是一个文件集合如JavaCompile任务有一个source属性</p>
+<p>在gradle中souce属性可以有很多不同的表现形式，比如下面的例子</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs groovy">task compile(<span class="hljs-attr">type:</span> JavaCompile) &#123;<br><br>    <span class="hljs-comment">// Use a File object to specify the source directory</span><br>    source = file(<span class="hljs-string">&#x27;src/main/java&#x27;</span>)<br><br>    <span class="hljs-comment">// Use a String path to specify the source directory</span><br>    source = <span class="hljs-string">&#x27;src/main/java&#x27;</span><br><br>    <span class="hljs-comment">// Use a collection to specify multiple source directories</span><br>    source = [<span class="hljs-string">&#x27;src/main/java&#x27;</span>, <span class="hljs-string">&#x27;../shared/java&#x27;</span>]<br><br>    <span class="hljs-comment">// Use a FileCollection (or FileTree in this case) to specify the source files</span><br>    source = fileTree(<span class="hljs-attr">dir:</span> <span class="hljs-string">&#x27;src/main/java&#x27;</span>).matching &#123; include <span class="hljs-string">&#x27;org/gradle/api/**&#x27;</span> &#125;<br><br>    <span class="hljs-comment">// Using a closure to specify the source files.</span><br>    source = &#123;<br>        <span class="hljs-comment">// Use the contents of each zip file in the src dir</span><br>        file(<span class="hljs-string">&#x27;src&#x27;</span>).listFiles().findAll &#123;it.name.endsWith(<span class="hljs-string">&#x27;.zip&#x27;</span>)&#125;.collect &#123; zipTree(it) &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+<ol start="2">
+<li>使用文件树</li>
+</ol>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">// Iterate over the contents of a tree</span><br>tree.each &#123;File file -&gt;<br>    println file<br>&#125;<br><span class="hljs-comment">// Filter a tree</span><br>FileTree filtered = tree.matching &#123;<br>    include <span class="hljs-string">&#x27;org/gradle/api/**&#x27;</span><br>&#125;<br><span class="hljs-comment">// Add trees together</span><br>FileTree sum = tree + fileTree(<span class="hljs-attr">dir:</span> <span class="hljs-string">&#x27;src/test&#x27;</span>)<br><span class="hljs-comment">// Visit the elements of the tree</span><br>tree.visit &#123;element -&gt;<br>    println <span class="hljs-string">&quot;$element.relativePath =&gt; $element.file&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="文件复制"><a href="#文件复制" class="headerlink" title="文件复制"></a>文件复制</h1><p>gradle 提供copy task 实现文件复制的相关功能</p>
+<blockquote>
+<p>copy需要的参数信息</p>
+</blockquote>
+<ol>
+<li><p>from into方法表示文件的复制来源和输出来源，注意这些属性的参数都可以是集合或者文件目录</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs groovy">task anotherCopyTask (<span class="hljs-attr">type:</span> Copy) &#123;<br>    <span class="hljs-comment">// Copy everything under src/main/webapp</span><br>    from <span class="hljs-string">&#x27;src/main/webapp&#x27;</span><br>    <span class="hljs-comment">// Copy a single file</span><br>    from <span class="hljs-string">&#x27;src/staging/index.html&#x27;</span><br>    <span class="hljs-comment">// Copy the output of a task</span><br>    from copyTask<br>    <span class="hljs-comment">// Copy the output of a task using Task outputs explicitly.</span><br>    from copyTaskWithPatterns.outputs<br>    <span class="hljs-comment">// Copy the contents of a Zip file</span><br>    from zipTree(<span class="hljs-string">&#x27;src/main/assets.zip&#x27;</span>)<br>    <span class="hljs-comment">// Determine the destination directory later</span><br>    into &#123; getDestDir() &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>include exclude 选择性过滤方法</p>
+</li>
+</ol>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs groovy">task copyTaskWithPatterns (<span class="hljs-attr">type:</span> Copy) &#123;<br>    from <span class="hljs-string">&#x27;src/main/webapp&#x27;</span><br>    into <span class="hljs-string">&quot;$buildDir/explodedWar&quot;</span><br>    include <span class="hljs-string">&#x27;**/*.html&#x27;</span><br>    include <span class="hljs-string">&#x27;**/*.jsp&#x27;</span> <span class="hljs-comment">//包含文件</span><br>    exclude &#123; FileTreeElement details -&gt; <span class="hljs-comment">// 剔除文件</span><br>        details.file.name.endsWith(<span class="hljs-string">&#x27;.html&#x27;</span>) &amp;&amp;<br>            details.file.text.contains(<span class="hljs-string">&#x27;DRAFT&#x27;</span>)<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>重命名文件 rename方法</li>
+</ol>
+<p>gradle 提供了两种方法，进行重命名文件</p>
+<ul>
+<li>使用过滤器</li>
+</ul>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">// Use a closure to convert all file names to upper case</span><br>rename &#123; String fileName -&gt;<br>    fileName.toUpperCase()<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>使用正则表达式</li>
+</ul>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">// Use a regular expression to map the file name</span><br>rename <span class="hljs-string">&#x27;(.+)-staging-(.+)&#x27;</span>, <span class="hljs-string">&#x27;$1$2&#x27;</span><br>rename(<span class="hljs-regexp">/(.+)-staging-(.+)/</span>, <span class="hljs-string">&#x27;$1$2&#x27;</span>)<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>copy文件使用模板方法</p>
+</blockquote>
+<p>Gradle提供的一个解决方案是Project.copySpec（org.gradle.api.Action）方法。这允许您在任务之外创建复制规范，然后可以使用CopySpec.with（org.gradle.api.file.CopySpec …）方法将其附加到适当的任务。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs groovy">CopySpec webAssetsSpec = copySpec &#123;<br>    from <span class="hljs-string">&#x27;src/main/webapp&#x27;</span><br>    include <span class="hljs-string">&#x27;**/*.html&#x27;</span>, <span class="hljs-string">&#x27;**/*.png&#x27;</span>, <span class="hljs-string">&#x27;**/*.jpg&#x27;</span><br>    rename <span class="hljs-string">&#x27;(.+)-staging(.+)&#x27;</span>, <span class="hljs-string">&#x27;$1$2&#x27;</span><br>&#125;<br><br>task copyAssets (<span class="hljs-attr">type:</span> Copy) &#123;<br>    into <span class="hljs-string">&quot;$buildDir/inPlaceApp&quot;</span><br>    with webAssetsSpec<br>&#125;<br><br>task distApp(<span class="hljs-attr">type:</span> Zip) &#123;<br>    archiveFileName = <span class="hljs-string">&#x27;my-app-dist.zip&#x27;</span><br>    destinationDirectory = file(<span class="hljs-string">&quot;$buildDir/dists&quot;</span>)<br><br>    from appClasses<br>    with webAssetsSpec<br>&#125;<br><span class="hljs-comment">//共享使用内置模式</span><br><br>task copyAppAssets(<span class="hljs-attr">type:</span> Copy) &#123;<br>    into <span class="hljs-string">&quot;$buildDir/inPlaceApp&quot;</span><br>    from <span class="hljs-string">&#x27;src/main/webapp&#x27;</span>, webAssetPatterns<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>任务中添加复制功能</p>
+</blockquote>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs groovy">task copyMethodWithExplicitDependencies &#123;<br>    <span class="hljs-comment">// up-to-date check for inputs, plus add copyTask as dependency</span><br>    inputs.files copyTask<br>    outputs.dir <span class="hljs-string">&#x27;some-dir&#x27;</span> <span class="hljs-comment">// up-to-date check for outputs</span><br>    doLast&#123;<br>        copy &#123;<br>            <span class="hljs-comment">// Copy the output of copyTask</span><br>            from copyTask<br>            into <span class="hljs-string">&#x27;some-dir&#x27;</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>sync方法将复制目录和被copy目录同步</p>
+</blockquote>
+<p>简单点说就是如果复制的时候少了几个文件，那么复制结束后，被复制的文集夹将会删除这些文件，其他的用法和gradle相同</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs groovy">task libs(<span class="hljs-attr">type:</span> Sync) &#123;<br>    from configurations.runtime<br>    into <span class="hljs-string">&quot;$buildDir/libs&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>其实这个方法是继承自copy中的，和copy的使用方法相同</p>
+</blockquote>
+<blockquote>
+<p>常见用法例子</p>
+</blockquote>
+<ol>
+<li>单文件复制</li>
+</ol>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//标准写法</span><br>task copyReport(<span class="hljs-attr">type:</span> Copy) &#123;<br>    from file(<span class="hljs-string">&quot;$buildDir/reports/my-report.pdf&quot;</span>)<br>    into file(<span class="hljs-string">&quot;$buildDir/toArchive&quot;</span>)<br>&#125;<br><br><span class="hljs-comment">//省略一定的标记</span><br>task copyReport2(<span class="hljs-attr">type:</span> Copy) &#123;<br>    from <span class="hljs-string">&quot;$buildDir/reports/my-report.pdf&quot;</span><br>    into <span class="hljs-string">&quot;$buildDir/toArchive&quot;</span><br>&#125;<br><br><span class="hljs-comment">//可以使用使用变量</span><br>task copyReport3(<span class="hljs-attr">type:</span> Copy) &#123;<br>    from myReportTask.outputFile<br>    into archiveReportsTask.dirToArchive<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>多文件复制</li>
+</ol>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs groovy"><span class="hljs-comment">//简单的多文件添加</span><br>task copyReportsForArchiving(<span class="hljs-attr">type:</span> Copy) &#123;<br>    from <span class="hljs-string">&quot;$buildDir/reports/my-report.pdf&quot;</span>, <span class="hljs-string">&quot;src/docs/manual.pdf&quot;</span><br>    into <span class="hljs-string">&quot;$buildDir/toArchive&quot;</span><br>&#125;<br><br><span class="hljs-comment">//--------</span><br><span class="hljs-comment">// 使用include指定复制规则</span><br><span class="hljs-comment">//指定目录下所有标记开始的文件（不递归查询）</span><br>task copyPdfReportsForArchiving(<span class="hljs-attr">type:</span> Copy) &#123;<br>    from <span class="hljs-string">&quot;$buildDir/reports&quot;</span><br>    include <span class="hljs-string">&quot;*.pdf&quot;</span><br>    into <span class="hljs-string">&quot;$buildDir/toArchive&quot;</span><br>&#125;<br><span class="hljs-comment">//指定目录下的所有文件（符合模糊表达式就复制，携带目录）</span><br>task copyAllPdfReportsForArchiving(<span class="hljs-attr">type:</span> Copy) &#123;<br>    from <span class="hljs-string">&quot;$buildDir/reports&quot;</span><br>    include <span class="hljs-string">&quot;**/*.pdf&quot;</span><br>    into <span class="hljs-string">&quot;$buildDir/toArchive&quot;</span><br>&#125;<br><span class="hljs-comment">//--------</span><br><span class="hljs-comment">//使用内连include 指定复制格式（之前的方法不会复制reports目录使用这种方法可以复制reports目录）</span><br><span class="hljs-comment">//使用exclude剔除 exe后缀的文件</span><br>task copyReportsDirForArchiving2(<span class="hljs-attr">type:</span> Copy) &#123;<br>    from(<span class="hljs-string">&quot;$buildDir&quot;</span>) &#123;<br>        include <span class="hljs-string">&quot;reports/**&quot;</span><br>        exclude <span class="hljs-string">&quot;**/*.exe&quot;</span><br>    &#125;<br>    into <span class="hljs-string">&quot;$buildDir/toArchive&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意一点，使用**&#x2F;*.java的时候会复制目录结构，包括不包含指定文件的目录结构</p>
+</blockquote>
+<blockquote>
+<p>include 指令，如果写在外面就是针对整个copy过程都适用，如果是在from中编写，就只针对这个from语句适用</p>
+</blockquote>
+<blockquote>
+<p>一个复杂的复制构建例子</p>
+</blockquote>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs groovy">task nestedSpecs(<span class="hljs-attr">type:</span> Copy) &#123;<br>    into <span class="hljs-string">&quot;$buildDir/explodedWar&quot;</span><br>    exclude <span class="hljs-string">&#x27;**/*staging*&#x27;</span><br>    from(<span class="hljs-string">&#x27;src/dist&#x27;</span>) &#123;<br>        include <span class="hljs-string">&#x27;**/*.html&#x27;</span>, <span class="hljs-string">&#x27;**/*.png&#x27;</span>, <span class="hljs-string">&#x27;**/*.jpg&#x27;</span><br>    &#125;<br>    from(sourceSets.main.output) &#123;<br>        into <span class="hljs-string">&#x27;WEB-INF/classes&#x27;</span><br>    &#125;<br>    into(<span class="hljs-string">&#x27;WEB-INF/lib&#x27;</span>) &#123;<br>        from configurations.runtimeClasspath<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这个例子是将 src&#x2F;dist中的所有html png jpg文件 添加到 $buildDir&#x2F;explodeWar文件夹中，而output和 classpath中的所有文件将会考到指定的文件夹中</p>
+</blockquote>
+<h1 id="zip-压缩文件"><a href="#zip-压缩文件" class="headerlink" title="zip 压缩文件"></a>zip 压缩文件</h1><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs groovy">plugins &#123;<br>    id <span class="hljs-string">&#x27;base&#x27;</span><br>&#125;<br><br>version = <span class="hljs-string">&quot;1.0.0&quot;</span><br><br>task packageDistribution(<span class="hljs-attr">type:</span> Zip) &#123;<br>    archiveFileName = <span class="hljs-string">&quot;my-distribution.zip&quot;</span><span class="hljs-comment">//压缩的名称</span><br>    destinationDirectory = file(<span class="hljs-string">&quot;$buildDir/dist&quot;</span>)<span class="hljs-comment">//打包目的地</span><br>    <span class="hljs-comment">// 文件过滤添加逻辑</span><br>    from(<span class="hljs-string">&quot;$buildDir/toArchive&quot;</span>) &#123;<br>        exclude <span class="hljs-string">&quot;**/*.pdf&quot;</span><br>    &#125;<br><br>    from(<span class="hljs-string">&quot;$buildDir/toArchive&quot;</span>) &#123;<br>        include <span class="hljs-string">&quot;**/*.pdf&quot;</span><br>        into <span class="hljs-string">&quot;docs&quot;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意一点，使用**&#x2F;*.java的时候会复制目录结构，包括不包含指定文件的目录结构<br>include 指令，不同于copy，只能在from中编写，针对这个from语句适用</p>
+</blockquote>
+<h2 id="解压缩"><a href="#解压缩" class="headerlink" title="解压缩"></a>解压缩</h2><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs groovy">task unpackFiles(<span class="hljs-attr">type:</span> Copy) &#123;<br>    from zipTree(<span class="hljs-string">&quot;src/resources/thirdPartyResources.zip&quot;</span>)<span class="hljs-comment">//压缩包的地址</span><br>    into <span class="hljs-string">&quot;$buildDir/resources&quot;</span><span class="hljs-comment">// 解压到</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>普通副本一样，您可以控制哪些文件通过过滤器解压缩，甚至在解压缩时重命名文件。<br>注意zipTree 方法同样适用 Jar 和 war ear</p>
+</blockquote>
+<blockquote>
+<p>能力提升，将环境中所有的jar class 文件都统一到编译之后的jar包中方法很简单（jar任务使用zipTree打包）</p>
+</blockquote>
+<blockquote>
+<p>ps暂时没有成功</p>
+</blockquote>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs groovy">plugins &#123;<br>    id <span class="hljs-string">&#x27;java&#x27;</span><br>&#125;<br><br>version = <span class="hljs-string">&#x27;1.0.0&#x27;</span><br><br>repositories &#123;<br>    mavenCentral()<br>&#125;<br><br>dependencies &#123;<br>    implementation <span class="hljs-string">&#x27;commons-io:commons-io:2.6&#x27;</span><br>&#125;<br><br>task uberJar(<span class="hljs-attr">type:</span> Jar) &#123;<br>    archiveClassifier = <span class="hljs-string">&#x27;uber&#x27;</span><br><br>    from sourceSets.main.output<br><br>    dependsOn configurations.runtimeClasspath<br>    from &#123;<br>        configurations.runtimeClasspath.findAll &#123; it.name.endsWith(<span class="hljs-string">&#x27;jar&#x27;</span>) &#125;.collect &#123; zipTree(it) &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="文件移动"><a href="#文件移动" class="headerlink" title="文件移动"></a>文件移动</h2><blockquote>
+<p>Gradle没有用于移动文件和目录的API，但您可以使用Apache Ant集成轻松地执行此操作，如以下示例所示：</p>
+</blockquote>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs groovy">task moveReports &#123;<br>    doLast &#123;<br>        ant.move <span class="hljs-attr">file:</span> <span class="hljs-string">&quot;$&#123;buildDir&#125;/reports&quot;</span>,<br>                 <span class="hljs-symbol">todir:</span> <span class="hljs-string">&quot;$&#123;buildDir&#125;/toArchive&quot;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="重新命名方法"><a href="#重新命名方法" class="headerlink" title="重新命名方法"></a>重新命名方法</h2><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs groovy">task copyFromStaging(<span class="hljs-attr">type:</span> Copy) &#123;<br>    from <span class="hljs-string">&quot;src/main/webapp&quot;</span><br>    into <span class="hljs-string">&quot;$buildDir/explodedWar&quot;</span><br><br>    rename <span class="hljs-string">&#x27;(.+)-staging(.+)&#x27;</span>, <span class="hljs-string">&#x27;$1$2&#x27;</span><br>&#125;<br><span class="hljs-comment">//gradle 一切皆可编程，看自己的喜欢了</span><br>task copyWithTruncate(<span class="hljs-attr">type:</span> Copy) &#123;<br>    from <span class="hljs-string">&quot;$buildDir/reports&quot;</span><br>    rename &#123; String filename -&gt;<br>        <span class="hljs-keyword">if</span> (filename.size() &gt; <span class="hljs-number">10</span>) &#123;<br>            <span class="hljs-keyword">return</span> filename[<span class="hljs-number">0.</span><span class="hljs-number">.7</span>] + <span class="hljs-string">&quot;~&quot;</span> + filename.size()<br>        &#125;<br>        <span class="hljs-keyword">else</span> <span class="hljs-keyword">return</span> filename<br>    &#125;<br>    into <span class="hljs-string">&quot;$buildDir/toArchive&quot;</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="文件删除"><a href="#文件删除" class="headerlink" title="文件删除"></a>文件删除</h2><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs groovy">task myClean(<span class="hljs-attr">type:</span> Delete) &#123;<br>    delete buildDir <span class="hljs-comment">//删除指定目录下的文件</span><br>&#125;<br><span class="hljs-comment">//创建删除的过滤逻辑</span><br>task cleanTempFiles(<span class="hljs-attr">type:</span> Delete) &#123;<br>    delete fileTree(<span class="hljs-string">&quot;src&quot;</span>).matching &#123;<br>        include <span class="hljs-string">&quot;**/*.tmp&quot;</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+        </div>
+        
+        <!-- 文章导航 - 只在同分类有多篇文章时显示 -->
+        
+        
+        
+        <nav class="post-nav">
+          
+            <a class="prev" href="../gradle-%E8%BF%9B%E9%98%B6-6--%E5%A2%9E%E5%BC%BA%E7%89%88task%E6%9E%84%E5%BB%BA/">
+              <i class="fas fa-chevron-left"></i>
+              gradle-进阶(6)-增强版task构建
+            </a>
+          
+          
+            <a class="next" href="../groovy-%E5%8C%BA%E5%88%AB%E7%89%B9%E6%80%A7%E6%A2%B3%E7%90%86-1--%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF/">
+              groovy-区别特性梳理(1)-基本信息
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          
+        </nav>
+        
+        
+        <!-- 推荐文章 -->
+        
+
+
+<div class="vs-recommended-posts">
+  <div class="vs-recommended-header">
+    <div class="section-header">
+      <i class="fas fa-lightbulb"></i>
+      <span>RELATED POSTS</span>
+    </div>
+  </div>
+  
+  <div class="vs-recommended-grid">
+    
+      <div class="vs-recommended-item" data-index="0" tabindex="0">
+        <a href="../gradle-%E8%BF%9B%E9%98%B6-6--%E5%A2%9E%E5%BC%BA%E7%89%88task%E6%9E%84%E5%BB%BA/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>gradle-进阶(6)-增强版task构建</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              增强版task构建之前的一篇文章整理gradle task的一个简单创建，这里整理一下task的高级应用方法 任务的定义方法如果是简单的任务我们可以这样进行定义12345678task hello&amp;#123; doLast&amp;#123; pr...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  gradle
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  3 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="1" tabindex="0">
+        <a href="../gradle-%E8%BF%9B%E9%98%B6-5--gradle%E5%88%9B%E5%BB%BA%E5%92%8C%E8%84%9A%E6%9C%AC/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>gradle-进阶(5)-gradle创建和脚本</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              通过之前的入门学习，一个gradle构建可以理解成有一个或者多个task组成，这里简单回顾一下gradle脚本如何构建一个简单的task 使用gradle脚本创建一个简单的task在build.gradle 文件夹中写入一个任务 12345...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  gradle
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  2 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="2" tabindex="0">
+        <a href="../gradle-%E8%BF%9B%E9%98%B6-3--%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E4%B8%93%E9%A2%98/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>gradle-进阶(3)-性能优化专题</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              gradle内部进行了大量的优化以提高gradle的性能,这里整理一下gradle性能相关的配置方法 ps : 基于gradle5+ 系列 gradle的守护进程原理 : gradle使用守护进程的原理非常简单,第一条,减少了jvm每次的启...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  gradle
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="3" tabindex="0">
+        <a href="../gradle-%E8%BF%9B%E9%98%B6-2--gradle%E7%8E%AF%E5%A2%83%E4%BF%A1%E6%81%AF-%E5%B1%9E%E6%80%A7%E9%85%8D%E7%BD%AE%E8%AF%A6%E8%A7%A3/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>gradle-进阶(2)-gradle环境信息,属性配置详解</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              这一篇文章是之前的一篇文章gradle命令行相关的记录的文章的延续,主要记录一下gradle的各种环境或者说属性的配置方法 gradle 各种属性变量的优先级gradle有五种属性构建优先级,这里将优先级从高到底排序 命令行标志如–buil...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  gradle
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="4" tabindex="0">
+        <a href="../gradle-%E8%BF%9B%E9%98%B6-2--gradlePlugins%E5%BC%80%E5%8F%91/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>gradle-进阶(2)-gradlePlugins开发</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              gradle插件,我的理解其实本质上就是一堆task的集合
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  gradle
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="5" tabindex="0">
+        <a href="../gradle-%E8%BF%9B%E9%98%B6-1--%E5%91%BD%E4%BB%A4%E8%A1%8C-%E6%93%8D%E4%BD%9C%E5%AE%8C%E5%85%A8%E6%80%BB%E7%BB%93/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>gradle-进阶(1)-命令行 操作完全总结</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              这里记录一下gradle的详细使用信息 gradle 命令的组成 gradle的命令总体上只有两个点 taskname 和 option 1gradle [task-Name...] [--option-name...] 如果不带– 就是t...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  gradle
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  2 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+  </div>
+  
+  <!-- 查看更多 -->
+  <div class="vs-recommended-footer">
+    <a href="../../../../archives/" class="vs-view-more">
+      <i class="fas fa-folder-open"></i>
+      <span>View More Posts</span>
+      <i class="fas fa-chevron-right"></i>
+    </a>
+  </div>
+</div>
+
+<script>
+// 键盘导航支持
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.vs-recommended-item');
+  let currentIndex = -1;
+  
+  // 键盘事件
+  document.addEventListener('keydown', function(e) {
+    if (!items.length) return;
+    
+    if (e.key === 'Tab') {
+      // Tab键导航由浏览器处理
+      return;
+    }
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      
+      // 移除当前高亮
+      if (currentIndex >= 0) {
+        items[currentIndex].classList.remove('vs-focused');
+      }
+      
+      // 更新索引
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % items.length;
+      } else {
+        currentIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+      }
+      
+      // 添加新高亮
+      items[currentIndex].classList.add('vs-focused');
+      items[currentIndex].focus();
+    }
+    
+    if (e.key === 'Enter' && currentIndex >= 0) {
+      const link = items[currentIndex].querySelector('a');
+      if (link) link.click();
+    }
+  });
+  
+  // 鼠标悬停时更新当前索引
+  items.forEach((item, index) => {
+    item.addEventListener('mouseenter', function() {
+      currentIndex = index;
+      items.forEach(i => i.classList.remove('vs-focused'));
+      item.classList.add('vs-focused');
+    });
+  });
+});
+</script>
+
+        
+        <!-- 评论区 -->
+        
+  <div class="vs-comments-section">
+    <div class="section-header">
+      <i class="fas fa-comments"></i>
+      <span>COMMENTS</span>
+    </div>
+    
+    
+      <!-- Waline 评论系统 -->
+      <div id="waline"></div>
+      <script>
+        // 加载 Waline CSS
+        const walineCSS = document.createElement('link');
+        walineCSS.rel = 'stylesheet';
+        walineCSS.href = 'https://unpkg.com/@waline/client@v3/dist/waline.css';
+        document.head.appendChild(walineCSS);
+        
+        // 加载 Waline JS
+        const walineScript = document.createElement('script');
+        walineScript.type = 'module';
+        walineScript.onload = function() {
+          // 确保 Waline 加载后再初始化
+          import('https://unpkg.com/@waline/client@v3/dist/waline.js').then(({ init }) => {
+            const waline = init({
+              el: '#waline',
+              serverURL: 'https://vsc4tblackcat1337.vercel.app/',
+              lang: 'zh-CN',
+              locale: {},
+              emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus"],
+              requiredMeta: [],
+              login: 'disable',
+              wordLimit: 0,
+              pageSize: 10,
+              imageUploader: false,
+              highlighter: true,
+              texRenderer: false,
+              search: false,
+              pageview: false,
+              comment: true,
+              copyright: false,
+              
+              // 自动适配主题
+              dark: document.documentElement.getAttribute('data-theme') === 'dark' ? 'auto' : false,
+              
+              // 评论框占位符
+              placeholder: 'Feel free to leave a comment, no login required!',
+              
+              // 元数据配置
+              meta: ['nick', 'mail', 'link'],
+              
+              // 表情配置
+              emojiCDN: 'https://unpkg.com/@waline/emojis@1.2.0/',
+            });
+            
+            // 监听主题变化
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                  // Waline 会自动处理主题切换
+                  if (waline) {
+                    waline.update({ dark: isDark ? 'auto' : false });
+                  }
+                }
+              });
+            });
+            
+            observer.observe(document.documentElement, {
+              attributes: true,
+              attributeFilter: ['data-theme']
+            });
+          });
+        };
+        walineScript.src = 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+        document.body.appendChild(walineScript);
+      </script>
+    
+    
+  </div>
+
+      </article>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code-branch"></i>
+      master
+    </div>
+    <div class="status-item">
+      <i class="fas fa-sync"></i>
+      John Doe
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      2026-02-18
+    </div>
+    <div class="status-item">
+      Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
+    </div>
+    <div class="status-item github">
+      <a href="#" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 搜索专用配置 (HEXO_CONFIG 在 scripts.ejs 中统一定义) -->
+    <script>
+      window.VSC4T_SEARCH = {
+        root: "/"
+      };
+    </script>
+
+    <!-- 外部脚本 - 统一使用 cdnjs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
+    <script>if(typeof hljs !== 'undefined') hljs.highlightAll();</script>
+    <!-- 这里可以放置自定义脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Apply smooth scroll to non-TOC anchor links
+  document.querySelectorAll('a[href^="#"]:not(.toc-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Check if querySelector is valid before using it
+      try {
+        const targetSelector = this.getAttribute('href');
+        // Basic check for potentially invalid selectors (though not exhaustive)
+        if (targetSelector && targetSelector.length > 1) { 
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            console.warn('Smooth scroll target not found:', targetSelector);
+          }
+        } else {
+           console.warn('Invalid href for smooth scroll:', targetSelector);
+        }
+      } catch (error) {
+        console.error('Error during smooth scroll:', error, 'Selector:', this.getAttribute('href'));
+        // Fallback or alternative behavior if needed
+        // For example, try getElementById if it's just an ID
+        const targetId = this.getAttribute('href').slice(1);
+        try {
+            const targetElementById = document.getElementById(decodeURIComponent(targetId));
+            if (targetElementById) {
+                targetElementById.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (idError) {
+             console.error('Fallback getElementById also failed:', idError);
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Scripts -->
+<script>
+  // 全局配置 - 包含 i18n 字符串和主题配置
+  window.HEXO_CONFIG = {
+    language: "en",
+    root: "/",
+    
+    theme_switch: {
+      enabled: false,
+      light_start: "06:00",
+      light_end: "18:00"
+    },
+    
+    // Search i18n strings
+    search_placeholder: "Type to search...",
+    search_no_results: "No results found",
+    search_result: "result",
+    search_results: "results",
+    search_results_found: "Found undefined results",
+    search_in: "Search in",
+    search_in_title: "Title",
+    search_in_content: "Content",
+    search_in_tags: "Tags",
+    search_in_categories: "Categories",
+    search_filters: "Search Filters",
+    search_recent: "Recent Searches",
+    search_clear: "Clear",
+    search_loading: "Loading...",
+    search_error: "Error loading search data",
+    // Encryption i18n strings
+    encrypt_badge: "Protected",
+    encrypt_title: "Protected Content",
+    encrypt_description: "Enter the password to unlock this article. The password will be saved locally until you choose to re-encrypt.",
+    encrypt_label: "Password",
+    encrypt_placeholder: "Enter password to unlock",
+    encrypt_button: "Unlock",
+    encrypt_button_loading: "Unlocking...",
+    encrypt_hint: "Press Enter to submit. Password will be remembered on this device.",
+    encrypt_success: "Content unlocked successfully!",
+    encrypt_unlocked_note: "Content unlocked. You can re-encrypt at any time.",
+    encrypt_again: "Re-encrypt",
+    encrypt_wrong_password: "Incorrect password. Please try again.",
+    encrypt_show_password: "Show password",
+    encrypt_hide_password: "Hide password",
+    // Sidebar i18n strings
+    sidebar_about: "About",
+    sidebar_categories: "Categories",
+    sidebar_tags: "Tags",
+    // Post page i18n strings
+    post_toc: "TABLE OF CONTENTS",
+    post_category_posts: "CATEGORY POSTS",
+    post_article_tags: "ARTICLE TAGS"
+  };
+</script>
+
+
+
+<!-- 添加所有需要的脚本 -->
+<script src="../../../../js/search.js"></script>
+<script src="../../../../js/theme-switch.js"></script>
+
+<script src="../../../../js/password-protect.js?v=1771424192132"></script>
+
+    <script>
+      // 移动端菜单切换
+      $(document).ready(function() {
+        var $body = $('body');
+        var $sidebar = $('.sidebar-explorer');
+        var $overlay = $('.sidebar-overlay');
+        var $toggle = $('.mobile-menu-toggle');
+
+        function openSidebar() {
+          $sidebar.addClass('show');
+          $overlay.addClass('show');
+          $toggle.addClass('active');
+          $body.addClass('sidebar-open');
+        }
+
+        function closeSidebar() {
+          $sidebar.removeClass('show');
+          $overlay.removeClass('show');
+          $toggle.removeClass('active');
+          $body.removeClass('sidebar-open');
+        }
+
+        // 汉堡按钮点击切换
+        $toggle.on('click', function(e) {
+          e.stopPropagation();
+          if ($sidebar.hasClass('show')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+
+        // 点击遮罩层关闭
+        $overlay.on('click', function() {
+          closeSidebar();
+        });
+
+        // ESC 键关闭
+        $(document).on('keydown', function(e) {
+          if (e.key === 'Escape' && $sidebar.hasClass('show')) {
+            closeSidebar();
+          }
+        });
+
+        // 点击侧边栏内的链接时自动关闭侧边栏，确保锚点跳转正常
+        $sidebar.on('click', 'a', function() {
+          closeSidebar();
+        });
+      });
+    </script>
+  </body>
+</html>

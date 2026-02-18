@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>java-EE-servlet3.1规范 | Hexo</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A simple dark Hexo theme inspired by code.">
+  <meta name="keywords" content="">
+  <meta name="author" content="John Doe">
+  <link rel="canonical" href="http://example.com">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="java-EE-servlet3.1规范 | Hexo">
+  <meta property="og:description" content="A simple dark Hexo theme inspired by code.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://example.com">
+  <meta property="og:site_name" content="Hexo">
+  <meta property="article:published_time" content="2024-12-31T15:03:00.000Z">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="java-EE-servlet3.1规范 | Hexo">
+  <meta name="twitter:description" content="A simple dark Hexo theme inspired by code.">
+
+  <!-- Favicon 配置 -->
+  
+
+  <!-- 外部样式 - 统一使用 jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- 代码高亮样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+  <!-- Mermaid.js 库 (defer加载) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <!-- 主题样式 -->
+  <link rel="stylesheet" href="../../../../css/theme-colors.css">
+  <link rel="stylesheet" href="../../../../css/main.css">
+  <link rel="stylesheet" href="../../../../css/code.css">
+  <link rel="stylesheet" href="../../../../css/code-custom.css">
+  <link rel="stylesheet" href="../../../../css/code-languages.css">
+  <link rel="stylesheet" href="../../../../css/mermaid.css">
+
+  <link rel="stylesheet" href="../../../../css/vs-code.css">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192134">
+  <link rel="stylesheet" href="../../../../css/tag.css">
+  <link rel="stylesheet" href="../../../../css/categories.css">
+  <link rel="stylesheet" href="../../../../css/archive.css">
+  <link rel="stylesheet" href="../../../../css/search.css">
+  <link rel="stylesheet" href="../../../../css/mobile.css">  <link rel="stylesheet" href="../../../../css/responsive.css">
+  <link rel="stylesheet" href="../../../../css/elements.css">
+
+  <!-- 添加 JetBrains Mono 字体 -->  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Add any custom head content here -->
+
+  <script defer src="../../../../js/explorer.js"></script>
+  <script defer src="../../../../js/code-enhance.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+      <div class="mobile-menu-toggle" aria-label="Toggle sidebar menu" role="button" tabindex="0">
+        <i class="fas fa-bars"></i>
+      </div>
+      <!-- 移动端侧边栏遮罩层 -->
+      <div class="sidebar-overlay" aria-hidden="true"></div>
+      <header class="vs-header">
+  <nav class="vs-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-brand">
+        <i class="fas fa-terminal"></i>
+        Hexo
+      </a>
+    </div>
+    
+    <div class="nav-right">
+      <a href="/" class="nav-item ">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="/archives/" class="nav-item ">
+        <i class="fas fa-archive"></i>
+        <span>Archives</span>
+      </a>
+      <a href="/categories/" class="nav-item ">
+        <i class="fas fa-folder"></i>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" class="nav-item ">
+        <i class="fas fa-tags"></i>
+        <span>Tags</span>
+      </a>
+      <a href="/search/" class="nav-item ">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="/about/" class="nav-item ">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function smoothScroll(event, target) {
+    event.preventDefault();
+    const targetId = target.substring(target.indexOf('#') + 1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 50, // 调整偏移量
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = target;
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.vs-header');
+    const nav = document.querySelector('.vs-nav');
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    
+    nav.style.setProperty('--scroll-percent', `${scrollPercent}%`);
+    
+    if (window.scrollY > 0) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // 添加标签页切换动画
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('nav-ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+</script>
+
+
+<div class="vscode-container">
+  <!-- 左侧资源管理器 -->
+  <div class="sidebar-explorer">
+    <!-- TOC导航 -->
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-list"></i>
+        <span>TABLE OF CONTENTS</span>
+      </div>
+      <div class="section-content">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#spring-MVC-%E6%95%B4%E4%BD%93%E7%9A%84%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="toc-text">spring MVC 整体的架构设计</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#web%E5%AE%B9%E5%99%A8%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E8%AE%BE%E7%BD%AE"><span class="toc-text">web容器的初始化设置</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E6%A0%B8%E5%BF%83%E7%B1%BB-DispatcherServlet"><span class="toc-text">最核心类 DispatcherServlet</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Interception-%E6%8B%A6%E6%88%AA%E5%99%A8"><span class="toc-text">Interception 拦截器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#HandlerInterceptor-%E6%8E%A5%E5%8F%A3%E6%96%B9%E6%B3%95"><span class="toc-text">HandlerInterceptor 接口方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ViewResolver-%E6%8F%90%E4%BE%9B%E4%BA%86view-%E5%90%8D%E7%A7%B0%E5%88%B0view%E5%AE%9E%E4%BE%8B%E4%B9%8B%E9%97%B4%E7%9A%84%E7%BB%91%E5%AE%9A%EF%BC%8C%E5%B9%B6%E4%B8%94%E5%AE%8C%E6%88%90%E7%9C%9F%E6%AD%A3%E8%A7%86%E5%9B%BE%E5%B1%95%E7%A4%BA%E4%B9%8B%E5%89%8D%E5%B0%86%E7%9B%B8%E5%85%B3%E6%95%B0%E6%8D%AE%E8%BF%9B%E8%A1%8C%E6%95%B4%E7%90%86%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="toc-text">ViewResolver 提供了view 名称到view实例之间的绑定，并且完成真正视图展示之前将相关数据进行整理的功能</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#spring-mvc-%E5%B8%B8%E7%94%A8%E6%B3%A8%E8%A7%A3"><span class="toc-text">spring mvc 常用注解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Controll-%E5%92%8C-RestController"><span class="toc-text">@Controll 和 @RestController</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RequestMapping"><span class="toc-text">@RequestMapping</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9C%A8requestMethod%E4%B8%AD%E5%8F%AF%E4%BB%A5%E6%8E%A5%E6%94%B6%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="toc-text">在requestMethod中可以接收的数据</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RequestMapping-%E6%96%B9%E6%B3%95%E8%BF%94%E5%9B%9E%E5%80%BC%E4%B8%AD%E7%9A%84%E5%8F%82%E6%95%B0"><span class="toc-text">@RequestMapping 方法返回值中的参数</span></a></li></ol></li></ol>
+      </div>
+    </div>
+
+    <!-- 同分类文章 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-folder"></i>
+        <span>CATEGORY POSTS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-1--dubbo%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%92%8C%E6%80%9D%E6%83%B3/">dubbo-学习和使用(1)-dubbo架构设计和思想</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-8--dubbo%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83/">dubbo-学习和使用(8)-dubbo配置参考</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-1--%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2/">dubbo-深入(1)-基本使用初探</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-3--%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/">dubbo-深入(3)-注册中心</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-3--%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83/">dubbo-深入(3)-配置参考</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-4---%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">dubbo-深入(4)- 集群架构设计</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-2--%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95/">dubbo学习和使用(2)-使用初探和配置方法</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-3--dubbo%E5%8A%9F%E8%83%BD-1-/">dubbo学习和使用(3)-dubbo功能(1)</a>
+          </div>
+        
+      </div>
+    </div>
+    
+    
+    <!-- 标签列表 -->
+    
+  </div>
+
+  <!-- 主要内容区域 -->
+  <div class="editor-content">
+    <div class="tab-bar">
+      <div class="tab active">
+        <i class="fas fa-file-alt"></i>
+        <span>java-EE-servlet3.1规范.md</span>
+      </div>
+    </div>
+    
+    <div class="content-area">
+      <article class="post-content">
+        <div class="post-header">
+          <h1>java-EE-servlet3.1规范</h1>
+          <div class="post-meta">
+            <span class="date">
+              <i class="fas fa-calendar-alt"></i>
+              2024-12-31
+            </span>
+            
+            <span class="updated-date">
+              <i class="fas fa-sync-alt"></i>
+              Updated 2026-02-18
+            </span>
+                        
+              <span class="categories">
+                <i class="fas fa-folder"></i>
+                <div class="categories-list">
+                  <ul class="category-item-post-list"><li class="category-item-post-list-item"><a class="category-item-post-list-link" href="../../../../categories/java/">java</a></li></ul>
+                </div>
+              </span>
+            
+            
+          </div>
+        </div>
+        
+        <div class="post-body vscode-markdown">
+          <p>说道spring的web支持首先就可以想到了spring MVC 的技术(其他的技术还有spring的webflux 以后讨论),从这片博客开始要进行相关知识点的整理.</p>
+<h3 id="spring-MVC-整体的架构设计"><a href="#spring-MVC-整体的架构设计" class="headerlink" title="spring MVC 整体的架构设计"></a>spring MVC 整体的架构设计</h3><p><img src="/images/blogimg//blogimg/springMVC/1.jpg"></p>
+<p>spring 自己的webapplication支持嵌套作用域,通过这个方法可以实现spring applicationcongtext的继承特性(继承特性,子作用域可以访问夫作用域的中的属性,但是父作用域中的属性无法访问子作用域中的属性,具体的使用看HierarchicalBeanFactory)</p>
+<h4 id="web容器的初始化设置"><a href="#web容器的初始化设置" class="headerlink" title="web容器的初始化设置"></a>web容器的初始化设置</h4><p>springMVC 支持使用xml进行配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">web-app</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">listener</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">listener-class</span>&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="hljs-tag">&lt;/<span class="hljs-name">listener-class</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">listener</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">context-param</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>contextConfigLocation<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>/WEB-INF/app-context.xml<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">context-param</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">servlet</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>app<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-class</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">init-param</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>contextConfigLocation<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">init-param</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">load-on-startup</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">load-on-startup</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">servlet</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-mapping</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>app<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/app/*<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">servlet-mapping</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">web-app</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>从spring5.0 开始 spring官方文档提倡使用接口配置,容器在初始化的时候将会自动的加载这个接口的实现类从而进行配置<br>spring mvc 的自动化配置是通过 WebApplicationInitializer 接口实现的 但是系统提供了更加高级的接口 AbstractAnnotationConfigDispatcherServletInitializer </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyWebAppInitializer</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractAnnotationConfigDispatcherServletInitializer</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> Class&lt;?&gt;[] getRootConfigClasses() &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>&lt;?[] &#123; RootConfig.class &#125;;<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> Class&lt;?&gt;[] getServletConfigClasses() &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Class</span>&lt;?[] &#123; App1Config.class &#125;;<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> String[] getServletMappings() &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[] &#123; <span class="hljs-string">&quot;/app1/*&quot;</span> &#125;;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.springframework.web.WebApplicationInitializer;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyWebApplicationInitializer</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">WebApplicationInitializer</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onStartup</span><span class="hljs-params">(ServletContext container)</span> &#123;<br>        <span class="hljs-type">XmlWebApplicationContext</span> <span class="hljs-variable">appContext</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">XmlWebApplicationContext</span>();<br>        appContext.setConfigLocation(<span class="hljs-string">&quot;/WEB-INF/spring/dispatcher-config.xml&quot;</span>);<br><br>        ServletRegistration.<span class="hljs-type">Dynamic</span> <span class="hljs-variable">registration</span> <span class="hljs-operator">=</span> container.addServlet(<span class="hljs-string">&quot;dispatcher&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">DispatcherServlet</span>(appContext));<br>        registration.setLoadOnStartup(<span class="hljs-number">1</span>);<br>        registration.addMapping(<span class="hljs-string">&quot;/&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>如果使用基于xml 的 spring配置则需要使用这个方法进行相关的调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyWebAppInitializer</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractDispatcherServletInitializer</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> WebApplicationContext <span class="hljs-title function_">createRootApplicationContext</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> WebApplicationContext <span class="hljs-title function_">createServletApplicationContext</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">XmlWebApplicationContext</span> <span class="hljs-variable">cxt</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">XmlWebApplicationContext</span>();<br>        cxt.setConfigLocation(<span class="hljs-string">&quot;/WEB-INF/spring/dispatcher-config.xml&quot;</span>);<br>        <span class="hljs-keyword">return</span> cxt;<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> String[] getServletMappings() &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>[] &#123; <span class="hljs-string">&quot;/&quot;</span> &#125;;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>如果要添加filter 配置 重构如下的方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyWebAppInitializer</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractDispatcherServletInitializer</span> &#123;<br>    <span class="hljs-comment">// ...</span><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">protected</span> Filter[] getServletFilters() &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Filter</span>[] &#123;<br>            <span class="hljs-keyword">new</span> <span class="hljs-title class_">HiddenHttpMethodFilter</span>(), <span class="hljs-keyword">new</span> <span class="hljs-title class_">CharacterEncodingFilter</span>() &#125;;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>这个方法将会为每一个filter 添加一个默认的过滤器,并且自动的添加到对应的display中</p>
+<p>这个方法还有一个isisAsyncSupported() 默认情况下返回true 表示spring mvc 框架中的filter 将会异步的处理请求</p>
+<blockquote>
+<p>当使用idea 进行操作的时候注意要保证spring—web包要在class path目录下，不然tomcat等web 容器将不会使用spi技术将相关的各种需要的东西夹在到class中</p>
+</blockquote>
+<p>引申： tomcat 此处实现spi技术的解析</p>
+<p>spring的web包的META-INF的文件夹中有一个名为，javax.servlet.ServletContainerInitializer的文件，其中的内容org.springframework.web.SpringServletContainerInitializer，表示定义的ServletContainerInitializer和spring的实现接口SpringServletContainerInitializer，其中@HandlesTypes注解表示CustomServletContainerInitializer 可以处理的类，在onStartup 方法中，可以通过Set&lt;Class&lt;?&gt;&gt; c 获取得到。</p>
+<p>见下面代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@HandlesTypes(WebApplicationInitializer.class)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SpringServletContainerInitializer</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ServletContainerInitializer</span> &#123;<br>	<span class="hljs-meta">@Override</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onStartup</span><span class="hljs-params">(<span class="hljs-meta">@Nullable</span> Set&lt;Class&lt;?&gt;&gt; webAppInitializerClasses, ServletContext servletContext)</span><br>			<span class="hljs-keyword">throws</span> ServletException &#123;<br>		List&lt;WebApplicationInitializer&gt; initializers = <span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedList</span>&lt;&gt;()<br>		<span class="hljs-keyword">if</span> (webAppInitializerClasses != <span class="hljs-literal">null</span>) &#123;<br>			<span class="hljs-keyword">for</span> (Class&lt;?&gt; waiClass : webAppInitializerClasses) &#123;<br>				<span class="hljs-keyword">if</span> (!waiClass.isInterface() &amp;&amp; !Modifier.isAbstract(waiClass.getModifiers()) &amp;&amp;<br>						WebApplicationInitializer.class.isAssignableFrom(waiClass)) &#123;<br>					<span class="hljs-keyword">try</span> &#123;<br>						initializers.add((WebApplicationInitializer)<br>								ReflectionUtils.accessibleConstructor(waiClass).newInstance());<br>					&#125;<br>					<span class="hljs-keyword">catch</span> (Throwable ex) &#123;<br>						<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ServletException</span>(<span class="hljs-string">&quot;Failed to instantiate WebApplicationInitializer class&quot;</span>, ex);<br>					&#125;<br>				&#125;<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (initializers.isEmpty()) &#123;<br>			servletContext.log(<span class="hljs-string">&quot;No Spring WebApplicationInitializer types detected on classpath&quot;</span>);<br>			<span class="hljs-keyword">return</span>;<br>		&#125;<br>		servletContext.log(initializers.size() + <span class="hljs-string">&quot; Spring WebApplicationInitializers detected on classpath&quot;</span>);<br>		AnnotationAwareOrderComparator.sort(initializers);<br>		<span class="hljs-keyword">for</span> (WebApplicationInitializer initializer : initializers) &#123;<br>			initializer.onStartup(servletContext);<br>		&#125;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="最核心类-DispatcherServlet"><a href="#最核心类-DispatcherServlet" class="headerlink" title="最核心类 DispatcherServlet"></a>最核心类 DispatcherServlet</h3><p>如果要说这个类就需要看一下springmvc的流程图</p>
+<p><img src="/images/blogimg//blogimg/1.png">;</p>
+<p>在这里之前 DispathcerServlet 将会webapplicationcontext的字符串引用放入java中 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">WEB_APPLICATION_CONTEXT_ATTRIBUTE</span> <span class="hljs-operator">=</span> DispatcherServlet.class.getName() + <span class="hljs-string">&quot;.CONTEXT&quot;</span>;<br></code></pre></td></tr></table></figure>
+
+<p>一个一个看</p>
+<ol>
+<li>HandlerMapping</li>
+</ol>
+<p>这个类解决了 url地址映射到对应的处理类中，主要有两个实现RequestMappingHandlerMapping-为@RequestMapping 注解提供支持 ，SimpleUrlHandlerMapping，实现简单的url地址映射</p>
+<ol start="2">
+<li>HandlerExceptionResolver</li>
+</ol>
+<p>这个是试图返回的异常处理包括相关的错误处理方法</p>
+<ol start="3">
+<li>HandlerIntercepter</li>
+</ol>
+<p>处理相关的接口进行拦截 </p>
+<ol start="4">
+<li>HandlerAdapter</li>
+</ol>
+<p>使用适配器模式，将试图的映射由指定的接口处理</p>
+<ol start="5">
+<li>各种resolver 提供视图解析展示的功能</li>
+</ol>
+<p>LocaleResolver, LocaleContextResolver，ThemeResolver，MultipartResolver</p>
+<ol start="6">
+<li>FlashMapManager</li>
+</ol>
+<p>处理flash的时候使用的 估计用不到了</p>
+<h3 id="Interception-拦截器"><a href="#Interception-拦截器" class="headerlink" title="Interception 拦截器"></a>Interception 拦截器</h3><p>在spring MVC 中声明springmvc 的方法有如下几种：</p>
+<ol>
+<li>实现HandlerInterceptor接口或者实现HandlerInterceptorAdapter 抽象类</li>
+<li>实现WebRequestInterceptor接口，或者实现了WebRequestInterceptor的类</li>
+</ol>
+<h4 id="HandlerInterceptor-接口方法"><a href="#HandlerInterceptor-接口方法" class="headerlink" title="HandlerInterceptor 接口方法"></a>HandlerInterceptor 接口方法</h4><p>(1)boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handle)方法，这个将会在请求传入之前进行相关的处理，如果返回值是true，将会自动的进行链式调用其他按照顺序执行的定时器，否则将会终止调用controll和其他拦截器。</p>
+<p>(2) postHandle (HttpServletRequest request, HttpServletResponse response, Object handle, ModelAndView modelAndView) 方法,这个方法将会在处理器执行完后进行处理，和preHandle的执行方法，注意这个方法将不会自动拦截@requsetBody注解ResponseEntity</p>
+<p>注意这里：（1）和（2）的第三个参数 handle 官方的解释是@controller标记的本身或者使用HandleMethod这个类，其实这里是springmvc 自己增强的方法，</p>
+<blockquote>
+<p>ResponseEntity 详解： 这个类其实是对 http请求的一个封装，封装了http的报头，状态码，http code 等数据，本质上是一种通信协议</p>
+</blockquote>
+<p>如果使用的不是string类型，那么将会是一种类似rpc协议</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//客户端</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">client</span><span class="hljs-params">()</span>&#123;<br>    <span class="hljs-type">RestTemplate</span> <span class="hljs-variable">restTemplate</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RestTemplate</span>();<br>    ResponseEntity&lt;String&gt; entity = restTemplate.getForEntity(<span class="hljs-string">&quot;http://example.com&quot;</span>, String.class);<br>    <span class="hljs-type">String</span> <span class="hljs-variable">body</span> <span class="hljs-operator">=</span> entity.getBody();<br>    <span class="hljs-type">MediaType</span> <span class="hljs-variable">contentType</span> <span class="hljs-operator">=</span> entity.getHeaders().getContentType();<br>    <span class="hljs-type">HttpStatus</span> <span class="hljs-variable">statusCode</span> <span class="hljs-operator">=</span> entity.getStatusCode();<br>&#125;<br><br><span class="hljs-comment">//服务端</span><br><span class="hljs-meta">@RequestMapping(&quot;/handle&quot;)</span><br><span class="hljs-keyword">public</span> ResponseEntity&lt;String&gt; <span class="hljs-title function_">handle</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">URI</span> <span class="hljs-variable">location</span> <span class="hljs-operator">=</span> ...;<br>    <span class="hljs-type">HttpHeaders</span> <span class="hljs-variable">responseHeaders</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HttpHeaders</span>();<br>    responseHeaders.setLocation(location);<br>    responseHeaders.set(<span class="hljs-string">&quot;MyResponseHeader&quot;</span>, <span class="hljs-string">&quot;MyValue&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ResponseEntity</span>&lt;String&gt;(<span class="hljs-string">&quot;Hello World&quot;</span>, responseHeaders,   HttpStatus.CREATED);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>当使用string类型的时候就和@ResponceBody+@ResponseStatus 相同</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@RequestMapping(&quot;/handle&quot;)</span><br><span class="hljs-keyword">public</span> ResponseEntity&lt;String&gt; <span class="hljs-title function_">handle</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">URI</span> <span class="hljs-variable">location</span> <span class="hljs-operator">=</span> ...;<br>    <span class="hljs-keyword">return</span> ResponseEntity.created(location).header(<span class="hljs-string">&quot;MyResponseHeader&quot;</span>,  <span class="hljs-string">&quot;MyValue&quot;</span>).body(<span class="hljs-string">&quot;Hello World&quot;</span>);<br>&#125; <br></code></pre></td></tr></table></figure>
+<p>(3)afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handle, Exception ex) 方法，该方法也是需要当前对应的Interceptor 的preHandle 方法的返回值为true 时才会执行。该方法将在整个请求结束之后，也就是在DispatcherServlet 渲染了对应的视图之后执行。这个方法的主要作用是用于进行资源清理工作的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyHandlerInterceptor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">HandlerInterceptor</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">preHandle</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response, Object handler)</span> <span class="hljs-keyword">throws</span> Exception &#123; <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>; &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">postHandle</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView)</span> <span class="hljs-keyword">throws</span> Exception &#123; &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">afterCompletion</span><span class="hljs-params">(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)</span> <span class="hljs-keyword">throws</span> Exception &#123; &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<p>除了实现HandlerInterceptor可以实现拦截器之外，使用WebRequestInterceptor 同样可以实现拦截器</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyWebHandlerInterceptor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">WebRequestInterceptor</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">preHandle</span><span class="hljs-params">(WebRequest request)</span> <span class="hljs-keyword">throws</span> Exception &#123;&#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">postHandle</span><span class="hljs-params">(WebRequest request, ModelMap model)</span> <span class="hljs-keyword">throws</span> Exception &#123;&#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">afterCompletion</span><span class="hljs-params">(WebRequest request, Exception ex)</span> <span class="hljs-keyword">throws</span> Exception &#123;&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>(1)preHandle(WebRequest request) 方法。注意这个方法没有返回直，一般主要用它来进行资源的准备工作，其中的webrequest参数是HttpServletRequest的加强版，可以使用setAttribute(name, value, scope)添加参数到指定的作用域中，scope参数有如下的几个值：<br>    1. SCOPE_REQUEST ：它的值是0 ，代表只有在request 中可以访问。<br>    2. SCOPE_SESSION ：它的值是1 ，如果环境允许的话它代表的是一个局部的隔离的session，否则就代表普通的session，并且在该session范围内可以访问。<br>    3. SCOPE_GLOBAL_SESSION ：它的值是2 ，如果环境允许的话，它代表的是一个全局共享的session，否则就代表普通的session，并且在该session 范围内可以访问。<br>(2)postHandle(WebRequest request, ModelMap model) 方法。该方法将在请求处理之后，也就是在Controller 方法调用之后被调用，但是会在视图返回被渲染之前被调用，request 就是传递的请求参数，model就是返回的视图<br>(3)afterCompletion(WebRequest request, Exception ex) 方法。该方法会在整个请求处理完成，也就是在视图返回并被渲染之后执行。所以在该方法中可以进行资源的释放操作。而WebRequest 参数就可以把我们在preHandle 中准备的资源传递到这里进行释放。Exception 参数表示的是当前请求的异常对象，如果在Controller 中抛出的异常已经被Spring 的异常处理器给处理了的话，那么这个异常对象就是是null 。</p>
+<p>####HandlerExceptionResolver springmvc 异常处理</p>
+<p>异常处理用于处理@controll 这种接口抛出的各种异常，主要有如下的几种  </p>
+<ol>
+<li><p>SimpleMappingExceptionResolver 异常类名称和错误视图名称之间的映射。用于在浏览器应用程序中呈现错误页面。</p>
+</li>
+<li><p>DefaultHandlerExceptionResolver 解决Spring MVC引发的异常并将它们映射到HTTP状态代码。另请参阅备用ResponseEntityExceptionHandler和REST API例外。</p>
+</li>
+<li><p>ResponseStatusExceptionResolver 根据@ResponseStatus注释中的值解决注释中的异常并将其映射到HTTP状态代码。</p>
+</li>
+<li><p>ExceptionHandlerExceptionResolver 通过调用@ExceptionHandler一个@Controller或一个 @ControllerAdvice类中的方法来解决异常。请参阅@ExceptionHandler方法。</p>
+</li>
+</ol>
+<p>对于异常处理来说通常的解决结果有如下的几种方法</p>
+<ol>
+<li><p>使用ModelAndView 指向错误视图。</p>
+</li>
+<li><p>返回空的modelandview 如果异常被处理</p>
+</li>
+<li><p>如果异常没有被解决，将会使用异常调用连进行处理，如果调用到最后将会抛出到servlet中</p>
+</li>
+</ol>
+<p>在spring mvc 中集中进行异常处理的有三种方法</p>
+<ol>
+<li>使用@ResponseStatus 注释一个异常类，当spring中抛出这个异常的时候将会自动的交由这个类处理,并且可以制定http code值，比如下面的方法将会跑出403错误</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> com.zj.exception;<br><span class="hljs-keyword">import</span> org.springframework.http.HttpStatus;<br><span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.ResponseStatus;<br><span class="hljs-meta">@ResponseStatus(value=HttpStatus.FORBIDDEN,reason=&quot;用户不匹配&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">UserNotMatchException</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">RuntimeException</span>&#123;&#125;<br><br><br><span class="hljs-meta">@RequestMapping(&quot;/testResponseStatus&quot;)</span><br><span class="hljs-keyword">public</span> String <span class="hljs-title function_">testResponseStatus</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span>&#123;<br>    <span class="hljs-keyword">if</span>(i==<span class="hljs-number">0</span>)<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UserNotMatchException</span>();<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;hello&quot;</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>注意如果这个注解使用在 一个方法上的时候 ， 不论结果如何都将会放回制定的httpcode 异常</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@ResponseStatus(value=HttpStatus.FORBIDDEN,reason=&quot;用户名不匹配&quot;)</span><br><span class="hljs-meta">@RequestMapping(&quot;/testResponseStatus&quot;)</span><br><span class="hljs-keyword">public</span> String <span class="hljs-title function_">testResponseStatus</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span>&#123;<br>    <span class="hljs-keyword">if</span>(i==<span class="hljs-number">0</span>)<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UserNotMatchException</span>();<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;hello&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>2.@ControllerAdvice 和 @ExceptionHandler</p>
+<p>这两个注解同样用于异常处理</p>
+<p>（1）@ExceptionHandler 当一个Controller中有方法加了@ExceptionHandler之后，这个Controller其他方法中没有捕获的异常就会以参数的形式传入加了@ExceptionHandler注解的那个方法中。<strong>注意这个方法要有一个参数，这个参数就是指定要处理的异常</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * Created by liuruijie.</span><br><span class="hljs-comment"> * 处理异常的类，需要处理异常的Controller直接继承这个类</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BaseController</span> &#123;<br>    <span class="hljs-comment">/**</span><br><span class="hljs-comment">     * 处理Controller抛出的异常</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@param</span> e 异常实例</span><br><span class="hljs-comment">     * <span class="hljs-doctag">@return</span> Controller层的返回值</span><br><span class="hljs-comment">     */</span><br>    <span class="hljs-meta">@ExceptionHandler</span><br>    <span class="hljs-meta">@ResponseBody</span><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">expHandler</span><span class="hljs-params">(Exception e)</span>&#123;<br>        <span class="hljs-keyword">if</span>(e <span class="hljs-keyword">instanceof</span> SystemException)&#123;<br>            SystemException ex= (SystemException) e;<br>            <span class="hljs-keyword">return</span> WebResult.buildResult().status(ex.getCode())<br>                            .msg(ex.getMessage());<br>        &#125;<span class="hljs-keyword">else</span>&#123;<br>            e.printStackTrace();<br>            <span class="hljs-keyword">return</span> WebResult.buildResult().status(Config.FAIL)<br>                            .msg(<span class="hljs-string">&quot;系统错误&quot;</span>);<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>（2）@ControllerAdvice  实现这个注解的类可以让这个类中 @ExceptionHandler标记的方法实现全觉异常监听</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@ControllerAdvice</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GlobalExceptionHandler</span> &#123;<br>   <span class="hljs-comment">//处理自定义的异常</span><br>   <span class="hljs-meta">@ExceptionHandler(SystemException.class)</span> <br>   <span class="hljs-meta">@ResponseBody</span><br>   <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">customHandler</span><span class="hljs-params">(SystemException e)</span>&#123;<br>      e.printStackTrace();<br>      <span class="hljs-keyword">return</span> WebResult.buildResult().status(e.getCode()).msg(e.getMessage());<br>   &#125;<br>   <span class="hljs-comment">//其他未处理的异常</span><br>   <span class="hljs-meta">@ExceptionHandler(Exception.class)</span><br>   <span class="hljs-meta">@ResponseBody</span><br>   <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">exceptionHandler</span><span class="hljs-params">(Exception e)</span>&#123;<br>      e.printStackTrace();<br>      <span class="hljs-keyword">return</span> WebResult.buildResult().status(Config.FAIL).msg(<span class="hljs-string">&quot;系统错误&quot;</span>);<br>   &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>最后对于springmvc 如果异常没有被处理，spring提供了默认的页面展示异常，使用如下方法配置<br>xml ： 制定默认错误页面</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">error-page</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">location</span>&gt;</span>/error<span class="hljs-tag">&lt;/<span class="hljs-name">location</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">error-page</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p> java ： 处理url<br> <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@RestController</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ErrorController</span> &#123;<br>    <span class="hljs-meta">@RequestMapping(path = &quot;/error&quot;)</span><br>    <span class="hljs-keyword">public</span> Map&lt;String, Object&gt; <span class="hljs-title function_">handle</span><span class="hljs-params">(HttpServletRequest request)</span> &#123;<br>        Map&lt;String, Object&gt; map = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;String, Object&gt;();<br>        map.put(<span class="hljs-string">&quot;status&quot;</span>, request.getAttribute(<span class="hljs-string">&quot;javax.servlet.error.status_code&quot;</span>));<br>        map.put(<span class="hljs-string">&quot;reason&quot;</span>, request.getAttribute(<span class="hljs-string">&quot;javax.servlet.error.message&quot;</span>));<br>        <span class="hljs-keyword">return</span> map;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure></p>
+<h4 id="ViewResolver-提供了view-名称到view实例之间的绑定，并且完成真正视图展示之前将相关数据进行整理的功能"><a href="#ViewResolver-提供了view-名称到view实例之间的绑定，并且完成真正视图展示之前将相关数据进行整理的功能" class="headerlink" title="ViewResolver 提供了view 名称到view实例之间的绑定，并且完成真正视图展示之前将相关数据进行整理的功能"></a>ViewResolver 提供了view 名称到view实例之间的绑定，并且完成真正视图展示之前将相关数据进行整理的功能</h4><p>spring mvc 中将相关的视图变成一个网页经历的过程</p>
+<ol>
+<li>将SpringMVC控制器中的返回结果封装成一个ModelAndView对象。</li>
+<li>通过SpringMVC中的视图解析器，使用ViewResolver对控制器返回的ModelAndView对象进行解析，将逻辑视图转换成物理视图。</li>
+<li>调用View中的render()方法对物理视图进行渲染。</li>
+</ol>
+<p>几个主要的视图的介绍</p>
+<ol>
+<li>AbstractCachingViewResolver: 最抽象的类提供了视图缓存的功能</li>
+<li>UrlBasedViewResolver: 提供了更加细粒度的url控制，支持前缀后缀等功能，但是使用这个方法必须制定相关的view解析工具，默认使用的是jsp解析工具InternalResourceView（和可以使用其他的是解析工具比如FreeMarkerView等）， 并且提供了重定向和转发的功能</li>
+</ol>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">bean</span>  </span><br><span class="hljs-tag">   <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;org.springframework.web.servlet.view.UrlBasedViewResolver&quot;</span>&gt;</span>  <br>   <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;prefix&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;/WEB-INF/&quot;</span> /&gt;</span>  <br>   <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;suffix&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;.jsp&quot;</span> /&gt;</span>  <br>   <span class="hljs-tag">&lt;<span class="hljs-name">property</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;viewClass&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;org.springframework.web.servlet.view.InternalResourceView&quot;</span>/&gt;</span>  <br><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>  <br></code></pre></td></tr></table></figure>
+<ol start="3">
+<li>InternalResourceViewResolver：这个方法是 UrlBasedViewResolver 的子类，支持父类的所有功能，InternalResourceViewResolver会把返回的视图名称都解析为InternalResourceView对象，内部使用重定向的方法，将controller返回的view 包装成InternalResourceView， 并且鞋带上前缀和后缀，同时再转发出去</li>
+</ol>
+<p>视图解析链：<br>在SpringMVC中可以同时定义多个ViewResolver视图解析器，然后它们会组成一个ViewResolver链。当Controller处理器方法返回一个逻辑视图名称后，ViewResolver链将根据其中ViewResolver的优先级来进行处理。所有的ViewResolver都实现了Ordered接口，在Spring中实现了这个接口的类都是可以排序的。在ViewResolver中是通过order属性来指定顺序的，默认都是最大值。所以我们可以通过指定ViewResolver的order属性来实现ViewResolver的优先级，order属性是Integer类型，order越小，对应的ViewResolver将有越高的解析视图的权利，所以第一个进行解析的将是ViewResolver链中order值最小的那个。当一个ViewResolver在进行视图解析后返回的View对象是null的话就表示该ViewResolver不能解析该视图，这个时候如果还存在其他order值比它大的ViewResolver就会调用剩余的ViewResolver中的order值最小的那个来解析该视图，依此类推。当ViewResolver在进行视图解析后返回的是一个非空的View对象的时候，就表示该ViewResolver能够解析该视图，那么视图解析这一步就完成了，后续的ViewResolver将不会再用来解析该视图。当定义的所有ViewResolver都不能解析该视图的时候，Spring就会抛出一个异常。</p>
+<h3 id="spring-mvc-常用注解"><a href="#spring-mvc-常用注解" class="headerlink" title="spring mvc 常用注解"></a>spring mvc 常用注解</h3><p>spring 提供了一整套注解来简化spring相关的配置</p>
+<h4 id="Controll-和-RestController"><a href="#Controll-和-RestController" class="headerlink" title="@Controll 和 @RestController"></a>@Controll 和 @RestController</h4><p>Spring MVC提供了一种基于注释的编程模型，其中@Controller和@RestController组件使用注释来表示请求映射，请求输入，异常处理等。</p>
+<p>其中的@RestController 是@ResponseBody和@Controller注解的一种集合。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Target(ElementType.TYPE)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-meta">@Controller</span><br><span class="hljs-meta">@ResponseBody</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> RestController &#123;<br>	<span class="hljs-meta">@AliasFor(annotation = Controller.class)</span><br>	String <span class="hljs-title function_">value</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> <span class="hljs-string">&quot;&quot;</span>;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>注意：如果使用aop方法对controller 进行增强的话请使用class-based proxying代理，但是如果使用了非spring context回调接口的方法的时候，需要明确的制定相关的配置信息：<a href="tx:annotation-driven/">tx:annotation-driven/</a>, 改变为 &lt;tx:annotation-driven proxy-target-class&#x3D;”true”&#x2F;&gt;.</p>
+<h4 id="RequestMapping"><a href="#RequestMapping" class="headerlink" title="@RequestMapping"></a>@RequestMapping</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Target(&#123;ElementType.METHOD, ElementType.TYPE&#125;)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-meta">@Mapping</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> RequestMapping &#123;<br>	String <span class="hljs-title function_">name</span><span class="hljs-params">()</span> <span class="hljs-keyword">default</span> <span class="hljs-string">&quot;&quot;</span>;<br>	<span class="hljs-meta">@AliasFor(&quot;path&quot;)</span><br>	String[] value() <span class="hljs-keyword">default</span> &#123;&#125;;<br>	<span class="hljs-meta">@AliasFor(&quot;value&quot;)</span><span class="hljs-comment">//这个注解和path 标志制定的url地址，可以使用resulf请求的格式</span><br>    <span class="hljs-comment">//spring-web/&#123;symbolicName:[a-z-]+&#125;-&#123;version:\d\.\d\.\d&#125;.&#123;extension:\.[a-z]&#125;</span><br>	String[] path() <span class="hljs-keyword">default</span> &#123;&#125;;<br>	RequestMethod[] method() <span class="hljs-keyword">default</span> &#123;&#125;;<span class="hljs-comment">//制定请求的方法，RequestMethod.DELETE</span><br>	String[] params() <span class="hljs-keyword">default</span> &#123;&#125;;<span class="hljs-comment">//表示制定的请求参数中存在的参数组合，如myParam = myValue，表示给定的参数为指定的值才会返回</span><br>    <span class="hljs-comment">//可以使用name ！= value 表示不等于的关系</span><br>	String[] headers() <span class="hljs-keyword">default</span> &#123;&#125;;<span class="hljs-comment">// 制定头部包含的相关信息和上面的params类似，Referer=http://www.ifeng.com</span><br>	String[] produces() <span class="hljs-keyword">default</span> &#123;&#125;;<span class="hljs-comment">//指定返回的内容类型，仅当request请求头中的(Accept)类型中包含该指定类型才返回，表示浏览器接受的相关资源</span><br>    String[] consumes() <span class="hljs-keyword">default</span> &#123;&#125;;<span class="hljs-comment">//指定处理请求的提交内容类型（Content-Type），例如application/json, text/html</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>requestMapping:有简化版的各种注解@GetMapping，@PostMapping，@PutMapping，@DeleteMapping，@PatchMapping，指定了相关的method方法对应的各种请求</p>
+<p>request 请求可以接受的请求可以通过通配符或者glob参数的方法进行匹配</p>
+<p>spring mvc 的地址匹配方法满足一定的相关原则，可以使用通配符进行匹配</p>
+<table>
+<thead>
+<tr>
+<th>Wildcard</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>？</td>
+<td>匹配任何单字符</td>
+</tr>
+<tr>
+<td>*</td>
+<td>匹配0或者任意数量的字符</td>
+</tr>
+<tr>
+<td>**</td>
+<td>匹配0或者更多的目录</td>
+</tr>
+</tbody></table>
+<p>注意：spring将会按照匹配的字符最长的那个进行匹配，比如&#x2F;**&#x2F;<em>.jsp 和&#x2F;app&#x2F;dir&#x2F;</em>.jsp，在这个过程中，将会匹配后者。</p>
+<p>注意：spring mvc 的匹配原则是按照后缀匹配的原则，比如一个url地址 &#x2F;name这个地址，表示的就是&#x2F;name.*，一定程度上实现了文件扩展名引用</p>
+<p>如果使用了文件扩展名称这种东西如果想要配置请查看如下两个接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">useSuffixPatternMatching(<span class="hljs-literal">false</span>), see PathMatchConfigurer<br><span class="hljs-title function_">favorPathExtension</span><span class="hljs-params">(<span class="hljs-literal">false</span>)</span>, see ContentNeogiationConfigurer<br></code></pre></td></tr></table></figure>
+
+
+<h5 id="在requestMethod中可以接收的数据"><a href="#在requestMethod中可以接收的数据" class="headerlink" title="在requestMethod中可以接收的数据"></a>在requestMethod中可以接收的数据</h5><p>接受的函数体中可以使用的注解和参数</p>
+<ol>
+<li>WebRequest, NativeWebRequest</li>
+</ol>
+<p>WebRequest是Spring Web MVC提供的统一请求访问接口，不仅仅可以访问请求相关数据（如参数区数据、请求头数据，但访问不到Cookie区数据），还可以访问会话和上下文中的数据；NativeWebRequest继承了WebRequest，并提供访问本地Servlet API的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> String <span class="hljs-title function_">webRequest</span><span class="hljs-params">(WebRequest webRequest, NativeWebRequest nativeWebRequest)</span> &#123;<br>    System.out.println(webRequest.getParameter(<span class="hljs-string">&quot;test&quot;</span>));<span class="hljs-comment">//①得到请求参数test的值  </span><br>    webRequest.setAttribute(<span class="hljs-string">&quot;name&quot;</span>, <span class="hljs-string">&quot;value&quot;</span>, WebRequest.SCOPE_REQUEST);<span class="hljs-comment">//②  </span><br>    System.out.println(webRequest.getAttribute(<span class="hljs-string">&quot;name&quot;</span>, WebRequest.SCOPE_REQUEST));<br>    <span class="hljs-type">HttpServletRequest</span> <span class="hljs-variable">request</span> <span class="hljs-operator">=</span><br>            nativeWebRequest.getNativeRequest(HttpServletRequest.class);<span class="hljs-comment">//③  </span><br>    <span class="hljs-type">HttpServletResponse</span> <span class="hljs-variable">response</span> <span class="hljs-operator">=</span><br>            nativeWebRequest.getNativeResponse(HttpServletResponse.class);<br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;success&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>javax.servlet.ServletRequest, javax.servlet.ServletResponse，javax.servlet.http.HttpSession</li>
+</ol>
+<p>javax 提供的具体接口注意其中的httpsession ，会话访问不是线程安全的。如果允许多个请求同时访问会话，请考虑将RequestMappingHandlerAdapter的“synchronizeOnSession”标志设置为“true”。</p>
+<ol start="3">
+<li>HttpMethod</li>
+</ol>
+<p>这个值中有传入的方式，比如get还是post</p>
+<ol start="4">
+<li>java.io.InputStream, java.io.Reader，java.io.OutputStream, java.io.Writer</li>
+</ol>
+<p>请求的原始请求数据流，和原始返回数据</p>
+<ol start="5">
+<li>@PathVariable和@MatrixVariable</li>
+</ol>
+<p>使用{}表示的url请求对应的相关参数,</p>
+<p>@PathVariable 没什么好说的关键是@MatrixVariable ， 这个注解将会自动的匹配url 地址中 ;uuu&#x3D;123;iii&#x3D;333 这种参数，并且一定的程度下并不需要{jj}中指定的名称来匹配，当发生参数冲突的时候可以使用pathVar参数指定名称，目前有bug不记录了</p>
+<ol start="5">
+<li>@PathVariable,@MatrixVariable,@RequestParam，@RequestBody，@RequestHeader，@CookieValue，@RequestPart,@ModelAttribute,@SessionAttribute,@RequestAttribute</li>
+</ol>
+<ul>
+<li>@PathVariable ,spring mvc提供了一套支持reastfulapi的方法，这套方法可以使用{}+通配符的方式，将url中的数据传递到method 对应的参数中</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping(&quot;/owners/&#123;ownerId&#125;/pets/&#123;petId&#125;&quot;)</span><br><span class="hljs-keyword">public</span> Pet <span class="hljs-title function_">findPet</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable</span> Long ownerId, <span class="hljs-meta">@PathVariable</span> Long petId)</span> &#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br><span class="hljs-comment">// 可以使用这个方法实现全局的请求效果</span><br><span class="hljs-meta">@Controller</span><br><span class="hljs-meta">@RequestMapping(&quot;/owners/&#123;ownerId&#125;&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">OwnerController</span> &#123;<br>    <span class="hljs-meta">@GetMapping(&quot;/pets/&#123;petId&#125;&quot;)</span><br>    <span class="hljs-keyword">public</span> Pet <span class="hljs-title function_">findPet</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable</span> Long ownerId, <span class="hljs-meta">@PathVariable(petId)</span> Long petId)</span> &#123;<br>        <span class="hljs-comment">// ...</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>注意：{}里面的值值也可以使用正则表达式进行相关的配置，格式：{varName:regex}</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping(&quot;/&#123;name:[a-z-]+&#125;-&#123;version:\\d\\.\\d\\.\\d&#125;&#123;ext:\\.[a-z]+&#125;&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">handle</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable</span> String version, <span class="hljs-meta">@PathVariable</span> String ext)</span> &#123;&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><p>@MatrixVariable，这个注解将会自动的匹配url地址中;uuu&#x3D;123;iii&#x3D;333这种参数，并且一定的程度下并不需要{jj}中指定的名称来匹配，当发生参数冲突的时候可以使用pathVar参数指定名称，目前有bug不记录了</p>
+</li>
+<li><p>@RequestParam接口将会自动的将传入到指定的地址中 如果使用这个注解标识Map&lt;String, String&gt; or MultiValueMap&lt;String, String&gt;，将会将所有的属性注入进来<br>A） 常用来处理简单类型的绑定，通过Request.getParameter() 获取的String可直接转换为简单类型的情况（ String–&gt; 简单类型的转换操作由ConversionService配置的转换器来完成）；因为使用request.getParameter()方式获取参数，所以可以处理get 方式中queryString的值，也可以处理post方式中 body data的值；<br>B）用来处理Content-Type: 为 application&#x2F;x-www-form-urlencoded编码的内容，提交方式GET、POST；<br>C) 该注解有两个属性： value、required； value用来指定要传入值的id名称，required用来指示参数是否必须绑定；</p>
+</li>
+<li><p>@RequestBody 该注解常用来处理Content-Type: 不是application&#x2F;x-www-form-urlencoded编码的内容，例如application&#x2F;json, application&#x2F;xml等；它是通过使用HandlerAdapter 配置的HttpMessageConverters来解析post data body，然后绑定到相应的bean上的。</p>
+</li>
+</ul>
+<p>使用：HttpMessageConverter接口，需要开启&lt;mvc:annotation-driven  &#x2F;&gt;。 AnnotationMethodHandlerAdapter将会初始化7个转换器，可以通过调用AnnotationMethodHandlerAdapter的getMessageConverts()方法来获取转换器的一个集合 List<HttpMessageConverter>，这7个转化器如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java">ByteArrayHttpMessageConverter <br>StringHttpMessageConverter <br>ResourceHttpMessageConverter <br>SourceHttpMessageConverter <br>XmlAwareFormHttpMessageConverter <br>Jaxb2RootElementHttpMessageConverter <br>MappingJacksonHttpMessageConverter<br></code></pre></td></tr></table></figure>
+<p>PS:Spring默认的json协议解析由Jackson完成。 这种方式的时候默认使用的就是json解析。</p>
+<p>问题 如何扩展</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span>  <br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">PersonController</span> &#123;    <br>    <span class="hljs-meta">@RequestMapping(value = &quot;/person/login&quot;, method = RequestMethod.POST)</span>  <br>    <span class="hljs-keyword">public</span> <span class="hljs-meta">@ResponseBody</span>  <br>    Person <span class="hljs-title function_">login</span><span class="hljs-params">(<span class="hljs-meta">@RequestBody</span> Person person)</span> &#123;  <br>        <span class="hljs-keyword">return</span> person;  <br>    &#125;  <br>&#125;<br><span class="hljs-comment">//注意序列化接口</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Serializable</span> &#123;  <br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> id;  <br>    <span class="hljs-keyword">private</span> String name;  <br>    <span class="hljs-keyword">private</span> <span class="hljs-type">boolean</span> status;  <br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Person</span><span class="hljs-params">()</span> &#123;  <br>        <span class="hljs-comment">// do nothing  </span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>ps：如果使用xml 方式，需要使用注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@XmlRootElement(name = &quot;Person&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Person</span> &#123;<br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> age;<br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">getName</span><span class="hljs-params">()</span> &#123; <span class="hljs-keyword">return</span> name;    &#125;<br>    <span class="hljs-meta">@XmlElement</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setName</span><span class="hljs-params">(String name)</span> &#123; <span class="hljs-built_in">this</span>.name = name;    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">getAge</span><span class="hljs-params">()</span> &#123; <span class="hljs-keyword">return</span> age;    &#125;<br>    <span class="hljs-meta">@XmlElement</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setAge</span><span class="hljs-params">(<span class="hljs-type">int</span> age)</span> &#123; <span class="hljs-built_in">this</span>.age = age;    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>注意 这里如果要使用注意spring mvc 环境的配置</p>
+<p>使用xml 进行配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">context:annotation-config</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">context:annotation-config</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">context:component-scan</span> <span class="hljs-attr">base-package</span>=<span class="hljs-string">&quot;com&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">context:component-scan</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">mvc:annotation-driven</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">mvc:annotation-driven</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">mvc:default-servlet-handler</span>/&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>使用java 进行配置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//注意要将sevlet放入 WebApplicationContext中</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyWebApplication</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">WebApplicationInitializer</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onStartup</span><span class="hljs-params">(ServletContext servletContext)</span> <span class="hljs-keyword">throws</span> ServletException &#123;<br>        AnnotationConfigWebApplicationContext annotationConfigWebApplicationContext=<br>                <span class="hljs-keyword">new</span> <span class="hljs-title class_">AnnotationConfigWebApplicationContext</span>();<br>        annotationConfigWebApplicationContext.register(AppConfig.class);<br>        annotationConfigWebApplicationContext.setServletContext(servletContext);<br>        annotationConfigWebApplicationContext.refresh();<br>        ServletRegistration.Dynamic dynamic=servletContext.addServlet(<span class="hljs-string">&quot;dispatcher&quot;</span>,<span class="hljs-keyword">new</span> <span class="hljs-title class_">DispatcherServlet</span>(annotationConfigWebApplicationContext));<br>        dynamic.setLoadOnStartup(<span class="hljs-number">1</span>);<br>        dynamic.addMapping(<span class="hljs-string">&quot;/&quot;</span>);<br>    &#125;<br>&#125;<br><br><span class="hljs-comment">//自动化配置</span><br><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@ComponentScan</span><br><span class="hljs-meta">@EnableWebMvc</span><span class="hljs-comment">//使用EnableWebMVC注解自动的注入的相关的属性</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AppConfig</span>  &#123; &#125;<br></code></pre></td></tr></table></figure>
+
+
+<ul>
+<li><p>@RequestPart  和文件上传相关，难度有点大，和http协议相关的暂时不考虑</p>
+</li>
+<li><p>@RequestHeader 将http协议中相关的头注入到指定的数据中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping(&quot;/demo&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">handle</span><span class="hljs-params">(</span><br><span class="hljs-params">        <span class="hljs-meta">@RequestHeader(&quot;Accept-Encoding&quot;)</span> String encoding,</span><br><span class="hljs-params">        <span class="hljs-meta">@RequestHeader(&quot;Keep-Alive&quot;)</span> <span class="hljs-type">long</span> keepAlive)</span> &#123;<br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p>@ModelAttribute</p>
+</li>
+</ul>
+<p>在使用model view 场景下，有如下的一应用</p>
+<ul>
+<li><ol>
+<li>全局model配置，在获得请求&#x2F;helloWorld 后，populateModel方法在helloWorld方法之前先被调用，它把请求参数（&#x2F;helloWorld?abc&#x3D;text）加入到一个名为attributeName的model属性中，在它执行后 helloWorld被调用，返回视图名helloWorld和model已由@ModelAttribute方法生产好了。<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span> <br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HelloWorldController</span> &#123; <br>    <span class="hljs-meta">@ModelAttribute</span> <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">populateModel</span><span class="hljs-params">(<span class="hljs-meta">@RequestParam</span> String abc, Model model)</span> &#123; <br>         model.addAttribute(<span class="hljs-string">&quot;attributeName&quot;</span>, abc); <br>    &#125; <br>    <span class="hljs-meta">@ModelAttribute(&quot;attributeName&quot;)</span> <br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">addAccount</span><span class="hljs-params">(<span class="hljs-meta">@RequestParam</span> String abc)</span> &#123; <br>        <span class="hljs-keyword">return</span> abc; <br>    &#125; <br>    <span class="hljs-meta">@RequestMapping(value = &quot;/helloWorld&quot;)</span> <br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">helloWorld</span><span class="hljs-params">()</span> &#123; <br>       <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;helloWorld&quot;</span>; <br>    &#125;<br> &#125;<br></code></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>指派model配置  返回 helloworld.do视图，有一个model 参数是attributeName和值 hi</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span> <br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HelloWorldController</span> &#123; <br>    <span class="hljs-meta">@RequestMapping(value = &quot;/helloWorld.do&quot;)</span> <br>    <span class="hljs-meta">@ModelAttribute(&quot;attributeName&quot;)</span> <br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">helloWorld</span><span class="hljs-params">()</span> &#123; <br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;hi&quot;</span>; <br>    &#125; <br>&#125;<br></code></pre></td></tr></table></figure>
+<ul>
+<li><ol start="3">
+<li>绑定application&#x2F;x-www-form-urlencoded 提交的请求中 的值到对象中 支持user.xxx,user2.ddd 嵌套对应法</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span> <br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HelloWorldController</span> &#123; <br>    <span class="hljs-meta">@RequestMapping(value = &quot;/helloWorld&quot;)</span> <br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">helloWorld</span><span class="hljs-params">(<span class="hljs-meta">@ModelAttribute</span> User user)</span> &#123; <br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;helloWorld&quot;</span>; <br>     &#125; <br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>@CookieValue  和之前的相同，就是将cookie中相关的数据拿出来</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@GetMapping(&quot;/demo&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">handle</span><span class="hljs-params">(<span class="hljs-meta">@CookieValue(&quot;JSESSIONID&quot;)</span> String cookie)</span> &#123;&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>HttpEntity<B> HttpEntity或多或少与使用@RequestBody相同，但基于公开请求标头和主体的容器对象。</li>
+</ul>
+<p>注意这个方法多是用于post请求用来针对ajax序列化的json对象解析，其中有一个getbody方法</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@PostMapping(&quot;/accounts&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">handle</span><span class="hljs-params">(HttpEntity&lt;Account&gt; entity)</span> &#123;<br>    Account account=entity.getBody();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>@InitBinder  spring自带的数据处理模块</li>
+</ul>
+<p>由@InitBinder表示的方法，可以对WebDataBinder对象进行初始化。WebDataBinder是DataBinder的子类，用于完成由表单到JavaBean属性的绑定。<br>@InitBinder方法不能有返回值，它必须盛名为void。<br>@InitBinder方法的参数通常是WebDataBinder，@InitBinder可以对WebDataBinder进行初始化。</p>
+<p>注意这个注解只是针对这个controller中的方法起作用，无法针对所有的controller</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Controller</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BinderAction</span> &#123;<br>    <span class="hljs-meta">@RequestMapping(&quot;/sb2.do&quot;)</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doTest</span><span class="hljs-params">(<span class="hljs-meta">@RequestParam(value=&quot;name&quot;)</span>String name,<span class="hljs-meta">@RequestParam(value=&quot;age&quot;)</span><span class="hljs-type">double</span> age,<span class="hljs-meta">@RequestParam(value=&quot;nowTime&quot;)</span>Date nowTime)</span>&#123;<br>        System.err.println(<span class="hljs-string">&quot;name:&quot;</span> + name);<br>        System.err.println(<span class="hljs-string">&quot;age:&quot;</span> + age);<br>        System.err.println(<span class="hljs-string">&quot;nowTime:&quot;</span> + nowTime);<br>    &#125;    <br>    <span class="hljs-meta">@InitBinder</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initBinder</span><span class="hljs-params">(WebDataBinder binder)</span>&#123;<br>        binder.registerCustomEditor(Date.class, <span class="hljs-keyword">new</span> <span class="hljs-title class_">CustomDateEditor</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">SimpleDateFormat</span>(<span class="hljs-string">&quot;yyyy-MM-dd&quot;</span>), <span class="hljs-literal">true</span>));<br>    &#125;<br>    <span class="hljs-meta">@InitBinder</span><br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initBinder</span><span class="hljs-params">(WebDataBinder binder)</span> &#123;<br>        binder.addCustomFormatter(<span class="hljs-keyword">new</span> <span class="hljs-title class_">DateFormatter</span>(<span class="hljs-string">&quot;yyyy-MM-dd&quot;</span>));<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>注意WebDataBinder这个对象，这个对象拥有一个方法registerCustomEditor,这个方法将会自动的配置属性映射器，将相关的属性映射到指定的位置，属性映射器可以使用如下的方法进行自定义<br>实现PropertyEditor或者重写PropertyEditorSupport对象中的方法，注意这种方法只能实现string到对象的转换 setValue中就是转化后的对象，setAsText传入的就是传入的url字符串</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//实现PropertyEditor或者重写PropertyEditorSupport对象中的方法</span><br><span class="hljs-keyword">import</span> org.springframework.beans.propertyeditors.PropertiesEditor;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">DoubleEditor</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">PropertyEditorSupport</span> &#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setAsText</span><span class="hljs-params">(String text)</span> <span class="hljs-keyword">throws</span> IllegalArgumentException &#123;<br>        <span class="hljs-keyword">if</span> (text == <span class="hljs-literal">null</span> || text.equals(<span class="hljs-string">&quot;&quot;</span>)) &#123;<br>            text = <span class="hljs-string">&quot;0&quot;</span>;<br>        &#125;<br>        setValue(Double.parseDouble(text));<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">getAsText</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> getValue().toString();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p>同时WebDataBinder这个对象，这个对象拥有一个addCustomFormatter 可以直接使用formatter进行参数转化本质上是相同的</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@InitBinder</span><br><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initBinder</span><span class="hljs-params">(WebDataBinder binder)</span> &#123;<br>    binder.addCustomFormatter(<span class="hljs-keyword">new</span> <span class="hljs-title class_">DateFormatter</span>(<span class="hljs-string">&quot;yyyy-MM-dd&quot;</span>));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>addCustomFormatter本质上还是和registerCustomEditor是一样的见源代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addCustomFormatter</span><span class="hljs-params">(Formatter&lt;?&gt; formatter)</span> &#123;<br>	<span class="hljs-type">FormatterPropertyEditorAdapter</span> <span class="hljs-variable">adapter</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">FormatterPropertyEditorAdapter</span>(formatter);<br>	getPropertyEditorRegistry().registerCustomEditor(adapter.getFieldType(), adapter);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h4 id="RequestMapping-方法返回值中的参数"><a href="#RequestMapping-方法返回值中的参数" class="headerlink" title="@RequestMapping 方法返回值中的参数"></a>@RequestMapping 方法返回值中的参数</h4><ol>
+<li><p>@ResponseBody</p>
+</li>
+<li><p>HttpEntity<B>, ResponseEntity<B></p>
+</li>
+</ol>
+<ul>
+<li>HttpEntity<B> HttpEntity或多或少与使用@RequestBody相同，但基于公开请求标头和主体的容器对象。</li>
+</ul>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@PostMapping(&quot;/accounts&quot;)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">handle</span><span class="hljs-params">(HttpEntity&lt;Account&gt; entity)</span> &#123;<br>    <span class="hljs-comment">// ...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>ResponseEntity<B> 这个类其实是对 http请求的一个封装，封装了http的报头，状态码，http code 等数据，本质上是一种通信协议</li>
+</ul>
+<p>如果使用的不是string类型，那么将会是一种类似rpc协议</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//客户端</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">client</span><span class="hljs-params">()</span>&#123;<br>    <span class="hljs-type">RestTemplate</span> <span class="hljs-variable">restTemplate</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RestTemplate</span>();<br>    ResponseEntity&lt;String&gt; entity = restTemplate.getForEntity(<span class="hljs-string">&quot;http://example.com&quot;</span>, String.class);<br>    <span class="hljs-type">String</span> <span class="hljs-variable">body</span> <span class="hljs-operator">=</span> entity.getBody();<br>    <span class="hljs-type">MediaType</span> <span class="hljs-variable">contentType</span> <span class="hljs-operator">=</span> entity.getHeaders().getContentType();<br>    <span class="hljs-type">HttpStatus</span> <span class="hljs-variable">statusCode</span> <span class="hljs-operator">=</span> entity.getStatusCode();<br>&#125;<br><br><span class="hljs-comment">//服务端</span><br><span class="hljs-meta">@RequestMapping(&quot;/handle&quot;)</span><br><span class="hljs-keyword">public</span> ResponseEntity&lt;String&gt; <span class="hljs-title function_">handle</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">URI</span> <span class="hljs-variable">location</span> <span class="hljs-operator">=</span> ...;<br>    <span class="hljs-type">HttpHeaders</span> <span class="hljs-variable">responseHeaders</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HttpHeaders</span>();<br>    responseHeaders.setLocation(location);<br>    responseHeaders.set(<span class="hljs-string">&quot;MyResponseHeader&quot;</span>, <span class="hljs-string">&quot;MyValue&quot;</span>);<br>    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ResponseEntity</span>&lt;String&gt;(<span class="hljs-string">&quot;Hello World&quot;</span>, responseHeaders,   HttpStatus.CREATED);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>当使用string类型的时候就和@ResponceBody+@ResponseStatus 相同</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@RequestMapping(&quot;/handle&quot;)</span><br><span class="hljs-keyword">public</span> ResponseEntity&lt;String&gt; <span class="hljs-title function_">handle</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-type">URI</span> <span class="hljs-variable">location</span> <span class="hljs-operator">=</span> ...;<br>    <span class="hljs-keyword">return</span> ResponseEntity.created(location).header(<span class="hljs-string">&quot;MyResponseHeader&quot;</span>,  <span class="hljs-string">&quot;MyValue&quot;</span>).body(<span class="hljs-string">&quot;Hello World&quot;</span>);<br>&#125; <br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>HttpHeaders</li>
+</ol>
+<p>返回一个封装的httpheaders的头，这个类有一个set方法，制定方法的头和内容，如果想深入的使用，需要精通http协议</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> HttpHeaders <span class="hljs-title function_">getHeader</span><span class="hljs-params">()</span>&#123;<br>    <span class="hljs-type">HttpHeaders</span> <span class="hljs-variable">httpHeaders</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HttpHeaders</span>();<br>    <span class="hljs-keyword">return</span> httpHeaders;   <br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>string</li>
+</ol>
+<p>最简单的一个方法，spring将会使用这个字符串找到对应的view</p>
+<ol start="5">
+<li>java.util.Map, org.springframework.ui.Model，@ModelAttribute</li>
+</ol>
+<p>spring mvc modelandview体系的东西</p>
+<ol start="6">
+<li><p>ResponseBodyEmitter, SseEmitter， StreamingResponseBody</p>
+</li>
+<li><p>Reactive types — Reactor, RxJava, or others via ReactiveAdapterRegistry</p>
+</li>
+<li><p>@ResponseStatus(HttpStatus.CREATED)</p>
+</li>
+</ol>
+<p>制定返回值的头部信息, 比如制定401 402 这种http code</p>
+
+        </div>
+        
+        <!-- 文章导航 - 只在同分类有多篇文章时显示 -->
+        
+        
+        
+        <nav class="post-nav">
+          
+            <a class="prev" href="../jackson%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">
+              <i class="fas fa-chevron-left"></i>
+              jackson使用指南
+            </a>
+          
+          
+            <a class="next" href="../java-JAAS-Java-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83%E6%9C%8D%E5%8A%A1-/">
+              java-JAAS(Java 认证和授权服务)
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          
+        </nav>
+        
+        
+        <!-- 推荐文章 -->
+        
+
+
+<div class="vs-recommended-posts">
+  <div class="vs-recommended-header">
+    <div class="section-header">
+      <i class="fas fa-lightbulb"></i>
+      <span>RELATED POSTS</span>
+    </div>
+  </div>
+  
+  <div class="vs-recommended-grid">
+    
+      <div class="vs-recommended-item" data-index="0" tabindex="0">
+        <a href="../jackson%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>jackson使用指南</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              jaskson注解详解序列化相关注解@JsonAnyGetter这个注解可以将javabean中的mapper在序列化的时候展开成变量 比如这个json 就可以由这个javabean序列化而来 123456789public class E...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  jackson
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  3 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="1" tabindex="0">
+        <a href="../java-JAAS-Java-%E8%AE%A4%E8%AF%81%E5%92%8C%E6%8E%88%E6%9D%83%E6%9C%8D%E5%8A%A1-/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>java-JAAS(Java 认证和授权服务)</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              之前写过一篇有关java内部安全机制和沙箱的一片文章,那一篇中jvm是基于代码的维度进行权限管理的,但是java在java1.4内置一个JAAS基于用户的权限管理(虽然个人觉得这个东西非常鸡肋,适合单体应用并不适合现在的微服务和分布式框架,...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  3 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="2" tabindex="0">
+        <a href="../java-System-getProperty-xxxx-%E6%96%B9%E6%B3%95%E8%A7%A3%E6%83%91/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>java-System.getProperty(xxxx)方法解惑</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              System.getProperty(“java.version”) 方法是输出java的运行环境变量(系统属性)的方法 主要可以输出的数据有: java.version Java 运行时环境版本java.vendor Java 运行时环境...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="3" tabindex="0">
+        <a href="../jackson%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%A0%81%E8%BF%9B%E8%A1%8C%E9%85%8D%E7%BD%AE/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>jackson使用代码进行配置</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              jackson 使用代码进行配置的一个例子123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  jackson
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  3 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="4" tabindex="0">
+        <a href="../groovy-%E5%AD%A6%E4%B9%A0%E4%BD%BF%E7%94%A8-%E4%B8%80-/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>groovy-学习使用(一)</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  groovy
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="5" tabindex="0">
+        <a href="../java-classpath%E7%9A%84%E7%90%86%E8%A7%A3/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>java-classpath的理解</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              这次写这一片篇文章的起因是对老大搭建的底层框架存在怀疑结果然后自己照着老大的方法运行竟然可以成功原因的费解。因此在这里记录一下自己的疑问解惑过程。 classpath到底是啥我的理解classpath 其实是 java 的一种虚拟的文件目录...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+  </div>
+  
+  <!-- 查看更多 -->
+  <div class="vs-recommended-footer">
+    <a href="../../../../archives/" class="vs-view-more">
+      <i class="fas fa-folder-open"></i>
+      <span>View More Posts</span>
+      <i class="fas fa-chevron-right"></i>
+    </a>
+  </div>
+</div>
+
+<script>
+// 键盘导航支持
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.vs-recommended-item');
+  let currentIndex = -1;
+  
+  // 键盘事件
+  document.addEventListener('keydown', function(e) {
+    if (!items.length) return;
+    
+    if (e.key === 'Tab') {
+      // Tab键导航由浏览器处理
+      return;
+    }
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      
+      // 移除当前高亮
+      if (currentIndex >= 0) {
+        items[currentIndex].classList.remove('vs-focused');
+      }
+      
+      // 更新索引
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % items.length;
+      } else {
+        currentIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+      }
+      
+      // 添加新高亮
+      items[currentIndex].classList.add('vs-focused');
+      items[currentIndex].focus();
+    }
+    
+    if (e.key === 'Enter' && currentIndex >= 0) {
+      const link = items[currentIndex].querySelector('a');
+      if (link) link.click();
+    }
+  });
+  
+  // 鼠标悬停时更新当前索引
+  items.forEach((item, index) => {
+    item.addEventListener('mouseenter', function() {
+      currentIndex = index;
+      items.forEach(i => i.classList.remove('vs-focused'));
+      item.classList.add('vs-focused');
+    });
+  });
+});
+</script>
+
+        
+        <!-- 评论区 -->
+        
+  <div class="vs-comments-section">
+    <div class="section-header">
+      <i class="fas fa-comments"></i>
+      <span>COMMENTS</span>
+    </div>
+    
+    
+      <!-- Waline 评论系统 -->
+      <div id="waline"></div>
+      <script>
+        // 加载 Waline CSS
+        const walineCSS = document.createElement('link');
+        walineCSS.rel = 'stylesheet';
+        walineCSS.href = 'https://unpkg.com/@waline/client@v3/dist/waline.css';
+        document.head.appendChild(walineCSS);
+        
+        // 加载 Waline JS
+        const walineScript = document.createElement('script');
+        walineScript.type = 'module';
+        walineScript.onload = function() {
+          // 确保 Waline 加载后再初始化
+          import('https://unpkg.com/@waline/client@v3/dist/waline.js').then(({ init }) => {
+            const waline = init({
+              el: '#waline',
+              serverURL: 'https://vsc4tblackcat1337.vercel.app/',
+              lang: 'zh-CN',
+              locale: {},
+              emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus"],
+              requiredMeta: [],
+              login: 'disable',
+              wordLimit: 0,
+              pageSize: 10,
+              imageUploader: false,
+              highlighter: true,
+              texRenderer: false,
+              search: false,
+              pageview: false,
+              comment: true,
+              copyright: false,
+              
+              // 自动适配主题
+              dark: document.documentElement.getAttribute('data-theme') === 'dark' ? 'auto' : false,
+              
+              // 评论框占位符
+              placeholder: 'Feel free to leave a comment, no login required!',
+              
+              // 元数据配置
+              meta: ['nick', 'mail', 'link'],
+              
+              // 表情配置
+              emojiCDN: 'https://unpkg.com/@waline/emojis@1.2.0/',
+            });
+            
+            // 监听主题变化
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                  // Waline 会自动处理主题切换
+                  if (waline) {
+                    waline.update({ dark: isDark ? 'auto' : false });
+                  }
+                }
+              });
+            });
+            
+            observer.observe(document.documentElement, {
+              attributes: true,
+              attributeFilter: ['data-theme']
+            });
+          });
+        };
+        walineScript.src = 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+        document.body.appendChild(walineScript);
+      </script>
+    
+    
+  </div>
+
+      </article>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code-branch"></i>
+      master
+    </div>
+    <div class="status-item">
+      <i class="fas fa-sync"></i>
+      John Doe
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      2026-02-18
+    </div>
+    <div class="status-item">
+      Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
+    </div>
+    <div class="status-item github">
+      <a href="#" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 搜索专用配置 (HEXO_CONFIG 在 scripts.ejs 中统一定义) -->
+    <script>
+      window.VSC4T_SEARCH = {
+        root: "/"
+      };
+    </script>
+
+    <!-- 外部脚本 - 统一使用 cdnjs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
+    <script>if(typeof hljs !== 'undefined') hljs.highlightAll();</script>
+    <!-- 这里可以放置自定义脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Apply smooth scroll to non-TOC anchor links
+  document.querySelectorAll('a[href^="#"]:not(.toc-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Check if querySelector is valid before using it
+      try {
+        const targetSelector = this.getAttribute('href');
+        // Basic check for potentially invalid selectors (though not exhaustive)
+        if (targetSelector && targetSelector.length > 1) { 
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            console.warn('Smooth scroll target not found:', targetSelector);
+          }
+        } else {
+           console.warn('Invalid href for smooth scroll:', targetSelector);
+        }
+      } catch (error) {
+        console.error('Error during smooth scroll:', error, 'Selector:', this.getAttribute('href'));
+        // Fallback or alternative behavior if needed
+        // For example, try getElementById if it's just an ID
+        const targetId = this.getAttribute('href').slice(1);
+        try {
+            const targetElementById = document.getElementById(decodeURIComponent(targetId));
+            if (targetElementById) {
+                targetElementById.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (idError) {
+             console.error('Fallback getElementById also failed:', idError);
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Scripts -->
+<script>
+  // 全局配置 - 包含 i18n 字符串和主题配置
+  window.HEXO_CONFIG = {
+    language: "en",
+    root: "/",
+    
+    theme_switch: {
+      enabled: false,
+      light_start: "06:00",
+      light_end: "18:00"
+    },
+    
+    // Search i18n strings
+    search_placeholder: "Type to search...",
+    search_no_results: "No results found",
+    search_result: "result",
+    search_results: "results",
+    search_results_found: "Found undefined results",
+    search_in: "Search in",
+    search_in_title: "Title",
+    search_in_content: "Content",
+    search_in_tags: "Tags",
+    search_in_categories: "Categories",
+    search_filters: "Search Filters",
+    search_recent: "Recent Searches",
+    search_clear: "Clear",
+    search_loading: "Loading...",
+    search_error: "Error loading search data",
+    // Encryption i18n strings
+    encrypt_badge: "Protected",
+    encrypt_title: "Protected Content",
+    encrypt_description: "Enter the password to unlock this article. The password will be saved locally until you choose to re-encrypt.",
+    encrypt_label: "Password",
+    encrypt_placeholder: "Enter password to unlock",
+    encrypt_button: "Unlock",
+    encrypt_button_loading: "Unlocking...",
+    encrypt_hint: "Press Enter to submit. Password will be remembered on this device.",
+    encrypt_success: "Content unlocked successfully!",
+    encrypt_unlocked_note: "Content unlocked. You can re-encrypt at any time.",
+    encrypt_again: "Re-encrypt",
+    encrypt_wrong_password: "Incorrect password. Please try again.",
+    encrypt_show_password: "Show password",
+    encrypt_hide_password: "Hide password",
+    // Sidebar i18n strings
+    sidebar_about: "About",
+    sidebar_categories: "Categories",
+    sidebar_tags: "Tags",
+    // Post page i18n strings
+    post_toc: "TABLE OF CONTENTS",
+    post_category_posts: "CATEGORY POSTS",
+    post_article_tags: "ARTICLE TAGS"
+  };
+</script>
+
+
+
+<!-- 添加所有需要的脚本 -->
+<script src="../../../../js/search.js"></script>
+<script src="../../../../js/theme-switch.js"></script>
+
+<script src="../../../../js/password-protect.js?v=1771424192134"></script>
+
+    <script>
+      // 移动端菜单切换
+      $(document).ready(function() {
+        var $body = $('body');
+        var $sidebar = $('.sidebar-explorer');
+        var $overlay = $('.sidebar-overlay');
+        var $toggle = $('.mobile-menu-toggle');
+
+        function openSidebar() {
+          $sidebar.addClass('show');
+          $overlay.addClass('show');
+          $toggle.addClass('active');
+          $body.addClass('sidebar-open');
+        }
+
+        function closeSidebar() {
+          $sidebar.removeClass('show');
+          $overlay.removeClass('show');
+          $toggle.removeClass('active');
+          $body.removeClass('sidebar-open');
+        }
+
+        // 汉堡按钮点击切换
+        $toggle.on('click', function(e) {
+          e.stopPropagation();
+          if ($sidebar.hasClass('show')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+
+        // 点击遮罩层关闭
+        $overlay.on('click', function() {
+          closeSidebar();
+        });
+
+        // ESC 键关闭
+        $(document).on('keydown', function(e) {
+          if (e.key === 'Escape' && $sidebar.hasClass('show')) {
+            closeSidebar();
+          }
+        });
+
+        // 点击侧边栏内的链接时自动关闭侧边栏，确保锚点跳转正常
+        $sidebar.on('click', 'a', function() {
+          closeSidebar();
+        });
+      });
+    </script>
+  </body>
+</html>

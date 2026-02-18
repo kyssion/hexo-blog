@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>vert.x-使用(2)-创建一个HTTP服务器 | Hexo</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A simple dark Hexo theme inspired by code.">
+  <meta name="keywords" content="vertx">
+  <meta name="author" content="John Doe">
+  <link rel="canonical" href="http://example.com">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="vert.x-使用(2)-创建一个HTTP服务器 | Hexo">
+  <meta property="og:description" content="A simple dark Hexo theme inspired by code.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://example.com">
+  <meta property="og:site_name" content="Hexo">
+  <meta property="article:published_time" content="2024-12-31T13:03:00.000Z">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="vert.x-使用(2)-创建一个HTTP服务器 | Hexo">
+  <meta name="twitter:description" content="A simple dark Hexo theme inspired by code.">
+
+  <!-- Favicon 配置 -->
+  
+
+  <!-- 外部样式 - 统一使用 jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- 代码高亮样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+  <!-- Mermaid.js 库 (defer加载) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <!-- 主题样式 -->
+  <link rel="stylesheet" href="../../../../css/theme-colors.css">
+  <link rel="stylesheet" href="../../../../css/main.css">
+  <link rel="stylesheet" href="../../../../css/code.css">
+  <link rel="stylesheet" href="../../../../css/code-custom.css">
+  <link rel="stylesheet" href="../../../../css/code-languages.css">
+  <link rel="stylesheet" href="../../../../css/mermaid.css">
+
+  <link rel="stylesheet" href="../../../../css/vs-code.css">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192199">
+  <link rel="stylesheet" href="../../../../css/tag.css">
+  <link rel="stylesheet" href="../../../../css/categories.css">
+  <link rel="stylesheet" href="../../../../css/archive.css">
+  <link rel="stylesheet" href="../../../../css/search.css">
+  <link rel="stylesheet" href="../../../../css/mobile.css">  <link rel="stylesheet" href="../../../../css/responsive.css">
+  <link rel="stylesheet" href="../../../../css/elements.css">
+
+  <!-- 添加 JetBrains Mono 字体 -->  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Add any custom head content here -->
+
+  <script defer src="../../../../js/explorer.js"></script>
+  <script defer src="../../../../js/code-enhance.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+      <div class="mobile-menu-toggle" aria-label="Toggle sidebar menu" role="button" tabindex="0">
+        <i class="fas fa-bars"></i>
+      </div>
+      <!-- 移动端侧边栏遮罩层 -->
+      <div class="sidebar-overlay" aria-hidden="true"></div>
+      <header class="vs-header">
+  <nav class="vs-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-brand">
+        <i class="fas fa-terminal"></i>
+        Hexo
+      </a>
+    </div>
+    
+    <div class="nav-right">
+      <a href="/" class="nav-item ">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="/archives/" class="nav-item ">
+        <i class="fas fa-archive"></i>
+        <span>Archives</span>
+      </a>
+      <a href="/categories/" class="nav-item ">
+        <i class="fas fa-folder"></i>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" class="nav-item ">
+        <i class="fas fa-tags"></i>
+        <span>Tags</span>
+      </a>
+      <a href="/search/" class="nav-item ">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="/about/" class="nav-item ">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function smoothScroll(event, target) {
+    event.preventDefault();
+    const targetId = target.substring(target.indexOf('#') + 1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 50, // 调整偏移量
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = target;
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.vs-header');
+    const nav = document.querySelector('.vs-nav');
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    
+    nav.style.setProperty('--scroll-percent', `${scrollPercent}%`);
+    
+    if (window.scrollY > 0) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // 添加标签页切换动画
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('nav-ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+</script>
+
+
+<div class="vscode-container">
+  <!-- 左侧资源管理器 -->
+  <div class="sidebar-explorer">
+    <!-- TOC导航 -->
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-list"></i>
+        <span>TABLE OF CONTENTS</span>
+      </div>
+      <div class="section-content">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#vert-x-%E7%AE%80%E5%8D%95%E8%AF%B7%E6%B1%82%E5%A4%84%E7%90%86"><span class="toc-text">vert.x 简单请求处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vert-x-%E7%AE%80%E5%8D%95%E5%93%8D%E5%BA%94%E5%8F%91%E9%80%81%E5%A4%84%E7%90%86"><span class="toc-text">vert.x 简单响应发送处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vert-x-%E7%9A%84%E8%A1%A8%E5%8D%95%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95"><span class="toc-text">vert.x 的表单处理方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vert-x-%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95"><span class="toc-text">vert.x 的文件处理方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vert-x-%E5%AF%B9defaule%E6%88%96%E8%80%85gzip%E5%8E%8B%E7%BC%A9%E4%BD%93%E7%9A%84%E6%94%AF%E6%8C%81"><span class="toc-text">vert.x 对defaule或者gzip压缩体的支持</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vert-x-http-client%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%A4%84%E7%90%86"><span class="toc-text">vert.x http client客户端处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vert-x-%E6%A0%87%E5%87%86%E5%A4%B4%E5%86%99%E5%85%A5"><span class="toc-text">vert.x 标准头写入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E5%9D%97%E7%9A%84HTTP%E8%AF%B7%E6%B1%82"><span class="toc-text">分块的HTTP请求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#http%E8%B6%85%E6%97%B6"><span class="toc-text">http超时</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%A5%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9%E5%8F%91%E9%80%81%E8%AF%B7%E6%B1%82%E4%BF%A1%E6%81%AF"><span class="toc-text">客户端以文件内容发送请求信息</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="toc-text">客户端异常处理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%A4%84%E7%90%86%E5%93%8D%E5%BA%94"><span class="toc-text">客户端处理响应</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vert-x-client%E7%9A%84cookie%E8%8E%B7%E5%8F%96"><span class="toc-text">vert.x client的cookie获取</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vert-x-%E9%87%8D%E5%AE%9A%E5%90%91%E5%92%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E9%87%8D%E5%AE%9A%E5%90%91"><span class="toc-text">vert.x 重定向和自定义重定向</span></a></li></ol>
+      </div>
+    </div>
+
+    <!-- 同分类文章 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-folder"></i>
+        <span>CATEGORY POSTS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-1--dubbo%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%92%8C%E6%80%9D%E6%83%B3/">dubbo-学习和使用(1)-dubbo架构设计和思想</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-8--dubbo%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83/">dubbo-学习和使用(8)-dubbo配置参考</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-1--%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2/">dubbo-深入(1)-基本使用初探</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-3--%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/">dubbo-深入(3)-注册中心</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-3--%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83/">dubbo-深入(3)-配置参考</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-4---%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">dubbo-深入(4)- 集群架构设计</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-2--%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95/">dubbo学习和使用(2)-使用初探和配置方法</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-3--dubbo%E5%8A%9F%E8%83%BD-1-/">dubbo学习和使用(3)-dubbo功能(1)</a>
+          </div>
+        
+      </div>
+    </div>
+    
+    
+    <!-- 标签列表 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-tags"></i>
+        <span>ARTICLE TAGS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../../../tags/vertx/">vertx</a>
+            <span class="count">(12)</span>
+          </div>
+        
+      </div>
+    </div>
+    
+  </div>
+
+  <!-- 主要内容区域 -->
+  <div class="editor-content">
+    <div class="tab-bar">
+      <div class="tab active">
+        <i class="fas fa-file-alt"></i>
+        <span>vert.x-使用(2)-创建一个HTTP服务器.md</span>
+      </div>
+    </div>
+    
+    <div class="content-area">
+      <article class="post-content">
+        <div class="post-header">
+          <h1>vert.x-使用(2)-创建一个HTTP服务器</h1>
+          <div class="post-meta">
+            <span class="date">
+              <i class="fas fa-calendar-alt"></i>
+              2024-12-31
+            </span>
+            
+            <span class="updated-date">
+              <i class="fas fa-sync-alt"></i>
+              Updated 2026-02-18
+            </span>
+                        
+              <span class="categories">
+                <i class="fas fa-folder"></i>
+                <div class="categories-list">
+                  <ul class="category-item-post-list"><li class="category-item-post-list-item"><a class="category-item-post-list-link" href="../../../../categories/java/">java</a></li></ul>
+                </div>
+              </span>
+            
+            
+              <span class="tags">
+                <i class="fas fa-tags"></i>
+                <div class="tags-list">
+                  <ul class="tag-item-post-list" itemprop="keywords"><li class="tag-item-post-list-item"><a class="tag-item-post-list-link" href="../../../../tags/vertx/" rel="tag">vertx</a></li></ul>
+                </div>
+              </span>
+            
+          </div>
+        </div>
+        
+        <div class="post-body vscode-markdown">
+          <h2 id="vert-x-简单请求处理"><a href="#vert-x-简单请求处理" class="headerlink" title="vert.x 简单请求处理"></a>vert.x 简单请求处理</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> io.vertx.core.MultiMap;<br><span class="hljs-keyword">import</span> io.vertx.core.Vertx;<br><span class="hljs-keyword">import</span> io.vertx.core.buffer.Buffer;<br><span class="hljs-keyword">import</span> io.vertx.core.http.HttpServer;<br><span class="hljs-keyword">import</span> io.vertx.core.http.HttpServerOptions;<br><span class="hljs-keyword">import</span> java.util.Iterator;<br><span class="hljs-keyword">import</span> java.util.Map;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">WebHttpServer</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">Vertx</span> <span class="hljs-variable">vertx</span> <span class="hljs-operator">=</span> Vertx.vertx();<br>        <span class="hljs-type">HttpServerOptions</span> <span class="hljs-variable">options</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HttpServerOptions</span>()<br>                .setMaxWebsocketFrameSize(<span class="hljs-number">1000000</span>)<br>                .setLogActivity(<span class="hljs-literal">true</span>);<br>        <span class="hljs-type">HttpServer</span> <span class="hljs-variable">server</span> <span class="hljs-operator">=</span> vertx.createHttpServer(options);<br>        server.requestHandler(res-&gt;&#123;<br>            <span class="hljs-comment">//这将返回一个实例MultiMap- 它类似于普通的Map或Hash，但允许同一个键的多个值 - 这是因为HTTP允许多个头值具有相同的键。</span><br>            <span class="hljs-type">MultiMap</span> <span class="hljs-variable">headers</span> <span class="hljs-operator">=</span> res.headers();<br>            showMap(<span class="hljs-string">&quot;header&quot;</span>,headers.iterator());<br>            System.out.println(<span class="hljs-string">&quot;absoluteURI:&quot;</span>+res.absoluteURI());<br>            System.out.println(<span class="hljs-string">&quot;uri:&quot;</span>+res.uri());<br>            System.out.println(<span class="hljs-string">&quot;host:&quot;</span>+res.host());<br>            System.out.println(<span class="hljs-string">&quot;path:&quot;</span>+res.path());<br>            System.out.println(<span class="hljs-string">&quot;query:&quot;</span>+res.query());<br>            System.out.println(<span class="hljs-string">&quot;remoteAddress:&quot;</span>+res.remoteAddress());<br>            <span class="hljs-type">MultiMap</span> <span class="hljs-variable">params</span> <span class="hljs-operator">=</span> res.params();<br>            showMap(<span class="hljs-string">&quot;params&quot;</span>,params.iterator());<br>            System.out.println(res.getParam(<span class="hljs-string">&quot;param1&quot;</span>));<span class="hljs-comment">//这个方法只能获取一个值</span><br>            System.out.println(params.getAll(<span class="hljs-string">&quot;param1&quot;</span>));<span class="hljs-comment">//通过这种方法可以获取多个相同的key的值</span><br>            res.response().end(<span class="hljs-string">&quot;Hello world&quot;</span>);<br>            <span class="hljs-comment">//使用handle 处理正文(post大字段非url请求)</span><br>            <span class="hljs-type">Buffer</span> <span class="hljs-variable">totalBuffer</span> <span class="hljs-operator">=</span> Buffer.buffer();<br>            <span class="hljs-comment">//因为body可能并不是一次性获取成功,需要多次聚合</span><br>            res.handler(buffer -&gt; &#123;<br>                System.out.println(<span class="hljs-string">&quot;I have received a chunk of the body of length &quot;</span> + buffer.length());<br>                totalBuffer.appendBuffer(buffer);<br>            &#125;);<br>            <span class="hljs-comment">//当整个处理都结束(数据全部读取完)的时候,将会回调这个方法</span><br>            res.endHandler((end)-&gt;&#123;<br>                System.out.println(<span class="hljs-string">&quot;handle end&quot;</span>);<br>                <span class="hljs-comment">//最终状态的时候一定可以获取到信息,所以直接处理之前缓存的</span><br>                System.out.println(<span class="hljs-string">&quot;Full body received, length = &quot;</span> + totalBuffer.length());<br>                System.out.println(totalBuffer.toString());<br>            &#125;);<br>            <span class="hljs-comment">//vert.x 针对这种情况,将上面的方法统一的实现一个事件 bodyhandle</span><br>            res.bodyHandler(buf -&gt; &#123;<br>                System.out.println(<span class="hljs-string">&quot;Full body received, length = &quot;</span> + buf.length());<br>            &#125;);<br><br>        &#125;);<br>        server.listen(<span class="hljs-number">8888</span>,<span class="hljs-string">&quot;localhost&quot;</span>, res -&gt; &#123;<br>            <span class="hljs-keyword">if</span> (res.succeeded()) &#123;<br>                System.out.println(<span class="hljs-string">&quot;Server is now listening!&quot;</span>);<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                System.out.println(<span class="hljs-string">&quot;Failed to bind!&quot;</span>);<br>            &#125;<br>        &#125;);<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">showMap</span><span class="hljs-params">(String title, Iterator&lt;Map.Entry&lt;String,String&gt;&gt; iterator)</span>&#123;<br>        System.out.println(<span class="hljs-string">&quot;-------------&lt;&quot;</span>+title+<span class="hljs-string">&quot;&gt;-------------&quot;</span>);<br>        <span class="hljs-keyword">while</span> (iterator.hasNext())&#123;<br>            Map.Entry&lt;String,String&gt; item = iterator.next();<br>            System.out.println(item.getKey()+<span class="hljs-string">&quot;  &quot;</span>+item.getValue());<br>        &#125;<br>        System.out.println(<span class="hljs-string">&quot;----------------------------------&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>总结一下,这里说的简单请求处理,其实就是不包括表单提交和文件上传的处理,总结一下</p>
+<ol>
+<li>vert.x 提供了几种回调的用法</li>
+</ol>
+<ul>
+<li>handle : 最基本的请求处理方法,不保证数据完整</li>
+<li>endHandlle : 最终状态的处理器,这个时候数据完整</li>
+<li>bodyHandle : 专门处理简单类型大body的请求,相当于handle和endhandle配合使用的情况<br>其他的回调</li>
+<li>loadhandle : 表单文件上下传递御用handle</li>
+<li>exceptionHandler : 异常御用handle</li>
+</ul>
+<ol start="2">
+<li>vert.x 提供了非常方便的参数处理方法,提供了一个特殊的Map–MultiMap,通过这个方法可以很方便的获取header,params,表单(下面会说明名)中的数据,和普通map的不同点是,MultiMap支持相同的key的情况</li>
+</ol>
+<h2 id="vert-x-简单响应发送处理"><a href="#vert-x-简单响应发送处理" class="headerlink" title="vert.x 简单响应发送处理"></a>vert.x 简单响应发送处理</h2><ol>
+<li>状态码设置</li>
+</ol>
+<p>vert.x的 request对象可以设置setStatusCode来表示对应的状态码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">res.response().setStatusCode(<span class="hljs-number">200</span>);<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>写入相关的头部信息</li>
+</ol>
+<p>vert.x 提供的很方便的消息头部调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//使用headerMap直接调用</span><br><span class="hljs-type">HttpServerResponse</span> <span class="hljs-variable">response</span> <span class="hljs-operator">=</span> request.response();<br><span class="hljs-type">MultiMap</span> <span class="hljs-variable">headers</span> <span class="hljs-operator">=</span> response.headers();<br>headers.set(<span class="hljs-string">&quot;content-type&quot;</span>, <span class="hljs-string">&quot;text/html&quot;</span>);<br>headers.set(<span class="hljs-string">&quot;other-header&quot;</span>, <span class="hljs-string">&quot;wibble&quot;</span>);<br><span class="hljs-comment">//使用response进行调用</span><br><span class="hljs-type">HttpServerResponse</span> <span class="hljs-variable">response</span> <span class="hljs-operator">=</span> request.response();<br>response.putHeader(<span class="hljs-string">&quot;content-type&quot;</span>, <span class="hljs-string">&quot;text/html&quot;</span>).putHeader(<span class="hljs-string">&quot;other-header&quot;</span>, <span class="hljs-string">&quot;wibble&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>vert.x 分块http响应支持</li>
+</ol>
+<h2 id="vert-x-的表单处理方法"><a href="#vert-x-的表单处理方法" class="headerlink" title="vert.x 的表单处理方法"></a>vert.x 的表单处理方法</h2><p>vert.x如果要开启表单支持需要配置一些req的相关参数(针对使用了application&#x2F;x-www-form-urlencoded或multipart&#x2F;form-data协议的表单)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java">server.requestHandler(request -&gt; &#123;<br>    request.setExpectMultipart(<span class="hljs-literal">true</span>);<span class="hljs-comment">//开启表单支持</span><br>    request.endHandler(v -&gt; &#123;<br>        <span class="hljs-comment">// The body has now been fully read, so retrieve the form attributes</span><br>        <span class="hljs-type">MultiMap</span> <span class="hljs-variable">formAttributes</span> <span class="hljs-operator">=</span> request.formAttributes();<br>    &#125;);<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>我们之前讨论过MultiMap是啥,这里不多说了,他将会自动的解析表单中的内容</p>
+<h2 id="vert-x-的文件处理方法"><a href="#vert-x-的文件处理方法" class="headerlink" title="vert.x 的文件处理方法"></a>vert.x 的文件处理方法</h2><ol>
+<li>返回文件流</li>
+</ol>
+<p>vert.x core并没有提供路径解析的方法,这一点我们需要自己手动模拟,这一段代码实现了输入文件名称返回文件流的信息</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">WebHttpServer</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">Vertx</span> <span class="hljs-variable">vertx</span> <span class="hljs-operator">=</span> Vertx.vertx();<br>        <span class="hljs-type">HttpServerOptions</span> <span class="hljs-variable">options</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HttpServerOptions</span>()<br>                .setMaxWebsocketFrameSize(<span class="hljs-number">1000000</span>)<br>                .setLogActivity(<span class="hljs-literal">true</span>);<br>        <span class="hljs-type">HttpServer</span> <span class="hljs-variable">server</span> <span class="hljs-operator">=</span> vertx.createHttpServer(options);<br>        server.requestHandler(res-&gt;&#123;<br>            <span class="hljs-type">String</span> <span class="hljs-variable">url</span> <span class="hljs-operator">=</span> res.path();<br>            res.setExpectMultipart(<span class="hljs-literal">true</span>);<br>            <span class="hljs-keyword">if</span>(url.endsWith(<span class="hljs-string">&quot;.html&quot;</span>))&#123;<br>                res.endHandler(v-&gt;&#123;<br>                    <span class="hljs-comment">//文件上传超级容易,只要输入一个相对路径行了</span><br>                    res.response().sendFile(url.substring(<span class="hljs-number">1</span>));<br>                    <span class="hljs-comment">//TODO 这里使用substring的原因是vertx获取路径的时候,会多带一个/(比如/text.html)</span><br>                &#125;);<br>            &#125;<span class="hljs-keyword">else</span>&#123;<br>                res.response().end(<span class="hljs-string">&quot;Hello world&quot;</span>);<br>            &#125;<br>            res.bodyHandler(req-&gt;&#123;<br>                <span class="hljs-type">MultiMap</span> <span class="hljs-variable">multiMap</span> <span class="hljs-operator">=</span> res.formAttributes();<br>                showMap(<span class="hljs-string">&quot;form&quot;</span>,multiMap.iterator());<br>            &#125;);<br>        &#125;);<br>        server.listen(<span class="hljs-number">8888</span>,<span class="hljs-string">&quot;localhost&quot;</span>, res -&gt; &#123;<br>            <span class="hljs-keyword">if</span> (res.succeeded()) &#123;<br>                System.out.println(<span class="hljs-string">&quot;Server is now listening!&quot;</span>);<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                System.out.println(<span class="hljs-string">&quot;Failed to bind!&quot;</span>);<br>            &#125;<br>        &#125;);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>接受文件上传请求</li>
+</ol>
+<p>vert.x提供了一个时间loadhandle 专门处理文件上传操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java">server.requestHandler(request -&gt; &#123;<br>    request.setExpectMultipart(<span class="hljs-literal">true</span>);<br>    <span class="hljs-comment">//vert.x提供了专门处理文件上传的handle</span><br>    request.uploadHandler(upload -&gt; &#123;<br>        <span class="hljs-comment">//采用缓存分片,防止文件过大导致缓冲区用尽</span><br>        upload.handler(chunk -&gt; &#123;<br>            System.out.println(<span class="hljs-string">&quot;Received a chunk of the upload of length &quot;</span> + chunk.length());<br>        &#125;);<br>        <span class="hljs-comment">//直接将上传的文件传输到指定的流中</span><br>        request.uploadHandler(uploadFile -&gt; &#123;<br>            uploadFile.streamToFileSystem(<span class="hljs-string">&quot;myuploads_directory/&quot;</span> + uploadFile.filename());<br>        &#125;);<br>    &#125;);<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h2 id="vert-x-对defaule或者gzip压缩体的支持"><a href="#vert-x-对defaule或者gzip压缩体的支持" class="headerlink" title="vert.x 对defaule或者gzip压缩体的支持"></a>vert.x 对defaule或者gzip压缩体的支持</h2><p>vert.x提供一个开关来控制是否解压缩gzip方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">HttpServerOptions.setDecompressionSupported(<span class="hljs-literal">true</span>)<span class="hljs-comment">//开启对压缩体的支持</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="vert-x-http-client客户端处理"><a href="#vert-x-http-client客户端处理" class="headerlink" title="vert.x http client客户端处理"></a>vert.x http client客户端处理</h2><p>vert.x 提供了非常方便的http请求处理函数</p>
+<ol>
+<li>vert.x创建新的httpClient客户端</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">Vertx</span> <span class="hljs-variable">vertx</span> <span class="hljs-operator">=</span> Vertx.vertx();<br><span class="hljs-type">HttpClientOptions</span> <span class="hljs-variable">options</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HttpClientOptions</span>()<br>        .setKeepAlive(<span class="hljs-literal">false</span>)<span class="hljs-comment">//keepAlive头</span><br>        .setLogActivity(<span class="hljs-literal">true</span>)<span class="hljs-comment">//开启netty 网络日志</span><br>        .setDefaultHost(<span class="hljs-string">&quot;127.0.0.1&quot;</span>);<span class="hljs-comment">//设置默认host地址</span><br><span class="hljs-type">HttpClient</span> <span class="hljs-variable">client</span> <span class="hljs-operator">=</span> vertx.createHttpClient(options);<br></code></pre></td></tr></table></figure>
+
+<p>vert.x 通过使用这种方法,可以更加快速和便利的初始化客户端,并为他初始化指定的host post url等参数</p>
+<ol start="2">
+<li>vert.x发送简单无body请求</li>
+</ol>
+<p>vert.x 为了方便发送简单的http请求,提供了一组方法来处理</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java">client.getNow(<span class="hljs-string">&quot;foo.othercompany.com&quot;</span>, <span class="hljs-string">&quot;/other-uri&quot;</span>, response -&gt; &#123;<br>    System.out.println(<span class="hljs-string">&quot;Received response with status code &quot;</span> + response.statusCode());<br>&#125;);<br><br>client.headNow(<span class="hljs-string">&quot;/other-uri&quot;</span>, response -&gt; &#123;<br>    System.out.println(<span class="hljs-string">&quot;Received response with status code &quot;</span> + response.statusCode());<br>&#125;);<br><br>client.optionsNow(<span class="hljs-string">&quot;/other-uri&quot;</span>, response -&gt; &#123;<br>    System.out.println(<span class="hljs-string">&quot;Received response with status code &quot;</span> + response.statusCode());<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>vert.x 针对三种请求做了特殊化的处理 GET HEAD OPTIONS , 这三种方法都不会带有body参数,而是直接发出请求</p>
+<p>方法所有参数如下,其中host port url等可以省略</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">client.getNow(<span class="hljs-number">8080</span>, <span class="hljs-string">&quot;myserver.mycompany.com&quot;</span>, <span class="hljs-string">&quot;/some-uri&quot;</span>, response -&gt; &#123;<br>  System.out.println(<span class="hljs-string">&quot;Received response with status code &quot;</span> + response.statusCode());<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>发送一般请求</li>
+</ol>
+<p>vert.x 提供了request方法用来发送一般的请求</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java">client.request(HttpMethod.GET, <span class="hljs-string">&quot;some-uri&quot;</span>, response -&gt; &#123;<br>  System.out.println(<span class="hljs-string">&quot;Received response with status code &quot;</span> + response.statusCode());<br>&#125;).end();<br><br>client.request(HttpMethod.POST, <span class="hljs-string">&quot;foo-uri&quot;</span>, response -&gt; &#123;<br>  System.out.println(<span class="hljs-string">&quot;Received response with status code &quot;</span> + response.statusCode());<br>&#125;).end(<span class="hljs-string">&quot;some-data&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>这个就很明显了,vert.x 提供了request方法,我们可以指定httpmethod host port url 等等参数</p>
+<p>注意最后的end和writer方法,这些方法和server中的类似,将会在body中添加相关的信息数据,并且必须使用了end才会真正的发送数据</p>
+<ol start="4">
+<li>http客户端拆分写法</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">HttpClient</span> <span class="hljs-variable">client</span> <span class="hljs-operator">=</span> vertx.createHttpClient();<br><br><span class="hljs-type">HttpClientRequest</span> <span class="hljs-variable">request</span> <span class="hljs-operator">=</span> client.post(<span class="hljs-string">&quot;some-uri&quot;</span>, response -&gt; &#123;<br>  System.out.println(<span class="hljs-string">&quot;Received response with status code &quot;</span> + response.statusCode());<br>&#125;);<br><br><span class="hljs-comment">//指定头部信息</span><br>request.putHeader(<span class="hljs-string">&quot;content-length&quot;</span>, <span class="hljs-string">&quot;1000&quot;</span>);<br>request.putHeader(<span class="hljs-string">&quot;content-type&quot;</span>, <span class="hljs-string">&quot;text/plain&quot;</span>);<br>request.write(body);<br><br><span class="hljs-comment">//写数据的时候指定编码</span><br>request.write(<span class="hljs-string">&quot;some other data&quot;</span>, <span class="hljs-string">&quot;UTF-16&quot;</span>);<br><br><span class="hljs-comment">//使用buffer</span><br><span class="hljs-type">Buffer</span> <span class="hljs-variable">buffer</span> <span class="hljs-operator">=</span> Buffer.buffer().appendDouble(<span class="hljs-number">12.34d</span>).appendLong(<span class="hljs-number">432l</span>);<br>request.write(buffer);<br><br>request.end();<br><br><span class="hljs-comment">//另一种方法,将头部信息使用串行写法写出来</span><br><br>client.post(<span class="hljs-string">&quot;some-uri&quot;</span>, response -&gt; &#123;<br>  System.out.println(<span class="hljs-string">&quot;Received response with status code &quot;</span> + response.statusCode());<br>&#125;).putHeader(<span class="hljs-string">&quot;content-length&quot;</span>, <span class="hljs-string">&quot;1000&quot;</span>).putHeader(<span class="hljs-string">&quot;content-type&quot;</span>, <span class="hljs-string">&quot;text/plain&quot;</span>).write(body).end();<br><br><span class="hljs-comment">// Or event more simply:</span><br>client.post(<span class="hljs-string">&quot;some-uri&quot;</span>, response -&gt; &#123;<br>  System.out.println(<span class="hljs-string">&quot;Received response with status code &quot;</span> + response.statusCode());<br>&#125;).putHeader(<span class="hljs-string">&quot;content-type&quot;</span>, <span class="hljs-string">&quot;text/plain&quot;</span>).end(body);<br></code></pre></td></tr></table></figure>
+
+<p>注意点:</p>
+<ol>
+<li>当写入请求时，第一次调用write将导致请求标头被写入线路</li>
+<li>实际写入是异步的，可能在调用返回后的某个时间才会发生</li>
+<li>具有请求主体的非分块HTTP请求需要提供Content-Length标头。</li>
+<li>因此，如果您没有使用分块HTTP，则必须Content-Length在写入请求之前设置标头，否则将为时已晚。</li>
+<li>如果您正在调用end带有字符串或缓冲区的方法之一，则Vert.x将Content-Length在写入请求主体之前自动计算并设置标头。</li>
+<li>如果您使用HTTP分块，Content-Length则不需要标头，因此您无需预先计算大小。</li>
+</ol>
+<h2 id="vert-x-标准头写入"><a href="#vert-x-标准头写入" class="headerlink" title="vert.x 标准头写入"></a>vert.x 标准头写入</h2><ol>
+<li>第一种方法,使用head的Multipmap实现</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">MultiMap</span> <span class="hljs-variable">headers</span> <span class="hljs-operator">=</span> request.headers();<br>headers.set(<span class="hljs-string">&quot;content-type&quot;</span>, <span class="hljs-string">&quot;application/json&quot;</span>).set(<span class="hljs-string">&quot;other-header&quot;</span>, <span class="hljs-string">&quot;foo&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>request 直接写入header</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">request.putHeader(<span class="hljs-string">&quot;content-type&quot;</span>, <span class="hljs-string">&quot;application/json&quot;</span>).putHeader(<span class="hljs-string">&quot;other-header&quot;</span>, <span class="hljs-string">&quot;foo&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<h2 id="分块的HTTP请求"><a href="#分块的HTTP请求" class="headerlink" title="分块的HTTP请求"></a>分块的HTTP请求</h2><p>这允许HTTP请求主体以块的形式写入，并且通常在大型请求主体流式传输到服务器时使用，服务器的大小事先不知道。</p>
+<p>您使用HTTP将HTTP请求置于分块模式setChunked。</p>
+<p>在chunked模式下，每次调用write都会导致新的块被写入线路。在分块模式下，无需预先设置Content-Length请求。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java">request.setChunked(<span class="hljs-literal">true</span>);<br><span class="hljs-comment">// Write some chunks</span><br><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) &#123;<br>  request.write(<span class="hljs-string">&quot;this-is-chunk-&quot;</span> + i);<br>&#125;<br>request.end();<br></code></pre></td></tr></table></figure>
+
+<h2 id="http超时"><a href="#http超时" class="headerlink" title="http超时"></a>http超时</h2><p>client 或者 Client的Option可以设置Timeout超时事件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">req.setTimeout();<br>HttpClientOption.setConnectTimeout();<br></code></pre></td></tr></table></figure>
+
+<h2 id="客户端以文件内容发送请求信息"><a href="#客户端以文件内容发送请求信息" class="headerlink" title="客户端以文件内容发送请求信息"></a>客户端以文件内容发送请求信息</h2><p>vert.x 可以将本地文件的内容作为输出,发送出去</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">request.setChunked(<span class="hljs-literal">true</span>);<br><span class="hljs-type">Pump</span> <span class="hljs-variable">pump</span> <span class="hljs-operator">=</span> Pump.pump(file, request);<br>file.endHandler(v -&gt; request.end());<br>pump.start();<br></code></pre></td></tr></table></figure>
+
+<h2 id="客户端异常处理"><a href="#客户端异常处理" class="headerlink" title="客户端异常处理"></a>客户端异常处理</h2><p>vert.x 提供了一个方法可以处理客户端的异常问题</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">HttpClientRequest</span> <span class="hljs-variable">request</span> <span class="hljs-operator">=</span> client.post(<span class="hljs-string">&quot;some-uri&quot;</span>);<br>request.handler(response -&gt; &#123;<br>    System.out.println(<span class="hljs-string">&quot;Received response with status code &quot;</span> + response.statusCode());<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h2 id="客户端处理响应"><a href="#客户端处理响应" class="headerlink" title="客户端处理响应"></a>客户端处理响应</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">HttpClientRequest</span> <span class="hljs-variable">request</span> <span class="hljs-operator">=</span> client.request(HttpMethod.GET,<span class="hljs-number">8888</span>,<span class="hljs-string">&quot;127.0.0.1&quot;</span>,<span class="hljs-string">&quot;sdf&quot;</span>);<br><span class="hljs-comment">//设置创建链接的时候使用的回调函数</span><br>request.connectionHandler(con-&gt;&#123;<br>    System.out.println(<span class="hljs-string">&quot;connection success!&quot;</span>);<br>&#125;);<br><span class="hljs-comment">//响应正文处理</span><br>request.handler(res-&gt;&#123;<br>    <span class="hljs-comment">//获取相应头信息</span><br>    MultiMap header=res.headers();<br>    res.handler(buf-&gt;&#123;<br><br>    &#125;);<br>    <span class="hljs-comment">//和server相同</span><br>    res.bodyHandler(buf-&gt;&#123;<br><br>    &#125;);<br>    <span class="hljs-comment">//和server相同  </span><br>    res.endHandler(buf-&gt;&#123;<br><br>    &#125;);<br>&#125;);<br><span class="hljs-comment">//请求结束时候的回调</span><br>request.endHandler(vo-&gt;&#123;<br><br>&#125;);<br><span class="hljs-comment">//异常出现的回调</span><br>request.exceptionHandler(throwable-&gt;&#123;<br>   throwable.fillInStackTrace();<br>&#125;);<br><br><span class="hljs-comment">//一下三种,佛悉回调,不知道干啥,暂时不研究</span><br>request.pushHandler(req-&gt;&#123;<br><br>&#125;);<br>request.continueHandler(vo-&gt;&#123;<br><br>&#125;);<br>request.drainHandler(vo-&gt;&#123;<br><br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>引申一下:vert.x其实本质上还是能在client中直接编写回调函数的,提供一定的便利性,比如这样</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java">client.getNow(<span class="hljs-string">&quot;some-uri&quot;</span>, response -&gt; &#123;<br><br>  response.bodyHandler(totalBuffer -&gt; &#123;<br>    <span class="hljs-comment">// Now all the body has been read</span><br>    System.out.println(<span class="hljs-string">&quot;Total response body length is &quot;</span> + totalBuffer.length());<br>  &#125;);<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<h2 id="vert-x-client的cookie获取"><a href="#vert-x-client的cookie获取" class="headerlink" title="vert.x client的cookie获取"></a>vert.x client的cookie获取</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">List&lt;String&gt; cookie = res.cookies();<br></code></pre></td></tr></table></figure>
+
+<h2 id="vert-x-重定向和自定义重定向"><a href="#vert-x-重定向和自定义重定向" class="headerlink" title="vert.x 重定向和自定义重定向"></a>vert.x 重定向和自定义重定向</h2><ol>
+<li>vert.x默认重定向使用方法</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//vert.x 支持自定义最大重定向次数,值默认是16</span><br><span class="hljs-type">HttpClient</span> <span class="hljs-variable">client</span> <span class="hljs-operator">=</span> vertx.createHttpClient(<br>    <span class="hljs-keyword">new</span> <span class="hljs-title class_">HttpClientOptions</span>()<br>        .setMaxRedirects(<span class="hljs-number">32</span>));<br>client.get(<span class="hljs-string">&quot;some-uri&quot;</span>, response -&gt; &#123;<br>  System.out.println(<span class="hljs-string">&quot;Received response with status code &quot;</span> + response.statusCode());<br>&#125;).setFollowRedirects(<span class="hljs-literal">true</span>).end();<span class="hljs-comment">//注意要使用重定向必须开启setFollowRedirects==true</span><br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>自定义重定向</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs java">client.redirectHandler(response -&gt; &#123;<br>    <span class="hljs-comment">// Only follow 301 code</span><br>    <span class="hljs-keyword">if</span> (response.statusCode() == <span class="hljs-number">301</span> &amp;&amp; response.getHeader(<span class="hljs-string">&quot;Location&quot;</span>) != <span class="hljs-literal">null</span>) &#123;<br>        <span class="hljs-comment">// Compute the redirect URI</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">absoluteURI</span> <span class="hljs-operator">=</span> response.request().absoluteURI();<br>        <span class="hljs-comment">// Create a new ready to use request that the client will use</span><br>        <span class="hljs-keyword">return</span> Future.succeededFuture(client.getAbs(absoluteURI));<br>    &#125;<br>    <span class="hljs-comment">// We don&#x27;t redirect</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;<br>&#125;);<br></code></pre></td></tr></table></figure>
+
+<p>该政策处理原始HttpClientResponse收到并返回null 或者a Future<HttpClientRequest>。</p>
+<ul>
+<li>当null返回，原来的响应被处理</li>
+<li>返回Future时，请求将在成功完成后发送</li>
+<li>返回future时，将在失败时调用请求中设置的异常处理程序</li>
+</ul>
+
+        </div>
+        
+        <!-- 文章导航 - 只在同分类有多篇文章时显示 -->
+        
+        
+        
+        <nav class="post-nav">
+          
+            <a class="prev" href="../vert-x-%E4%BD%BF%E7%94%A8-1--%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AATCP%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+              <i class="fas fa-chevron-left"></i>
+              vert.x-使用(1)-创建一个TCP服务器
+            </a>
+          
+          
+            <a class="next" href="../vert-x-%E4%BD%BF%E7%94%A8-3--jdbc%E6%95%B0%E6%8D%AE%E5%BA%93%E6%94%AF%E6%8C%81/">
+              vert.x-使用(3)-jdbc数据库支持
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          
+        </nav>
+        
+        
+        <!-- 推荐文章 -->
+        
+
+
+<div class="vs-recommended-posts">
+  <div class="vs-recommended-header">
+    <div class="section-header">
+      <i class="fas fa-lightbulb"></i>
+      <span>RELATED POSTS</span>
+    </div>
+  </div>
+  
+  <div class="vs-recommended-grid">
+    
+      <div class="vs-recommended-item" data-index="0" tabindex="0">
+        <a href="../vert-x-%E4%BD%BF%E7%94%A8-1--%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AATCP%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>vert.x-使用(1)-创建一个TCP服务器</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              vert.x 创建一个TCP服务器是超级简单的创建一个server端服务器12345678910111213141516171819202122232425262728293031323334353637383940414243444546...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  vertx
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  2 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="1" tabindex="0">
+        <a href="../vert-x-%E4%BD%BF%E7%94%A8-3--jdbc%E6%95%B0%E6%8D%AE%E5%BA%93%E6%94%AF%E6%8C%81/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>vert.x-使用(3)-jdbc数据库支持</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  vertx
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="2" tabindex="0">
+        <a href="../vert-x-%E4%BD%93%E7%B3%BB-3--Verticle/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>vert.x-体系(3)-Verticle</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              vert.x提供的Verticle这种方便部署
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  vertx
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="3" tabindex="0">
+        <a href="../vertx/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>vertx</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              Vert.x 快速入门和进阶使用Vert.x 快速入门vertx简介 vertx 的现状和背后支持的组织 vertx 是 eclipse基金会的一个顶级项目,目前社区非常活跃,是在国外非常火的一个框架 vertx的核心思想 Reactive...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  vertx
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  3 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="4" tabindex="0">
+        <a href="../vert-x-%E4%BD%93%E7%B3%BB-2--eventloop/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>vert.x-体系(2)-eventloop</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              简单的说明一下vert.x eventLoop的相关信息Vert.x使用了Reactor模型，通过Event driven的方式，将Events分发到handlers中进行处理，任何event都不会阻塞Eventloop线程，这样Event...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  vertx
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="5" tabindex="0">
+        <a href="../vert-x-%E4%BD%93%E7%B3%BB-1--%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>vert.x-体系(1)-基本使用方法</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              vert.x核心功能 编写 TCP 客户端和服务端 编写支持 WebSocket 的 HTTP 客户端和服务端 事件总线(Event Bus) 共享数据 —— 本地的Map和分布式集群Map 周期性、延迟性动作 部署和撤销 Verticle...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  vertx
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+  </div>
+  
+  <!-- 查看更多 -->
+  <div class="vs-recommended-footer">
+    <a href="../../../../archives/" class="vs-view-more">
+      <i class="fas fa-folder-open"></i>
+      <span>View More Posts</span>
+      <i class="fas fa-chevron-right"></i>
+    </a>
+  </div>
+</div>
+
+<script>
+// 键盘导航支持
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.vs-recommended-item');
+  let currentIndex = -1;
+  
+  // 键盘事件
+  document.addEventListener('keydown', function(e) {
+    if (!items.length) return;
+    
+    if (e.key === 'Tab') {
+      // Tab键导航由浏览器处理
+      return;
+    }
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      
+      // 移除当前高亮
+      if (currentIndex >= 0) {
+        items[currentIndex].classList.remove('vs-focused');
+      }
+      
+      // 更新索引
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % items.length;
+      } else {
+        currentIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+      }
+      
+      // 添加新高亮
+      items[currentIndex].classList.add('vs-focused');
+      items[currentIndex].focus();
+    }
+    
+    if (e.key === 'Enter' && currentIndex >= 0) {
+      const link = items[currentIndex].querySelector('a');
+      if (link) link.click();
+    }
+  });
+  
+  // 鼠标悬停时更新当前索引
+  items.forEach((item, index) => {
+    item.addEventListener('mouseenter', function() {
+      currentIndex = index;
+      items.forEach(i => i.classList.remove('vs-focused'));
+      item.classList.add('vs-focused');
+    });
+  });
+});
+</script>
+
+        
+        <!-- 评论区 -->
+        
+  <div class="vs-comments-section">
+    <div class="section-header">
+      <i class="fas fa-comments"></i>
+      <span>COMMENTS</span>
+    </div>
+    
+    
+      <!-- Waline 评论系统 -->
+      <div id="waline"></div>
+      <script>
+        // 加载 Waline CSS
+        const walineCSS = document.createElement('link');
+        walineCSS.rel = 'stylesheet';
+        walineCSS.href = 'https://unpkg.com/@waline/client@v3/dist/waline.css';
+        document.head.appendChild(walineCSS);
+        
+        // 加载 Waline JS
+        const walineScript = document.createElement('script');
+        walineScript.type = 'module';
+        walineScript.onload = function() {
+          // 确保 Waline 加载后再初始化
+          import('https://unpkg.com/@waline/client@v3/dist/waline.js').then(({ init }) => {
+            const waline = init({
+              el: '#waline',
+              serverURL: 'https://vsc4tblackcat1337.vercel.app/',
+              lang: 'zh-CN',
+              locale: {},
+              emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus"],
+              requiredMeta: [],
+              login: 'disable',
+              wordLimit: 0,
+              pageSize: 10,
+              imageUploader: false,
+              highlighter: true,
+              texRenderer: false,
+              search: false,
+              pageview: false,
+              comment: true,
+              copyright: false,
+              
+              // 自动适配主题
+              dark: document.documentElement.getAttribute('data-theme') === 'dark' ? 'auto' : false,
+              
+              // 评论框占位符
+              placeholder: 'Feel free to leave a comment, no login required!',
+              
+              // 元数据配置
+              meta: ['nick', 'mail', 'link'],
+              
+              // 表情配置
+              emojiCDN: 'https://unpkg.com/@waline/emojis@1.2.0/',
+            });
+            
+            // 监听主题变化
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                  // Waline 会自动处理主题切换
+                  if (waline) {
+                    waline.update({ dark: isDark ? 'auto' : false });
+                  }
+                }
+              });
+            });
+            
+            observer.observe(document.documentElement, {
+              attributes: true,
+              attributeFilter: ['data-theme']
+            });
+          });
+        };
+        walineScript.src = 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+        document.body.appendChild(walineScript);
+      </script>
+    
+    
+  </div>
+
+      </article>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code-branch"></i>
+      master
+    </div>
+    <div class="status-item">
+      <i class="fas fa-sync"></i>
+      John Doe
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      2026-02-18
+    </div>
+    <div class="status-item">
+      Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
+    </div>
+    <div class="status-item github">
+      <a href="#" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 搜索专用配置 (HEXO_CONFIG 在 scripts.ejs 中统一定义) -->
+    <script>
+      window.VSC4T_SEARCH = {
+        root: "/"
+      };
+    </script>
+
+    <!-- 外部脚本 - 统一使用 cdnjs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
+    <script>if(typeof hljs !== 'undefined') hljs.highlightAll();</script>
+    <!-- 这里可以放置自定义脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Apply smooth scroll to non-TOC anchor links
+  document.querySelectorAll('a[href^="#"]:not(.toc-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Check if querySelector is valid before using it
+      try {
+        const targetSelector = this.getAttribute('href');
+        // Basic check for potentially invalid selectors (though not exhaustive)
+        if (targetSelector && targetSelector.length > 1) { 
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            console.warn('Smooth scroll target not found:', targetSelector);
+          }
+        } else {
+           console.warn('Invalid href for smooth scroll:', targetSelector);
+        }
+      } catch (error) {
+        console.error('Error during smooth scroll:', error, 'Selector:', this.getAttribute('href'));
+        // Fallback or alternative behavior if needed
+        // For example, try getElementById if it's just an ID
+        const targetId = this.getAttribute('href').slice(1);
+        try {
+            const targetElementById = document.getElementById(decodeURIComponent(targetId));
+            if (targetElementById) {
+                targetElementById.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (idError) {
+             console.error('Fallback getElementById also failed:', idError);
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Scripts -->
+<script>
+  // 全局配置 - 包含 i18n 字符串和主题配置
+  window.HEXO_CONFIG = {
+    language: "en",
+    root: "/",
+    
+    theme_switch: {
+      enabled: false,
+      light_start: "06:00",
+      light_end: "18:00"
+    },
+    
+    // Search i18n strings
+    search_placeholder: "Type to search...",
+    search_no_results: "No results found",
+    search_result: "result",
+    search_results: "results",
+    search_results_found: "Found undefined results",
+    search_in: "Search in",
+    search_in_title: "Title",
+    search_in_content: "Content",
+    search_in_tags: "Tags",
+    search_in_categories: "Categories",
+    search_filters: "Search Filters",
+    search_recent: "Recent Searches",
+    search_clear: "Clear",
+    search_loading: "Loading...",
+    search_error: "Error loading search data",
+    // Encryption i18n strings
+    encrypt_badge: "Protected",
+    encrypt_title: "Protected Content",
+    encrypt_description: "Enter the password to unlock this article. The password will be saved locally until you choose to re-encrypt.",
+    encrypt_label: "Password",
+    encrypt_placeholder: "Enter password to unlock",
+    encrypt_button: "Unlock",
+    encrypt_button_loading: "Unlocking...",
+    encrypt_hint: "Press Enter to submit. Password will be remembered on this device.",
+    encrypt_success: "Content unlocked successfully!",
+    encrypt_unlocked_note: "Content unlocked. You can re-encrypt at any time.",
+    encrypt_again: "Re-encrypt",
+    encrypt_wrong_password: "Incorrect password. Please try again.",
+    encrypt_show_password: "Show password",
+    encrypt_hide_password: "Hide password",
+    // Sidebar i18n strings
+    sidebar_about: "About",
+    sidebar_categories: "Categories",
+    sidebar_tags: "Tags",
+    // Post page i18n strings
+    post_toc: "TABLE OF CONTENTS",
+    post_category_posts: "CATEGORY POSTS",
+    post_article_tags: "ARTICLE TAGS"
+  };
+</script>
+
+
+
+<!-- 添加所有需要的脚本 -->
+<script src="../../../../js/search.js"></script>
+<script src="../../../../js/theme-switch.js"></script>
+
+<script src="../../../../js/password-protect.js?v=1771424192200"></script>
+
+    <script>
+      // 移动端菜单切换
+      $(document).ready(function() {
+        var $body = $('body');
+        var $sidebar = $('.sidebar-explorer');
+        var $overlay = $('.sidebar-overlay');
+        var $toggle = $('.mobile-menu-toggle');
+
+        function openSidebar() {
+          $sidebar.addClass('show');
+          $overlay.addClass('show');
+          $toggle.addClass('active');
+          $body.addClass('sidebar-open');
+        }
+
+        function closeSidebar() {
+          $sidebar.removeClass('show');
+          $overlay.removeClass('show');
+          $toggle.removeClass('active');
+          $body.removeClass('sidebar-open');
+        }
+
+        // 汉堡按钮点击切换
+        $toggle.on('click', function(e) {
+          e.stopPropagation();
+          if ($sidebar.hasClass('show')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+
+        // 点击遮罩层关闭
+        $overlay.on('click', function() {
+          closeSidebar();
+        });
+
+        // ESC 键关闭
+        $(document).on('keydown', function(e) {
+          if (e.key === 'Escape' && $sidebar.hasClass('show')) {
+            closeSidebar();
+          }
+        });
+
+        // 点击侧边栏内的链接时自动关闭侧边栏，确保锚点跳转正常
+        $sidebar.on('click', 'a', function() {
+          closeSidebar();
+        });
+      });
+    </script>
+  </body>
+</html>

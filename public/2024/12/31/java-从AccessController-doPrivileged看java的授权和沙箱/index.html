@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>java-从AccessController.doPrivileged看java的授权和沙箱 | Hexo</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A simple dark Hexo theme inspired by code.">
+  <meta name="keywords" content="">
+  <meta name="author" content="John Doe">
+  <link rel="canonical" href="http://example.com">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="java-从AccessController.doPrivileged看java的授权和沙箱 | Hexo">
+  <meta property="og:description" content="A simple dark Hexo theme inspired by code.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://example.com">
+  <meta property="og:site_name" content="Hexo">
+  <meta property="article:published_time" content="2024-12-31T14:52:00.000Z">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="java-从AccessController.doPrivileged看java的授权和沙箱 | Hexo">
+  <meta name="twitter:description" content="A simple dark Hexo theme inspired by code.">
+
+  <!-- Favicon 配置 -->
+  
+
+  <!-- 外部样式 - 统一使用 jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- 代码高亮样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+  <!-- Mermaid.js 库 (defer加载) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <!-- 主题样式 -->
+  <link rel="stylesheet" href="../../../../css/theme-colors.css">
+  <link rel="stylesheet" href="../../../../css/main.css">
+  <link rel="stylesheet" href="../../../../css/code.css">
+  <link rel="stylesheet" href="../../../../css/code-custom.css">
+  <link rel="stylesheet" href="../../../../css/code-languages.css">
+  <link rel="stylesheet" href="../../../../css/mermaid.css">
+
+  <link rel="stylesheet" href="../../../../css/vs-code.css">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192144">
+  <link rel="stylesheet" href="../../../../css/tag.css">
+  <link rel="stylesheet" href="../../../../css/categories.css">
+  <link rel="stylesheet" href="../../../../css/archive.css">
+  <link rel="stylesheet" href="../../../../css/search.css">
+  <link rel="stylesheet" href="../../../../css/mobile.css">  <link rel="stylesheet" href="../../../../css/responsive.css">
+  <link rel="stylesheet" href="../../../../css/elements.css">
+
+  <!-- 添加 JetBrains Mono 字体 -->  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Add any custom head content here -->
+
+  <script defer src="../../../../js/explorer.js"></script>
+  <script defer src="../../../../js/code-enhance.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+      <div class="mobile-menu-toggle" aria-label="Toggle sidebar menu" role="button" tabindex="0">
+        <i class="fas fa-bars"></i>
+      </div>
+      <!-- 移动端侧边栏遮罩层 -->
+      <div class="sidebar-overlay" aria-hidden="true"></div>
+      <header class="vs-header">
+  <nav class="vs-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-brand">
+        <i class="fas fa-terminal"></i>
+        Hexo
+      </a>
+    </div>
+    
+    <div class="nav-right">
+      <a href="/" class="nav-item ">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="/archives/" class="nav-item ">
+        <i class="fas fa-archive"></i>
+        <span>Archives</span>
+      </a>
+      <a href="/categories/" class="nav-item ">
+        <i class="fas fa-folder"></i>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" class="nav-item ">
+        <i class="fas fa-tags"></i>
+        <span>Tags</span>
+      </a>
+      <a href="/search/" class="nav-item ">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="/about/" class="nav-item ">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function smoothScroll(event, target) {
+    event.preventDefault();
+    const targetId = target.substring(target.indexOf('#') + 1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 50, // 调整偏移量
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = target;
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.vs-header');
+    const nav = document.querySelector('.vs-nav');
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    
+    nav.style.setProperty('--scroll-percent', `${scrollPercent}%`);
+    
+    if (window.scrollY > 0) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // 添加标签页切换动画
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('nav-ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+</script>
+
+
+<div class="vscode-container">
+  <!-- 左侧资源管理器 -->
+  <div class="sidebar-explorer">
+    <!-- TOC导航 -->
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-list"></i>
+        <span>TABLE OF CONTENTS</span>
+      </div>
+      <div class="section-content">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%83%E9%99%90"><span class="toc-text">权限</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%9D%E6%8A%A4%E5%9F%9F%E5%92%8C%E4%BB%A3%E7%A0%81%E6%BA%90"><span class="toc-text">保护域和代码源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%83%E9%99%90%E7%94%9F%E6%88%90%E7%9A%84%E5%85%B7%E4%BD%93%E8%BF%87%E7%A8%8B"><span class="toc-text">权限生成的具体过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%83%E9%99%90%E5%8A%A0%E8%BD%BD%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-text">权限加载的过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C%E8%BF%87%E7%A8%8B"><span class="toc-text">执行过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9D%83%E9%99%90%E7%9A%84%E7%BB%A7%E6%89%BF%E5%92%8C%E4%BC%98%E5%8C%96%E9%97%AE%E9%A2%98"><span class="toc-text">权限的继承和优化问题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E8%8A%82-%E7%9C%8Bjava%E7%9A%84AccessController-doPrivileged"><span class="toc-text">最终节-&gt; 看java的AccessController.doPrivileged</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%B0%8F%E4%BE%8B%E5%AD%90"><span class="toc-text">一个简单的小例子</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AD%96%E7%95%A5%E6%96%87%E4%BB%B6-JREHOME-lib-security-java-policy"><span class="toc-text">策略文件$JREHOME&#x2F;lib&#x2F;security&#x2F;java.policy</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E6%96%87%E4%BB%B6-JREHOME-lib-security-java-security-%E7%94%A8%E6%9D%A5%E6%8C%87%E5%AE%9A%E8%BF%90%E8%A1%8C%E5%AE%89%E5%85%A8%E6%A8%A1%E5%BC%8F%E4%B8%8B%E7%9A%84%E5%90%84%E7%A7%8D%E5%8F%82%E6%95%B0-%E6%AF%94%E5%A6%82%E5%9C%A8%E5%93%AA%E9%87%8C%E5%8A%A0%E8%BD%BD%E7%AD%96%E7%95%A5%E6%96%87%E4%BB%B6"><span class="toc-text">参数文件$JREHOME&#x2F;lib&#x2F;security&#x2F;java.security-用来指定运行安全模式下的各种参数(比如在哪里加载策略文件)\</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-text">代码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BB%93%E8%AF%AD"><span class="toc-text">结语</span></a></li></ol>
+      </div>
+    </div>
+
+    <!-- 同分类文章 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-folder"></i>
+        <span>CATEGORY POSTS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-1--dubbo%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%92%8C%E6%80%9D%E6%83%B3/">dubbo-学习和使用(1)-dubbo架构设计和思想</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-8--dubbo%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83/">dubbo-学习和使用(8)-dubbo配置参考</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-1--%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2/">dubbo-深入(1)-基本使用初探</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-3--%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/">dubbo-深入(3)-注册中心</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-3--%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83/">dubbo-深入(3)-配置参考</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-4---%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">dubbo-深入(4)- 集群架构设计</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-2--%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95/">dubbo学习和使用(2)-使用初探和配置方法</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-3--dubbo%E5%8A%9F%E8%83%BD-1-/">dubbo学习和使用(3)-dubbo功能(1)</a>
+          </div>
+        
+      </div>
+    </div>
+    
+    
+    <!-- 标签列表 -->
+    
+  </div>
+
+  <!-- 主要内容区域 -->
+  <div class="editor-content">
+    <div class="tab-bar">
+      <div class="tab active">
+        <i class="fas fa-file-alt"></i>
+        <span>java-从AccessController.doPrivileged看java的授权和沙箱.md</span>
+      </div>
+    </div>
+    
+    <div class="content-area">
+      <article class="post-content">
+        <div class="post-header">
+          <h1>java-从AccessController.doPrivileged看java的授权和沙箱</h1>
+          <div class="post-meta">
+            <span class="date">
+              <i class="fas fa-calendar-alt"></i>
+              2024-12-31
+            </span>
+            
+            <span class="updated-date">
+              <i class="fas fa-sync-alt"></i>
+              Updated 2026-02-18
+            </span>
+                        
+              <span class="categories">
+                <i class="fas fa-folder"></i>
+                <div class="categories-list">
+                  <ul class="category-item-post-list"><li class="category-item-post-list-item"><a class="category-item-post-list-link" href="../../../../categories/java/">java</a></li></ul>
+                </div>
+              </span>
+            
+            
+          </div>
+        </div>
+        
+        <div class="post-body vscode-markdown">
+          <blockquote>
+<p>这里主要是介绍java以代码为核心的授权方法(还有基于用户的jaas授权方法不做讨论),这个还是比较重要的(其实是看很多源代码框架使用了这个方法,为了保证代码在沙盒环境中可以运行).</p>
+</blockquote>
+<h3 id="权限"><a href="#权限" class="headerlink" title="权限"></a>权限</h3><p>在Java平台安全体系结构中，所有访问权限都是类型化的并且有层次结构，其根是抽象类 java.security.Permission 。标准的权限类大约有如下的这些(使用类来标记权限)</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>类型</th>
+<th>权限名</th>
+<th>操作</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>文件权限</td>
+<td>java.io.FilePermission</td>
+<td>文件名（平台依赖）</td>
+<td>读、写、删除、执行</td>
+<td>允许所有问价的读写删除执行：permission java.io.FilePermission “&lt;&lt; ALL FILES&gt;&gt;”, “read,write,delete,execute”;。允许对用户主目录的读：permission java.io.FilePermission “${user.home}&#x2F;-“, “read”;。</td>
+</tr>
+<tr>
+<td>套接字权限</td>
+<td>java.net.SocketPermission</td>
+<td>主机名:端口</td>
+<td>接收、监听、连接、解析</td>
+<td>允许实现所有套接字操作：permission java.net.SocketPermission “<em>:1-“, “accept,listen,connect,resolve”;。允许建立到特定网站的连接：permission java.net.SocketPermission “</em>.abc.com:1-“, “connect,resolve”;。</td>
+</tr>
+<tr>
+<td>属性权限</td>
+<td>java.util.PropertyPermission</td>
+<td>需要访问的jvm属性名</td>
+<td>读、写</td>
+<td>读标准Java属性：permission java.util.PropertyPermission “java.<em>“, “read”;。在sdo包中创建属性：permission java.util.PropertyPermission “sdo.</em>“, “read,write”;。</td>
+</tr>
+<tr>
+<td>运行时权限</td>
+<td>java.lang.RuntimePermission</td>
+<td>多种权限名[见附录A]</td>
+<td>无</td>
+<td>允许代码初始化打印任务：permission java.lang.RuntimePermission “queuePrintJob”</td>
+</tr>
+<tr>
+<td>AWT权限</td>
+<td>java.awt.AWTPermission</td>
+<td>6种权限名[见附录B]</td>
+<td>无</td>
+<td>允许代码充分使用robot类：permission java.awt.AWTPermission “createRobot”; permission java.awt.AWTPermission “readDisplayPixels”;。</td>
+</tr>
+<tr>
+<td>网络权限</td>
+<td>java.net.NetPermission</td>
+<td>3种权限名[见附录C]</td>
+<td>无</td>
+<td>允许安装流处理器：permission java.net.NetPermission “specifyStreamHandler”;。</td>
+</tr>
+<tr>
+<td>安全权限</td>
+<td>java.security.SecurityPermission</td>
+<td>多种权限名[见附录D]</td>
+<td>无</td>
+<td></td>
+</tr>
+<tr>
+<td>序列化权限</td>
+<td>java.io.SerializablePermission</td>
+<td>2种权限名[见附录E]</td>
+<td>无</td>
+<td></td>
+</tr>
+<tr>
+<td>反射权限</td>
+<td>java.lang.reflect.ReflectPermission</td>
+<td>suppressAccessChecks（允许利用反射检查任意类的私有变量）</td>
+<td>无</td>
+<td></td>
+</tr>
+<tr>
+<td>完全权限</td>
+<td>java.security.AllPermission</td>
+<td>无（拥有执行任何操作的权限）</td>
+<td>无</td>
+<td></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>在这种模式下 jvm的权限是给代码的(可以说类反正就代码的),一个类(代码)可以有多个权限(在$JREHOME&#x2F;lib&#x2F;security&#x2F;java.policy文件中进行配置下面说),使用PermissionCollection这样的类进行封装(jvm在运行的时候通过文件自动生成好了,然后通过反射进行校验这些东西都被隐藏起来了,研究下去意义不大,就没有接着研究)</p>
+</blockquote>
+<h3 id="保护域和代码源"><a href="#保护域和代码源" class="headerlink" title="保护域和代码源"></a>保护域和代码源</h3><blockquote>
+<p>java2 是针对代码(对象类)添加保护区,有一个内部类ProtectionDomain,通过这个类授权访问权限,如果多个类使用同一个ProtectionDomain将会认为这个权限是相同的</p>
+</blockquote>
+<blockquote>
+<p>显然，一定要能惟一地标识一段运行代码以保证它的访问权限没有冲突。运行代码的惟一标识属性共有两项：代码的来源（代码装载到内存所用的 URL）和代码的 signer 实体（由对应于运行代码的数字签名的一组公共密钥指定）。这两种特性的组合在 Java 2 平台安全体系结构中编写为给定运行代码的 CodeSource (在ProtectionDomain内部可以看见这个对象)。</p>
+</blockquote>
+<h3 id="权限生成的具体过程"><a href="#权限生成的具体过程" class="headerlink" title="权限生成的具体过程"></a>权限生成的具体过程</h3><ol>
+<li>Java 运行时通过名为 java.security.Policy 的类（的具体扩展）设置 ProtectionDomain 与授予它的权限之间的映射。</li>
+<li>这个类的默认扩展是 sun.security.provider.PolicyFile 。正如其名字所表明的， sun.security.provider.PolicyFile 从一个文件中获得 CodeSource （由位置 URL 和 signer 标识别名）与授予它的权限之间的映射。</li>
+<li>可以通过环境变量 java.security.policy 将这个文件的位置作为输入提供给 JVM。 Policy 类提供了一个名为 getPermissions() 的方法，可以调用它以获得授予特定 CodeSource 的一组权限。</li>
+</ol>
+<h3 id="权限加载的过程"><a href="#权限加载的过程" class="headerlink" title="权限加载的过程"></a>权限加载的过程</h3><ol>
+<li>一个类与 其 ProtectionDomain 之间的映射是在类第一次装载时设置的，并在类被垃圾收集之前不会改变。</li>
+<li>一个类通常是由一个名为 SecureClassLoader 的特殊类装载的。 SecureClassLoader 首先从相应 URL 处装载字节，如果需要还会验证包围文档文件的数字签名。然后它调用上述 getPermissions() 方法获得授予类的 CodeSource 的一个填充了静态绑定权限的异类 PermissionCollection 。</li>
+<li>然后 SecureClassLoader 创建新的 ProtectionDomain ，传递 CodeSource 及其相关的权限作为其构造函数的参数（当然，这假定对于给定 CodeSource 还不存在 ProtectionDomain 。如果用一个现有的 CodeSource 装载类，那么就会重复使用它已经建立的 ProtectionDomain ） 。 </li>
+<li>最后，用装载的类字节向 JVM 定义一个类，并在关联的 ProtectionDomain 中维护一个引用指针。</li>
+</ol>
+<h3 id="执行过程"><a href="#执行过程" class="headerlink" title="执行过程"></a>执行过程</h3><p>一个名为 SecurityManager 的类负责实施系统安全策略。在默认情况下不安装安全管理器，必须通过一个在启动时传递给 JVM 的、名为 java.security.manager 的环境变量显式地指定。任何应用程序都可找到安装的 SecurityManager 并调用它相应的 check<XXX> 方法。如果所要求的权限在给定运行时上下文中是授予的，那么调用将无声地返回。如果权限没有授予，那么将抛出一个 java.security.AccessControlException 。</p>
+<p>Java 2 平台安全体系结构通过引入一个名为 AccessController 的新类使这一切变得简单了，并更具有可扩展性。这个类的目的与 SecurityManager 是一样的，即它负责做出访问决定。当然， 为了向后兼容性保留了 SecurityManager 类，但是其更新的实现委派给了底层的 AccessController 。对 SecurityManager 类进行的所有 check<XXX> 方法调用都解释为相应的 Permission 对象，并将它作为输入参数传递给 AccessController 类的 checkPermission() 方法。</p>
+<h3 id="权限的继承和优化问题"><a href="#权限的继承和优化问题" class="headerlink" title="权限的继承和优化问题"></a>权限的继承和优化问题</h3><blockquote>
+<p>如果说类A调用了类B,B调用了类C,那么C的权限就是ABC权限的交集</p>
+</blockquote>
+<h3 id="最终节-看java的AccessController-doPrivileged"><a href="#最终节-看java的AccessController-doPrivileged" class="headerlink" title="最终节-&gt; 看java的AccessController.doPrivileged"></a>最终节-&gt; 看java的AccessController.doPrivileged</h3><ul>
+<li>通过上面的引子,终于了解的这个方法是干啥的了,这个方法就是解决这样一个问题,<strong>如果A调用了B,但是A的权限太小,B的权限太大导致,A影响了B的功能,这个使用使用上面的方法,这个方法将会让jvm进行权限计算的时候将会使用B最为最顶层的权限,这个样A或者A之前的权限就对B和B之后的不起作用了</strong></li>
+</ul>
+<h3 id="一个简单的小例子"><a href="#一个简单的小例子" class="headerlink" title="一个简单的小例子"></a>一个简单的小例子</h3><h4 id="策略文件-JREHOME-lib-security-java-policy"><a href="#策略文件-JREHOME-lib-security-java-policy" class="headerlink" title="策略文件$JREHOME&#x2F;lib&#x2F;security&#x2F;java.policy"></a>策略文件$JREHOME&#x2F;lib&#x2F;security&#x2F;java.policy</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// Standard extensions get all permissions by default</span><br><br>grant codeBase <span class="hljs-string">&quot;file:$&#123;&#123;java.ext.dirs&#125;&#125;/*&quot;</span> &#123;<br>        permission java.security.AllPermission;<br></code></pre></td></tr></table></figure>
+
+<h4 id="参数文件-JREHOME-lib-security-java-security-用来指定运行安全模式下的各种参数-比如在哪里加载策略文件"><a href="#参数文件-JREHOME-lib-security-java-security-用来指定运行安全模式下的各种参数-比如在哪里加载策略文件" class="headerlink" title="参数文件$JREHOME&#x2F;lib&#x2F;security&#x2F;java.security-用来指定运行安全模式下的各种参数(比如在哪里加载策略文件)\"></a>参数文件$JREHOME&#x2F;lib&#x2F;security&#x2F;java.security-用来指定运行安全模式下的各种参数(比如在哪里加载策略文件)\</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"># The <span class="hljs-keyword">default</span> is to have a single system-wide policy file,<br># and a policy file in the user<span class="hljs-string">&#x27;s home directory.</span><br><span class="hljs-string">policy.url.1=file:$&#123;java.home&#125;/lib/security/java.policy</span><br><span class="hljs-string">policy.url.2=file:$&#123;user.home&#125;/.java.policy</span><br><span class="hljs-string"># whether or not we expand properties in the policy file</span><br><span class="hljs-string"># if this is set to false, properties ($&#123;...&#125;) will not be expanded in policy</span><br><span class="hljs-string"># files.</span><br><span class="hljs-string">policy.expandProperties=true</span><br><span class="hljs-string"># whether or not we allow an extra policy to be passed on the command line</span><br><span class="hljs-string"># with -Djava.security.policy=somefile. Comment out this line to disable</span><br><span class="hljs-string"># this feature.</span><br><span class="hljs-string">policy.allowSystemProperty=true</span><br></code></pre></td></tr></table></figure>
+
+<h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.io.File;<br><span class="hljs-keyword">import</span> java.io.FileInputStream;<br><span class="hljs-keyword">import</span> java.io.FileNotFoundException;<br><span class="hljs-keyword">import</span> java.io.IOException;<br><span class="hljs-keyword">import</span> java.io.InputStream;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">PolicyTest</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">file</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">File</span> <span class="hljs-variable">f</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">File</span>(<span class="hljs-string">&quot;r.txt&quot;</span>);<br>        InputStream is;<br>        <span class="hljs-keyword">try</span> &#123;<br>            is = <span class="hljs-keyword">new</span> <span class="hljs-title class_">FileInputStream</span>(f);<br>            <span class="hljs-type">byte</span>[] content = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[<span class="hljs-number">1024</span>];<br>            <span class="hljs-keyword">while</span> (is.read(content) != -<span class="hljs-number">1</span>) &#123;<br>                System.out.println(<span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(content));<br>            &#125;<br>        &#125; <span class="hljs-keyword">catch</span> (FileNotFoundException e) &#123;<br>            <span class="hljs-comment">// TODO Auto-generated catch block</span><br>            e.printStackTrace();<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            <span class="hljs-comment">// TODO Auto-generated catch block</span><br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-comment">// test read file.</span><br>        file();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>启动参数加入-Djava.security.manager使用安全沙箱模式运行,将会报错</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java">Exception in thread <span class="hljs-string">&quot;main&quot;</span> java.security.AccessControlException: access <span class="hljs-title function_">denied</span><span class="hljs-params">(<span class="hljs-string">&quot;java.io.FilePermission&quot;</span> <span class="hljs-string">&quot;D:githubCDLibsrcmainresourcessecurityr.txt&quot;</span> <span class="hljs-string">&quot;read&quot;</span>)</span><br>at java.security.AccessControlContext.checkPermission(Unknown Source)<br>at java.security.AccessController.checkPermission(Unknown Source)<br>at java.lang.SecurityManager.checkPermission(Unknown Source)<br>at java.lang.SecurityManager.checkRead(Unknown Source)<br>at java.io.FileInputStream.&lt;init&gt;(Unknown Source)<br>at com.taobao.cd.security.PolicyTest.main(PolicyTest.java:<span class="hljs-number">15</span>)<br></code></pre></td></tr></table></figure>
+
+<p>这样,在权限文件中添加一条这样的规则</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">grant &#123;<br>    permission java.io.FilePermission <span class="hljs-string">&quot;D:\\github\\CDLib\\src\\main\\resources\\security\\*&quot;</span>, <span class="hljs-string">&quot;read&quot;</span>;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>然后代码就通过了</p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><blockquote>
+<p>这个特性感觉使用的应该不多,框架里用的挺多,比较冷门记录一下</p>
+</blockquote>
+
+        </div>
+        
+        <!-- 文章导航 - 只在同分类有多篇文章时显示 -->
+        
+        
+        
+        <nav class="post-nav">
+          
+            <a class="prev" href="../java-%E4%B8%80%E4%BA%9B%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/">
+              <i class="fas fa-chevron-left"></i>
+              java-一些基本知识点整理
+            </a>
+          
+          
+            <a class="next" href="../java-%E4%BB%8Ejava%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%9D%A5%E7%9C%8Bjava%E7%9A%84%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97/">
+              java-从java线程池来看java的阻塞队列
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          
+        </nav>
+        
+        
+        <!-- 推荐文章 -->
+        
+
+
+<div class="vs-recommended-posts">
+  <div class="vs-recommended-header">
+    <div class="section-header">
+      <i class="fas fa-lightbulb"></i>
+      <span>RELATED POSTS</span>
+    </div>
+  </div>
+  
+  <div class="vs-recommended-grid">
+    
+      <div class="vs-recommended-item" data-index="0" tabindex="0">
+        <a href="../java-%E4%B8%80%E4%BA%9B%E5%9F%BA%E6%9C%AC%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>java-一些基本知识点整理</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              学习java一定的时间了，这里一些知识点的整理 变量必须是字母,下划线或者$符开头不能是 java 关键字变量命名规范 驼峰写法,类首字母大写驼峰写法12int $a = 123;int _b = 123; 基本数据类型1234567891...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="1" tabindex="0">
+        <a href="../java-%E4%BB%8Ejava%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%9D%A5%E7%9C%8Bjava%E7%9A%84%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>java-从java线程池来看java的阻塞队列</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              一说到java的阻塞队列，我们就会想到在java的jdk中的那么多的类 1.ArrayDeque, （数组双端队列）2.PriorityQueue, （优先级队列）3.ConcurrentLinkedQueue, （基于链表的并发队列）4....
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  2 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="2" tabindex="0">
+        <a href="../java-web%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>java-web乱码问题解决</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              request.setCharacterEncoding(“UTF-8”)&amp;#x2F;&amp;#x2F;作用是设置对客户端请求进行重新编码的编码 该方法用来指定对浏览器发送来的数据进行重新编码（或者称为解码）时，使用的编码。 response.s...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="3" tabindex="0">
+        <a href="../java-%E5%85%B3%E4%BA%8Esystem-gc--%E4%B8%8Efinalize--%E6%96%B9%E6%B3%95/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>java-关于system.gc()与finalize()方法</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              1. finalize的作用 finalize()是Object的protected方法，子类可以覆盖该方法以实现资源清理工作，GC在回收对象之前调用该方法。 finalize()与C++中的析构函数不是对应的。C++中的析构函数调用的时机...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  2 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="4" tabindex="0">
+        <a href="../java-jvm%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0%E6%95%B4%E7%90%86/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>java-jvm常用参数整理</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              堆 －Xms和—Xmx 堆的最小值 &amp;amp; 堆的最大值默认值是物理内存的1&amp;#x2F;4(&amp;lt;1GB) &amp;amp; 默认值是物理内存的1&amp;#x2F;64(&amp;lt;1GB)空余堆内存小于40%时，JVM就会增大堆直到-Xmx的最大限制...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="5" tabindex="0">
+        <a href="../java-%E5%9B%9B%E7%A7%8D%E5%BC%95%E7%94%A8%E7%9A%84%E5%B7%AE%E5%88%AB%E5%92%8C%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>java-四种引用的差别和使用场景</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              一.了解 强引用、软引用、弱引用、虚引用的概念在Java中，虽然不需要程序员手动去管理对象的生命周期，但是如果希望某些对象具备一定的生命周期的话（比如内存不足时JVM就会自动回收某些对象从而避免OutOfMemory的错误）就需要用到软引用...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  2 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+  </div>
+  
+  <!-- 查看更多 -->
+  <div class="vs-recommended-footer">
+    <a href="../../../../archives/" class="vs-view-more">
+      <i class="fas fa-folder-open"></i>
+      <span>View More Posts</span>
+      <i class="fas fa-chevron-right"></i>
+    </a>
+  </div>
+</div>
+
+<script>
+// 键盘导航支持
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.vs-recommended-item');
+  let currentIndex = -1;
+  
+  // 键盘事件
+  document.addEventListener('keydown', function(e) {
+    if (!items.length) return;
+    
+    if (e.key === 'Tab') {
+      // Tab键导航由浏览器处理
+      return;
+    }
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      
+      // 移除当前高亮
+      if (currentIndex >= 0) {
+        items[currentIndex].classList.remove('vs-focused');
+      }
+      
+      // 更新索引
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % items.length;
+      } else {
+        currentIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+      }
+      
+      // 添加新高亮
+      items[currentIndex].classList.add('vs-focused');
+      items[currentIndex].focus();
+    }
+    
+    if (e.key === 'Enter' && currentIndex >= 0) {
+      const link = items[currentIndex].querySelector('a');
+      if (link) link.click();
+    }
+  });
+  
+  // 鼠标悬停时更新当前索引
+  items.forEach((item, index) => {
+    item.addEventListener('mouseenter', function() {
+      currentIndex = index;
+      items.forEach(i => i.classList.remove('vs-focused'));
+      item.classList.add('vs-focused');
+    });
+  });
+});
+</script>
+
+        
+        <!-- 评论区 -->
+        
+  <div class="vs-comments-section">
+    <div class="section-header">
+      <i class="fas fa-comments"></i>
+      <span>COMMENTS</span>
+    </div>
+    
+    
+      <!-- Waline 评论系统 -->
+      <div id="waline"></div>
+      <script>
+        // 加载 Waline CSS
+        const walineCSS = document.createElement('link');
+        walineCSS.rel = 'stylesheet';
+        walineCSS.href = 'https://unpkg.com/@waline/client@v3/dist/waline.css';
+        document.head.appendChild(walineCSS);
+        
+        // 加载 Waline JS
+        const walineScript = document.createElement('script');
+        walineScript.type = 'module';
+        walineScript.onload = function() {
+          // 确保 Waline 加载后再初始化
+          import('https://unpkg.com/@waline/client@v3/dist/waline.js').then(({ init }) => {
+            const waline = init({
+              el: '#waline',
+              serverURL: 'https://vsc4tblackcat1337.vercel.app/',
+              lang: 'zh-CN',
+              locale: {},
+              emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus"],
+              requiredMeta: [],
+              login: 'disable',
+              wordLimit: 0,
+              pageSize: 10,
+              imageUploader: false,
+              highlighter: true,
+              texRenderer: false,
+              search: false,
+              pageview: false,
+              comment: true,
+              copyright: false,
+              
+              // 自动适配主题
+              dark: document.documentElement.getAttribute('data-theme') === 'dark' ? 'auto' : false,
+              
+              // 评论框占位符
+              placeholder: 'Feel free to leave a comment, no login required!',
+              
+              // 元数据配置
+              meta: ['nick', 'mail', 'link'],
+              
+              // 表情配置
+              emojiCDN: 'https://unpkg.com/@waline/emojis@1.2.0/',
+            });
+            
+            // 监听主题变化
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                  // Waline 会自动处理主题切换
+                  if (waline) {
+                    waline.update({ dark: isDark ? 'auto' : false });
+                  }
+                }
+              });
+            });
+            
+            observer.observe(document.documentElement, {
+              attributes: true,
+              attributeFilter: ['data-theme']
+            });
+          });
+        };
+        walineScript.src = 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+        document.body.appendChild(walineScript);
+      </script>
+    
+    
+  </div>
+
+      </article>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code-branch"></i>
+      master
+    </div>
+    <div class="status-item">
+      <i class="fas fa-sync"></i>
+      John Doe
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      2026-02-18
+    </div>
+    <div class="status-item">
+      Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
+    </div>
+    <div class="status-item github">
+      <a href="#" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 搜索专用配置 (HEXO_CONFIG 在 scripts.ejs 中统一定义) -->
+    <script>
+      window.VSC4T_SEARCH = {
+        root: "/"
+      };
+    </script>
+
+    <!-- 外部脚本 - 统一使用 cdnjs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
+    <script>if(typeof hljs !== 'undefined') hljs.highlightAll();</script>
+    <!-- 这里可以放置自定义脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Apply smooth scroll to non-TOC anchor links
+  document.querySelectorAll('a[href^="#"]:not(.toc-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Check if querySelector is valid before using it
+      try {
+        const targetSelector = this.getAttribute('href');
+        // Basic check for potentially invalid selectors (though not exhaustive)
+        if (targetSelector && targetSelector.length > 1) { 
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            console.warn('Smooth scroll target not found:', targetSelector);
+          }
+        } else {
+           console.warn('Invalid href for smooth scroll:', targetSelector);
+        }
+      } catch (error) {
+        console.error('Error during smooth scroll:', error, 'Selector:', this.getAttribute('href'));
+        // Fallback or alternative behavior if needed
+        // For example, try getElementById if it's just an ID
+        const targetId = this.getAttribute('href').slice(1);
+        try {
+            const targetElementById = document.getElementById(decodeURIComponent(targetId));
+            if (targetElementById) {
+                targetElementById.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (idError) {
+             console.error('Fallback getElementById also failed:', idError);
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Scripts -->
+<script>
+  // 全局配置 - 包含 i18n 字符串和主题配置
+  window.HEXO_CONFIG = {
+    language: "en",
+    root: "/",
+    
+    theme_switch: {
+      enabled: false,
+      light_start: "06:00",
+      light_end: "18:00"
+    },
+    
+    // Search i18n strings
+    search_placeholder: "Type to search...",
+    search_no_results: "No results found",
+    search_result: "result",
+    search_results: "results",
+    search_results_found: "Found undefined results",
+    search_in: "Search in",
+    search_in_title: "Title",
+    search_in_content: "Content",
+    search_in_tags: "Tags",
+    search_in_categories: "Categories",
+    search_filters: "Search Filters",
+    search_recent: "Recent Searches",
+    search_clear: "Clear",
+    search_loading: "Loading...",
+    search_error: "Error loading search data",
+    // Encryption i18n strings
+    encrypt_badge: "Protected",
+    encrypt_title: "Protected Content",
+    encrypt_description: "Enter the password to unlock this article. The password will be saved locally until you choose to re-encrypt.",
+    encrypt_label: "Password",
+    encrypt_placeholder: "Enter password to unlock",
+    encrypt_button: "Unlock",
+    encrypt_button_loading: "Unlocking...",
+    encrypt_hint: "Press Enter to submit. Password will be remembered on this device.",
+    encrypt_success: "Content unlocked successfully!",
+    encrypt_unlocked_note: "Content unlocked. You can re-encrypt at any time.",
+    encrypt_again: "Re-encrypt",
+    encrypt_wrong_password: "Incorrect password. Please try again.",
+    encrypt_show_password: "Show password",
+    encrypt_hide_password: "Hide password",
+    // Sidebar i18n strings
+    sidebar_about: "About",
+    sidebar_categories: "Categories",
+    sidebar_tags: "Tags",
+    // Post page i18n strings
+    post_toc: "TABLE OF CONTENTS",
+    post_category_posts: "CATEGORY POSTS",
+    post_article_tags: "ARTICLE TAGS"
+  };
+</script>
+
+
+
+<!-- 添加所有需要的脚本 -->
+<script src="../../../../js/search.js"></script>
+<script src="../../../../js/theme-switch.js"></script>
+
+<script src="../../../../js/password-protect.js?v=1771424192145"></script>
+
+    <script>
+      // 移动端菜单切换
+      $(document).ready(function() {
+        var $body = $('body');
+        var $sidebar = $('.sidebar-explorer');
+        var $overlay = $('.sidebar-overlay');
+        var $toggle = $('.mobile-menu-toggle');
+
+        function openSidebar() {
+          $sidebar.addClass('show');
+          $overlay.addClass('show');
+          $toggle.addClass('active');
+          $body.addClass('sidebar-open');
+        }
+
+        function closeSidebar() {
+          $sidebar.removeClass('show');
+          $overlay.removeClass('show');
+          $toggle.removeClass('active');
+          $body.removeClass('sidebar-open');
+        }
+
+        // 汉堡按钮点击切换
+        $toggle.on('click', function(e) {
+          e.stopPropagation();
+          if ($sidebar.hasClass('show')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+
+        // 点击遮罩层关闭
+        $overlay.on('click', function() {
+          closeSidebar();
+        });
+
+        // ESC 键关闭
+        $(document).on('keydown', function(e) {
+          if (e.key === 'Escape' && $sidebar.hasClass('show')) {
+            closeSidebar();
+          }
+        });
+
+        // 点击侧边栏内的链接时自动关闭侧边栏，确保锚点跳转正常
+        $sidebar.on('click', 'a', function() {
+          closeSidebar();
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>spring最核心的东西-spring容器初始化到bean初始化的全过程 | Hexo</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A simple dark Hexo theme inspired by code.">
+  <meta name="keywords" content="spring相关一些零散的细节">
+  <meta name="author" content="John Doe">
+  <link rel="canonical" href="http://example.com">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="spring最核心的东西-spring容器初始化到bean初始化的全过程 | Hexo">
+  <meta property="og:description" content="A simple dark Hexo theme inspired by code.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://example.com">
+  <meta property="og:site_name" content="Hexo">
+  <meta property="article:published_time" content="2024-12-31T12:00:00.000Z">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="spring最核心的东西-spring容器初始化到bean初始化的全过程 | Hexo">
+  <meta name="twitter:description" content="A simple dark Hexo theme inspired by code.">
+
+  <!-- Favicon 配置 -->
+  
+
+  <!-- 外部样式 - 统一使用 jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- 代码高亮样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+  <!-- Mermaid.js 库 (defer加载) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <!-- 主题样式 -->
+  <link rel="stylesheet" href="../../../../css/theme-colors.css">
+  <link rel="stylesheet" href="../../../../css/main.css">
+  <link rel="stylesheet" href="../../../../css/code.css">
+  <link rel="stylesheet" href="../../../../css/code-custom.css">
+  <link rel="stylesheet" href="../../../../css/code-languages.css">
+  <link rel="stylesheet" href="../../../../css/mermaid.css">
+
+  <link rel="stylesheet" href="../../../../css/vs-code.css">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192231">
+  <link rel="stylesheet" href="../../../../css/tag.css">
+  <link rel="stylesheet" href="../../../../css/categories.css">
+  <link rel="stylesheet" href="../../../../css/archive.css">
+  <link rel="stylesheet" href="../../../../css/search.css">
+  <link rel="stylesheet" href="../../../../css/mobile.css">  <link rel="stylesheet" href="../../../../css/responsive.css">
+  <link rel="stylesheet" href="../../../../css/elements.css">
+
+  <!-- 添加 JetBrains Mono 字体 -->  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Add any custom head content here -->
+
+  <script defer src="../../../../js/explorer.js"></script>
+  <script defer src="../../../../js/code-enhance.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+      <div class="mobile-menu-toggle" aria-label="Toggle sidebar menu" role="button" tabindex="0">
+        <i class="fas fa-bars"></i>
+      </div>
+      <!-- 移动端侧边栏遮罩层 -->
+      <div class="sidebar-overlay" aria-hidden="true"></div>
+      <header class="vs-header">
+  <nav class="vs-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-brand">
+        <i class="fas fa-terminal"></i>
+        Hexo
+      </a>
+    </div>
+    
+    <div class="nav-right">
+      <a href="/" class="nav-item ">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="/archives/" class="nav-item ">
+        <i class="fas fa-archive"></i>
+        <span>Archives</span>
+      </a>
+      <a href="/categories/" class="nav-item ">
+        <i class="fas fa-folder"></i>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" class="nav-item ">
+        <i class="fas fa-tags"></i>
+        <span>Tags</span>
+      </a>
+      <a href="/search/" class="nav-item ">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="/about/" class="nav-item ">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function smoothScroll(event, target) {
+    event.preventDefault();
+    const targetId = target.substring(target.indexOf('#') + 1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 50, // 调整偏移量
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = target;
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.vs-header');
+    const nav = document.querySelector('.vs-nav');
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    
+    nav.style.setProperty('--scroll-percent', `${scrollPercent}%`);
+    
+    if (window.scrollY > 0) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // 添加标签页切换动画
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('nav-ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+</script>
+
+
+<div class="vscode-container">
+  <!-- 左侧资源管理器 -->
+  <div class="sidebar-explorer">
+    <!-- TOC导航 -->
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-list"></i>
+        <span>TABLE OF CONTENTS</span>
+      </div>
+      <div class="section-content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%BA%E5%95%A5%E7%A0%94%E7%A9%B6spring%E4%B8%ADjavabean%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E9%A1%BA%E5%BA%8F"><span class="toc-text">为啥研究spring中javabean的初始化顺序</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#spring%E4%B8%ADbean%E5%88%B0%E5%BA%95%E6%98%AF%E5%92%8B%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9A%84%E5%95%8A"><span class="toc-text">spring中bean到底是咋初始化的啊?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#spring%E5%AE%B9%E5%99%A8%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9A%84%E5%BC%80%E7%AB%AFApplicationContext"><span class="toc-text">spring容器初始化的开端ApplicationContext</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#spring-IOC%E8%BF%87%E7%A8%8B%E4%B8%AD%E6%88%91%E4%BB%AC%E6%9C%80%E5%BA%94%E8%AF%A5%E5%85%B3%E6%B3%A8%E4%BB%80%E4%B9%88%E9%97%AE%E9%A2%98"><span class="toc-text">spring IOC过程中我们最应该关注什么问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#bean%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9A%84"><span class="toc-text">bean什么时候初始化的</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#javabean%E5%8A%A0%E8%BD%BD%E8%BF%9B%E5%AE%B9%E5%99%A8%EF%BC%8C-%E5%B9%B6%E4%B8%94%E6%A0%B9%E6%8D%AE%E7%B1%BB%E5%9E%8B%E8%BF%9B%E8%A1%8C%E4%B8%80%E5%AE%9A%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E6%93%8D%E4%BD%9C"><span class="toc-text">javabean加载进容器， 并且根据类型进行一定的初始化操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-ClassPathXMLApplication"><span class="toc-text">1. ClassPathXMLApplication</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-AnnotionAppicationContext"><span class="toc-text">2. AnnotionAppicationContext</span></a></li></ol></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+
+    <!-- 同分类文章 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-folder"></i>
+        <span>CATEGORY POSTS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../Devops%E8%BF%90%E7%BB%B4%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9F%BA%E7%A1%80%E9%97%AE%E9%A2%98-linux%E7%BB%88%E6%AD%A2%E6%8C%87%E4%BB%A4/">Devops运维遇到的一个基础问题-linux终止指令</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%88%86%E6%9E%90-1--%E6%8F%92%E4%BB%B6%E5%8C%96%E6%A8%A1%E5%9D%97%E5%8C%96%E8%83%BD%E5%8A%9B%E7%B1%BBSPI%E8%83%BD%E5%8A%9B%E8%AE%BE%E8%AE%A1%E8%A7%A3%E6%9E%90/">dubbo分析(1)-插件化模块化能力类SPI能力设计解析</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%88%86%E6%9E%90-2--dubbo%E6%9C%8D%E5%8A%A1%E6%9A%B4%E9%9C%B2%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/">dubbo分析(2)-dubbo服务暴露代码分析</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../java-forkjoin%E6%A1%86%E6%9E%B6%E4%BD%BF%E7%94%A8%E5%92%8C%E4%B8%80%E4%BA%9B%E5%8E%9F%E5%88%99/">java-forkjoin框架使用和一些原则</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../java-%E4%BB%8Ejava%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%9D%A5%E7%9C%8Bjava%E7%9A%84%E9%98%BB%E5%A1%9E%E9%98%9F%E5%88%97-1/">java-从java线程池来看java的阻塞队列</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../java-%E4%BB%8Ejs%E6%9D%A5%E7%9C%8Bjava%E7%9A%84--%E6%93%8D%E4%BD%9C/">java-从js来看java的==操作</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../java-%E5%BC%BA%E5%BC%B1%E8%BD%AF%E8%99%9A%E5%9B%9B%E7%A7%8D%E5%BC%95%E7%94%A8%E7%9A%84%E7%90%86%E8%A7%A3/">java-强弱软虚四种引用的理解</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../java-%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86%E5%A4%8F%E4%BB%A4%E6%97%B6%E5%86%AC%E4%BB%A4%E6%97%B6%E8%B7%A8%E6%97%B6%E5%8C%BA%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86-1/">java-时间处理夏令时冬令时跨时区问题处理</a>
+          </div>
+        
+      </div>
+    </div>
+    
+    
+    <!-- 标签列表 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-tags"></i>
+        <span>ARTICLE TAGS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../../../tags/spring%E7%9B%B8%E5%85%B3%E4%B8%80%E4%BA%9B%E9%9B%B6%E6%95%A3%E7%9A%84%E7%BB%86%E8%8A%82/">spring相关一些零散的细节</a>
+            <span class="count">(2)</span>
+          </div>
+        
+      </div>
+    </div>
+    
+  </div>
+
+  <!-- 主要内容区域 -->
+  <div class="editor-content">
+    <div class="tab-bar">
+      <div class="tab active">
+        <i class="fas fa-file-alt"></i>
+        <span>spring最核心的东西-spring容器初始化到bean初始化的全过程.md</span>
+      </div>
+    </div>
+    
+    <div class="content-area">
+      <article class="post-content">
+        <div class="post-header">
+          <h1>spring最核心的东西-spring容器初始化到bean初始化的全过程</h1>
+          <div class="post-meta">
+            <span class="date">
+              <i class="fas fa-calendar-alt"></i>
+              2024-12-31
+            </span>
+            
+            <span class="updated-date">
+              <i class="fas fa-sync-alt"></i>
+              Updated 2026-02-18
+            </span>
+                        
+              <span class="categories">
+                <i class="fas fa-folder"></i>
+                <div class="categories-list">
+                  <ul class="category-item-post-list"><li class="category-item-post-list-item"><a class="category-item-post-list-link" href="../../../../categories/%E6%96%B0%E5%8D%9A%E5%AE%A2/">新博客</a></li></ul>
+                </div>
+              </span>
+            
+            
+              <span class="tags">
+                <i class="fas fa-tags"></i>
+                <div class="tags-list">
+                  <ul class="tag-item-post-list" itemprop="keywords"><li class="tag-item-post-list-item"><a class="tag-item-post-list-link" href="../../../../tags/spring%E7%9B%B8%E5%85%B3%E4%B8%80%E4%BA%9B%E9%9B%B6%E6%95%A3%E7%9A%84%E7%BB%86%E8%8A%82/" rel="tag">spring相关一些零散的细节</a></li></ul>
+                </div>
+              </span>
+            
+          </div>
+        </div>
+        
+        <div class="post-body vscode-markdown">
+          <blockquote>
+<p>引申: 其实一开始不想写这篇文章的 , 奈何发现市面上的文章大部分都是一知半解 . 索性整理一篇文章方便以后阅读查阅</p>
+</blockquote>
+<p>这次就不一开始就长篇大论了 ,  先说一个问题 ,为啥我们要研究spring 中bean的初始化顺序</p>
+<h1 id="为啥研究spring中javabean的初始化顺序"><a href="#为啥研究spring中javabean的初始化顺序" class="headerlink" title="为啥研究spring中javabean的初始化顺序"></a>为啥研究spring中javabean的初始化顺序</h1><p>spring 框架是个啥? -&gt; 本质上是一个IOC框架,解决依赖问题的玩意 , 依赖问题的核心承载点是啥? 是对象\javabean , 所以如果把这一块搞明白了,其实整个spring框架已经差不多搞透彻了.</p>
+<h1 id="spring中bean到底是咋初始化的啊"><a href="#spring中bean到底是咋初始化的啊" class="headerlink" title="spring中bean到底是咋初始化的啊?"></a>spring中bean到底是咋初始化的啊?</h1><p>其实扒开spring的外衣 , 其实最核心的东西是BeanFactory , spring自己能找到的所有的java bean 全在里面 , 这个就是整个spring的数据中心</p>
+<blockquote>
+<p>如果让我说spring最大的成就是什么 , 我认为spring最大的成就就是实现整个容器中java对象逻辑的托管功能 , 也就是我认为的IOC</p>
+</blockquote>
+<h1 id="spring容器初始化的开端ApplicationContext"><a href="#spring容器初始化的开端ApplicationContext" class="headerlink" title="spring容器初始化的开端ApplicationContext"></a>spring容器初始化的开端ApplicationContext</h1><blockquote>
+<p>这个是spring整个java对象管理运行的开端,我称它为始祖种子类</p>
+</blockquote>
+<blockquote>
+<p>注意永远记住spring是一个庞大臃肿功能强大的java框架 , 所以ApplicationContext的实现类特多,挑几个重点来说</p>
+</blockquote>
+<ol>
+<li>spring boot 中使用的ApplicationContext -&gt; AnnotationConfigApplicationContext -&gt; 使用java配置来实现将javabean信息注入到容器</li>
+<li>spring中最常用的ApplicationContext -&gt; ClassPathXmlApplicationContext -&gt; 使用xml来将javabean信息注入到容器</li>
+</ol>
+<blockquote>
+<p>这两个类都有继承自AbstractApplication 所有的spring对象初始化的时候都会调用这个通用的类 , 整个bean初始化,容器加载相关的逻辑都是在这里面的</p>
+</blockquote>
+<h1 id="spring-IOC过程中我们最应该关注什么问题"><a href="#spring-IOC过程中我们最应该关注什么问题" class="headerlink" title="spring IOC过程中我们最应该关注什么问题"></a>spring IOC过程中我们最应该关注什么问题</h1><blockquote>
+<p>我认为整个IOC过程中最应该关注的就是这两个问题 1. bean什么时候初始化的? 怎么初始化的? 2. bean之间的依赖关系是什么时候? 是怎么解决的? 3. 特殊状态的javabean比如lookup和lazy是如何做的</p>
+</blockquote>
+<h2 id="bean什么时候初始化的"><a href="#bean什么时候初始化的" class="headerlink" title="bean什么时候初始化的"></a>bean什么时候初始化的</h2><p>spring中bean的初始化的过程 ， 我认为分为如下的几个过程</p>
+<ol>
+<li>java bean 加载进容器 ， 并且根据类型进行一定的初始化</li>
+<li>处理 java bean的依赖关系</li>
+</ol>
+<blockquote>
+<p>这里梳理一下他们的过程</p>
+</blockquote>
+<h3 id="javabean加载进容器，-并且根据类型进行一定的初始化操作"><a href="#javabean加载进容器，-并且根据类型进行一定的初始化操作" class="headerlink" title="javabean加载进容器， 并且根据类型进行一定的初始化操作"></a>javabean加载进容器， 并且根据类型进行一定的初始化操作</h3><blockquote>
+<p>这一步中 ClassPathXMLApplicationContext和 AnnotationConfigApplicationContext的操作是不同的</p>
+</blockquote>
+<h4 id="1-ClassPathXMLApplication"><a href="#1-ClassPathXMLApplication" class="headerlink" title="1. ClassPathXMLApplication"></a>1. ClassPathXMLApplication</h4><blockquote>
+<p>ClassPathApplicationContext 在spring中属于元老了 ， 他的着一块的支持是在AbstractApplicationContext中的refresh()方法（下面会给出源码）中实现的</p>
+</blockquote>
+<p>最核心的逻辑是在ConfigurableListableBeanFactory beanFactory &#x3D; obtainFreshBeanFactory();这一行中</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">protected</span> ConfigurableListableBeanFactory <span class="hljs-title function_">obtainFreshBeanFactory</span><span class="hljs-params">()</span> &#123;<br>    refreshBeanFactory();<br>    <span class="hljs-keyword">return</span> getBeanFactory();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里其实知道结论就好了 ，没有必要追究细节 ， 这里spring将会通过spring的xml文件生成一系列的javabean的包装bean -&gt; BeanDefinition ,<br>然后放入默认生成的DefaultListableBeanFactory之中, 注意在spring中 所有的java bean在解析的过程中都会变成 BeanDefinition(有些特殊的单例不是用BeanDefinition封装的)</p>
+<h4 id="2-AnnotionAppicationContext"><a href="#2-AnnotionAppicationContext" class="headerlink" title="2. AnnotionAppicationContext"></a>2. AnnotionAppicationContext</h4><blockquote>
+<p>这个需要重点关注一下 ， 这个context和classPathXmLApplicationContext有一定的区别 , 他是继承自GenericApplicationContext , GenericApplicationContext是新一代spring使用注解进行bean配置的核心Context</p>
+</blockquote>
+<blockquote>
+<p>首先注意下这个ApplicationContext的构造方法</p>
+</blockquote>
+<blockquote>
+<p>AnnotatedBeanDefinitionReader 和 ClassPathBeanDefinitionScanner 都是初始化用来将使用class或者basePackages名称加载的BeanDefinition注册进GenericApplicationContext的工具类</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//将指定的java bean的配置类对象</span><br><span class="hljs-keyword">public</span> <span class="hljs-title function_">AnnotationConfigApplicationContext</span><span class="hljs-params">(Class&lt;?&gt;... componentClasses)</span> &#123;<br>    <span class="hljs-built_in">this</span>();<br>    register(componentClasses);<br>    refresh();<br>&#125;<br><span class="hljs-comment">//将制定的包下所有的配置类对象</span><br><span class="hljs-keyword">public</span> <span class="hljs-title function_">AnnotationConfigApplicationContext</span><span class="hljs-params">(String... basePackages)</span> &#123;<br>    <span class="hljs-built_in">this</span>();<br>    scan(basePackages);<br>    refresh();<br>&#125;<br><span class="hljs-comment">//初始化注册BeanDefinition所需要的加载器 -&gt; 这两个方法很重要的 , 初始化了很多process比如AutowiredAnnotationBeanPostProcessor和</span><br><span class="hljs-comment">// CommonAnnotationBeanPostProcessor用来处理@Autowrite注解等等</span><br><span class="hljs-keyword">public</span> <span class="hljs-title function_">AnnotationConfigApplicationContext</span><span class="hljs-params">()</span> &#123;<br>    <span class="hljs-built_in">this</span>.reader = <span class="hljs-keyword">new</span> <span class="hljs-title class_">AnnotatedBeanDefinitionReader</span>(<span class="hljs-built_in">this</span>);<br>    <span class="hljs-built_in">this</span>.scanner = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ClassPathBeanDefinitionScanner</span>(<span class="hljs-built_in">this</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+<blockquote>
+<p>最核心的方法AbstractAplication的refresh()方法 , 这个方法完成了整个spring声明周期的初始化</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">refresh</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> BeansException, IllegalStateException &#123;<br>    <span class="hljs-keyword">synchronized</span> (<span class="hljs-built_in">this</span>.startupShutdownMonitor) &#123;<br>        <span class="hljs-comment">// 准备，记录容器的启动时间startupDate, 标记容器为激活，初始化上下文环境如文件路径信息，验证必填属性是否填写</span><br>        prepareRefresh();<br>        <span class="hljs-comment">// 获取新的beanFactory，销毁原有beanFactory、为每个bean生成BeanDefinition等</span><br>        <span class="hljs-type">ConfigurableListableBeanFactory</span> <span class="hljs-variable">beanFactory</span> <span class="hljs-operator">=</span> obtainFreshBeanFactory();<br>        <span class="hljs-comment">// 初始化beanfactory的各种属性</span><br>        prepareBeanFactory(beanFactory);<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-comment">// 模板方法，此时，所有的beanDefinition已经加载，但是还没有实例化。</span><br>            <span class="hljs-comment">//允许在子类中对beanFactory进行扩展处理。比如添加ware相关接口自动装配设置，添加后置处理器等，是子类扩展prepareBeanFactory(beanFactory)的方法</span><br>            postProcessBeanFactory(beanFactory);<br>            <span class="hljs-comment">// 实例化并调用所有注册的beanFactory后置处理器（实现接口BeanFactoryPostProcessor的bean，在beanFactory标准初始化之后执行）</span><br>            invokeBeanFactoryPostProcessors(beanFactory);<br>            <span class="hljs-comment">// 实例化和注册beanFactory中扩展了BeanPostProcessor的bean</span><br>            <span class="hljs-comment">//例如：</span><br>            <span class="hljs-comment">// AutowiredAnnotationBeanPostProcessor(处理被@Autowired注解修饰的bean并注入)</span><br>            <span class="hljs-comment">// RequiredAnnotationBeanPostProcessor(处理被@Required注解修饰的方法)</span><br>            <span class="hljs-comment">// CommonAnnotationBeanPostProcessor(处理@PreDestroy、@PostConstruct、@Resource等多个注解的作用)等。</span><br>            registerBeanPostProcessors(beanFactory);<br>            <span class="hljs-comment">// Initialize message source for this context.</span><br>            initMessageSource();<br>            <span class="hljs-comment">// Initialize event multicaster for this context.</span><br>            initApplicationEventMulticaster();<br>            <span class="hljs-comment">// 模板方法，在容器刷新的时候可以自定义逻辑，不同的Spring容器做不同的事情。</span><br>            onRefresh();<br>            <span class="hljs-comment">// 注册监听器，广播early application events</span><br>            registerListeners();<br>            <span class="hljs-comment">// 实例化所有剩余的（非懒加载）单例</span><br>            <span class="hljs-comment">// 比如invokeBeanFactoryPostProcessors方法中根据各种注解解析出来的类，在这个时候都会被初始化。</span><br>            <span class="hljs-comment">// 实例化的过程各种BeanPostProcessor开始起作用。</span><br>            finishBeanFactoryInitialization(beanFactory);<br>            <span class="hljs-comment">// refresh做完之后需要做的其他事情。</span><br>            <span class="hljs-comment">// 清除上下文资源缓存（如扫描中的ASM元数据）</span><br>            <span class="hljs-comment">// 初始化上下文的生命周期处理器，并刷新（找出Spring容器中实现了Lifecycle接口的bean并执行start()方法）。</span><br>            <span class="hljs-comment">// 发布ContextRefreshedEvent事件告知对应的ApplicationListener进行响应的操作</span><br>            finishRefresh();<br>        &#125; <span class="hljs-keyword">catch</span> (BeansException ex) &#123;<br>            <span class="hljs-keyword">if</span> (logger.isWarnEnabled()) &#123;<br>                logger.warn(<span class="hljs-string">&quot;Exception encountered during context initialization - &quot;</span> +<br>                        <span class="hljs-string">&quot;cancelling refresh attempt: &quot;</span> + ex);<br>            &#125;<br>            <span class="hljs-comment">// Destroy already created singletons to avoid dangling resources.</span><br>            destroyBeans();<br>            <span class="hljs-comment">// Reset &#x27;active&#x27; flag.</span><br>            cancelRefresh(ex);<br>            <span class="hljs-comment">// Propagate exception to caller.</span><br>            <span class="hljs-keyword">throw</span> ex;<br>        &#125; <span class="hljs-keyword">finally</span> &#123;<br>            <span class="hljs-comment">// Reset common introspection caches in Spring&#x27;s core, since we</span><br>            <span class="hljs-comment">// might not ever need metadata for singleton beans anymore...</span><br>            resetCommonCaches();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>我们只要注意这个方法 finishBeanFactoryInitialization() spring所有非内置的单例 javabean都是在这里初始化的 , 主要是下面的这一行</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">finishBeanFactoryInitialization</span><span class="hljs-params">(ConfigurableListableBeanFactory beanFactory)</span> &#123;<br>    ...<br><br>    <span class="hljs-comment">// Instantiate all remaining (non-lazy-init) singletons.</span><br>    beanFactory.preInstantiateSingletons();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这行做了beanFactory中所有单例 javabean初始化和依赖处理的, 进入看一下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Override</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">preInstantiateSingletons</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> BeansException &#123;<br>    ....<br>    <span class="hljs-comment">// Trigger initialization of all non-lazy singleton beans...</span><br>    <span class="hljs-keyword">for</span> (String beanName : beanNames) &#123;<br>        <span class="hljs-type">RootBeanDefinition</span> <span class="hljs-variable">bd</span> <span class="hljs-operator">=</span> getMergedLocalBeanDefinition(beanName);<br>        <span class="hljs-keyword">if</span> (!bd.isAbstract() &amp;&amp; bd.isSingleton() &amp;&amp; !bd.isLazyInit()) &#123;<br>            <span class="hljs-keyword">if</span> (isFactoryBean(beanName)) &#123;<br>                <span class="hljs-type">Object</span> <span class="hljs-variable">bean</span> <span class="hljs-operator">=</span> getBean(FACTORY_BEAN_PREFIX + beanName);<br>                <span class="hljs-keyword">if</span> (bean <span class="hljs-keyword">instanceof</span> FactoryBean) &#123;<br>                    <span class="hljs-keyword">final</span> FactoryBean&lt;?&gt; factory = (FactoryBean&lt;?&gt;) bean;<br>                    <span class="hljs-type">boolean</span> isEagerInit;<br>                    <span class="hljs-keyword">if</span> (System.getSecurityManager() != <span class="hljs-literal">null</span> &amp;&amp; factory <span class="hljs-keyword">instanceof</span> SmartFactoryBean) &#123;<br>                        isEagerInit = AccessController.doPrivileged((PrivilegedAction&lt;Boolean&gt;)<br>                                        ((SmartFactoryBean&lt;?&gt;) factory)::isEagerInit,<br>                                getAccessControlContext());<br>                    &#125;<br>                    <span class="hljs-keyword">else</span> &#123;<br>                        isEagerInit = (factory <span class="hljs-keyword">instanceof</span> SmartFactoryBean &amp;&amp;<br>                                ((SmartFactoryBean&lt;?&gt;) factory).isEagerInit());<br>                    &#125;<br>                    <span class="hljs-keyword">if</span> (isEagerInit) &#123;<br>                        getBean(beanName);<br>                    &#125;<br>                &#125;<br>            &#125;<br>            <span class="hljs-keyword">else</span> &#123;<br>                getBean(beanName);<br>            &#125;<br>        &#125;<br>    &#125;<br>    ......<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>其实他的核心逻辑就是在这里,通过使用getBean方法来尽心初始化的-&gt; 而这个方法同样也是我们每次使用ApplicationContext获取对象的时候所需要调用的类</p>
+</blockquote>
+<blockquote>
+<p>这个getBean方法非常长,其实本质上就是尝试获取一个javabean,内部实现了bean的创建,依赖管理等等的逻辑,贴一个单例模式的核心代码吧</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="hljs-keyword">protected</span> &lt;T&gt; T <span class="hljs-title function_">doGetBean</span><span class="hljs-params">(<span class="hljs-keyword">final</span> String name, <span class="hljs-meta">@Nullable</span> <span class="hljs-keyword">final</span> Class&lt;T&gt; requiredType,</span><br><span class="hljs-params">        <span class="hljs-meta">@Nullable</span> <span class="hljs-keyword">final</span> Object[] args, <span class="hljs-type">boolean</span> typeCheckOnly)</span> <span class="hljs-keyword">throws</span> BeansException &#123;<br>    ....<br>    <span class="hljs-comment">// Create bean instance.</span><br>    <span class="hljs-keyword">if</span> (mbd.isSingleton()) &#123;<br>        sharedInstance = getSingleton(beanName, () -&gt; &#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-keyword">return</span> createBean(beanName, mbd, args);<br>            &#125;<br>            <span class="hljs-keyword">catch</span> (BeansException ex) &#123;<br>                <span class="hljs-comment">// Explicitly remove instance from singleton cache: It might have been put there</span><br>                <span class="hljs-comment">// eagerly by the creation process, to allow for circular reference resolution.</span><br>                <span class="hljs-comment">// Also remove any beans that received a temporary reference to the bean.</span><br>                destroySingleton(beanName);<br>                <span class="hljs-keyword">throw</span> ex;<br>            &#125;<br>        &#125;);<br>        bean = getObjectForBeanInstance(sharedInstance, name, beanName, mbd);<br>    &#125;<br>    ....<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>外层的getSingleton 方法自然就是获取单例而其中的会掉就是当单例不存在的时候,进行创建的逻辑,进入一下这个createBean</p>
+<blockquote>
+<p>这里代码依然很多但是这个类最终依赖得了doCreateBean方法,所以直接看doCreateBean方法里有啥,但是这里执行了一个前置处理逻辑(postProcessBeforeInstantiation)方法来超前处理bean初始化</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">try</span> &#123;<br>    <span class="hljs-comment">// Give BeanPostProcessors a chance to return a proxy instead of the target bean instance.</span><br>    <span class="hljs-type">Object</span> <span class="hljs-variable">bean</span> <span class="hljs-operator">=</span> resolveBeforeInstantiation(beanName, mbdToUse);<br>    <span class="hljs-keyword">if</span> (bean != <span class="hljs-literal">null</span>) &#123;<br>        <span class="hljs-keyword">return</span> bean;<br>    &#125;<br>&#125;<br><span class="hljs-keyword">catch</span> (Throwable ex) &#123;<br>    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BeanCreationException</span>(mbdToUse.getResourceDescription(), beanName,<br>            <span class="hljs-string">&quot;BeanPostProcessor before instantiation of bean failed&quot;</span>, ex);<br>&#125;<br><span class="hljs-keyword">try</span> &#123;<br>    <span class="hljs-type">Object</span> <span class="hljs-variable">beanInstance</span> <span class="hljs-operator">=</span> doCreateBean(beanName, mbdToUse, args);<br>    <span class="hljs-keyword">if</span> (logger.isTraceEnabled()) &#123;<br>        logger.trace(<span class="hljs-string">&quot;Finished creating instance of bean &#x27;&quot;</span> + beanName + <span class="hljs-string">&quot;&#x27;&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">return</span> beanInstance;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>接下来就是重点了doCreateBean方法,解决了循环引用问题和实现提早曝光的逻辑都是在这里</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">protected</span> Object <span class="hljs-title function_">doCreateBean</span><span class="hljs-params">(<span class="hljs-keyword">final</span> String beanName, <span class="hljs-keyword">final</span> RootBeanDefinition mbd, <span class="hljs-keyword">final</span> <span class="hljs-meta">@Nullable</span> Object[] args)</span><br>        <span class="hljs-keyword">throws</span> BeanCreationException &#123;<br>            ......<br>    <span class="hljs-comment">// Eagerly cache singletons to be able to resolve circular references</span><br>    <span class="hljs-comment">// even when triggered by lifecycle interfaces like BeanFactoryAware.</span><br>    <span class="hljs-type">boolean</span> <span class="hljs-variable">earlySingletonExposure</span> <span class="hljs-operator">=</span> (mbd.isSingleton() &amp;&amp; <span class="hljs-built_in">this</span>.allowCircularReferences &amp;&amp;<br>            isSingletonCurrentlyInCreation(beanName));<br>    <span class="hljs-keyword">if</span> (earlySingletonExposure) &#123;<br>        <span class="hljs-keyword">if</span> (logger.isTraceEnabled()) &#123;<br>            logger.trace(<span class="hljs-string">&quot;Eagerly caching bean &#x27;&quot;</span> + beanName +<br>                    <span class="hljs-string">&quot;&#x27; to allow for resolving potential circular references&quot;</span>);<br>        &#125;<br>        addSingletonFactory(beanName, () -&gt; getEarlyBeanReference(beanName, mbd, bean));<br>    &#125;<br><br>    <span class="hljs-comment">// Initialize the bean instance.</span><br>    <span class="hljs-type">Object</span> <span class="hljs-variable">exposedObject</span> <span class="hljs-operator">=</span> bean;<br>    <span class="hljs-keyword">try</span> &#123;<br>        populateBean(beanName, mbd, instanceWrapper);<br>        exposedObject = initializeBean(beanName, exposedObject, mbd);<br>    &#125;<br>    <span class="hljs-keyword">catch</span> (Throwable ex) &#123;<br>        <span class="hljs-keyword">if</span> (ex <span class="hljs-keyword">instanceof</span> BeanCreationException &amp;&amp; beanName.equals(((BeanCreationException) ex).getBeanName())) &#123;<br>            <span class="hljs-keyword">throw</span> (BeanCreationException) ex;<br>        &#125;<br>        <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BeanCreationException</span>(<br>                    mbd.getResourceDescription(), beanName, <span class="hljs-string">&quot;Initialization of bean failed&quot;</span>, ex);<br>        &#125;<br>    &#125;<br><br>    <span class="hljs-keyword">if</span> (earlySingletonExposure) &#123;<br>        <span class="hljs-type">Object</span> <span class="hljs-variable">earlySingletonReference</span> <span class="hljs-operator">=</span> getSingleton(beanName, <span class="hljs-literal">false</span>);<br>        <span class="hljs-keyword">if</span> (earlySingletonReference != <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">if</span> (exposedObject == bean) &#123;<br>                exposedObject = earlySingletonReference;<br>            &#125;<br>            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">this</span>.allowRawInjectionDespiteWrapping &amp;&amp; hasDependentBean(beanName)) &#123;<br>                String[] dependentBeans = getDependentBeans(beanName);<br>                Set&lt;String&gt; actualDependentBeans = <span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedHashSet</span>&lt;&gt;(dependentBeans.length);<br>                <span class="hljs-keyword">for</span> (String dependentBean : dependentBeans) &#123;<br>                    <span class="hljs-keyword">if</span> (!removeSingletonIfCreatedForTypeCheckOnly(dependentBean)) &#123;<br>                        actualDependentBeans.add(dependentBean);<br>                    &#125;<br>                &#125;<br>                <span class="hljs-keyword">if</span> (!actualDependentBeans.isEmpty()) &#123;<br>                    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BeanCurrentlyInCreationException</span>(beanName,<br>                            <span class="hljs-string">&quot;Bean with name &#x27;&quot;</span> + beanName + <span class="hljs-string">&quot;&#x27; has been injected into other beans [&quot;</span> +<br>                            StringUtils.collectionToCommaDelimitedString(actualDependentBeans) +<br>                            <span class="hljs-string">&quot;] in its raw version as part of a circular reference, but has eventually been &quot;</span> +<br>                            <span class="hljs-string">&quot;wrapped. This means that said other beans do not use the final version of the &quot;</span> +<br>                            <span class="hljs-string">&quot;bean. This is often the result of over-eager type matching - consider using &quot;</span> +<br>                            <span class="hljs-string">&quot;&#x27;getBeanNamesOfType&#x27; with the &#x27;allowEagerInit&#x27; flag turned off, for example.&quot;</span>);<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;<br>    <span class="hljs-comment">// Register bean as disposable.</span><br>    <span class="hljs-keyword">try</span> &#123;<br>        registerDisposableBeanIfNecessary(beanName, bean, mbd);<br>    &#125;<br>    <span class="hljs-keyword">catch</span> (BeanDefinitionValidationException ex) &#123;<br>        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BeanCreationException</span>(<br>                mbd.getResourceDescription(), beanName, <span class="hljs-string">&quot;Invalid destruction signature&quot;</span>, ex);<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> exposedObject;<br>&#125;<br></code></pre></td></tr></table></figure>
+<blockquote>
+<p>这里有几个重点</p>
+</blockquote>
+<blockquote>
+<ol>
+<li>我们的javabean属性注入是在 populateBean方法中实现的,他的内部逻辑是使用了递归来循环的填冲属性. 这里也处理了构造函数等等依赖关系.</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>这里要插一句AutoWriterAnnotionBeanPostProcessor</p>
+</blockquote>
+<blockquote>
+<p>AutoWriterAnnotionBeanPostProcessor , 在这里有一个特殊的处理逻辑可以借鉴一下</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">private</span> InjectionMetadata <span class="hljs-title function_">findAutowiringMetadata</span><span class="hljs-params">(String beanName, Class&lt;?&gt; clazz, <span class="hljs-meta">@Nullable</span> PropertyValues pvs)</span> &#123;<br>    <span class="hljs-comment">// Fall back to class name as cache key, for backwards compatibility with custom callers.</span><br>    <span class="hljs-type">String</span> <span class="hljs-variable">cacheKey</span> <span class="hljs-operator">=</span> (StringUtils.hasLength(beanName) ? beanName : clazz.getName());<br>    <span class="hljs-comment">// Quick check on the concurrent map first, with minimal locking.</span><br>    <span class="hljs-type">InjectionMetadata</span> <span class="hljs-variable">metadata</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.injectionMetadataCache.get(cacheKey);<br>    <span class="hljs-keyword">if</span> (InjectionMetadata.needsRefresh(metadata, clazz)) &#123;<br>        <span class="hljs-keyword">synchronized</span> (<span class="hljs-built_in">this</span>.injectionMetadataCache) &#123;<br>            metadata = <span class="hljs-built_in">this</span>.injectionMetadataCache.get(cacheKey);<br>            <span class="hljs-keyword">if</span> (InjectionMetadata.needsRefresh(metadata, clazz)) &#123;<br>                <span class="hljs-keyword">if</span> (metadata != <span class="hljs-literal">null</span>) &#123;<br>                    metadata.clear(pvs);<br>                &#125;<br>                metadata = buildAutowiringMetadata(clazz);<br>                <span class="hljs-built_in">this</span>.injectionMetadataCache.put(cacheKey, metadata);<br>            &#125;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> metadata;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>AutoWriterAnnotionBeanPostProcessor 将需要的属性,使用反射并将反射缓存了一下(injectionMetadataCache) , 来加快性能</p>
+</blockquote>
+<blockquote>
+<ol start="2">
+<li>依赖关系处理</li>
+</ol>
+</blockquote>
+<p>其实看上面doCreate的逻辑有一个earlySingletonExposure变量, spring在执行到这里的时候将会自动的将这个还没有进行初始化的类(也就是当bean为单例 &amp;&amp; 容器配置允许循环依赖 &amp;&amp; bean正在创建)的时候,将会在BeanFactory中设置第三级缓存, key是当前的bean的名称,value是一个工厂方法 , 很简单就是返回当前的类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">protected</span> Object <span class="hljs-title function_">getEarlyBeanReference</span><span class="hljs-params">(String beanName, RootBeanDefinition mbd, Object bean)</span> &#123;<br>    <span class="hljs-type">Object</span> <span class="hljs-variable">exposedObject</span> <span class="hljs-operator">=</span> bean;<br>    <span class="hljs-keyword">if</span> (!mbd.isSynthetic() &amp;&amp; hasInstantiationAwareBeanPostProcessors()) &#123;<br>        <span class="hljs-keyword">for</span> (BeanPostProcessor bp : getBeanPostProcessors()) &#123;<br>            <span class="hljs-keyword">if</span> (bp <span class="hljs-keyword">instanceof</span> SmartInstantiationAwareBeanPostProcessor) &#123;<br>                <span class="hljs-type">SmartInstantiationAwareBeanPostProcessor</span> <span class="hljs-variable">ibp</span> <span class="hljs-operator">=</span> (SmartInstantiationAwareBeanPostProcessor) bp;<br>                exposedObject = ibp.getEarlyBeanReference(exposedObject, beanName);<br>            &#125;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> exposedObject;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>ps: spring 如何解决循环引用的?</p>
+</blockquote>
+<p>这个可以看一下spring的getBean的逻辑 , 其中有一段这样的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">protected</span> Object <span class="hljs-title function_">getSingleton</span><span class="hljs-params">(String beanName, <span class="hljs-type">boolean</span> allowEarlyReference)</span> &#123;<br>    <span class="hljs-type">Object</span> <span class="hljs-variable">singletonObject</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.singletonObjects.get(beanName);<br>    <span class="hljs-keyword">if</span> (singletonObject == <span class="hljs-literal">null</span> &amp;&amp; isSingletonCurrentlyInCreation(beanName)) &#123;<br>        <span class="hljs-keyword">synchronized</span> (<span class="hljs-built_in">this</span>.singletonObjects) &#123;<br>            singletonObject = <span class="hljs-built_in">this</span>.earlySingletonObjects.get(beanName);<br>            <span class="hljs-keyword">if</span> (singletonObject == <span class="hljs-literal">null</span> &amp;&amp; allowEarlyReference) &#123;<br>                ObjectFactory&lt;?&gt; singletonFactory = <span class="hljs-built_in">this</span>.singletonFactories.get(beanName);<br>                <span class="hljs-keyword">if</span> (singletonFactory != <span class="hljs-literal">null</span>) &#123;<br>                    singletonObject = singletonFactory.getObject();<br>                    <span class="hljs-built_in">this</span>.earlySingletonObjects.put(beanName, singletonObject);<br>                    <span class="hljs-built_in">this</span>.singletonFactories.remove(beanName);<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">return</span> singletonObject;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>如果第一层缓存没有找到,就从早起类里找如果早期类里还没有,就使用工厂方法获取</p>
+<blockquote>
+<p>聊一下这三层缓存都干了啥</p>
+</blockquote>
+<p>第一层: 所有的初始化完成的单例bean<br>早期的bean: 被循环引用触发了,并且还没有初始化完成的bean<br>第三层: 正在被初始化的bean</p>
+<blockquote>
+<p>如何解决循环引用就很简单了 , 如果A依赖了B 并且B依赖了A , 当A初始化了B的时候, B初始化时将会从第三层引用中获取当前的提早曝光的类,从而实现了解决循环引用,并且spring的实现,还实现了多线程模式下也可以进行循环应用的逻辑</p>
+</blockquote>
+<blockquote>
+<p>还没完,整个生命周期还没有彻底搞懂</p>
+</blockquote>
+
+        </div>
+        
+        <!-- 文章导航 - 只在同分类有多篇文章时显示 -->
+        
+        
+        
+        <nav class="post-nav">
+          
+            <a class="prev" href="../springboot-%E9%85%8D%E7%BD%AE%E5%8A%A0%E8%BD%BD%E9%A1%BA%E5%BA%8F/">
+              <i class="fas fa-chevron-left"></i>
+              springboot-配置加载顺序
+            </a>
+          
+          
+            <a class="next" href="../%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E8%B0%83%E5%92%8C%E5%90%8C%E6%AD%A5/">
+              分布式协调和同步
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          
+        </nav>
+        
+        
+        <!-- 推荐文章 -->
+        
+
+
+<div class="vs-recommended-posts">
+  <div class="vs-recommended-header">
+    <div class="section-header">
+      <i class="fas fa-lightbulb"></i>
+      <span>RELATED POSTS</span>
+    </div>
+  </div>
+  
+  <div class="vs-recommended-grid">
+    
+      <div class="vs-recommended-item" data-index="0" tabindex="0">
+        <a href="../springboot-%E9%85%8D%E7%BD%AE%E5%8A%A0%E8%BD%BD%E9%A1%BA%E5%BA%8F/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>springboot-配置加载顺序</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              优先级由高到低,高优先级覆盖低优先级 1.在命令行中传入的参数;2.SPRING_APPLICATION_JSON 中的属性。SPRING_APPLICATION_JSON 是以JSON 格式配置在系统环境变量中的内容；3.java:com...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  spring相关一些零散的细节
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="1" tabindex="0">
+        <a href="../%E5%88%86%E5%B8%83%E5%BC%8F%E5%8D%8F%E8%B0%83%E5%92%8C%E5%90%8C%E6%AD%A5/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>分布式协调和同步</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              本质上是让分布在不同计算机上的程序具有“团队精神”，换句话说就是让程序通过协作共同去达成一个业务目标 分布式互斥对于同一共享资源，一个程序正在使用的时候也不希望被其他程序打扰。这，就要求同一时刻只能有一个程序能够访问这种资源。 在分布式系统...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  5 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="2" tabindex="0">
+        <a href="../mybatis%E5%92%8Cspring/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>mybatis和spring</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="3" tabindex="0">
+        <a href="../%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%A1%E7%AE%97/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>分布式计算</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              分布式计算模式之MR
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="4" tabindex="0">
+        <a href="../linux-io%E5%92%8C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E8%AF%A6%E8%A7%A3/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>linux-io和文件操作详解</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="5" tabindex="0">
+        <a href="../%E5%88%86%E5%B8%83%E5%BC%8F%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E4%B8%8E%E8%B4%9F%E8%BD%BD%E8%B0%83%E5%BA%A6/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>分布式资源管理与负载调度</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              分布式体系结构之集中式结构：一人在上，万人在下很多场景下，我们的请求都会汇总到一台服务器上，由这台服务器统一协调我们的请求和其他服务器之间的关系。这种由一台服务器统一管理其他服务器的方式，就是分布式体系结构中的集中式结构（也称为 Maste...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  2 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+  </div>
+  
+  <!-- 查看更多 -->
+  <div class="vs-recommended-footer">
+    <a href="../../../../archives/" class="vs-view-more">
+      <i class="fas fa-folder-open"></i>
+      <span>View More Posts</span>
+      <i class="fas fa-chevron-right"></i>
+    </a>
+  </div>
+</div>
+
+<script>
+// 键盘导航支持
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.vs-recommended-item');
+  let currentIndex = -1;
+  
+  // 键盘事件
+  document.addEventListener('keydown', function(e) {
+    if (!items.length) return;
+    
+    if (e.key === 'Tab') {
+      // Tab键导航由浏览器处理
+      return;
+    }
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      
+      // 移除当前高亮
+      if (currentIndex >= 0) {
+        items[currentIndex].classList.remove('vs-focused');
+      }
+      
+      // 更新索引
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % items.length;
+      } else {
+        currentIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+      }
+      
+      // 添加新高亮
+      items[currentIndex].classList.add('vs-focused');
+      items[currentIndex].focus();
+    }
+    
+    if (e.key === 'Enter' && currentIndex >= 0) {
+      const link = items[currentIndex].querySelector('a');
+      if (link) link.click();
+    }
+  });
+  
+  // 鼠标悬停时更新当前索引
+  items.forEach((item, index) => {
+    item.addEventListener('mouseenter', function() {
+      currentIndex = index;
+      items.forEach(i => i.classList.remove('vs-focused'));
+      item.classList.add('vs-focused');
+    });
+  });
+});
+</script>
+
+        
+        <!-- 评论区 -->
+        
+  <div class="vs-comments-section">
+    <div class="section-header">
+      <i class="fas fa-comments"></i>
+      <span>COMMENTS</span>
+    </div>
+    
+    
+      <!-- Waline 评论系统 -->
+      <div id="waline"></div>
+      <script>
+        // 加载 Waline CSS
+        const walineCSS = document.createElement('link');
+        walineCSS.rel = 'stylesheet';
+        walineCSS.href = 'https://unpkg.com/@waline/client@v3/dist/waline.css';
+        document.head.appendChild(walineCSS);
+        
+        // 加载 Waline JS
+        const walineScript = document.createElement('script');
+        walineScript.type = 'module';
+        walineScript.onload = function() {
+          // 确保 Waline 加载后再初始化
+          import('https://unpkg.com/@waline/client@v3/dist/waline.js').then(({ init }) => {
+            const waline = init({
+              el: '#waline',
+              serverURL: 'https://vsc4tblackcat1337.vercel.app/',
+              lang: 'zh-CN',
+              locale: {},
+              emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus"],
+              requiredMeta: [],
+              login: 'disable',
+              wordLimit: 0,
+              pageSize: 10,
+              imageUploader: false,
+              highlighter: true,
+              texRenderer: false,
+              search: false,
+              pageview: false,
+              comment: true,
+              copyright: false,
+              
+              // 自动适配主题
+              dark: document.documentElement.getAttribute('data-theme') === 'dark' ? 'auto' : false,
+              
+              // 评论框占位符
+              placeholder: 'Feel free to leave a comment, no login required!',
+              
+              // 元数据配置
+              meta: ['nick', 'mail', 'link'],
+              
+              // 表情配置
+              emojiCDN: 'https://unpkg.com/@waline/emojis@1.2.0/',
+            });
+            
+            // 监听主题变化
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                  // Waline 会自动处理主题切换
+                  if (waline) {
+                    waline.update({ dark: isDark ? 'auto' : false });
+                  }
+                }
+              });
+            });
+            
+            observer.observe(document.documentElement, {
+              attributes: true,
+              attributeFilter: ['data-theme']
+            });
+          });
+        };
+        walineScript.src = 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+        document.body.appendChild(walineScript);
+      </script>
+    
+    
+  </div>
+
+      </article>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code-branch"></i>
+      master
+    </div>
+    <div class="status-item">
+      <i class="fas fa-sync"></i>
+      John Doe
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      2026-02-18
+    </div>
+    <div class="status-item">
+      Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
+    </div>
+    <div class="status-item github">
+      <a href="#" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 搜索专用配置 (HEXO_CONFIG 在 scripts.ejs 中统一定义) -->
+    <script>
+      window.VSC4T_SEARCH = {
+        root: "/"
+      };
+    </script>
+
+    <!-- 外部脚本 - 统一使用 cdnjs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
+    <script>if(typeof hljs !== 'undefined') hljs.highlightAll();</script>
+    <!-- 这里可以放置自定义脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Apply smooth scroll to non-TOC anchor links
+  document.querySelectorAll('a[href^="#"]:not(.toc-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Check if querySelector is valid before using it
+      try {
+        const targetSelector = this.getAttribute('href');
+        // Basic check for potentially invalid selectors (though not exhaustive)
+        if (targetSelector && targetSelector.length > 1) { 
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            console.warn('Smooth scroll target not found:', targetSelector);
+          }
+        } else {
+           console.warn('Invalid href for smooth scroll:', targetSelector);
+        }
+      } catch (error) {
+        console.error('Error during smooth scroll:', error, 'Selector:', this.getAttribute('href'));
+        // Fallback or alternative behavior if needed
+        // For example, try getElementById if it's just an ID
+        const targetId = this.getAttribute('href').slice(1);
+        try {
+            const targetElementById = document.getElementById(decodeURIComponent(targetId));
+            if (targetElementById) {
+                targetElementById.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (idError) {
+             console.error('Fallback getElementById also failed:', idError);
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Scripts -->
+<script>
+  // 全局配置 - 包含 i18n 字符串和主题配置
+  window.HEXO_CONFIG = {
+    language: "en",
+    root: "/",
+    
+    theme_switch: {
+      enabled: false,
+      light_start: "06:00",
+      light_end: "18:00"
+    },
+    
+    // Search i18n strings
+    search_placeholder: "Type to search...",
+    search_no_results: "No results found",
+    search_result: "result",
+    search_results: "results",
+    search_results_found: "Found undefined results",
+    search_in: "Search in",
+    search_in_title: "Title",
+    search_in_content: "Content",
+    search_in_tags: "Tags",
+    search_in_categories: "Categories",
+    search_filters: "Search Filters",
+    search_recent: "Recent Searches",
+    search_clear: "Clear",
+    search_loading: "Loading...",
+    search_error: "Error loading search data",
+    // Encryption i18n strings
+    encrypt_badge: "Protected",
+    encrypt_title: "Protected Content",
+    encrypt_description: "Enter the password to unlock this article. The password will be saved locally until you choose to re-encrypt.",
+    encrypt_label: "Password",
+    encrypt_placeholder: "Enter password to unlock",
+    encrypt_button: "Unlock",
+    encrypt_button_loading: "Unlocking...",
+    encrypt_hint: "Press Enter to submit. Password will be remembered on this device.",
+    encrypt_success: "Content unlocked successfully!",
+    encrypt_unlocked_note: "Content unlocked. You can re-encrypt at any time.",
+    encrypt_again: "Re-encrypt",
+    encrypt_wrong_password: "Incorrect password. Please try again.",
+    encrypt_show_password: "Show password",
+    encrypt_hide_password: "Hide password",
+    // Sidebar i18n strings
+    sidebar_about: "About",
+    sidebar_categories: "Categories",
+    sidebar_tags: "Tags",
+    // Post page i18n strings
+    post_toc: "TABLE OF CONTENTS",
+    post_category_posts: "CATEGORY POSTS",
+    post_article_tags: "ARTICLE TAGS"
+  };
+</script>
+
+
+
+<!-- 添加所有需要的脚本 -->
+<script src="../../../../js/search.js"></script>
+<script src="../../../../js/theme-switch.js"></script>
+
+<script src="../../../../js/password-protect.js?v=1771424192231"></script>
+
+    <script>
+      // 移动端菜单切换
+      $(document).ready(function() {
+        var $body = $('body');
+        var $sidebar = $('.sidebar-explorer');
+        var $overlay = $('.sidebar-overlay');
+        var $toggle = $('.mobile-menu-toggle');
+
+        function openSidebar() {
+          $sidebar.addClass('show');
+          $overlay.addClass('show');
+          $toggle.addClass('active');
+          $body.addClass('sidebar-open');
+        }
+
+        function closeSidebar() {
+          $sidebar.removeClass('show');
+          $overlay.removeClass('show');
+          $toggle.removeClass('active');
+          $body.removeClass('sidebar-open');
+        }
+
+        // 汉堡按钮点击切换
+        $toggle.on('click', function(e) {
+          e.stopPropagation();
+          if ($sidebar.hasClass('show')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+
+        // 点击遮罩层关闭
+        $overlay.on('click', function() {
+          closeSidebar();
+        });
+
+        // ESC 键关闭
+        $(document).on('keydown', function(e) {
+          if (e.key === 'Escape' && $sidebar.hasClass('show')) {
+            closeSidebar();
+          }
+        });
+
+        // 点击侧边栏内的链接时自动关闭侧边栏，确保锚点跳转正常
+        $sidebar.on('click', 'a', function() {
+          closeSidebar();
+        });
+      });
+    </script>
+  </body>
+</html>

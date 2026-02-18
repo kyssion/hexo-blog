@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title> | Hexo</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A simple dark Hexo theme inspired by code.">
+  <meta name="keywords" content="">
+  <meta name="author" content="John Doe">
+  <link rel="canonical" href="http://example.com">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content=" | Hexo">
+  <meta property="og:description" content="A simple dark Hexo theme inspired by code.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://example.com">
+  <meta property="og:site_name" content="Hexo">
+  
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content=" | Hexo">
+  <meta name="twitter:description" content="A simple dark Hexo theme inspired by code.">
+
+  <!-- Favicon 配置 -->
+  
+
+  <!-- 外部样式 - 统一使用 jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- 代码高亮样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+  <!-- Mermaid.js 库 (defer加载) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <!-- 主题样式 -->
+  <link rel="stylesheet" href="../../css/theme-colors.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/code.css">
+  <link rel="stylesheet" href="../../css/code-custom.css">
+  <link rel="stylesheet" href="../../css/code-languages.css">
+  <link rel="stylesheet" href="../../css/mermaid.css">
+
+  <link rel="stylesheet" href="../../css/vs-code.css">
+  <link rel="stylesheet" href="../../css/post.css?v=1771424192317">
+  <link rel="stylesheet" href="../../css/tag.css">
+  <link rel="stylesheet" href="../../css/categories.css">
+  <link rel="stylesheet" href="../../css/archive.css">
+  <link rel="stylesheet" href="../../css/search.css">
+  <link rel="stylesheet" href="../../css/mobile.css">  <link rel="stylesheet" href="../../css/responsive.css">
+  <link rel="stylesheet" href="../../css/elements.css">
+
+  <!-- 添加 JetBrains Mono 字体 -->  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Add any custom head content here -->
+
+  <script defer src="../../js/explorer.js"></script>
+  <script defer src="../../js/code-enhance.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+      <div class="mobile-menu-toggle" aria-label="Toggle sidebar menu" role="button" tabindex="0">
+        <i class="fas fa-bars"></i>
+      </div>
+      <!-- 移动端侧边栏遮罩层 -->
+      <div class="sidebar-overlay" aria-hidden="true"></div>
+      <header class="vs-header">
+  <nav class="vs-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-brand">
+        <i class="fas fa-terminal"></i>
+        Hexo
+      </a>
+    </div>
+    
+    <div class="nav-right">
+      <a href="/" class="nav-item ">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="/archives/" class="nav-item ">
+        <i class="fas fa-archive"></i>
+        <span>Archives</span>
+      </a>
+      <a href="/categories/" class="nav-item ">
+        <i class="fas fa-folder"></i>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" class="nav-item active">
+        <i class="fas fa-tags"></i>
+        <span>Tags</span>
+      </a>
+      <a href="/search/" class="nav-item ">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="/about/" class="nav-item ">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function smoothScroll(event, target) {
+    event.preventDefault();
+    const targetId = target.substring(target.indexOf('#') + 1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 50, // 调整偏移量
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = target;
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.vs-header');
+    const nav = document.querySelector('.vs-nav');
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    
+    nav.style.setProperty('--scroll-percent', `${scrollPercent}%`);
+    
+    if (window.scrollY > 0) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // 添加标签页切换动画
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('nav-ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+</script>
+
+
+
+
+<div class="vscode-container">
+  <!-- 左侧资源管理器 -->
+  <div class="sidebar-explorer">
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-tags"></i>
+        <span>ALL TAGS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="tag-item ">
+            <i class="fas fa-tag"></i>
+            <a href="../aouth2-0/">aouth2.0</a>
+            <span class="count">(1)</span>
+          </div>
+        
+          <div class="tag-item ">
+            <i class="fas fa-tag"></i>
+            <a href="../dubbo/">dubbo</a>
+            <span class="count">(12)</span>
+          </div>
+        
+          <div class="tag-item ">
+            <i class="fas fa-tag"></i>
+            <a href="../%E5%88%86%E6%B5%81%E8%83%BD%E5%8A%9B/">分流能力</a>
+            <span class="count">(1)</span>
+          </div>
+        
+          <div class="tag-item ">
+            <i class="fas fa-tag"></i>
+            <a href="../gradle/">gradle</a>
+            <span class="count">(14)</span>
+          </div>
+        
+          <div class="tag-item ">
+            <i class="fas fa-tag"></i>
+            <a href="../groovy/">groovy</a>
+            <span class="count">(4)</span>
+          </div>
+        
+          <div class="tag-item ">
+            <i class="fas fa-tag"></i>
+            <a href="../jackson/">jackson</a>
+            <span class="count">(2)</span>
+          </div>
+        
+          <div class="tag-item ">
+            <i class="fas fa-tag"></i>
+            <a href="../java%E7%89%88%E6%9C%AC%E5%92%8C%E6%9B%B4%E6%96%B0%E5%86%85%E5%AE%B9/">java版本和更新内容</a>
+            <span class="count">(3)</span>
+          </div>
+        
+          <div class="tag-item ">
+            <i class="fas fa-tag"></i>
+            <a href="../java%E7%9A%84stream/">java的stream</a>
+            <span class="count">(6)</span>
+          </div>
+        
+          <div class="tag-item ">
+            <i class="fas fa-tag"></i>
+            <a href="../java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">java多线程</a>
+            <span class="count">(5)</span>
+          </div>
+        
+          <div class="tag-item ">
+            <i class="fas fa-tag"></i>
+            <a href="../java%E8%8C%83%E5%9E%8B%E5%8F%8D%E5%B0%84%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F/">java范型反射类型系统</a>
+            <span class="count">(7)</span>
+          </div>
+        
+          <div class="tag-item ">
+            <i class="fas fa-tag"></i>
+            <a href="../javascript/">javascript</a>
+            <span class="count">(10)</span>
+          </div>
+        
+          <div class="tag-item ">
+            <i class="fas fa-tag"></i>
+            <a href="../junit4/">junit4</a>
+            <span class="count">(3)</span>
+          </div>
+        
+          <div class="tag-item ">
+            <i class="fas fa-tag"></i>
+            <a href="../jvm%E8%99%9A%E6%8B%9F%E6%9C%BA/">jvm虚拟机</a>
+            <span class="count">(4)</span>
+          </div>
+        
+          <div class="tag-item ">
+            <i class="fas fa-tag"></i>
+            <a href="../maven/">maven</a>
+            <span class="count">(3)</span>
+          </div>
+        
+          <div class="tag-item ">
+            <i class="fas fa-tag"></i>
+            <a href="../mybatis/">mybatis</a>
+            <span class="count">(10)</span>
+          </div>
+        
+          <div class="tag-item ">
+            <i class="fas fa-tag"></i>
+            <a href="../netty/">netty</a>
+            <span class="count">(7)</span>
+          </div>
+        
+          <div class="tag-item ">
+            <i class="fas fa-tag"></i>
+            <a href="../nodejs/">nodejs</a>
+            <span class="count">(1)</span>
+          </div>
+        
+          <div class="tag-item ">
+            <i class="fas fa-tag"></i>
+            <a href="../%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+            <span class="count">(10)</span>
+          </div>
+        
+          <div class="tag-item ">
+            <i class="fas fa-tag"></i>
+            <a href="../spring/">spring</a>
+            <span class="count">(32)</span>
+          </div>
+        
+          <div class="tag-item ">
+            <i class="fas fa-tag"></i>
+            <a href="../spring%E7%9B%B8%E5%85%B3%E4%B8%80%E4%BA%9B%E9%9B%B6%E6%95%A3%E7%9A%84%E7%BB%86%E8%8A%82/">spring相关一些零散的细节</a>
+            <span class="count">(2)</span>
+          </div>
+        
+          <div class="tag-item active">
+            <i class="fas fa-tag"></i>
+            <a href="">undertow</a>
+            <span class="count">(3)</span>
+          </div>
+        
+          <div class="tag-item ">
+            <i class="fas fa-tag"></i>
+            <a href="../vertx/">vertx</a>
+            <span class="count">(12)</span>
+          </div>
+        
+          <div class="tag-item ">
+            <i class="fas fa-tag"></i>
+            <a href="../%E5%BE%AE%E8%A7%82%E7%BB%8F%E6%B5%8E%E7%BB%8F%E6%B5%8E%E5%AD%A6/">微观经济经济学</a>
+            <span class="count">(1)</span>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- 主要内容区域 -->
+  <div class="editor-content">
+    <div class="tab-bar">
+      <div class="tab active">
+        <i class="fas fa-tag"></i>
+        <span>tag: undertow.md</span>
+      </div>
+    </div>
+    
+    <div class="content-area">
+      <div class="tag-header">
+        <h1>
+          <i class="fas fa-tag"></i>
+          Tag: undertow
+        </h1>
+        <span class="tag-count">3 posts</span>
+      </div>
+
+      <div class="posts-container">
+        
+          <div class="post-card">
+            <div class="post-header">
+              <i class="fas fa-file-alt"></i>
+              <span class="post-title">
+                <a href="../../2024/12/31/undertow-servlet%E6%94%AF%E6%8C%81/">undertow-servlet支持</a>
+              </span>
+            </div>
+            
+            <div class="post-meta">
+              <span class="date">
+                <i class="fas fa-calendar-alt"></i>
+                2024-12-31
+              </span>
+              
+                <span class="category">
+                  <i class="fas fa-folder"></i>
+                  <a class="category-link" href="../../categories/java/">java</a>
+                </span>
+              
+            </div>
+            
+            <div class="post-excerpt">
+              undertow 是通过了servlet 4.0 认证的服务器在本质上是支持servlet标准的...
+            </div>
+            
+            <div class="post-footer">
+              <a href="../../2024/12/31/undertow-servlet%E6%94%AF%E6%8C%81/" class="read-more">
+                <i class="fas fa-code"></i>
+                Read More
+              </a>
+            </div>
+          </div>
+        
+          <div class="post-card">
+            <div class="post-header">
+              <i class="fas fa-file-alt"></i>
+              <span class="post-title">
+                <a href="../../2024/12/31/undertow-xnio/">undertow-xnio</a>
+              </span>
+            </div>
+            
+            <div class="post-meta">
+              <span class="date">
+                <i class="fas fa-calendar-alt"></i>
+                2024-12-31
+              </span>
+              
+                <span class="category">
+                  <i class="fas fa-folder"></i>
+                  <a class="category-link" href="../../categories/java/">java</a>
+                </span>
+              
+            </div>
+            
+            <div class="post-excerpt">
+              underttow 是redhat 开发的高性能服务器，具有jetty的易扩展和netty 高性能，之前阅读过部分undertow的源代码，发现undertow地成的异步框架使用的是xnio(并不是netty) 这里记录一下undertow 最底层xnio的使用方法
+XNIO有两个重要的概念：
+Channel，是传输管道的抽象概念，在NIO的Channel上进行的扩展加强，使用ChannelLis...
+            </div>
+            
+            <div class="post-footer">
+              <a href="../../2024/12/31/undertow-xnio/" class="read-more">
+                <i class="fas fa-code"></i>
+                Read More
+              </a>
+            </div>
+          </div>
+        
+          <div class="post-card">
+            <div class="post-header">
+              <i class="fas fa-file-alt"></i>
+              <span class="post-title">
+                <a href="../../2024/12/31/undertow-%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/">undertow-架构解析</a>
+              </span>
+            </div>
+            
+            <div class="post-meta">
+              <span class="date">
+                <i class="fas fa-calendar-alt"></i>
+                2024-12-31
+              </span>
+              
+                <span class="category">
+                  <i class="fas fa-folder"></i>
+                  <a class="category-link" href="../../categories/java/">java</a>
+                </span>
+              
+            </div>
+            
+            <div class="post-excerpt">
+              undertow 是在国外评测网站techempower 中评测排行头10高性能框架,同时也是spring boot 可以使用的web容器之一. 这里记录一下undertow的学习和使用的记录
+基础列子 简单服务器构建和手动服务起构建
+简单服务器构建
+
+
+　其实通过源代码可知，简单服务器构建其实相当于使用了默认值的复杂服务器构建
+
+1234567891011121314public class H...
+            </div>
+            
+            <div class="post-footer">
+              <a href="../../2024/12/31/undertow-%E6%9E%B6%E6%9E%84%E8%A7%A3%E6%9E%90/" class="read-more">
+                <i class="fas fa-code"></i>
+                Read More
+              </a>
+            </div>
+          </div>
+        
+      </div>
+
+      
+
+    </div>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code-branch"></i>
+      master
+    </div>
+    <div class="status-item">
+      <i class="fas fa-sync"></i>
+      John Doe
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      2026-02-18
+    </div>
+    <div class="status-item">
+      Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
+    </div>
+    <div class="status-item github">
+      <a href="#" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 搜索专用配置 (HEXO_CONFIG 在 scripts.ejs 中统一定义) -->
+    <script>
+      window.VSC4T_SEARCH = {
+        root: "/"
+      };
+    </script>
+
+    <!-- 外部脚本 - 统一使用 cdnjs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
+    <script>if(typeof hljs !== 'undefined') hljs.highlightAll();</script>
+    <!-- 这里可以放置自定义脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Apply smooth scroll to non-TOC anchor links
+  document.querySelectorAll('a[href^="#"]:not(.toc-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Check if querySelector is valid before using it
+      try {
+        const targetSelector = this.getAttribute('href');
+        // Basic check for potentially invalid selectors (though not exhaustive)
+        if (targetSelector && targetSelector.length > 1) { 
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            console.warn('Smooth scroll target not found:', targetSelector);
+          }
+        } else {
+           console.warn('Invalid href for smooth scroll:', targetSelector);
+        }
+      } catch (error) {
+        console.error('Error during smooth scroll:', error, 'Selector:', this.getAttribute('href'));
+        // Fallback or alternative behavior if needed
+        // For example, try getElementById if it's just an ID
+        const targetId = this.getAttribute('href').slice(1);
+        try {
+            const targetElementById = document.getElementById(decodeURIComponent(targetId));
+            if (targetElementById) {
+                targetElementById.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (idError) {
+             console.error('Fallback getElementById also failed:', idError);
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Scripts -->
+<script>
+  // 全局配置 - 包含 i18n 字符串和主题配置
+  window.HEXO_CONFIG = {
+    language: "en",
+    root: "/",
+    
+    theme_switch: {
+      enabled: false,
+      light_start: "06:00",
+      light_end: "18:00"
+    },
+    
+    // Search i18n strings
+    search_placeholder: "Type to search...",
+    search_no_results: "No results found",
+    search_result: "result",
+    search_results: "results",
+    search_results_found: "Found undefined results",
+    search_in: "Search in",
+    search_in_title: "Title",
+    search_in_content: "Content",
+    search_in_tags: "Tags",
+    search_in_categories: "Categories",
+    search_filters: "Search Filters",
+    search_recent: "Recent Searches",
+    search_clear: "Clear",
+    search_loading: "Loading...",
+    search_error: "Error loading search data",
+    // Encryption i18n strings
+    encrypt_badge: "Protected",
+    encrypt_title: "Protected Content",
+    encrypt_description: "Enter the password to unlock this article. The password will be saved locally until you choose to re-encrypt.",
+    encrypt_label: "Password",
+    encrypt_placeholder: "Enter password to unlock",
+    encrypt_button: "Unlock",
+    encrypt_button_loading: "Unlocking...",
+    encrypt_hint: "Press Enter to submit. Password will be remembered on this device.",
+    encrypt_success: "Content unlocked successfully!",
+    encrypt_unlocked_note: "Content unlocked. You can re-encrypt at any time.",
+    encrypt_again: "Re-encrypt",
+    encrypt_wrong_password: "Incorrect password. Please try again.",
+    encrypt_show_password: "Show password",
+    encrypt_hide_password: "Hide password",
+    // Sidebar i18n strings
+    sidebar_about: "About",
+    sidebar_categories: "Categories",
+    sidebar_tags: "Tags",
+    // Post page i18n strings
+    post_toc: "TABLE OF CONTENTS",
+    post_category_posts: "CATEGORY POSTS",
+    post_article_tags: "ARTICLE TAGS"
+  };
+</script>
+
+
+
+<!-- 添加所有需要的脚本 -->
+<script src="../../js/search.js"></script>
+<script src="../../js/theme-switch.js"></script>
+
+<script src="../../js/password-protect.js?v=1771424192317"></script>
+
+    <script>
+      // 移动端菜单切换
+      $(document).ready(function() {
+        var $body = $('body');
+        var $sidebar = $('.sidebar-explorer');
+        var $overlay = $('.sidebar-overlay');
+        var $toggle = $('.mobile-menu-toggle');
+
+        function openSidebar() {
+          $sidebar.addClass('show');
+          $overlay.addClass('show');
+          $toggle.addClass('active');
+          $body.addClass('sidebar-open');
+        }
+
+        function closeSidebar() {
+          $sidebar.removeClass('show');
+          $overlay.removeClass('show');
+          $toggle.removeClass('active');
+          $body.removeClass('sidebar-open');
+        }
+
+        // 汉堡按钮点击切换
+        $toggle.on('click', function(e) {
+          e.stopPropagation();
+          if ($sidebar.hasClass('show')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+
+        // 点击遮罩层关闭
+        $overlay.on('click', function() {
+          closeSidebar();
+        });
+
+        // ESC 键关闭
+        $(document).on('keydown', function(e) {
+          if (e.key === 'Escape' && $sidebar.hasClass('show')) {
+            closeSidebar();
+          }
+        });
+
+        // 点击侧边栏内的链接时自动关闭侧边栏，确保锚点跳转正常
+        $sidebar.on('click', 'a', function() {
+          closeSidebar();
+        });
+      });
+    </script>
+  </body>
+</html>

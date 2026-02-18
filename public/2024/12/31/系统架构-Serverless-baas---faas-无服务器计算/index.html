@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>系统架构-Serverless(baas &amp; faas)无服务器计算 | Hexo</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A simple dark Hexo theme inspired by code.">
+  <meta name="keywords" content="">
+  <meta name="author" content="John Doe">
+  <link rel="canonical" href="http://example.com">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="系统架构-Serverless(baas &amp; faas)无服务器计算 | Hexo">
+  <meta property="og:description" content="A simple dark Hexo theme inspired by code.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://example.com">
+  <meta property="og:site_name" content="Hexo">
+  <meta property="article:published_time" content="2024-12-31T11:48:00.000Z">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="系统架构-Serverless(baas &amp; faas)无服务器计算 | Hexo">
+  <meta name="twitter:description" content="A simple dark Hexo theme inspired by code.">
+
+  <!-- Favicon 配置 -->
+  
+
+  <!-- 外部样式 - 统一使用 jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- 代码高亮样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+  <!-- Mermaid.js 库 (defer加载) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <!-- 主题样式 -->
+  <link rel="stylesheet" href="../../../../css/theme-colors.css">
+  <link rel="stylesheet" href="../../../../css/main.css">
+  <link rel="stylesheet" href="../../../../css/code.css">
+  <link rel="stylesheet" href="../../../../css/code-custom.css">
+  <link rel="stylesheet" href="../../../../css/code-languages.css">
+  <link rel="stylesheet" href="../../../../css/mermaid.css">
+
+  <link rel="stylesheet" href="../../../../css/vs-code.css">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192238">
+  <link rel="stylesheet" href="../../../../css/tag.css">
+  <link rel="stylesheet" href="../../../../css/categories.css">
+  <link rel="stylesheet" href="../../../../css/archive.css">
+  <link rel="stylesheet" href="../../../../css/search.css">
+  <link rel="stylesheet" href="../../../../css/mobile.css">  <link rel="stylesheet" href="../../../../css/responsive.css">
+  <link rel="stylesheet" href="../../../../css/elements.css">
+
+  <!-- 添加 JetBrains Mono 字体 -->  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Add any custom head content here -->
+
+  <script defer src="../../../../js/explorer.js"></script>
+  <script defer src="../../../../js/code-enhance.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+      <div class="mobile-menu-toggle" aria-label="Toggle sidebar menu" role="button" tabindex="0">
+        <i class="fas fa-bars"></i>
+      </div>
+      <!-- 移动端侧边栏遮罩层 -->
+      <div class="sidebar-overlay" aria-hidden="true"></div>
+      <header class="vs-header">
+  <nav class="vs-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-brand">
+        <i class="fas fa-terminal"></i>
+        Hexo
+      </a>
+    </div>
+    
+    <div class="nav-right">
+      <a href="/" class="nav-item ">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="/archives/" class="nav-item ">
+        <i class="fas fa-archive"></i>
+        <span>Archives</span>
+      </a>
+      <a href="/categories/" class="nav-item ">
+        <i class="fas fa-folder"></i>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" class="nav-item ">
+        <i class="fas fa-tags"></i>
+        <span>Tags</span>
+      </a>
+      <a href="/search/" class="nav-item ">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="/about/" class="nav-item ">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function smoothScroll(event, target) {
+    event.preventDefault();
+    const targetId = target.substring(target.indexOf('#') + 1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 50, // 调整偏移量
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = target;
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.vs-header');
+    const nav = document.querySelector('.vs-nav');
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    
+    nav.style.setProperty('--scroll-percent', `${scrollPercent}%`);
+    
+    if (window.scrollY > 0) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // 添加标签页切换动画
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('nav-ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+</script>
+
+
+<div class="vscode-container">
+  <!-- 左侧资源管理器 -->
+  <div class="sidebar-explorer">
+    <!-- TOC导航 -->
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-list"></i>
+        <span>TABLE OF CONTENTS</span>
+      </div>
+      <div class="section-content">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFServerless"><span class="toc-text">什么是Serverless</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%98%AFBaaS%EF%BC%8C%E4%B8%8D%E6%98%AFPaaS"><span class="toc-text">是BaaS，不是PaaS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FaaS%E6%98%AFServerless%E7%9A%84%E6%A0%B8%E5%BF%83"><span class="toc-text">FaaS是Serverless的核心</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Serverless%E4%B8%BA%E6%88%91%E4%BB%AC%E5%B8%A6%E6%9D%A5%E4%BA%86%E4%BB%80%E4%B9%88"><span class="toc-text">Serverless为我们带来了什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Serverless%E4%B8%8D%E6%98%AF%E9%93%B6%E5%AD%90%E5%BC%B9%EF%BC%8C%E6%98%AF%E5%90%8E%E7%AB%AF%E5%B0%8F%E7%A8%8B%E5%BA%8F%E7%9A%84%E6%9C%AA%E6%9D%A5"><span class="toc-text">Serverless不是银子弹，是后端小程序的未来</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Serverless%E4%B8%8D%E6%98%AF%E4%BC%A0%E7%BB%9F%E7%9A%84PaaS"><span class="toc-text">Serverless不是传统的PaaS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Serverless%E5%92%8C%E5%BE%AE%E6%9C%8D%E5%8A%A1"><span class="toc-text">Serverless和微服务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Serverless%E5%92%8C%E5%AE%B9%E5%99%A8"><span class="toc-text">Serverless和容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Serverless%E5%AF%B9%E7%A7%81%E6%9C%89%E4%BA%91%E6%9C%89%E6%84%8F%E4%B9%89%E5%90%97%EF%BC%9F"><span class="toc-text">Serverless对私有云有意义吗？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
+      </div>
+    </div>
+
+    <!-- 同分类文章 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-folder"></i>
+        <span>CATEGORY POSTS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../oauth2-0-%E8%AE%A4%E8%AF%81%E6%8E%88%E6%9D%83%E7%9A%84%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/">oauth2.0-认证授权的深入理解</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../0-%E6%80%BB%E7%BA%B2/">0-总纲</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../%E5%B9%82%E7%AD%89%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%B1%87%E6%80%BB/">幂等问题解决方案汇总</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../%E5%BA%93%E5%AD%98%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86%E4%B8%8A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/">库存问题处理上的一些思考</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1-%E6%88%91%E7%9A%84%E4%B8%80%E4%B8%AA%E6%94%AF%E6%8C%81%E5%BC%82%E6%AD%A5%E6%8B%89%E5%8F%96%E6%95%B0%E6%8D%AE%E5%92%8C%E6%9C%AC%E5%9C%B0%E7%BC%93%E5%AD%98client%E6%98%AF%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E7%9A%84/">架构设计-我的一个支持异步拉取数据和本地缓存client是如何设计的</a>
+          </div>
+        
+      </div>
+    </div>
+    
+    
+    <!-- 标签列表 -->
+    
+  </div>
+
+  <!-- 主要内容区域 -->
+  <div class="editor-content">
+    <div class="tab-bar">
+      <div class="tab active">
+        <i class="fas fa-file-alt"></i>
+        <span>系统架构-Serverless(baas &amp; faas)无服务器计算.md</span>
+      </div>
+    </div>
+    
+    <div class="content-area">
+      <article class="post-content">
+        <div class="post-header">
+          <h1>系统架构-Serverless(baas &amp; faas)无服务器计算</h1>
+          <div class="post-meta">
+            <span class="date">
+              <i class="fas fa-calendar-alt"></i>
+              2024-12-31
+            </span>
+            
+            <span class="updated-date">
+              <i class="fas fa-sync-alt"></i>
+              Updated 2026-02-18
+            </span>
+                        
+              <span class="categories">
+                <i class="fas fa-folder"></i>
+                <div class="categories-list">
+                  <ul class="category-item-post-list"><li class="category-item-post-list-item"><a class="category-item-post-list-link" href="../../../../categories/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">架构设计</a></li></ul>
+                </div>
+              </span>
+            
+            
+          </div>
+        </div>
+        
+        <div class="post-body vscode-markdown">
+          <blockquote>
+<p>自从2014年AWS推出Lambda服务后，Serverless一词越来越热，已经成为一种新型的软件设计架构，即Serverless Architecture。作为一种原生于公共云的架构，Serverless有什么优缺点？是否能应用于传统企业程序？是否适合私有云场景？是否像很多文章宣称的一样，会成为未来改变云计算的中坚力量？作为一名云计算行业的老兵，作者想在此文中分享一些自己的观点。</p>
+</blockquote>
+<h3 id="什么是Serverless"><a href="#什么是Serverless" class="headerlink" title="什么是Serverless"></a>什么是Serverless</h3><p>Serverless并不神秘，用一个简单的例子就可讲明。我们设计了一个AI应用，可以识别出图片中人物的人种，我们把它作为一种SaaS服务架设在公共云上提供给客户使用，其典型的后端架构设计如下：</p>
+<p><img src="/images/blogimg//blogimg/serverless/serverless_img1.jpeg"></p>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;在该架构中，我们购买的云主机上运行了Tomcat Web Server，用于承载Java编写的AI应用。用户通过API上传图片。受限于云主机的本地存储空间，为了满足大量客户同时上传图片，AI应用实现了一个存储网关将图片导入公共云的对象存储。图片导入完成后，AI应用从对象存储读入图片进行识别，并将结果存入公共云的数据库中（例如RDS），用户使用API查询结果。<br>&nbsp; &nbsp;&nbsp; &nbsp;AI应用上线一段时间后受到了用户的欢迎，越来越多的公司开始使用该服务。根据统计数据，大多数公司在上午9点<del>11点、下午2点</del>5点集中上传图片，为了满足该时间段的突发访问量，我们设置了公共云的&nbsp; &nbsp;&nbsp; &nbsp;Auto-Scaling策略，在访问增加时动态创建更多的云主机来响应客户。AI应用的架构演化成：</p>
+<ul>
+<li>在这个架构中，我们需要做如下事情：</li>
+</ul>
+<ol>
+<li>管理云主机。我们要关心CPU数量、内存大小、IP地址等等系统级的配置。同时还要关心云主机的操作系统，为部署AI应用拟定策略。操作系统和Tomcat的安全补丁也不能忽视，否则竞争对手可能雇佣黑客来攻击我们的系统。</li>
+<li>配置公共云的Auto-Scaling的策略，应对高峰期突发访问量。</li>
+<li>使用公共云的对象存储和数据库。</li>
+<li>编写AI应用。<br>&nbsp; &nbsp;&nbsp; &nbsp;要完成这些工作，我们既要开发AI应用，又要营运支撑业务（例如管理云主机生命周期、管理操作系统）。这是当前架构的现实：为20%的核心业务营运80%的支撑业务。</li>
+</ol>
+<ul>
+<li>下面用Serverless架构改写AI应用：</li>
+</ul>
+<p><img src="/images/blogimg//blogimg/serverless/servless_img2.jpeg"></p>
+<ul>
+<li><p>多个运行AI应用代码的进程被启动，并发处理用户上传的图片。</p>
+</li>
+<li><p>在Serverless架构的AI应用中，我们只需要做两件事情：</p>
+</li>
+</ul>
+<ol>
+<li><p>使用公共云的对象存储和数据库。</p>
+</li>
+<li><p>用公共云的Serverless框架编写AI应用。</p>
+</li>
+</ol>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;与之前的架构相比，我们不再营运云主机、操作系统、Tomcat，同时也不需要配置Auto-Scaling Group，公共云的Serverless框架会在每个图片上传完成后启动一个进程运行AI应用，自动实现水平扩展。我们终于只需要关心核心业务了，用Serverless框架支持的语言（例如AWS Lambda就支持Java, Python和JVM系语言）编写AI应用，一切非核心业务都外包给了公共云营运商。</p>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;我们的Serverless AI应用用到了两种技术。首先使用了公共云提供的对象存储和数据库服务，统称为BaaS（Backend as a Service，后端即服务）。其次用了Lambda框架，称为FaaS(Functions as a Service，函数即服务)。</p>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;使用BaaS和FaaS是Serverless应用的基本特征，符合这两个基本特征的应用可称为Serverless应用。</p>
+<h3 id="是BaaS，不是PaaS"><a href="#是BaaS，不是PaaS" class="headerlink" title="是BaaS，不是PaaS"></a>是BaaS，不是PaaS</h3><p>&nbsp; &nbsp;&nbsp; &nbsp;AI应用用到了对象存储和数据库，将来或许还会用到消息队列。直观感觉是在使用PaaS，为什么还要造一个新词BaaS？技术圈有太多令人混淆的术语了。</p>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;BaaS并非PaaS，它们的区别在于：PaaS需要参与应用的生命周期管理，BaaS则仅仅提供应用依赖的第三方服务。典型的PaaS平台需要提供手段让开发者部署和配置应用，例如自动将应用部署到Tomcat容器中，并管理应用的生命周期。BaaS不包含这些内容，BaaS只以API的方式提供应用依赖的后端服务，例如数据库和对象存储。BaaS可以是公共云服务商提供的，也可以是第三方厂商提供的，例如Facebook收购的Parse就是著名的MBaaS提供商（Mobile Backend as a Service）。从功能上讲，BaaS可以看作PaaS的一个子集，即提供第三方依赖组件的部分。</p>
+<h3 id="FaaS是Serverless的核心"><a href="#FaaS是Serverless的核心" class="headerlink" title="FaaS是Serverless的核心"></a>FaaS是Serverless的核心</h3><p>&nbsp; &nbsp;&nbsp; &nbsp;AI应用最初是一个典型Java程序，它可能使用Spring这样的技术，因为我们需要一个框架确保程序的各个组件能够被正确加载，需要MVC来保证REST API被正确的Controller处理。AI应用部署在Tomcat容器中，运行在云主机上，7 x 24小时运行，我们提供不间断的服务。在夜里12点到早晨8点，几乎没有用户使用，但我们还得让它待在那里，防止深夜偶尔使用的用户得到一个503错误而误会AI服务不稳定。我们为购买的云主机付钱，尽管一半的时间它的CPU使用率几乎为0，但没有公共云是按CPU使用率计费的，不工作的时间也得付钱。我们必须关心Auto-Scaling Group的配置，如何准确的配置Auto-Scaling策略是一个技术活，需要长期的经验积累，在早期我们不得不多部署一些空闲的云主机以保证服务不会因Auto-Scaling的配置不当而拥塞。</p>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;用Serverless架构改写了AI应用后，这些痛苦就通通消失了。Spring框架和Tomcat去掉了，用Lambda的Java SDK，只需要实现一个Function Handler处理图片上传完成这个事件，这跟写一个Callback一样简单。在Function Handler中调用图片识别的相关逻辑，然后调用数据库的REST API存储结果。也不用构建MVC，不用配置Tomcat的XML文件，我们将存储网关这个功能完全去除掉了，因为用户可以直接上传图片到对象存储。</p>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;AI应用不用7 x 24小时运行了，没有用户上传图片时它只是一份编译好的代码。当用户图片上传完成时，FaaS会为AI应用启动一个新的进程执行代码。该进程在代码执行完成后自动销毁。我们只需为代码执行的这几十秒钟付钱，节省了很多开支。</p>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;最后我们无需操心Auto-Scaling的问题，FaaS会在需要的时候自动扩展。</p>
+<ul>
+<li>这些就是FaaS的核心，从上面的例子里面可以归纳出它的特点：</li>
+</ul>
+<ol>
+<li><p>FaaS运行的是后端代码而不是整个后端程序。例如AI应用仅仅包含处理图片上传完成这个事件的逻辑，并不是一个完整的后端程序，而是一段后端代码。</p>
+</li>
+<li><p>代码通过事件触发。由于不再有一个长期运行的进程等待或轮询用户请求，代码只能通过特殊的事件触发。这些事件由FaaS框架定义，例如上传文件到对象存储、消息队列收到一条新的消息、API Gateway收到一个新的API请求等。</p>
+</li>
+<li><p>代码的生命周期很短。例如我们的AI应用，从收到事件后Function Handler被调用开始，到调用返回结束，不会有常驻内存的进程运行。此外公共云提供商还会限制代码执行的时间，超出时间后执行代码的进程会被强行销毁。例如AWS的Lambda可执行的最长时间为5分钟。</p>
+</li>
+<li><p>代码必须做到彻底无状态，两次调用间不能共享内存状态。我们的AI应用最早使用了一个全局变量统计处理的图片数，每处理完一张图片该计数器就加一。使用FaaS后我们不能再用任何全局变量或内存数据结构（例如Hashmap）在调用间共享数据，因为代码运行在独立的进程中，无法访问对方的内存地址空间。于是我们对代码进行了改造，将全局计数器放到了公共云的Redis服务中，这为代码增加了额外的复杂性。</p>
+</li>
+<li><p>水平扩展不再是需要担心的问题，FaaS会为每个事件和请求运行一份新的代码。</p>
+</li>
+<li><p>应用的部署方式从上传、配置整个程序变成上传一份打包代码的文件（例如Jar文件或一个Zip文件）。</p>
+</li>
+</ol>
+<h3 id="Serverless为我们带来了什么"><a href="#Serverless为我们带来了什么" class="headerlink" title="Serverless为我们带来了什么"></a>Serverless为我们带来了什么</h3><p>&nbsp; &nbsp;&nbsp; &nbsp;对比传统架构，用Serverless架构改写的AI应用具有显著的优势。我们不再运维任何云主机和操作系统，甚至不再运维Tomcat这样的Web容器，只需要专注于代码本身，所有配置、应用生命周期管理的工作都由FaaS框架负责。公共云的出现让我们从物理硬件管理中解放出来，Serverless架构让我们进一步从操作系统管理中解放出来，第一次真正专注于核心业务。</p>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;业务也变得更加敏捷了。我们只需要编写核心业务相关的代码，例如AI应用中图像识别的部分。无需编写任何加载、部署、配置应用的代码，例如不再需要配置systemd在系统启动时加载应用。</p>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;水平扩展也不是问题。正如前面反复提及的，FaaS框架会为每一个事件、每一个API请求都启动一份新的进程执行代码。这跟传统应用的线程池方式类似，每个请求都在一个单独的线程中执行，区别在于线程之间共享同一内存地址空间，FaaS的进程间不共享任何内存。与线程池有最大线程数限制类似，FaaS框架通常也限制了最大进程数，例如AWS Lambda在一个Region默认能执行的最大并发调用是600，也就是说我们的AI应用最多能在600个进程中同时执行。</p>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;最后，也是最重要的，Serverless架构为我们节省了大量开支。我们只需为AI应用运行的时间付钱，无需为应用等待请求的时间付钱。水平扩展的粒度从原来的云主机细化到进程，节省了额外的开支，不用再购买闲置的云主机来抵消Auto-Scaling的配置不精确带来的影响。业务的敏捷性提高也降低了营运成本，我们不再需要精通操作系统配置和管理的营运人员，不仅节省了人力成本，也节省了应用从开发到上线的时间。</p>
+<h3 id="Serverless不是银子弹，是后端小程序的未来"><a href="#Serverless不是银子弹，是后端小程序的未来" class="headerlink" title="Serverless不是银子弹，是后端小程序的未来"></a>Serverless不是银子弹，是后端小程序的未来</h3><p>&nbsp; &nbsp;&nbsp; &nbsp;serverless架构在某些应用场景的优势如此明显，有些支持者已经开始炒作它会成为颠覆性的云计算新架构了。技术圈向来如此，一些人总在孜孜不倦的寻找包治百病的灵药，和解决一切问题的银子弹。“All design is about tradeoff”，Serverless也不是银子弹，它有独特的优势，而这些优势也带来了不可避免的局限。</p>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;为每个事件&#x2F;请求启动一个全新的进程运行代码是FaaS的核心，进程的启动延时是Serverless面临的第一个问题。取决于编写应用的语言，启动延时可以是10毫秒（如简单的Python应用），也可以是1分钟（复杂的Java应用）。这样的延时对于realtime的程序是难以接受的。目前Serverless应用通常运行在公共云的多租户环境中，启动延时还受系统负载影响，很难保证应用在规定时间内被运行。公共云提供商目前没有对Serverless提供相应的SLA保证，笔者写这篇文章的时候，AWS Lambda还没有相关的SLA条款。</p>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;Serverless无法用于高并发应用，为每个请求启动一个进程开销太高。例如双十一支付宝高峰期每秒处理的交易数为8.59万笔，如果使用Serverless架构，意味着我们的系统内每秒有8.59万个进程被创建又被销毁，这是难以负担的开销。</p>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;Serverless应用无法常驻内存，运行的时间是受限的。如果你的应用无法在数分钟内完成的工作，那Serverless不是你的选择，例如AWS Lambda给予进程的最长运行时间是5分钟，超时后进程将被强制终止。这对程序设计提出了挑战，例如我们的AI应用必须优化到在5分钟内完成复杂图像的识别。我们也不能编写执行长时间IO操作的应用，例如对对象存储中1T的数据进行复杂编码。</p>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;Serverless调用之间不能共享状态让编写复杂程序变得极度困难。无状态是互连网应用追求的目标，例如满足“12要素”的应用。但Serverless将无状态进行的更加彻底，在不同的调用之间无法共享内存状态，例如使用hashmap。我们的AI应用中统计已处理图片总数的全局计数器在传统架构中只是一个全局变量，但在Serverless架构中它变成存储在内存数据库（Redis）中的一条记录，更新成本、保证原子性等因素让我们的编码变得数倍复杂。对于大多云原生的互联网应用来说，这种彻底的无状态架构是一个巨大的挑战，而对于动辄有几十万、上百万行代码的、充满了状态的企业应用来说，Serverless的无状态改造几乎是一个无法完成的任务。</p>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;熟练的微服务的架构师，对将业务拆分成一个个单独的服务非常熟悉，也有不少的经典书籍（例如《Building Microservices: Designing Fine-Grained Systems》）指导我们如何做。但即使是他们，在面对Serverless架构时也会感到头痛，如何将业务拆分成成百上千个运行在独立进程、运行时间受限的函数是巨大的挑战。而是否需要如此细粒度的拆分是需要回答的第一个问题。有些问题或许变成无解难题又或成本极高，例如分布式数据库事务。</p>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;上面都是Serverless架构的一些固有局限，它们源于Serverless架构的特点，很难随着时间的推移、技术的完善而解决。除此之外，作为一个新的技术，Serverless还面临着集成测试困难、Vendor Lock-in、调试监控困难、版本控制等诸多不足，每一项都会成为采用Serverless架构的阻碍。</p>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;由于这些局限性，Serverless架构不会成为复杂应用的架构首选，相反，它应该是后端小程序的未来。</p>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;云端的应用有大量的小程序场景，例如识别一张图片、对一段音频&#x2F;视频进行编解码、对IOT设备的请求返回一小段数据、将客户提交的工单通过邮件通知客服人员等等。这些基于事件触发的小程序在传统架构中实现起来是相对复杂的，你往往需要为20%的核心业务运营80%的支撑业务。Serverless完美的解决了这些问题，它可以成为复杂应用的一种补充架构。我们可以将无状态的、事件触发的业务拆分成Serverless应用，让整个架构变得更加的简洁和高效。</p>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;Serverless也在不断演变，例如AWS最近引入的Step Functions就尝试解决调用间共享状态的问题，其效果有待观察。</p>
+<h3 id="Serverless不是传统的PaaS"><a href="#Serverless不是传统的PaaS" class="headerlink" title="Serverless不是传统的PaaS"></a>Serverless不是传统的PaaS</h3><p>&nbsp; &nbsp;&nbsp; &nbsp;Serverless跟PaaS之间的界线比较模糊，很多人认为Serverless是PaaS的一种，笔者也倾向于认为Serverless是特殊的PaaS形态。</p>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;Serverless由BaaS和FaaS两部分构成，BaaS负责提供业务的依赖服务，FaaS负责业务的部署和生命周期管理，从这个意义上来看，Serverless的角色跟PaaS一样。与传统PaaS的区别在于，传统PaaS是以程序为粒度管理应用的生命周期，而Serverless是以函数粒度管理应用生命周期。传统PaaS中的应用为常驻内存的进程，而Serverless应用运行完即销毁。此外，使用传统PaaS，用户仍需要关心水平扩展，例如如何配置Auto-Scaling Group，但Serverless没有这个问题，水平扩展是架构天然自带的功能。</p>
+<h3 id="Serverless和微服务"><a href="#Serverless和微服务" class="headerlink" title="Serverless和微服务"></a>Serverless和微服务</h3><p>&nbsp; &nbsp;&nbsp; &nbsp;Serverless和微服务没有直接关系，但两者有相似之处，例如都需要做业务拆分、强调无状态、具有敏捷特性等。Serverless在很多方面比微服务粒度更细，要求也更严格。例如微服务以服务为边界拆分业务，Serverless以函数为边界拆分业务；微服务可以有跨调用的内存状态共享，Serverless要求调用彻底无状态。此外，Serverless依赖BaaS提供第三方依赖，而微服务可以自由选择第三方依赖来源，例如使用本地搭建的传统中间件栈（如本地MySql和消息总线）。</p>
+<h3 id="Serverless和容器"><a href="#Serverless和容器" class="headerlink" title="Serverless和容器"></a>Serverless和容器</h3><p>&nbsp; &nbsp;&nbsp; &nbsp;Serverless和容器是苹果和桔子的比较，不在一个平面上。Serverless是一种软件设计架构，容器是软件架构的承载者。虽然没有公开资料，但我们可以推测类似于AWS Lambda这样的Serverless框架使用了某种程度的容器技术，否者难以实现语言无关和毫秒级的启动。尽管已经有一些开源项目使用Docker实现Serverless中的FaaS部分，笔者不认为AWS Lambda这样的公共Serverless框架直接使用了Docker，一定是一种更为轻量级、体积更小的容器技术，我们或许可以将它称为Nano-Container。</p>
+<h3 id="Serverless对私有云有意义吗？"><a href="#Serverless对私有云有意义吗？" class="headerlink" title="Serverless对私有云有意义吗？"></a>Serverless对私有云有意义吗？</h3><p>&nbsp; &nbsp;&nbsp; &nbsp;对于私有云来说，现在将业务迁往Serverless架构还为时过早。首先Serverless是从公共云中演化出来的新型架构，适用于运行在公共云上的小程序。而私有云更多承载的是老而笨重的传统业务，难以用Serverless架构改造。其次Serverless依赖BaaS，在私有云中搭建和运维BaaS成本都不低，使用公共BaaS服务又受限于网络带宽和延时，容易导致系统不稳定。</p>
+<p>&nbsp; &nbsp;&nbsp; &nbsp;随着企业应用的进一步云化、开源Serverless框架的成熟，私有云的Devops场景也可以采用Serverless作CI&#x2F;CD，例如目前Jenkins承担的大部分工作都可以用Serverless替代，如用FaaS框架对应Jenkins本身，上传的代码对应Jenkins Job中的Bash脚本，将原来的Jenkins API触发Job改为触发FaaS中的代码。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>&nbsp; &nbsp;&nbsp; &nbsp;Serverless作为一种全新的架构，是云计算发展演化的必然结果。追求更细粒度的计费单元，更加专注于核心业务、将支撑业务外包给基础设施提供商是云计算的趋势。Serverless架构的特点，让编写事件触发的后端小程序变得更加容易。同时它也有自身内在的局限性，并不适合复杂的应用架构。从目前的情况看，部分采用Serverless的混合架构对公共云应用是个不错的选择，私有应用采用Serverless还为时过早。云计算技术正在飞速发展，未来还有无限可能。</p>
+
+        </div>
+        
+        <!-- 文章导航 - 只在同分类有多篇文章时显示 -->
+        
+        
+        
+        <nav class="post-nav">
+          
+            <a class="prev" href="../%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1-%E6%88%91%E7%9A%84%E4%B8%80%E4%B8%AA%E6%94%AF%E6%8C%81%E5%BC%82%E6%AD%A5%E6%8B%89%E5%8F%96%E6%95%B0%E6%8D%AE%E5%92%8C%E6%9C%AC%E5%9C%B0%E7%BC%93%E5%AD%98client%E6%98%AF%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E7%9A%84/">
+              <i class="fas fa-chevron-left"></i>
+              架构设计-我的一个支持异步拉取数据和本地缓存client是如何设计的
+            </a>
+          
+          
+            <a class="next" href="../%E5%AF%B9%E4%BA%8E%E7%BC%96%E5%86%99%E4%BB%A3%E7%A0%81%E7%9A%84%E6%80%9D%E8%B7%AF%E7%9A%84%E6%80%9D%E8%80%83/">
+              对于编写代码的思路的思考
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          
+        </nav>
+        
+        
+        <!-- 推荐文章 -->
+        
+
+
+<div class="vs-recommended-posts">
+  <div class="vs-recommended-header">
+    <div class="section-header">
+      <i class="fas fa-lightbulb"></i>
+      <span>RELATED POSTS</span>
+    </div>
+  </div>
+  
+  <div class="vs-recommended-grid">
+    
+      <div class="vs-recommended-item" data-index="0" tabindex="0">
+        <a href="../%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1-%E6%88%91%E7%9A%84%E4%B8%80%E4%B8%AA%E6%94%AF%E6%8C%81%E5%BC%82%E6%AD%A5%E6%8B%89%E5%8F%96%E6%95%B0%E6%8D%AE%E5%92%8C%E6%9C%AC%E5%9C%B0%E7%BC%93%E5%AD%98client%E6%98%AF%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E7%9A%84/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>架构设计-我的一个支持异步拉取数据和本地缓存client是如何设计的</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              最近的工作内容是封装一个高性能的sdk，以便和我们的配置中心进行交互，这里整理一下我是如何设计 1. 需求分析 我们要支持和配置中心的交互（网络IO） 支持客户端缓存功能，并且支持断电重启（内存缓存+文件缓存） 配置中心没有推送功能，sdk...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="1" tabindex="0">
+        <a href="../%E5%BA%93%E5%AD%98%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86%E4%B8%8A%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E8%80%83/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>库存问题处理上的一些思考</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              思考 对于库存管理来说，最重要的库存的分配与扣减 1）、最优仓调度逻辑如果一物一仓（一个sku只在一个仓库有货），这种逻辑比较简单，扣减响应的仓库库存即可。 实际上，一个sku可能会分布在多个仓库中，此时需要根据物流时效，仓库等级去扣减仓库...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="2" tabindex="0">
+        <a href="../%E5%B9%82%E7%AD%89%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E6%B1%87%E6%80%BB/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>幂等问题解决方案汇总</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              概念 幂等（idempotent、idempotence）是一个数学与计算机学概念，常见于抽象代数中。 在编程中，一个幂等操作的特点是其任意多次执行所产生的影响均与一次执行的影响相同。幂等函数，或幂等方法，是指可以使用相同参数重复执行，并能...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="3" tabindex="0">
+        <a href="../0-%E6%80%BB%E7%BA%B2/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>0-总纲</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              什么是A&amp;#x2F;B实验简单来说，A&amp;#x2F;B实验就是针对想调研的问题，提供两种不同的备选解决方案，然后让一部分用户使用方案A，另一部分用户使用方案B，最终通过实验数据对比来确定最优方案。通常我们在进行A&amp;#x2F;B实验的时候，会从...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  分流能力
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="4" tabindex="0">
+        <a href="../oauth2-0-%E8%AE%A4%E8%AF%81%E6%8E%88%E6%9D%83%E7%9A%84%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>oauth2.0-认证授权的深入理解</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              oAuth2.0 是一个广泛应用的认证授权方法 在整个oAuth2.0的认证有以下的参与者 (1)Third-party application：第三方应用程序,称”客户端”(client) (2)HTTP service：HTTP服务提供...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="5" tabindex="0">
+        <a href="../%E5%AF%B9%E4%BA%8E%E7%BC%96%E5%86%99%E4%BB%A3%E7%A0%81%E7%9A%84%E6%80%9D%E8%B7%AF%E7%9A%84%E6%80%9D%E8%80%83/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>对于编写代码的思路的思考</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              设计的模式在实际场景中的应用说这个事情的原因是因为之前比较迷信设计模式的， 喜欢去做一定的抽象 但是实际的项目运用场景的时候其实设计模式的应用还是比较少的， 更对的是抽象的方法。 这里从设计模式出发， 归纳一下抽象代码的基本方法和逻辑 单一...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  3 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+  </div>
+  
+  <!-- 查看更多 -->
+  <div class="vs-recommended-footer">
+    <a href="../../../../archives/" class="vs-view-more">
+      <i class="fas fa-folder-open"></i>
+      <span>View More Posts</span>
+      <i class="fas fa-chevron-right"></i>
+    </a>
+  </div>
+</div>
+
+<script>
+// 键盘导航支持
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.vs-recommended-item');
+  let currentIndex = -1;
+  
+  // 键盘事件
+  document.addEventListener('keydown', function(e) {
+    if (!items.length) return;
+    
+    if (e.key === 'Tab') {
+      // Tab键导航由浏览器处理
+      return;
+    }
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      
+      // 移除当前高亮
+      if (currentIndex >= 0) {
+        items[currentIndex].classList.remove('vs-focused');
+      }
+      
+      // 更新索引
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % items.length;
+      } else {
+        currentIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+      }
+      
+      // 添加新高亮
+      items[currentIndex].classList.add('vs-focused');
+      items[currentIndex].focus();
+    }
+    
+    if (e.key === 'Enter' && currentIndex >= 0) {
+      const link = items[currentIndex].querySelector('a');
+      if (link) link.click();
+    }
+  });
+  
+  // 鼠标悬停时更新当前索引
+  items.forEach((item, index) => {
+    item.addEventListener('mouseenter', function() {
+      currentIndex = index;
+      items.forEach(i => i.classList.remove('vs-focused'));
+      item.classList.add('vs-focused');
+    });
+  });
+});
+</script>
+
+        
+        <!-- 评论区 -->
+        
+  <div class="vs-comments-section">
+    <div class="section-header">
+      <i class="fas fa-comments"></i>
+      <span>COMMENTS</span>
+    </div>
+    
+    
+      <!-- Waline 评论系统 -->
+      <div id="waline"></div>
+      <script>
+        // 加载 Waline CSS
+        const walineCSS = document.createElement('link');
+        walineCSS.rel = 'stylesheet';
+        walineCSS.href = 'https://unpkg.com/@waline/client@v3/dist/waline.css';
+        document.head.appendChild(walineCSS);
+        
+        // 加载 Waline JS
+        const walineScript = document.createElement('script');
+        walineScript.type = 'module';
+        walineScript.onload = function() {
+          // 确保 Waline 加载后再初始化
+          import('https://unpkg.com/@waline/client@v3/dist/waline.js').then(({ init }) => {
+            const waline = init({
+              el: '#waline',
+              serverURL: 'https://vsc4tblackcat1337.vercel.app/',
+              lang: 'zh-CN',
+              locale: {},
+              emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus"],
+              requiredMeta: [],
+              login: 'disable',
+              wordLimit: 0,
+              pageSize: 10,
+              imageUploader: false,
+              highlighter: true,
+              texRenderer: false,
+              search: false,
+              pageview: false,
+              comment: true,
+              copyright: false,
+              
+              // 自动适配主题
+              dark: document.documentElement.getAttribute('data-theme') === 'dark' ? 'auto' : false,
+              
+              // 评论框占位符
+              placeholder: 'Feel free to leave a comment, no login required!',
+              
+              // 元数据配置
+              meta: ['nick', 'mail', 'link'],
+              
+              // 表情配置
+              emojiCDN: 'https://unpkg.com/@waline/emojis@1.2.0/',
+            });
+            
+            // 监听主题变化
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                  // Waline 会自动处理主题切换
+                  if (waline) {
+                    waline.update({ dark: isDark ? 'auto' : false });
+                  }
+                }
+              });
+            });
+            
+            observer.observe(document.documentElement, {
+              attributes: true,
+              attributeFilter: ['data-theme']
+            });
+          });
+        };
+        walineScript.src = 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+        document.body.appendChild(walineScript);
+      </script>
+    
+    
+  </div>
+
+      </article>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code-branch"></i>
+      master
+    </div>
+    <div class="status-item">
+      <i class="fas fa-sync"></i>
+      John Doe
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      2026-02-18
+    </div>
+    <div class="status-item">
+      Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
+    </div>
+    <div class="status-item github">
+      <a href="#" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 搜索专用配置 (HEXO_CONFIG 在 scripts.ejs 中统一定义) -->
+    <script>
+      window.VSC4T_SEARCH = {
+        root: "/"
+      };
+    </script>
+
+    <!-- 外部脚本 - 统一使用 cdnjs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
+    <script>if(typeof hljs !== 'undefined') hljs.highlightAll();</script>
+    <!-- 这里可以放置自定义脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Apply smooth scroll to non-TOC anchor links
+  document.querySelectorAll('a[href^="#"]:not(.toc-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Check if querySelector is valid before using it
+      try {
+        const targetSelector = this.getAttribute('href');
+        // Basic check for potentially invalid selectors (though not exhaustive)
+        if (targetSelector && targetSelector.length > 1) { 
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            console.warn('Smooth scroll target not found:', targetSelector);
+          }
+        } else {
+           console.warn('Invalid href for smooth scroll:', targetSelector);
+        }
+      } catch (error) {
+        console.error('Error during smooth scroll:', error, 'Selector:', this.getAttribute('href'));
+        // Fallback or alternative behavior if needed
+        // For example, try getElementById if it's just an ID
+        const targetId = this.getAttribute('href').slice(1);
+        try {
+            const targetElementById = document.getElementById(decodeURIComponent(targetId));
+            if (targetElementById) {
+                targetElementById.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (idError) {
+             console.error('Fallback getElementById also failed:', idError);
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Scripts -->
+<script>
+  // 全局配置 - 包含 i18n 字符串和主题配置
+  window.HEXO_CONFIG = {
+    language: "en",
+    root: "/",
+    
+    theme_switch: {
+      enabled: false,
+      light_start: "06:00",
+      light_end: "18:00"
+    },
+    
+    // Search i18n strings
+    search_placeholder: "Type to search...",
+    search_no_results: "No results found",
+    search_result: "result",
+    search_results: "results",
+    search_results_found: "Found undefined results",
+    search_in: "Search in",
+    search_in_title: "Title",
+    search_in_content: "Content",
+    search_in_tags: "Tags",
+    search_in_categories: "Categories",
+    search_filters: "Search Filters",
+    search_recent: "Recent Searches",
+    search_clear: "Clear",
+    search_loading: "Loading...",
+    search_error: "Error loading search data",
+    // Encryption i18n strings
+    encrypt_badge: "Protected",
+    encrypt_title: "Protected Content",
+    encrypt_description: "Enter the password to unlock this article. The password will be saved locally until you choose to re-encrypt.",
+    encrypt_label: "Password",
+    encrypt_placeholder: "Enter password to unlock",
+    encrypt_button: "Unlock",
+    encrypt_button_loading: "Unlocking...",
+    encrypt_hint: "Press Enter to submit. Password will be remembered on this device.",
+    encrypt_success: "Content unlocked successfully!",
+    encrypt_unlocked_note: "Content unlocked. You can re-encrypt at any time.",
+    encrypt_again: "Re-encrypt",
+    encrypt_wrong_password: "Incorrect password. Please try again.",
+    encrypt_show_password: "Show password",
+    encrypt_hide_password: "Hide password",
+    // Sidebar i18n strings
+    sidebar_about: "About",
+    sidebar_categories: "Categories",
+    sidebar_tags: "Tags",
+    // Post page i18n strings
+    post_toc: "TABLE OF CONTENTS",
+    post_category_posts: "CATEGORY POSTS",
+    post_article_tags: "ARTICLE TAGS"
+  };
+</script>
+
+
+
+<!-- 添加所有需要的脚本 -->
+<script src="../../../../js/search.js"></script>
+<script src="../../../../js/theme-switch.js"></script>
+
+<script src="../../../../js/password-protect.js?v=1771424192239"></script>
+
+    <script>
+      // 移动端菜单切换
+      $(document).ready(function() {
+        var $body = $('body');
+        var $sidebar = $('.sidebar-explorer');
+        var $overlay = $('.sidebar-overlay');
+        var $toggle = $('.mobile-menu-toggle');
+
+        function openSidebar() {
+          $sidebar.addClass('show');
+          $overlay.addClass('show');
+          $toggle.addClass('active');
+          $body.addClass('sidebar-open');
+        }
+
+        function closeSidebar() {
+          $sidebar.removeClass('show');
+          $overlay.removeClass('show');
+          $toggle.removeClass('active');
+          $body.removeClass('sidebar-open');
+        }
+
+        // 汉堡按钮点击切换
+        $toggle.on('click', function(e) {
+          e.stopPropagation();
+          if ($sidebar.hasClass('show')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+
+        // 点击遮罩层关闭
+        $overlay.on('click', function() {
+          closeSidebar();
+        });
+
+        // ESC 键关闭
+        $(document).on('keydown', function(e) {
+          if (e.key === 'Escape' && $sidebar.hasClass('show')) {
+            closeSidebar();
+          }
+        });
+
+        // 点击侧边栏内的链接时自动关闭侧边栏，确保锚点跳转正常
+        $sidebar.on('click', 'a', function() {
+          closeSidebar();
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>spring5-AOP | Hexo</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A simple dark Hexo theme inspired by code.">
+  <meta name="keywords" content="spring">
+  <meta name="author" content="John Doe">
+  <link rel="canonical" href="http://example.com">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="spring5-AOP | Hexo">
+  <meta property="og:description" content="A simple dark Hexo theme inspired by code.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://example.com">
+  <meta property="og:site_name" content="Hexo">
+  <meta property="article:published_time" content="2024-12-31T13:41:00.000Z">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="spring5-AOP | Hexo">
+  <meta name="twitter:description" content="A simple dark Hexo theme inspired by code.">
+
+  <!-- Favicon 配置 -->
+  
+
+  <!-- 外部样式 - 统一使用 jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- 代码高亮样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+  <!-- Mermaid.js 库 (defer加载) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <!-- 主题样式 -->
+  <link rel="stylesheet" href="../../../../css/theme-colors.css">
+  <link rel="stylesheet" href="../../../../css/main.css">
+  <link rel="stylesheet" href="../../../../css/code.css">
+  <link rel="stylesheet" href="../../../../css/code-custom.css">
+  <link rel="stylesheet" href="../../../../css/code-languages.css">
+  <link rel="stylesheet" href="../../../../css/mermaid.css">
+
+  <link rel="stylesheet" href="../../../../css/vs-code.css">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192181">
+  <link rel="stylesheet" href="../../../../css/tag.css">
+  <link rel="stylesheet" href="../../../../css/categories.css">
+  <link rel="stylesheet" href="../../../../css/archive.css">
+  <link rel="stylesheet" href="../../../../css/search.css">
+  <link rel="stylesheet" href="../../../../css/mobile.css">  <link rel="stylesheet" href="../../../../css/responsive.css">
+  <link rel="stylesheet" href="../../../../css/elements.css">
+
+  <!-- 添加 JetBrains Mono 字体 -->  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Add any custom head content here -->
+
+  <script defer src="../../../../js/explorer.js"></script>
+  <script defer src="../../../../js/code-enhance.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+      <div class="mobile-menu-toggle" aria-label="Toggle sidebar menu" role="button" tabindex="0">
+        <i class="fas fa-bars"></i>
+      </div>
+      <!-- 移动端侧边栏遮罩层 -->
+      <div class="sidebar-overlay" aria-hidden="true"></div>
+      <header class="vs-header">
+  <nav class="vs-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-brand">
+        <i class="fas fa-terminal"></i>
+        Hexo
+      </a>
+    </div>
+    
+    <div class="nav-right">
+      <a href="/" class="nav-item ">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="/archives/" class="nav-item ">
+        <i class="fas fa-archive"></i>
+        <span>Archives</span>
+      </a>
+      <a href="/categories/" class="nav-item ">
+        <i class="fas fa-folder"></i>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" class="nav-item ">
+        <i class="fas fa-tags"></i>
+        <span>Tags</span>
+      </a>
+      <a href="/search/" class="nav-item ">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="/about/" class="nav-item ">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function smoothScroll(event, target) {
+    event.preventDefault();
+    const targetId = target.substring(target.indexOf('#') + 1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 50, // 调整偏移量
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = target;
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.vs-header');
+    const nav = document.querySelector('.vs-nav');
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    
+    nav.style.setProperty('--scroll-percent', `${scrollPercent}%`);
+    
+    if (window.scrollY > 0) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // 添加标签页切换动画
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('nav-ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+</script>
+
+
+<div class="vscode-container">
+  <!-- 左侧资源管理器 -->
+  <div class="sidebar-explorer">
+    <!-- TOC导航 -->
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-list"></i>
+        <span>TABLE OF CONTENTS</span>
+      </div>
+      <div class="section-content">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#spring%E4%B8%AD%E4%BD%BF%E7%94%A8xml%E8%BF%9B%E8%A1%8C%E9%85%8D%E7%BD%AE%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-text">spring中使用xml进行配置的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#xml%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">xml配置文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B5%8B%E8%AF%95%E7%B1%BB"><span class="toc-text">测试类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%9C"><span class="toc-text">输出结果</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E6%B3%A8%E8%A7%A3%E6%96%B9%E6%B3%95%E8%BF%9B%E8%A1%8C%E9%85%8D%E7%BD%AE"><span class="toc-text">使用注解方法进行配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A2%9E%E5%BC%BA%E7%B1%BB"><span class="toc-text">增强类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%87%E9%9D%A2%E7%B1%BB"><span class="toc-text">切面类</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#xml%E6%96%87%E4%BB%B6%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">xml文件配置文件</span></a></li></ol></li></ol>
+      </div>
+    </div>
+
+    <!-- 同分类文章 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-folder"></i>
+        <span>CATEGORY POSTS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-1--dubbo%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%92%8C%E6%80%9D%E6%83%B3/">dubbo-学习和使用(1)-dubbo架构设计和思想</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-8--dubbo%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83/">dubbo-学习和使用(8)-dubbo配置参考</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-1--%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2/">dubbo-深入(1)-基本使用初探</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-3--%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/">dubbo-深入(3)-注册中心</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-3--%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83/">dubbo-深入(3)-配置参考</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-4---%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">dubbo-深入(4)- 集群架构设计</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-2--%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95/">dubbo学习和使用(2)-使用初探和配置方法</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-3--dubbo%E5%8A%9F%E8%83%BD-1-/">dubbo学习和使用(3)-dubbo功能(1)</a>
+          </div>
+        
+      </div>
+    </div>
+    
+    
+    <!-- 标签列表 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-tags"></i>
+        <span>ARTICLE TAGS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../../../tags/spring/">spring</a>
+            <span class="count">(32)</span>
+          </div>
+        
+      </div>
+    </div>
+    
+  </div>
+
+  <!-- 主要内容区域 -->
+  <div class="editor-content">
+    <div class="tab-bar">
+      <div class="tab active">
+        <i class="fas fa-file-alt"></i>
+        <span>spring5-AOP.md</span>
+      </div>
+    </div>
+    
+    <div class="content-area">
+      <article class="post-content">
+        <div class="post-header">
+          <h1>spring5-AOP</h1>
+          <div class="post-meta">
+            <span class="date">
+              <i class="fas fa-calendar-alt"></i>
+              2024-12-31
+            </span>
+            
+            <span class="updated-date">
+              <i class="fas fa-sync-alt"></i>
+              Updated 2026-02-18
+            </span>
+                        
+              <span class="categories">
+                <i class="fas fa-folder"></i>
+                <div class="categories-list">
+                  <ul class="category-item-post-list"><li class="category-item-post-list-item"><a class="category-item-post-list-link" href="../../../../categories/java/">java</a></li></ul>
+                </div>
+              </span>
+            
+            
+              <span class="tags">
+                <i class="fas fa-tags"></i>
+                <div class="tags-list">
+                  <ul class="tag-item-post-list" itemprop="keywords"><li class="tag-item-post-list-item"><a class="tag-item-post-list-link" href="../../../../tags/spring/" rel="tag">spring</a></li></ul>
+                </div>
+              </span>
+            
+          </div>
+        </div>
+        
+        <div class="post-body vscode-markdown">
+          <blockquote>
+<p>AOP 是一种新的属性配置方法这种方法不同与OOP，不是使用继承的方法来增强相关的参数而是使用横向的切面编程的方法来进行相关增强的</p>
+</blockquote>
+<h3 id="spring中使用xml进行配置的方法"><a href="#spring中使用xml进行配置的方法" class="headerlink" title="spring中使用xml进行配置的方法"></a>spring中使用xml进行配置的方法</h3><p>切面类</p>
+<blockquote>
+<p>注意： around方式的方法需要第一参数为ProceedingJoinPoint 类型 ，当需要接受参数的时候需要在 exection方法中进行相关的配置</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.aspectj.lang.ProceedingJoinPoint;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CutClass</span> &#123;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">before</span><span class="hljs-params">()</span> &#123;<br>		System.out.println(<span class="hljs-string">&quot;before: this is before&quot;</span>);<br>	&#125;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">afterTwo</span><span class="hljs-params">(<span class="hljs-type">int</span> number, String string)</span> &#123;<br>		System.out.println(<span class="hljs-string">&quot; this is after two &quot;</span> + number + <span class="hljs-string">&quot; &quot;</span> + string);<br>	&#125;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">after</span><span class="hljs-params">()</span> &#123;<br>		System.out.println(<span class="hljs-string">&quot;this is after&quot;</span>);<br>	&#125;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">Arround</span><span class="hljs-params">(ProceedingJoinPoint joinPoint)</span> <span class="hljs-keyword">throws</span> Throwable &#123;<br>		System.out.println(<span class="hljs-string">&quot;this is start around&quot;</span>);<br>		Object[] objects = joinPoint.getArgs();<br>		joinPoint.proceed(objects);<br>		System.out.println(<span class="hljs-string">&quot;this is after around&quot;</span>);<br>	&#125;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">AfterReturn</span><span class="hljs-params">(<span class="hljs-type">int</span> number)</span> &#123;<br>		System.out.println(<span class="hljs-string">&quot;AfterReturn :&quot;</span> + number);<br>	&#125;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">AfterThrow</span><span class="hljs-params">(Exception exception)</span> &#123;<br>		<span class="hljs-keyword">try</span> &#123;<br>			System.out.println(<span class="hljs-string">&quot;this is exception:&quot;</span> + exception);<br>		&#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>			<span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> handle exception</span><br>		&#125;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>被切入类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BeCutClass</span> &#123;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">say</span><span class="hljs-params">()</span> &#123;<br>		System.out.println(<span class="hljs-string">&quot;this is say&quot;</span>);<br>	&#125;<br>	<span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">sayHasReturn</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-keyword">return</span> <span class="hljs-number">123</span>;<br>	&#125;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sayHasEx</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-type">int</span> a=<span class="hljs-number">1</span>/<span class="hljs-number">0</span>;<br>	&#125;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">HasPress</span><span class="hljs-params">(<span class="hljs-type">int</span> number,String string)</span> &#123;<br>		System.out.println(<span class="hljs-string">&quot;this is sayHasOress&quot;</span>+<span class="hljs-string">&quot; number &quot;</span>+number+<span class="hljs-string">&quot; string:&quot;</span>+string);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="xml配置文件"><a href="#xml配置文件" class="headerlink" title="xml配置文件"></a>xml配置文件</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span><br><span class="hljs-tag">	<span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="hljs-tag">	<span class="hljs-attr">xmlns:aop</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/aop&quot;</span></span><br><span class="hljs-tag">	<span class="hljs-attr">xmlns:context</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/context&quot;</span></span><br><span class="hljs-tag">	<span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd</span></span><br><span class="hljs-string"><span class="hljs-tag">		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd</span></span><br><span class="hljs-string"><span class="hljs-tag">		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd&quot;</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;cutpoint&quot;</span>  <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;b_spring.c_springAOP.CutClass&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span>	<br>	<span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;becutpoint&quot;</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;b_spring.c_springAOP.BeCutClass&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">bean</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">aop:config</span>&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">aop:pointcut</span> <span class="hljs-attr">expression</span>=<span class="hljs-string">&quot;execution(* b_spring.c_springAOP.BeCutClass.say*(..) )&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;pointCurForNoPress&quot;</span>/&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">aop:pointcut</span> <span class="hljs-attr">expression</span>=<span class="hljs-string">&quot;execution(* b_spring.c_springAOP.BeCutClass.HasPress(..))&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;pointCurForPress&quot;</span>/&gt;</span><br>		<span class="hljs-tag">&lt;<span class="hljs-name">aop:aspect</span> <span class="hljs-attr">ref</span>=<span class="hljs-string">&quot;cutpoint&quot;</span>&gt;</span><br>			<span class="hljs-tag">&lt;<span class="hljs-name">aop:before</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;before&quot;</span> <span class="hljs-attr">pointcut-ref</span>=<span class="hljs-string">&quot;pointCurForNoPress&quot;</span>/&gt;</span><br>			<span class="hljs-tag">&lt;<span class="hljs-name">aop:after</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;after&quot;</span> <span class="hljs-attr">pointcut-ref</span>=<span class="hljs-string">&quot;pointCurForNoPress&quot;</span> /&gt;</span><br>			<span class="hljs-tag">&lt;<span class="hljs-name">aop:after-returning</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;AfterReturn&quot;</span> <span class="hljs-attr">pointcut-ref</span>=<span class="hljs-string">&quot;pointCurForNoPress&quot;</span> <span class="hljs-attr">returning</span>=<span class="hljs-string">&quot;number&quot;</span>/&gt;</span><br>			<span class="hljs-tag">&lt;<span class="hljs-name">aop:after-throwing</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;AfterThrow&quot;</span> <span class="hljs-attr">pointcut-ref</span>=<span class="hljs-string">&quot;pointCurForNoPress&quot;</span> <span class="hljs-attr">throwing</span>=<span class="hljs-string">&quot;exception&quot;</span>/&gt;</span><br>			<span class="hljs-tag">&lt;<span class="hljs-name">aop:around</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;Arround&quot;</span> <span class="hljs-attr">pointcut-ref</span>=<span class="hljs-string">&quot;pointCurForPress&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aop:around</span>&gt;</span><br>			<span class="hljs-tag">&lt;<span class="hljs-name">aop:after</span> <span class="hljs-attr">method</span>=<span class="hljs-string">&quot;afterTwo&quot;</span> <span class="hljs-attr">pointcut</span>=<span class="hljs-string">&quot;execution(* b_spring.c_springAOP.BeCutClass.HasPress(..)) and args(number,string)&quot;</span> <span class="hljs-attr">arg-names</span>=<span class="hljs-string">&quot;number,string&quot;</span>/&gt;</span><br>		<span class="hljs-tag">&lt;/<span class="hljs-name">aop:aspect</span>&gt;</span><br>	<span class="hljs-tag">&lt;/<span class="hljs-name">aop:config</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h5 id="测试类"><a href="#测试类" class="headerlink" title="测试类"></a>测试类</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@org</span>.junit.Test<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">test</span><span class="hljs-params">()</span> &#123;<br>	<span class="hljs-type">BeCutClass</span> <span class="hljs-variable">class1</span> <span class="hljs-operator">=</span> context.getBean(<span class="hljs-string">&quot;becutpoint&quot;</span>, BeCutClass.class);<br>	class1.say();<br>	class1.sayHasReturn();<br>	class1.HasPress(<span class="hljs-number">123</span>, <span class="hljs-string">&quot;jjj&quot;</span>);<br>	class1.sayHasEx();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h5 id="输出结果"><a href="#输出结果" class="headerlink" title="输出结果"></a>输出结果</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-built_in">this</span> is before<br><span class="hljs-built_in">this</span> is say<br><span class="hljs-built_in">this</span> is after<br><span class="hljs-built_in">this</span> is before<br>AfterReturn :<span class="hljs-number">123</span><br><span class="hljs-built_in">this</span> is after<br><span class="hljs-built_in">this</span> is start around<br><span class="hljs-built_in">this</span> is sayHasOress number <span class="hljs-number">123</span> string:jjj<br><span class="hljs-built_in">this</span> is after two <span class="hljs-number">123</span> jjj<br><span class="hljs-built_in">this</span> is after around<br><span class="hljs-built_in">this</span> is before<br><span class="hljs-built_in">this</span> is exception:java.lang.ArithmeticException: / by zero<br><span class="hljs-built_in">this</span> is after<br></code></pre></td></tr></table></figure>
+
+<h3 id="使用注解方法进行配置"><a href="#使用注解方法进行配置" class="headerlink" title="使用注解方法进行配置"></a>使用注解方法进行配置</h3><h4 id="增强类"><a href="#增强类" class="headerlink" title="增强类"></a>增强类</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> org.springframework.stereotype.Component;<br><span class="hljs-keyword">import</span> n_springAOP.noconfig.FatherBean;<br><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AopBeanOne</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">FatherBean</span>&#123;<br>	<span class="hljs-comment">//--这里面 左面的小图标消失的启示-当实现接口的时候 spring框架自动使用jdk代理,没有使用接口的时候使用cglib代理</span><br>	<span class="hljs-comment">//当使用使用了接口的时候aop增强的不是接口中的方法会导致spring的插件不识别但是spring的代码没有出现错误 说明是spring框架中使用的</span><br>	<span class="hljs-comment">//了自动的判断方法</span><br>	<span class="hljs-meta">@Override</span><br>	<span class="hljs-keyword">public</span> String <span class="hljs-title function_">say</span><span class="hljs-params">(String one,String two)</span>&#123;<br>		System.out.println(<span class="hljs-string">&quot;i&#x27;am aopbeanone&quot;</span>);<br>		<span class="hljs-keyword">return</span> <span class="hljs-string">&quot;beanOneReturn&quot;</span>+one+two;<br>	&#125;<br>&#125; <br></code></pre></td></tr></table></figure>
+
+<h4 id="切面类"><a href="#切面类" class="headerlink" title="切面类"></a>切面类</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//定义切面类</span><br><span class="hljs-keyword">import</span> org.aspectj.lang.ProceedingJoinPoint;<br><span class="hljs-keyword">import</span> org.aspectj.lang.annotation.After;<br><span class="hljs-keyword">import</span> org.aspectj.lang.annotation.AfterReturning;<br><span class="hljs-keyword">import</span> org.aspectj.lang.annotation.AfterThrowing;<br><span class="hljs-keyword">import</span> org.aspectj.lang.annotation.Around;<br><span class="hljs-keyword">import</span> org.aspectj.lang.annotation.Aspect;<br><span class="hljs-keyword">import</span> org.aspectj.lang.annotation.Before;<br><span class="hljs-keyword">import</span> org.aspectj.lang.annotation.Pointcut;<br><span class="hljs-keyword">import</span> org.springframework.core.Ordered;<br><span class="hljs-keyword">import</span> org.springframework.core.annotation.Order;<br><span class="hljs-keyword">import</span> org.springframework.stereotype.Component;<br><span class="hljs-comment">//使用这个注解表明这个类是一个切面类 用来给其他的一些类进行增强处理</span><br><span class="hljs-comment">//spring的aop主要用来增强方法</span><br><span class="hljs-meta">@Component</span><span class="hljs-comment">//注意在不使用配置文件的时候要进行aop时候必须使用这条注解将所需要的方法放进spring容器中</span><br><span class="hljs-meta">@Aspect</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyAop</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Ordered</span>&#123;<br>	<span class="hljs-comment">//aop增强表示在这个方法调用之前进行处理的过程</span><br>	<span class="hljs-comment">//！！！注意在切入的点上还可以添加一个&amp;&amp;args(one,two)或者&amp;&amp;args(one,two,..)-前者表示匹配存在两个参数的方法并且讲参数传入进来-后一个表示匹配两个参数及其以上的方法</span><br>	<span class="hljs-meta">@Before(value=&quot;execution(* n_springAOP.noconfig.aopbeanOne.*.*(..))&amp;&amp;args(one,two)&quot;)</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodForBefore</span><span class="hljs-params">(String one ,String two)</span>&#123;<br>		System.out.println(<span class="hljs-string">&quot;i am is aop before&quot;</span>+one+two);<br>	&#125;<br>	<span class="hljs-comment">//在aop增强的方法返回后进行的操作 returning 属性将会被动态的添加到Object参数中</span><br>	<span class="hljs-comment">//这里使用了定义切入点方法 切人的函数在必要的时候可以是全限定名称</span><br>	<span class="hljs-meta">@AfterReturning(returning=&quot;returning&quot;,pointcut=&quot;myPintCut()&quot;)</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodForAfterReturning</span><span class="hljs-params">(Object returning)</span>&#123;<br>		System.out.println(<span class="hljs-string">&quot;this is afterReturning return is &quot;</span>+returning);<br>	&#125;<br>	<span class="hljs-comment">//这个增强表示在aop的方法抛出异常之后进行调用的方法  throwing 的属性将会动态的添加进ext参数中</span><br>	<span class="hljs-meta">@AfterThrowing(throwing=&quot;ext&quot; ,value=&quot;execution(* n_springAOP.noconfig.aopbeanOne.*.*(..))&quot;)</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">methodAfterThrowing</span><span class="hljs-params">(Throwable ext)</span>&#123;<br>		<br>	&#125;<br>	<span class="hljs-comment">//这个增强表示在框架的执行过程中进行增强处理 之一使用Around 运行时增强的时候第一个参数必须是ProceedingJoinPoin类型</span><br>	<span class="hljs-comment">//当调用ProceedingJoinPoint参数的proceed()方法的时候才会动态的调用需要增强的方法 里面的参数可以传递一个object[]的对象表示相关的调用方法的参数</span><br>	<span class="hljs-comment">//这个参数存在一个getArgs方法 返回一个 object[] 表示调用时候传递进来的参数</span><br>	<span class="hljs-comment">//这个增强可以出处理增强方法处理的时机 </span><br>	<span class="hljs-meta">@Order(1)</span><br>	<span class="hljs-meta">@Around(value=&quot;execution(* n_springAOP.noconfig.aopbeanOne.*.*(..))&quot;)</span><br>	<span class="hljs-keyword">public</span> String <span class="hljs-title function_">methodForAround</span><span class="hljs-params">(ProceedingJoinPoint jp)</span> <span class="hljs-keyword">throws</span> Throwable&#123;<br>		Object[] oo=jp.getArgs();		<span class="hljs-comment">//返回调用的时候传递进来的参数</span><br>		jp.getTarget();					<span class="hljs-comment">//返回进行aop增强的原始类</span><br>		jp.getTarget();					<span class="hljs-comment">//返回进行aop增强的原始类</span><br>		System.out.println(<span class="hljs-string">&quot;This is Around begin....&quot;</span>);<br>		String a=(String) jp.proceed(oo);<br>		System.out.println(<span class="hljs-string">&quot;this is Around end.....&quot;</span>);<br>		<span class="hljs-keyword">return</span> a;<br>	&#125;<br>	<span class="hljs-comment">//当多个切面作用在一个方法上的时候使用这个方法将会返回一优先级数值越小优先级高</span><br>	<span class="hljs-comment">//除此之外还能使用注解定义优先级--使用继承接口的方法只是对全局进行定义的</span><br>	<span class="hljs-meta">@Override</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">getOrder</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-comment">// TODO Auto-generated method stub</span><br>		<span class="hljs-keyword">return</span> <span class="hljs-number">1</span>;<br>	&#125;<br>	<span class="hljs-meta">@After(&quot;execution(* n_springAOP.noconfig.aopbeanOne.*.*(..))&quot;)</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">MethodAfter</span><span class="hljs-params">()</span>&#123;<br>		System.out.println(<span class="hljs-string">&quot;this is after&quot;</span>);<br>	&#125;<br>	<span class="hljs-comment">//切入点的使用相当的繁杂所以我们使用函数表示切入点 -详细情况见上面的afterReturning方法</span><br>	<span class="hljs-meta">@Pointcut(value=&quot;execution(public * n_springAOP.noconfig.aopbeanOne.*.*(..))&quot;)</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">myPintCut</span><span class="hljs-params">()</span>&#123;&#125;<br>	<span class="hljs-comment">//  execution(modifier-pattern? ret-type-pattern declaring-type-pattern? name-pattern(param-pattern) throws-pattern?)</span><br>	<span class="hljs-comment">// modifier-pattern-指定方法的修饰符(public等) 支持通配符 可省略</span><br>	<span class="hljs-comment">// ret-type-pattern -- 返回值类型 支持通配符</span><br>	<span class="hljs-comment">//declaring-type-pattern- 方法所属的全限定类名称 可以使用通配可省略</span><br>	<span class="hljs-comment">// name-pattern 方法的名称 可使用通配符*</span><br>	<span class="hljs-comment">//(param-pattern) 表示接受的形参列表 可以使用 *-匹配一个参数 ..匹配多个参数 或者使用基本类型</span><br>	<span class="hljs-comment">//表达式的扩展属性 	args 指定参数是指定类型的</span><br>	<span class="hljs-comment">//					target 指定目标对象是指定类型的</span><br>	<span class="hljs-comment">//主属性和扩展属性的链接符(连接不同的函数) &amp;&amp; 同时满足匹配 || 只满足一个或者多个匹配 ! 不满足匹配</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>切入点表达式 支持如下的几个,with(examples.chap03.Horseman) 指定类名称的所有方法,通过类名指定，同时包含所有子类target(examples.chap03.Horseman),args(java.util.String) 指定参数(如果使用的不是基本类型,那就会匹配对应的变量名称),annotation(org.springframework.transaction.annotation.Transactional) 指定标注了指定的注解的方法,这些参数必须是全限定名称</p>
+</blockquote>
+<h4 id="xml文件配置文件"><a href="#xml文件配置文件" class="headerlink" title="xml文件配置文件"></a>xml文件配置文件</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span><br><span class="hljs-tag">	<span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="hljs-tag">	<span class="hljs-attr">xmlns:aop</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/aop&quot;</span></span><br><span class="hljs-tag">	<span class="hljs-attr">xmlns:context</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/context&quot;</span></span><br><span class="hljs-tag">	<span class="hljs-attr">xmlns:tx</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/tx&quot;</span></span><br><span class="hljs-tag">	<span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd</span></span><br><span class="hljs-string"><span class="hljs-tag">		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd</span></span><br><span class="hljs-string"><span class="hljs-tag">		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd</span></span><br><span class="hljs-string"><span class="hljs-tag">		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd&quot;</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">context:component-scan</span> <span class="hljs-attr">base-package</span>=<span class="hljs-string">&quot;n_springAOP.noconfig&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">context:component-scan</span>&gt;</span><br>	<span class="hljs-comment">&lt;!-- 不进行注册bean而是让注册了的bean进行相关的数据添加 --&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">context:annotation-config</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">context:annotation-config</span>&gt;</span><br>	<span class="hljs-comment">&lt;!-- 这个标记表示启用注解形式的aop编程风格 --&gt;</span><br>	<span class="hljs-comment">&lt;!-- 注意使用aop的时候需要添加 aspectj的库 --&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">aop:aspectj-autoproxy</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">aop:aspectj-autoproxy</span>&gt;</span><br>	<span class="hljs-comment">&lt;!-- 如果不使用上面的aop配置文件需要启用这个bean后置处理器来为spring 框架中的所有bean --&gt;</span><br>	<span class="hljs-comment">&lt;!--</span><br><span class="hljs-comment">		&lt;bean class=&quot;org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator&quot;&gt;&lt;/bean&gt;</span><br><span class="hljs-comment">    --&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意上面的配置方法其实可以替换成如下的方法</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configurable</span> <span class="hljs-comment">//使用注解模式</span><br><span class="hljs-meta">@ComponentScan</span> <span class="hljs-comment">//自动扫描路径</span><br><span class="hljs-meta">@EnableAspectJAutoProxy</span>  <span class="hljs-comment">// 启动aop支持</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ConfigApp</span>&#123;<br>	............<br>&#125;<br></code></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>注意:完整的AspectJ切入点语言支持Spring中不支持的其他切入点指示符。这些是：call, get, set, preinitialization, staticinitialization, initialization, handler, adviceexecution, withincode, cflow, cflowbelow, if, @this，和@withincode</p>
+</blockquote>
+<blockquote>
+<p>注意: 使用注解的缺点,支持“singleton”方面的实例化模型，并且不可能组合使用XML声明的命名切入点。使用XML方法的缺点是您无法通过组合这些定义来定义切入点。</p>
+</blockquote>
+<blockquote>
+<p>注意: spring不支持final的调用,应为final不支持覆盖</p>
+</blockquote>
+<blockquote>
+<p>注意当在代理中使用方法的方法的时候不能使用代理自己的方法,因为解析器会使用this.xxx()来运行 而不是使用 proxy来运行,所以应该使用如下的方法进行代理</p>
+</blockquote>
+<blockquote>
+<p>注意: 使用的表达式格式 - execution(modifiers-pattern? ret-type-pattern declaring-type-pattern?name-pattern(param-pattern) throws-pattern?)</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SimplePojo</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Pojo</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">foo</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">// this works, but... gah!</span><br>        ((Pojo) AopContext.currentProxy()).bar();<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">bar</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">// some logic...</span><br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+        </div>
+        
+        <!-- 文章导航 - 只在同分类有多篇文章时显示 -->
+        
+        
+        
+        <nav class="post-nav">
+          
+            <a class="prev" href="../spring5--3--%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F-%E5%AE%B9%E5%99%A8%E6%89%A9%E5%B1%95-lookup%E6%A8%A1%E5%BC%8F-%E4%BA%8B%E4%BB%B6/">
+              <i class="fas fa-chevron-left"></i>
+              spring5-(3)-生命周期,容器扩展,lookup模式,事件
+            </a>
+          
+          
+            <a class="next" href="../spring5-SpEL%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+              spring5-SpEL表达式
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          
+        </nav>
+        
+        
+        <!-- 推荐文章 -->
+        
+
+
+<div class="vs-recommended-posts">
+  <div class="vs-recommended-header">
+    <div class="section-header">
+      <i class="fas fa-lightbulb"></i>
+      <span>RELATED POSTS</span>
+    </div>
+  </div>
+  
+  <div class="vs-recommended-grid">
+    
+      <div class="vs-recommended-item" data-index="0" tabindex="0">
+        <a href="../spring5--3--%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F-%E5%AE%B9%E5%99%A8%E6%89%A9%E5%B1%95-lookup%E6%A8%A1%E5%BC%8F-%E4%BA%8B%E4%BB%B6/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>spring5-(3)-生命周期,容器扩展,lookup模式,事件</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              spring javabean的生命周期\容器扩展\lookup方法\spring事件javabean 生命周期控制 使用配置文件的方法 注意 标签中可以配置全局使用的初始化方法和销毁方法 123456789&amp;lt;?xml version...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  spring
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  5 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="1" tabindex="0">
+        <a href="../spring5-SpEL%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>spring5-SpEL表达式</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              spring5-SpEL表达式SpEL是一种强大的、简洁的装配Bean的方式，它通过运行期执行的表达式将值装配到Bean的属性或构造器参数中。比如说 xml文件中动态的加入上下文信息，使用类的静态方法等相关方法载入参数 载入基本类型1234...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  spring
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="2" tabindex="0">
+        <a href="../spring5--2--core%E6%A0%B8%E5%BF%83%E6%B3%A8%E8%A7%A3%E4%BD%BF%E7%94%A8/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>spring5-(2)-core核心注解使用</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              spring 注解配置方法 所谓零配置，并不是说一点配置都没有了，而是配置很少而已。通过约定来减少需要配置的数量，提高开发效率。更厉害的是spring boot xml配置文件 1234567891011121314&amp;lt;!-- base...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  spring
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  6 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="3" tabindex="0">
+        <a href="../spring5-SpEL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E4%BD%BF%E7%94%A8/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>spring5-SpEL表达式的使用</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              SpEL 表达式的使用SpEl 表达式主要用在bean的定义是上 基于xml的配置 1234&amp;lt;bean id=&amp;quot;numberGuess&amp;quot; class=&amp;quot;org.spring.samples.NumberG...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  spring
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  3 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="4" tabindex="0">
+        <a href="../spring-boot2-0--4-%E8%87%AA%E5%AE%9A%E4%B9%89%E9%85%8D%E7%BD%AE-starter-/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>spring-boot2.0-(4)自定义配置(starter)</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              spring boot 提供了非常方便的方法可以自动配置javabean spring boot自动的配置的核心一个基本注解@Configuration和条件注解@Conditionalspring的自动配置是使用上面的两个bean提供功能...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  spring
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="5" tabindex="0">
+        <a href="../spring5-beanfactory%E7%B3%BB%E5%88%97%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%88%86%E6%9E%90/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>spring5-beanfactory系列接口的分析</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  spring
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+  </div>
+  
+  <!-- 查看更多 -->
+  <div class="vs-recommended-footer">
+    <a href="../../../../archives/" class="vs-view-more">
+      <i class="fas fa-folder-open"></i>
+      <span>View More Posts</span>
+      <i class="fas fa-chevron-right"></i>
+    </a>
+  </div>
+</div>
+
+<script>
+// 键盘导航支持
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.vs-recommended-item');
+  let currentIndex = -1;
+  
+  // 键盘事件
+  document.addEventListener('keydown', function(e) {
+    if (!items.length) return;
+    
+    if (e.key === 'Tab') {
+      // Tab键导航由浏览器处理
+      return;
+    }
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      
+      // 移除当前高亮
+      if (currentIndex >= 0) {
+        items[currentIndex].classList.remove('vs-focused');
+      }
+      
+      // 更新索引
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % items.length;
+      } else {
+        currentIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+      }
+      
+      // 添加新高亮
+      items[currentIndex].classList.add('vs-focused');
+      items[currentIndex].focus();
+    }
+    
+    if (e.key === 'Enter' && currentIndex >= 0) {
+      const link = items[currentIndex].querySelector('a');
+      if (link) link.click();
+    }
+  });
+  
+  // 鼠标悬停时更新当前索引
+  items.forEach((item, index) => {
+    item.addEventListener('mouseenter', function() {
+      currentIndex = index;
+      items.forEach(i => i.classList.remove('vs-focused'));
+      item.classList.add('vs-focused');
+    });
+  });
+});
+</script>
+
+        
+        <!-- 评论区 -->
+        
+  <div class="vs-comments-section">
+    <div class="section-header">
+      <i class="fas fa-comments"></i>
+      <span>COMMENTS</span>
+    </div>
+    
+    
+      <!-- Waline 评论系统 -->
+      <div id="waline"></div>
+      <script>
+        // 加载 Waline CSS
+        const walineCSS = document.createElement('link');
+        walineCSS.rel = 'stylesheet';
+        walineCSS.href = 'https://unpkg.com/@waline/client@v3/dist/waline.css';
+        document.head.appendChild(walineCSS);
+        
+        // 加载 Waline JS
+        const walineScript = document.createElement('script');
+        walineScript.type = 'module';
+        walineScript.onload = function() {
+          // 确保 Waline 加载后再初始化
+          import('https://unpkg.com/@waline/client@v3/dist/waline.js').then(({ init }) => {
+            const waline = init({
+              el: '#waline',
+              serverURL: 'https://vsc4tblackcat1337.vercel.app/',
+              lang: 'zh-CN',
+              locale: {},
+              emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus"],
+              requiredMeta: [],
+              login: 'disable',
+              wordLimit: 0,
+              pageSize: 10,
+              imageUploader: false,
+              highlighter: true,
+              texRenderer: false,
+              search: false,
+              pageview: false,
+              comment: true,
+              copyright: false,
+              
+              // 自动适配主题
+              dark: document.documentElement.getAttribute('data-theme') === 'dark' ? 'auto' : false,
+              
+              // 评论框占位符
+              placeholder: 'Feel free to leave a comment, no login required!',
+              
+              // 元数据配置
+              meta: ['nick', 'mail', 'link'],
+              
+              // 表情配置
+              emojiCDN: 'https://unpkg.com/@waline/emojis@1.2.0/',
+            });
+            
+            // 监听主题变化
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                  // Waline 会自动处理主题切换
+                  if (waline) {
+                    waline.update({ dark: isDark ? 'auto' : false });
+                  }
+                }
+              });
+            });
+            
+            observer.observe(document.documentElement, {
+              attributes: true,
+              attributeFilter: ['data-theme']
+            });
+          });
+        };
+        walineScript.src = 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+        document.body.appendChild(walineScript);
+      </script>
+    
+    
+  </div>
+
+      </article>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code-branch"></i>
+      master
+    </div>
+    <div class="status-item">
+      <i class="fas fa-sync"></i>
+      John Doe
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      2026-02-18
+    </div>
+    <div class="status-item">
+      Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
+    </div>
+    <div class="status-item github">
+      <a href="#" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 搜索专用配置 (HEXO_CONFIG 在 scripts.ejs 中统一定义) -->
+    <script>
+      window.VSC4T_SEARCH = {
+        root: "/"
+      };
+    </script>
+
+    <!-- 外部脚本 - 统一使用 cdnjs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
+    <script>if(typeof hljs !== 'undefined') hljs.highlightAll();</script>
+    <!-- 这里可以放置自定义脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Apply smooth scroll to non-TOC anchor links
+  document.querySelectorAll('a[href^="#"]:not(.toc-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Check if querySelector is valid before using it
+      try {
+        const targetSelector = this.getAttribute('href');
+        // Basic check for potentially invalid selectors (though not exhaustive)
+        if (targetSelector && targetSelector.length > 1) { 
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            console.warn('Smooth scroll target not found:', targetSelector);
+          }
+        } else {
+           console.warn('Invalid href for smooth scroll:', targetSelector);
+        }
+      } catch (error) {
+        console.error('Error during smooth scroll:', error, 'Selector:', this.getAttribute('href'));
+        // Fallback or alternative behavior if needed
+        // For example, try getElementById if it's just an ID
+        const targetId = this.getAttribute('href').slice(1);
+        try {
+            const targetElementById = document.getElementById(decodeURIComponent(targetId));
+            if (targetElementById) {
+                targetElementById.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (idError) {
+             console.error('Fallback getElementById also failed:', idError);
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Scripts -->
+<script>
+  // 全局配置 - 包含 i18n 字符串和主题配置
+  window.HEXO_CONFIG = {
+    language: "en",
+    root: "/",
+    
+    theme_switch: {
+      enabled: false,
+      light_start: "06:00",
+      light_end: "18:00"
+    },
+    
+    // Search i18n strings
+    search_placeholder: "Type to search...",
+    search_no_results: "No results found",
+    search_result: "result",
+    search_results: "results",
+    search_results_found: "Found undefined results",
+    search_in: "Search in",
+    search_in_title: "Title",
+    search_in_content: "Content",
+    search_in_tags: "Tags",
+    search_in_categories: "Categories",
+    search_filters: "Search Filters",
+    search_recent: "Recent Searches",
+    search_clear: "Clear",
+    search_loading: "Loading...",
+    search_error: "Error loading search data",
+    // Encryption i18n strings
+    encrypt_badge: "Protected",
+    encrypt_title: "Protected Content",
+    encrypt_description: "Enter the password to unlock this article. The password will be saved locally until you choose to re-encrypt.",
+    encrypt_label: "Password",
+    encrypt_placeholder: "Enter password to unlock",
+    encrypt_button: "Unlock",
+    encrypt_button_loading: "Unlocking...",
+    encrypt_hint: "Press Enter to submit. Password will be remembered on this device.",
+    encrypt_success: "Content unlocked successfully!",
+    encrypt_unlocked_note: "Content unlocked. You can re-encrypt at any time.",
+    encrypt_again: "Re-encrypt",
+    encrypt_wrong_password: "Incorrect password. Please try again.",
+    encrypt_show_password: "Show password",
+    encrypt_hide_password: "Hide password",
+    // Sidebar i18n strings
+    sidebar_about: "About",
+    sidebar_categories: "Categories",
+    sidebar_tags: "Tags",
+    // Post page i18n strings
+    post_toc: "TABLE OF CONTENTS",
+    post_category_posts: "CATEGORY POSTS",
+    post_article_tags: "ARTICLE TAGS"
+  };
+</script>
+
+
+
+<!-- 添加所有需要的脚本 -->
+<script src="../../../../js/search.js"></script>
+<script src="../../../../js/theme-switch.js"></script>
+
+<script src="../../../../js/password-protect.js?v=1771424192182"></script>
+
+    <script>
+      // 移动端菜单切换
+      $(document).ready(function() {
+        var $body = $('body');
+        var $sidebar = $('.sidebar-explorer');
+        var $overlay = $('.sidebar-overlay');
+        var $toggle = $('.mobile-menu-toggle');
+
+        function openSidebar() {
+          $sidebar.addClass('show');
+          $overlay.addClass('show');
+          $toggle.addClass('active');
+          $body.addClass('sidebar-open');
+        }
+
+        function closeSidebar() {
+          $sidebar.removeClass('show');
+          $overlay.removeClass('show');
+          $toggle.removeClass('active');
+          $body.removeClass('sidebar-open');
+        }
+
+        // 汉堡按钮点击切换
+        $toggle.on('click', function(e) {
+          e.stopPropagation();
+          if ($sidebar.hasClass('show')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+
+        // 点击遮罩层关闭
+        $overlay.on('click', function() {
+          closeSidebar();
+        });
+
+        // ESC 键关闭
+        $(document).on('keydown', function(e) {
+          if (e.key === 'Escape' && $sidebar.hasClass('show')) {
+            closeSidebar();
+          }
+        });
+
+        // 点击侧边栏内的链接时自动关闭侧边栏，确保锚点跳转正常
+        $sidebar.on('click', 'a', function() {
+          closeSidebar();
+        });
+      });
+    </script>
+  </body>
+</html>

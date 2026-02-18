@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>vert.x-使用(1)-创建一个TCP服务器 | Hexo</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A simple dark Hexo theme inspired by code.">
+  <meta name="keywords" content="vertx">
+  <meta name="author" content="John Doe">
+  <link rel="canonical" href="http://example.com">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="vert.x-使用(1)-创建一个TCP服务器 | Hexo">
+  <meta property="og:description" content="A simple dark Hexo theme inspired by code.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://example.com">
+  <meta property="og:site_name" content="Hexo">
+  <meta property="article:published_time" content="2024-12-31T13:04:00.000Z">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="vert.x-使用(1)-创建一个TCP服务器 | Hexo">
+  <meta name="twitter:description" content="A simple dark Hexo theme inspired by code.">
+
+  <!-- Favicon 配置 -->
+  
+
+  <!-- 外部样式 - 统一使用 jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- 代码高亮样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+  <!-- Mermaid.js 库 (defer加载) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <!-- 主题样式 -->
+  <link rel="stylesheet" href="../../../../css/theme-colors.css">
+  <link rel="stylesheet" href="../../../../css/main.css">
+  <link rel="stylesheet" href="../../../../css/code.css">
+  <link rel="stylesheet" href="../../../../css/code-custom.css">
+  <link rel="stylesheet" href="../../../../css/code-languages.css">
+  <link rel="stylesheet" href="../../../../css/mermaid.css">
+
+  <link rel="stylesheet" href="../../../../css/vs-code.css">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192200">
+  <link rel="stylesheet" href="../../../../css/tag.css">
+  <link rel="stylesheet" href="../../../../css/categories.css">
+  <link rel="stylesheet" href="../../../../css/archive.css">
+  <link rel="stylesheet" href="../../../../css/search.css">
+  <link rel="stylesheet" href="../../../../css/mobile.css">  <link rel="stylesheet" href="../../../../css/responsive.css">
+  <link rel="stylesheet" href="../../../../css/elements.css">
+
+  <!-- 添加 JetBrains Mono 字体 -->  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Add any custom head content here -->
+
+  <script defer src="../../../../js/explorer.js"></script>
+  <script defer src="../../../../js/code-enhance.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+      <div class="mobile-menu-toggle" aria-label="Toggle sidebar menu" role="button" tabindex="0">
+        <i class="fas fa-bars"></i>
+      </div>
+      <!-- 移动端侧边栏遮罩层 -->
+      <div class="sidebar-overlay" aria-hidden="true"></div>
+      <header class="vs-header">
+  <nav class="vs-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-brand">
+        <i class="fas fa-terminal"></i>
+        Hexo
+      </a>
+    </div>
+    
+    <div class="nav-right">
+      <a href="/" class="nav-item ">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="/archives/" class="nav-item ">
+        <i class="fas fa-archive"></i>
+        <span>Archives</span>
+      </a>
+      <a href="/categories/" class="nav-item ">
+        <i class="fas fa-folder"></i>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" class="nav-item ">
+        <i class="fas fa-tags"></i>
+        <span>Tags</span>
+      </a>
+      <a href="/search/" class="nav-item ">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="/about/" class="nav-item ">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function smoothScroll(event, target) {
+    event.preventDefault();
+    const targetId = target.substring(target.indexOf('#') + 1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 50, // 调整偏移量
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = target;
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.vs-header');
+    const nav = document.querySelector('.vs-nav');
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    
+    nav.style.setProperty('--scroll-percent', `${scrollPercent}%`);
+    
+    if (window.scrollY > 0) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // 添加标签页切换动画
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('nav-ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+</script>
+
+
+<div class="vscode-container">
+  <!-- 左侧资源管理器 -->
+  <div class="sidebar-explorer">
+    <!-- TOC导航 -->
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-list"></i>
+        <span>TABLE OF CONTENTS</span>
+      </div>
+      <div class="section-content">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#vert-x-%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AATCP%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%98%AF%E8%B6%85%E7%BA%A7%E7%AE%80%E5%8D%95%E7%9A%84"><span class="toc-text">vert.x 创建一个TCP服务器是超级简单的</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AAserver%E7%AB%AF%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="toc-text">创建一个server端服务器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="toc-text">创建一个客户端</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vert-x-tcp-%E5%85%B6%E4%BB%96%E7%89%B9%E6%80%A7"><span class="toc-text">vert.x tcp 其他特性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-socket-%E6%A3%80%E7%B4%A2-%E6%9C%AC%E5%9C%B0%E5%9C%B0%E5%9D%80%E5%92%8C%E8%BF%9C%E7%A8%8B%E5%9C%B0%E5%9D%80"><span class="toc-text">1. socket 检索 本地地址和远程地址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-socket-%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86"><span class="toc-text">2. socket 文件处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-vert-x-%E7%9A%84tcp%E4%BD%BF%E7%94%A8%E7%9A%84eventLoop-%E6%98%AF%E5%9C%A8%E4%B8%80%E4%B8%AA%E6%A0%B8%E5%BF%83%E4%B8%8A%E8%BF%90%E8%A1%8C%E7%9A%84-%E5%A6%82%E6%9E%9C%E8%A6%81%E4%BD%BF%E7%94%A8%E6%9B%B4%E5%A5%BD%E7%9A%84%E6%80%A7%E8%83%BD-%E8%87%AA%E5%8A%A8%E7%9A%84%E6%89%A9%E5%B1%95%E5%88%B0%E5%A4%9A%E6%A0%B8%E5%BF%83%E4%B8%8A%E5%8E%BB-%E5%8F%AF%E4%BB%A5%E9%87%87%E7%94%A8%E4%B8%80%E4%B8%8B%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-text">3. vert.x 的tcp使用的eventLoop,是在一个核心上运行的,如果要使用更好的性能,自动的扩展到多核心上去,可以采用一下的方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vert-x-tcp-%E7%9A%84SSL-TLS%E6%94%AF%E6%8C%81"><span class="toc-text">vert.x tcp 的SSL&#x2F;TLS支持</span></a></li></ol>
+      </div>
+    </div>
+
+    <!-- 同分类文章 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-folder"></i>
+        <span>CATEGORY POSTS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-1--dubbo%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%92%8C%E6%80%9D%E6%83%B3/">dubbo-学习和使用(1)-dubbo架构设计和思想</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-8--dubbo%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83/">dubbo-学习和使用(8)-dubbo配置参考</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-1--%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2/">dubbo-深入(1)-基本使用初探</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-3--%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/">dubbo-深入(3)-注册中心</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-3--%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83/">dubbo-深入(3)-配置参考</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-4---%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">dubbo-深入(4)- 集群架构设计</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-2--%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95/">dubbo学习和使用(2)-使用初探和配置方法</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-3--dubbo%E5%8A%9F%E8%83%BD-1-/">dubbo学习和使用(3)-dubbo功能(1)</a>
+          </div>
+        
+      </div>
+    </div>
+    
+    
+    <!-- 标签列表 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-tags"></i>
+        <span>ARTICLE TAGS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../../../tags/vertx/">vertx</a>
+            <span class="count">(12)</span>
+          </div>
+        
+      </div>
+    </div>
+    
+  </div>
+
+  <!-- 主要内容区域 -->
+  <div class="editor-content">
+    <div class="tab-bar">
+      <div class="tab active">
+        <i class="fas fa-file-alt"></i>
+        <span>vert.x-使用(1)-创建一个TCP服务器.md</span>
+      </div>
+    </div>
+    
+    <div class="content-area">
+      <article class="post-content">
+        <div class="post-header">
+          <h1>vert.x-使用(1)-创建一个TCP服务器</h1>
+          <div class="post-meta">
+            <span class="date">
+              <i class="fas fa-calendar-alt"></i>
+              2024-12-31
+            </span>
+            
+            <span class="updated-date">
+              <i class="fas fa-sync-alt"></i>
+              Updated 2026-02-18
+            </span>
+                        
+              <span class="categories">
+                <i class="fas fa-folder"></i>
+                <div class="categories-list">
+                  <ul class="category-item-post-list"><li class="category-item-post-list-item"><a class="category-item-post-list-link" href="../../../../categories/java/">java</a></li></ul>
+                </div>
+              </span>
+            
+            
+              <span class="tags">
+                <i class="fas fa-tags"></i>
+                <div class="tags-list">
+                  <ul class="tag-item-post-list" itemprop="keywords"><li class="tag-item-post-list-item"><a class="tag-item-post-list-link" href="../../../../tags/vertx/" rel="tag">vertx</a></li></ul>
+                </div>
+              </span>
+            
+          </div>
+        </div>
+        
+        <div class="post-body vscode-markdown">
+          <h2 id="vert-x-创建一个TCP服务器是超级简单的"><a href="#vert-x-创建一个TCP服务器是超级简单的" class="headerlink" title="vert.x 创建一个TCP服务器是超级简单的"></a>vert.x 创建一个TCP服务器是超级简单的</h2><h3 id="创建一个server端服务器"><a href="#创建一个server端服务器" class="headerlink" title="创建一个server端服务器"></a>创建一个server端服务器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> io.vertx.core.Vertx;<br><span class="hljs-keyword">import</span> io.vertx.core.buffer.Buffer;<br><span class="hljs-keyword">import</span> io.vertx.core.net.NetServer;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SocketServer</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">Vertx</span> <span class="hljs-variable">vertx</span> <span class="hljs-operator">=</span> Vertx.vertx();<span class="hljs-comment">//开启一个vert.x</span><br>        <span class="hljs-type">NetServerOptions</span> <span class="hljs-variable">options</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NetServerOptions</span>()<br>                    .setLogActivity(<span class="hljs-literal">true</span>);<span class="hljs-comment">//开启网络监听日志</span><br>        <span class="hljs-type">NetServer</span> <span class="hljs-variable">netServer</span> <span class="hljs-operator">=</span> vertx.createNetServer(options);<span class="hljs-comment">//从vert.x中生成一个网络服务处理类</span><br>        netServer.connectHandler(socket -&gt; &#123;<span class="hljs-comment">//添加链接成功的时候的回调函数,这个时候socket就是链接</span><br>            socket.handler(b -&gt; &#123;<br>                System.out.println(<span class="hljs-string">&quot;I received some bytes: &quot;</span> + b.length());<br>                System.out.println(b.toString());<br>                <span class="hljs-comment">//发送请求的时候,新建缓冲池</span><br>                <span class="hljs-type">Buffer</span> <span class="hljs-variable">buffer</span> <span class="hljs-operator">=</span> Buffer.buffer().appendFloat(<span class="hljs-number">12.34f</span>).appendInt(<span class="hljs-number">123</span>);<br>                socket.write(buffer);<br>                <span class="hljs-comment">// Write a string in UTF-8 encoding</span><br>                socket.write(<span class="hljs-string">&quot;some data&quot;</span>);<br>                <span class="hljs-comment">// Write a string using the specified encoding</span><br>                socket.write(<span class="hljs-string">&quot;some data&quot;</span>, <span class="hljs-string">&quot;UTF-8&quot;</span>);<br>            &#125;);<br>            <span class="hljs-comment">//如果链接关闭了的会掉函数</span><br>            socket.closeHandler(v -&gt; &#123;<br>                System.out.println(<span class="hljs-string">&quot;The socket has been closed&quot;</span>);<br>            &#125;);<br>            <span class="hljs-comment">//针对异常的处理函数</span><br>            socket.exceptionHandler(throwable-&gt;&#123;<br>                System.out.println(<span class="hljs-string">&quot;open throwable&quot;</span>);<br>            &#125;);<br>        &#125;);<br>        <span class="hljs-comment">//开启监听方法,这个方法不必须在指定了connectHandler之后才能初始化</span><br>        netServer.listen(<span class="hljs-number">33333</span>,<span class="hljs-string">&quot;localhost&quot;</span>,res -&gt; &#123;<br>            <span class="hljs-keyword">if</span> (res.succeeded()) &#123;<br>                System.out.println(<span class="hljs-string">&quot;Server is now listening!&quot;</span>);<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                System.out.println(<span class="hljs-string">&quot;Failed to bind!&quot;</span>);<br>            &#125;<br>        &#125;);<br>        <span class="hljs-comment">//关闭服务器</span><br>        netServer.close(res-&gt;&#123;<br>            <span class="hljs-keyword">if</span> (res.succeeded()) &#123;<br>                System.out.println(<span class="hljs-string">&quot;Server is now closed&quot;</span>);<br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                System.out.println(<span class="hljs-string">&quot;close failed&quot;</span>);<br>            &#125;<br>        &#125;);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>从这个方法中可以看出来vert.x自身的一切皆异步的特性,其实看上面的注释应该就可以理解了</p>
+<h3 id="创建一个客户端"><a href="#创建一个客户端" class="headerlink" title="创建一个客户端"></a>创建一个客户端</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SockerClient</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">Vertx</span> <span class="hljs-variable">vertx</span> <span class="hljs-operator">=</span> Vertx.vertx();<br>        <span class="hljs-type">NetClientOptions</span> <span class="hljs-variable">options</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NetClientOptions</span>()<br>                    .setConnectTimeout(<span class="hljs-number">10000</span>)<span class="hljs-comment">//超时10000毫秒</span><br>                    .setReconnectInterval(<span class="hljs-number">10</span>)<span class="hljs-comment">//重试10次</span><br>                    .setReconnectAttempts(<span class="hljs-number">500</span>)<span class="hljs-comment">//间隔500毫秒</span><br>                    .setLogActivity(<span class="hljs-literal">true</span>);<span class="hljs-comment">//开启netty网络日志</span><br>        <span class="hljs-type">NetClient</span> <span class="hljs-variable">client</span> <span class="hljs-operator">=</span> vertx.createNetClient(options);<br>        client.connect(<span class="hljs-number">33333</span>, <span class="hljs-string">&quot;localhost&quot;</span>, res -&gt; &#123;<span class="hljs-comment">//创建一个链接其实res就已经携带了这个链接的所有关键信息</span><br>            <span class="hljs-keyword">if</span> (res.succeeded()) &#123;<br>                System.out.println(<span class="hljs-string">&quot;Connected!&quot;</span>);<br>                <span class="hljs-type">NetSocket</span> <span class="hljs-variable">socket</span> <span class="hljs-operator">=</span> res.result();<br>                <span class="hljs-type">Buffer</span> <span class="hljs-variable">buffer</span> <span class="hljs-operator">=</span> Buffer.buffer().appendBytes(<span class="hljs-string">&quot;this is test&quot;</span>.getBytes());<br>                socket.write(buffer);<br>                <span class="hljs-comment">// Write a string in UTF-8 encoding</span><br>                socket.write(<span class="hljs-string">&quot;some data&quot;</span>);<br>                <span class="hljs-comment">// Write a string using thespecified encoding</span><br>                socket.write(<span class="hljs-string">&quot;some data&quot;</span>, <span class="hljs-string">&quot;UTF-8&quot;</span>);<br>                socket.handler(b-&gt;&#123;<span class="hljs-comment">//socket添加事件监听,来处理返回的数据</span><br>                    System.out.println(<span class="hljs-string">&quot;I received some bytes: &quot;</span> + b.length());<br>                    System.out.println(b.toString());<br>                &#125;); <br>            &#125; <span class="hljs-keyword">else</span> &#123;<br>                System.out.println(<span class="hljs-string">&quot;Failed to connect: &quot;</span> + res.cause().getMessage());<br>            &#125;<br>        &#125;);<br>        <span class="hljs-comment">//关闭链接</span><br>        client.close();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="vert-x-tcp-其他特性"><a href="#vert-x-tcp-其他特性" class="headerlink" title="vert.x tcp 其他特性"></a>vert.x tcp 其他特性</h2><h3 id="1-socket-检索-本地地址和远程地址"><a href="#1-socket-检索-本地地址和远程地址" class="headerlink" title="1. socket 检索 本地地址和远程地址"></a>1. socket 检索 本地地址和远程地址</h3><p>vert.x 提供了两种方法获取本地(我的地址)和远程地址(去链接的地址)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">socket.localAddress()<span class="hljs-comment">//本地地址</span><br>socket.remoteAddress()<span class="hljs-comment">//远程地址</span><br></code></pre></td></tr></table></figure>
+<h3 id="2-socket-文件处理"><a href="#2-socket-文件处理" class="headerlink" title="2. socket 文件处理"></a>2. socket 文件处理</h3><p>vert.x 针对文件的处理方法同样非常简单使用sendfile方法就可以进行文件数据的发送了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">socket.sendFile(<span class="hljs-string">&quot;main.properties&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>注意: 这个文件的地址必须是这个项目的相对路径地址</p>
+<h3 id="3-vert-x-的tcp使用的eventLoop-是在一个核心上运行的-如果要使用更好的性能-自动的扩展到多核心上去-可以采用一下的方法"><a href="#3-vert-x-的tcp使用的eventLoop-是在一个核心上运行的-如果要使用更好的性能-自动的扩展到多核心上去-可以采用一下的方法" class="headerlink" title="3. vert.x 的tcp使用的eventLoop,是在一个核心上运行的,如果要使用更好的性能,自动的扩展到多核心上去,可以采用一下的方法"></a>3. vert.x 的tcp使用的eventLoop,是在一个核心上运行的,如果要使用更好的性能,自动的扩展到多核心上去,可以采用一下的方法</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">10</span>; i++) &#123;<br>  <span class="hljs-type">NetServer</span> <span class="hljs-variable">server</span> <span class="hljs-operator">=</span> vertx.createNetServer();<br>  server.connectHandler(socket -&gt; &#123;<br>    socket.handler(buffer -&gt; &#123;<br>      <span class="hljs-comment">// Just echo back the data</span><br>      socket.write(buffer);<br>    &#125;);<br>  &#125;);<br>  server.listen(<span class="hljs-number">1234</span>, <span class="hljs-string">&quot;localhost&quot;</span>);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>果使用Verticle，则可以使用-instances命令行上的选项简单地部署服务器Verticle的更多实例：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">vertx run com.mycompany.MyVerticle -instances 10<br></code></pre></td></tr></table></figure>
+<p>或者以编程方式部署Verticle</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">DeploymentOptions</span> <span class="hljs-variable">options</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">DeploymentOptions</span>().setInstances(<span class="hljs-number">10</span>);<br>vertx.deployVerticle(<span class="hljs-string">&quot;com.mycompany.MyVerticle&quot;</span>, options);<br></code></pre></td></tr></table></figure>
+
+<p>执行此操作后，您会发现echo服务器在功能上与以前完全相同，但您的服务器上的所有核心都可以使用，并且可以处理更多工作。</p>
+<h2 id="vert-x-tcp-的SSL-TLS支持"><a href="#vert-x-tcp-的SSL-TLS支持" class="headerlink" title="vert.x tcp 的SSL&#x2F;TLS支持"></a>vert.x tcp 的SSL&#x2F;TLS支持</h2><p>可以将TCP客户端和服务器配置为使用传输层安全性 - 早期版本的TLS称为SSL</p>
+<blockquote>
+<p>在服务器上启用SSL&#x2F;TLS,并指定服务器的密钥&#x2F;证书</p>
+</blockquote>
+<ol>
+<li>使用JDK附带的keytool实用程序管理Java密钥库</li>
+</ol>
+<p>使用密钥文件初始化</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">NetServerOptions</span> <span class="hljs-variable">options</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NetServerOptions</span>()<br>            .setSsl(<span class="hljs-literal">true</span>)<br>            .setKeyStoreOptions(<br>                <span class="hljs-keyword">new</span> <span class="hljs-title class_">JksOptions</span>().<br>                    setPath(<span class="hljs-string">&quot;/path/to/your/server-keystore.jks&quot;</span>).<br>                    setPassword(<span class="hljs-string">&quot;password-of-your-keystore&quot;</span>)<br>);<br><span class="hljs-type">NetServer</span> <span class="hljs-variable">server</span> <span class="hljs-operator">=</span> vertx.createNetServer(options);<br></code></pre></td></tr></table></figure>
+
+<p>读取密钥存储区作为缓冲区并直接提供</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">Buffer</span> <span class="hljs-variable">myKeyStoreAsABuffer</span> <span class="hljs-operator">=</span> vertx.fileSystem().readFileBlocking(<span class="hljs-string">&quot;/path/to/your/server-keystore.jks&quot;</span>);<br><span class="hljs-type">JksOptions</span> <span class="hljs-variable">jksOptions</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">JksOptions</span>().<br>            setValue(myKeyStoreAsABuffer).<br>            setPassword(<span class="hljs-string">&quot;password-of-your-keystore&quot;</span>);<br><span class="hljs-type">NetServerOptions</span> <span class="hljs-variable">options</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NetServerOptions</span>().<br>            setSsl(<span class="hljs-literal">true</span>).<br>            setKeyStoreOptions(jksOptions);<br><span class="hljs-type">NetServer</span> <span class="hljs-variable">server</span> <span class="hljs-operator">=</span> vertx.createNetServer(options);<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>PKCS＃12格式的密钥&#x2F;证书</li>
+</ol>
+<p>使用密钥文件初始化</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">NetServerOptions</span> <span class="hljs-variable">options</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NetServerOptions</span>()<br>    .setSsl(<span class="hljs-literal">true</span>).setPfxKeyCertOptions(<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">PfxOptions</span>().<br>            setPath(<span class="hljs-string">&quot;/path/to/your/server-keystore.pfx&quot;</span>).<br>            setPassword(<span class="hljs-string">&quot;password-of-your-keystore&quot;</span>)<br>);<br><span class="hljs-type">NetServer</span> <span class="hljs-variable">server</span> <span class="hljs-operator">=</span> vertx.createNetServer(options);<br></code></pre></td></tr></table></figure>
+
+<p>读取密钥存储区作为缓冲区并直接提供</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">Buffer</span> <span class="hljs-variable">myKeyStoreAsABuffer</span> <span class="hljs-operator">=</span> vertx.fileSystem().readFileBlocking(<span class="hljs-string">&quot;/path/to/your/server-keystore.pfx&quot;</span>);<br><span class="hljs-type">PfxOptions</span> <span class="hljs-variable">pfxOptions</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">PfxOptions</span>().<br>  setValue(myKeyStoreAsABuffer).<br>  setPassword(<span class="hljs-string">&quot;password-of-your-keystore&quot;</span>);<br><span class="hljs-type">NetServerOptions</span> <span class="hljs-variable">options</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NetServerOptions</span>().<br>  setSsl(<span class="hljs-literal">true</span>).<br>  setPfxKeyCertOptions(pfxOptions);<br><span class="hljs-type">NetServer</span> <span class="hljs-variable">server</span> <span class="hljs-operator">=</span> vertx.createNetServer(options);<br></code></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>使用.pem文件分别提供服务器私钥和证书</li>
+</ol>
+<p>使用密钥文件初始化</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">NetServerOptions</span> <span class="hljs-variable">options</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NetServerOptions</span>().setSsl(<span class="hljs-literal">true</span>).setPemKeyCertOptions(<br>  <span class="hljs-keyword">new</span> <span class="hljs-title class_">PemKeyCertOptions</span>().<br>    setKeyPath(<span class="hljs-string">&quot;/path/to/your/server-key.pem&quot;</span>).<br>    setCertPath(<span class="hljs-string">&quot;/path/to/your/server-cert.pem&quot;</span>)<br>);<br><span class="hljs-type">NetServer</span> <span class="hljs-variable">server</span> <span class="hljs-operator">=</span> vertx.createNetServer(options);<br></code></pre></td></tr></table></figure>
+
+<p>还支持缓冲区配置</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">Buffer</span> <span class="hljs-variable">myKeyAsABuffer</span> <span class="hljs-operator">=</span> vertx.fileSystem().readFileBlocking(<span class="hljs-string">&quot;/path/to/your/server-key.pem&quot;</span>);<br><span class="hljs-type">Buffer</span> <span class="hljs-variable">myCertAsABuffer</span> <span class="hljs-operator">=</span> vertx.fileSystem().readFileBlocking(<span class="hljs-string">&quot;/path/to/your/server-cert.pem&quot;</span>);<br><span class="hljs-type">PemKeyCertOptions</span> <span class="hljs-variable">pemOptions</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">PemKeyCertOptions</span>().<br>  setKeyValue(myKeyAsABuffer).<br>  setCertValue(myCertAsABuffer);<br><span class="hljs-type">NetServerOptions</span> <span class="hljs-variable">options</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NetServerOptions</span>().<br>  setSsl(<span class="hljs-literal">true</span>).<br>  setPemKeyCertOptions(pemOptions);<br><span class="hljs-type">NetServer</span> <span class="hljs-variable">server</span> <span class="hljs-operator">=</span> vertx.createNetServer(options);<br></code></pre></td></tr></table></figure>
+
+<p>ps:暂时就看这么多吧,改天开个专题专门研究一下这个TSL&#x2F;SSL</p>
+
+        </div>
+        
+        <!-- 文章导航 - 只在同分类有多篇文章时显示 -->
+        
+        
+        
+        <nav class="post-nav">
+          
+            <a class="prev" href="../vert-x-%E4%BD%93%E7%B3%BB-3--Verticle/">
+              <i class="fas fa-chevron-left"></i>
+              vert.x-体系(3)-Verticle
+            </a>
+          
+          
+            <a class="next" href="../vert-x-%E4%BD%BF%E7%94%A8-2--%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AAHTTP%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+              vert.x-使用(2)-创建一个HTTP服务器
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          
+        </nav>
+        
+        
+        <!-- 推荐文章 -->
+        
+
+
+<div class="vs-recommended-posts">
+  <div class="vs-recommended-header">
+    <div class="section-header">
+      <i class="fas fa-lightbulb"></i>
+      <span>RELATED POSTS</span>
+    </div>
+  </div>
+  
+  <div class="vs-recommended-grid">
+    
+      <div class="vs-recommended-item" data-index="0" tabindex="0">
+        <a href="../vert-x-%E4%BD%BF%E7%94%A8-2--%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AAHTTP%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>vert.x-使用(2)-创建一个HTTP服务器</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              vert.x 简单请求处理12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  vertx
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  4 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="1" tabindex="0">
+        <a href="../vert-x-%E4%BD%93%E7%B3%BB-3--Verticle/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>vert.x-体系(3)-Verticle</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              vert.x提供的Verticle这种方便部署
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  vertx
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="2" tabindex="0">
+        <a href="../vert-x-%E4%BD%93%E7%B3%BB-2--eventloop/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>vert.x-体系(2)-eventloop</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              简单的说明一下vert.x eventLoop的相关信息Vert.x使用了Reactor模型，通过Event driven的方式，将Events分发到handlers中进行处理，任何event都不会阻塞Eventloop线程，这样Event...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  vertx
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="3" tabindex="0">
+        <a href="../vert-x-%E4%BD%BF%E7%94%A8-3--jdbc%E6%95%B0%E6%8D%AE%E5%BA%93%E6%94%AF%E6%8C%81/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>vert.x-使用(3)-jdbc数据库支持</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  vertx
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="4" tabindex="0">
+        <a href="../vert-x-%E4%BD%93%E7%B3%BB-1--%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>vert.x-体系(1)-基本使用方法</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              vert.x核心功能 编写 TCP 客户端和服务端 编写支持 WebSocket 的 HTTP 客户端和服务端 事件总线(Event Bus) 共享数据 —— 本地的Map和分布式集群Map 周期性、延迟性动作 部署和撤销 Verticle...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  vertx
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="5" tabindex="0">
+        <a href="../vertx/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>vertx</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              Vert.x 快速入门和进阶使用Vert.x 快速入门vertx简介 vertx 的现状和背后支持的组织 vertx 是 eclipse基金会的一个顶级项目,目前社区非常活跃,是在国外非常火的一个框架 vertx的核心思想 Reactive...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  vertx
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  3 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+  </div>
+  
+  <!-- 查看更多 -->
+  <div class="vs-recommended-footer">
+    <a href="../../../../archives/" class="vs-view-more">
+      <i class="fas fa-folder-open"></i>
+      <span>View More Posts</span>
+      <i class="fas fa-chevron-right"></i>
+    </a>
+  </div>
+</div>
+
+<script>
+// 键盘导航支持
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.vs-recommended-item');
+  let currentIndex = -1;
+  
+  // 键盘事件
+  document.addEventListener('keydown', function(e) {
+    if (!items.length) return;
+    
+    if (e.key === 'Tab') {
+      // Tab键导航由浏览器处理
+      return;
+    }
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      
+      // 移除当前高亮
+      if (currentIndex >= 0) {
+        items[currentIndex].classList.remove('vs-focused');
+      }
+      
+      // 更新索引
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % items.length;
+      } else {
+        currentIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+      }
+      
+      // 添加新高亮
+      items[currentIndex].classList.add('vs-focused');
+      items[currentIndex].focus();
+    }
+    
+    if (e.key === 'Enter' && currentIndex >= 0) {
+      const link = items[currentIndex].querySelector('a');
+      if (link) link.click();
+    }
+  });
+  
+  // 鼠标悬停时更新当前索引
+  items.forEach((item, index) => {
+    item.addEventListener('mouseenter', function() {
+      currentIndex = index;
+      items.forEach(i => i.classList.remove('vs-focused'));
+      item.classList.add('vs-focused');
+    });
+  });
+});
+</script>
+
+        
+        <!-- 评论区 -->
+        
+  <div class="vs-comments-section">
+    <div class="section-header">
+      <i class="fas fa-comments"></i>
+      <span>COMMENTS</span>
+    </div>
+    
+    
+      <!-- Waline 评论系统 -->
+      <div id="waline"></div>
+      <script>
+        // 加载 Waline CSS
+        const walineCSS = document.createElement('link');
+        walineCSS.rel = 'stylesheet';
+        walineCSS.href = 'https://unpkg.com/@waline/client@v3/dist/waline.css';
+        document.head.appendChild(walineCSS);
+        
+        // 加载 Waline JS
+        const walineScript = document.createElement('script');
+        walineScript.type = 'module';
+        walineScript.onload = function() {
+          // 确保 Waline 加载后再初始化
+          import('https://unpkg.com/@waline/client@v3/dist/waline.js').then(({ init }) => {
+            const waline = init({
+              el: '#waline',
+              serverURL: 'https://vsc4tblackcat1337.vercel.app/',
+              lang: 'zh-CN',
+              locale: {},
+              emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus"],
+              requiredMeta: [],
+              login: 'disable',
+              wordLimit: 0,
+              pageSize: 10,
+              imageUploader: false,
+              highlighter: true,
+              texRenderer: false,
+              search: false,
+              pageview: false,
+              comment: true,
+              copyright: false,
+              
+              // 自动适配主题
+              dark: document.documentElement.getAttribute('data-theme') === 'dark' ? 'auto' : false,
+              
+              // 评论框占位符
+              placeholder: 'Feel free to leave a comment, no login required!',
+              
+              // 元数据配置
+              meta: ['nick', 'mail', 'link'],
+              
+              // 表情配置
+              emojiCDN: 'https://unpkg.com/@waline/emojis@1.2.0/',
+            });
+            
+            // 监听主题变化
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                  // Waline 会自动处理主题切换
+                  if (waline) {
+                    waline.update({ dark: isDark ? 'auto' : false });
+                  }
+                }
+              });
+            });
+            
+            observer.observe(document.documentElement, {
+              attributes: true,
+              attributeFilter: ['data-theme']
+            });
+          });
+        };
+        walineScript.src = 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+        document.body.appendChild(walineScript);
+      </script>
+    
+    
+  </div>
+
+      </article>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code-branch"></i>
+      master
+    </div>
+    <div class="status-item">
+      <i class="fas fa-sync"></i>
+      John Doe
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      2026-02-18
+    </div>
+    <div class="status-item">
+      Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
+    </div>
+    <div class="status-item github">
+      <a href="#" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 搜索专用配置 (HEXO_CONFIG 在 scripts.ejs 中统一定义) -->
+    <script>
+      window.VSC4T_SEARCH = {
+        root: "/"
+      };
+    </script>
+
+    <!-- 外部脚本 - 统一使用 cdnjs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
+    <script>if(typeof hljs !== 'undefined') hljs.highlightAll();</script>
+    <!-- 这里可以放置自定义脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Apply smooth scroll to non-TOC anchor links
+  document.querySelectorAll('a[href^="#"]:not(.toc-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Check if querySelector is valid before using it
+      try {
+        const targetSelector = this.getAttribute('href');
+        // Basic check for potentially invalid selectors (though not exhaustive)
+        if (targetSelector && targetSelector.length > 1) { 
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            console.warn('Smooth scroll target not found:', targetSelector);
+          }
+        } else {
+           console.warn('Invalid href for smooth scroll:', targetSelector);
+        }
+      } catch (error) {
+        console.error('Error during smooth scroll:', error, 'Selector:', this.getAttribute('href'));
+        // Fallback or alternative behavior if needed
+        // For example, try getElementById if it's just an ID
+        const targetId = this.getAttribute('href').slice(1);
+        try {
+            const targetElementById = document.getElementById(decodeURIComponent(targetId));
+            if (targetElementById) {
+                targetElementById.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (idError) {
+             console.error('Fallback getElementById also failed:', idError);
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Scripts -->
+<script>
+  // 全局配置 - 包含 i18n 字符串和主题配置
+  window.HEXO_CONFIG = {
+    language: "en",
+    root: "/",
+    
+    theme_switch: {
+      enabled: false,
+      light_start: "06:00",
+      light_end: "18:00"
+    },
+    
+    // Search i18n strings
+    search_placeholder: "Type to search...",
+    search_no_results: "No results found",
+    search_result: "result",
+    search_results: "results",
+    search_results_found: "Found undefined results",
+    search_in: "Search in",
+    search_in_title: "Title",
+    search_in_content: "Content",
+    search_in_tags: "Tags",
+    search_in_categories: "Categories",
+    search_filters: "Search Filters",
+    search_recent: "Recent Searches",
+    search_clear: "Clear",
+    search_loading: "Loading...",
+    search_error: "Error loading search data",
+    // Encryption i18n strings
+    encrypt_badge: "Protected",
+    encrypt_title: "Protected Content",
+    encrypt_description: "Enter the password to unlock this article. The password will be saved locally until you choose to re-encrypt.",
+    encrypt_label: "Password",
+    encrypt_placeholder: "Enter password to unlock",
+    encrypt_button: "Unlock",
+    encrypt_button_loading: "Unlocking...",
+    encrypt_hint: "Press Enter to submit. Password will be remembered on this device.",
+    encrypt_success: "Content unlocked successfully!",
+    encrypt_unlocked_note: "Content unlocked. You can re-encrypt at any time.",
+    encrypt_again: "Re-encrypt",
+    encrypt_wrong_password: "Incorrect password. Please try again.",
+    encrypt_show_password: "Show password",
+    encrypt_hide_password: "Hide password",
+    // Sidebar i18n strings
+    sidebar_about: "About",
+    sidebar_categories: "Categories",
+    sidebar_tags: "Tags",
+    // Post page i18n strings
+    post_toc: "TABLE OF CONTENTS",
+    post_category_posts: "CATEGORY POSTS",
+    post_article_tags: "ARTICLE TAGS"
+  };
+</script>
+
+
+
+<!-- 添加所有需要的脚本 -->
+<script src="../../../../js/search.js"></script>
+<script src="../../../../js/theme-switch.js"></script>
+
+<script src="../../../../js/password-protect.js?v=1771424192200"></script>
+
+    <script>
+      // 移动端菜单切换
+      $(document).ready(function() {
+        var $body = $('body');
+        var $sidebar = $('.sidebar-explorer');
+        var $overlay = $('.sidebar-overlay');
+        var $toggle = $('.mobile-menu-toggle');
+
+        function openSidebar() {
+          $sidebar.addClass('show');
+          $overlay.addClass('show');
+          $toggle.addClass('active');
+          $body.addClass('sidebar-open');
+        }
+
+        function closeSidebar() {
+          $sidebar.removeClass('show');
+          $overlay.removeClass('show');
+          $toggle.removeClass('active');
+          $body.removeClass('sidebar-open');
+        }
+
+        // 汉堡按钮点击切换
+        $toggle.on('click', function(e) {
+          e.stopPropagation();
+          if ($sidebar.hasClass('show')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+
+        // 点击遮罩层关闭
+        $overlay.on('click', function() {
+          closeSidebar();
+        });
+
+        // ESC 键关闭
+        $(document).on('keydown', function(e) {
+          if (e.key === 'Escape' && $sidebar.hasClass('show')) {
+            closeSidebar();
+          }
+        });
+
+        // 点击侧边栏内的链接时自动关闭侧边栏，确保锚点跳转正常
+        $sidebar.on('click', 'a', function() {
+          closeSidebar();
+        });
+      });
+    </script>
+  </body>
+</html>

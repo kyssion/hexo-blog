@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>go语言的设计和坑 | Hexo</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A simple dark Hexo theme inspired by code.">
+  <meta name="keywords" content="">
+  <meta name="author" content="John Doe">
+  <link rel="canonical" href="http://example.com">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="go语言的设计和坑 | Hexo">
+  <meta property="og:description" content="A simple dark Hexo theme inspired by code.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://example.com">
+  <meta property="og:site_name" content="Hexo">
+  <meta property="article:published_time" content="2024-12-31T15:36:00.000Z">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="go语言的设计和坑 | Hexo">
+  <meta name="twitter:description" content="A simple dark Hexo theme inspired by code.">
+
+  <!-- Favicon 配置 -->
+  
+
+  <!-- 外部样式 - 统一使用 jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- 代码高亮样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+  <!-- Mermaid.js 库 (defer加载) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <!-- 主题样式 -->
+  <link rel="stylesheet" href="../../../../css/theme-colors.css">
+  <link rel="stylesheet" href="../../../../css/main.css">
+  <link rel="stylesheet" href="../../../../css/code.css">
+  <link rel="stylesheet" href="../../../../css/code-custom.css">
+  <link rel="stylesheet" href="../../../../css/code-languages.css">
+  <link rel="stylesheet" href="../../../../css/mermaid.css">
+
+  <link rel="stylesheet" href="../../../../css/vs-code.css">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192117">
+  <link rel="stylesheet" href="../../../../css/tag.css">
+  <link rel="stylesheet" href="../../../../css/categories.css">
+  <link rel="stylesheet" href="../../../../css/archive.css">
+  <link rel="stylesheet" href="../../../../css/search.css">
+  <link rel="stylesheet" href="../../../../css/mobile.css">  <link rel="stylesheet" href="../../../../css/responsive.css">
+  <link rel="stylesheet" href="../../../../css/elements.css">
+
+  <!-- 添加 JetBrains Mono 字体 -->  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Add any custom head content here -->
+
+  <script defer src="../../../../js/explorer.js"></script>
+  <script defer src="../../../../js/code-enhance.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+      <div class="mobile-menu-toggle" aria-label="Toggle sidebar menu" role="button" tabindex="0">
+        <i class="fas fa-bars"></i>
+      </div>
+      <!-- 移动端侧边栏遮罩层 -->
+      <div class="sidebar-overlay" aria-hidden="true"></div>
+      <header class="vs-header">
+  <nav class="vs-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-brand">
+        <i class="fas fa-terminal"></i>
+        Hexo
+      </a>
+    </div>
+    
+    <div class="nav-right">
+      <a href="/" class="nav-item ">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="/archives/" class="nav-item ">
+        <i class="fas fa-archive"></i>
+        <span>Archives</span>
+      </a>
+      <a href="/categories/" class="nav-item ">
+        <i class="fas fa-folder"></i>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" class="nav-item ">
+        <i class="fas fa-tags"></i>
+        <span>Tags</span>
+      </a>
+      <a href="/search/" class="nav-item ">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="/about/" class="nav-item ">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function smoothScroll(event, target) {
+    event.preventDefault();
+    const targetId = target.substring(target.indexOf('#') + 1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 50, // 调整偏移量
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = target;
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.vs-header');
+    const nav = document.querySelector('.vs-nav');
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    
+    nav.style.setProperty('--scroll-percent', `${scrollPercent}%`);
+    
+    if (window.scrollY > 0) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // 添加标签页切换动画
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('nav-ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+</script>
+
+
+<div class="vscode-container">
+  <!-- 左侧资源管理器 -->
+  <div class="sidebar-explorer">
+    <!-- TOC导航 -->
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-list"></i>
+        <span>TABLE OF CONTENTS</span>
+      </div>
+      <div class="section-content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Go-%E8%AF%AD%E8%A8%80%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%92%8C%E5%9D%91"><span class="toc-text">Go 语言的设计和坑</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Why-Go"><span class="toc-text">Why Go</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Go-like-C-%EF%BC%9A"><span class="toc-text">Go like C++：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Go-not-like-C-%EF%BC%9A"><span class="toc-text">Go not like C++：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Go%E7%9A%84%E4%BC%98%E7%82%B9%EF%BC%9A"><span class="toc-text">Go的优点：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Go%E7%9A%84%E7%BC%BA%E7%82%B9%EF%BC%9A"><span class="toc-text">Go的缺点：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%B2%A1%E6%9C%89%E7%BB%A7%E6%89%BF%EF%BC%9F"><span class="toc-text">为什么没有继承？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%B9%E6%98%93%E5%87%BA%E9%94%99%E7%9A%84%E7%BB%86%E8%8A%82"><span class="toc-text">容易出错的细节</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1"><span class="toc-text">创建对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9B%B6%E5%80%BC"><span class="toc-text">零值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%80%BC%E4%BC%A0%E9%80%92"><span class="toc-text">值传递</span></a></li></ol></li></ol></li></ol>
+      </div>
+    </div>
+
+    <!-- 同分类文章 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-folder"></i>
+        <span>CATEGORY POSTS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../golang-00-%E5%BC%80%E5%8F%91%E8%AE%A1%E5%88%92/">golang-00-开发计划</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../golang-01-golang_context%E7%94%A8%E6%B3%95%E5%92%8C%E7%90%86%E5%BF%B5/">golang-01-golang_context用法和理念</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../golang-02-golang%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6%E6%96%B9%E6%B3%95/">golang-02-golang流量控制方法</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../golang-03-go_linkname-%E9%9A%90%E5%BC%8F%E9%93%BE%E6%8E%A5%E7%BC%96%E8%AF%91/">golang-03-go_linkname-隐式链接编译</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../golang-04-go_%E7%BC%96%E8%AF%91%E5%99%A8/">golang-04-go_编译器</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../golang-04-golang_%E6%B5%AE%E7%82%B9%E6%95%B0%E5%92%8C%E7%B1%BB%E5%9E%8B%E8%BD%AC%E5%8C%96/">golang-04-golang_浮点数和类型转化</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../golang-05-%E5%AD%97%E7%AC%A6%E4%B8%B2/">golang-05-字符串</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../golang-06-%E6%95%B0%E7%BB%84%E5%92%8C%E5%88%87%E7%89%87/">golang-06-数组和切片</a>
+          </div>
+        
+      </div>
+    </div>
+    
+    
+    <!-- 标签列表 -->
+    
+  </div>
+
+  <!-- 主要内容区域 -->
+  <div class="editor-content">
+    <div class="tab-bar">
+      <div class="tab active">
+        <i class="fas fa-file-alt"></i>
+        <span>go语言的设计和坑.md</span>
+      </div>
+    </div>
+    
+    <div class="content-area">
+      <article class="post-content">
+        <div class="post-header">
+          <h1>go语言的设计和坑</h1>
+          <div class="post-meta">
+            <span class="date">
+              <i class="fas fa-calendar-alt"></i>
+              2024-12-31
+            </span>
+            
+            <span class="updated-date">
+              <i class="fas fa-sync-alt"></i>
+              Updated 2026-02-18
+            </span>
+                        
+              <span class="categories">
+                <i class="fas fa-folder"></i>
+                <div class="categories-list">
+                  <ul class="category-item-post-list"><li class="category-item-post-list-item"><a class="category-item-post-list-link" href="../../../../categories/go%E8%AF%AD%E8%A8%80/">go语言</a></li></ul>
+                </div>
+              </span>
+            
+            
+          </div>
+        </div>
+        
+        <div class="post-body vscode-markdown">
+          <h1 id="Go-语言的设计和坑"><a href="#Go-语言的设计和坑" class="headerlink" title="Go 语言的设计和坑"></a>Go 语言的设计和坑</h1><p>本文目的：</p>
+<ul>
+<li>理解Go为什么X，摆脱原语言的思维</li>
+<li>解决写代码时比较困惑和不满的点，对容易出错的语法有个印象</li>
+<li>规范一些习惯性写法，保持代码strength &amp; clean<br>Go学起来非常简单，但是这是语言设计者刻意为之，很多复杂的细节都藏在语言实现里，导致我们迅速学会Go之后不断踩坑，希望本文能让大家在工作中少踩坑，早下班！</li>
+</ul>
+<h2 id="Why-Go"><a href="#Why-Go" class="headerlink" title="Why Go"></a>Why Go</h2><p>2007年，Google设计Go，目的在于提高在并行编程（多核CPU越来越多）、分布式部署、大型代码库（以及维护他们的非常多的开发人员）的情况下的开发效率。设计时，在吸收C++优点的基础上，收集于很多工程师之间流传的的“不要像C++”的缺点。</p>
+<h3 id="Go-like-C-："><a href="#Go-like-C-：" class="headerlink" title="Go like C++："></a>Go like C++：</h3><ul>
+<li>内存消耗少</li>
+<li>执行速度快</li>
+<li>启动快</li>
+</ul>
+<h3 id="Go-not-like-C-："><a href="#Go-not-like-C-：" class="headerlink" title="Go not like C++："></a>Go not like C++：</h3><ul>
+<li>程序编译时间短（按照作者过去的工程经验，一个C++大型项目即使make -j8也需要编译一个小时以上）</li>
+<li>像动态语言一样灵活（提供了如runtime、interface、闭包、反射等很多增加灵活性的特性）</li>
+<li>内置并发支持（C++的协程至少得等到std23才有，非常落后）</li>
+<li>丰富的原生库（C++解析json，建立http服务器，使用redis这种都很难找到靠谱的库）</li>
+<li>多语义（取消了指针运算、取消隐式类型转换、取消类型别名，取消重载，++和赋值作为表达式…）</li>
+</ul>
+<h3 id="Go的优点："><a href="#Go的优点：" class="headerlink" title="Go的优点："></a>Go的优点：</h3><ul>
+<li>面向工程：简单。只有25个关键字，代码风格统一，可读性高，go mod包丰富</li>
+<li>自动垃圾回收：语言运行时内置垃圾回收</li>
+<li>语言级并发：非常好用的routine和channel，更高层次的并发抽象</li>
+<li>静态语言，动态特性</li>
+</ul>
+<h3 id="Go的缺点："><a href="#Go的缺点：" class="headerlink" title="Go的缺点："></a>Go的缺点：</h3><ul>
+<li>runtime的性能还需要提高</li>
+<li>没有泛型（这一项很快就可以克服了）</li>
+<li>冗余的错误处理</li>
+<li>Go mod不够完善<br>（Go语⾔将⾛向何⽅?）<a target="_blank" rel="noopener" href="https://chai2010.cn/static-public/talks/giac2018-go-talk.pdf">https://chai2010.cn/static-public/talks/giac2018-go-talk.pdf</a><br>（我为什么放弃Go语言）<a target="_blank" rel="noopener" href="https://blog.csdn.net/liigo/article/details/23699459">https://blog.csdn.net/liigo/article/details/23699459</a></li>
+</ul>
+<p>Go的设计哲学</p>
+<p>（创始人Rob Pike在SPLASH上的演讲，阐述了设计Go的初衷）<a target="_blank" rel="noopener" href="https://talks.golang.org/2012/splash.article">https://talks.golang.org/2012/splash.article</a><br>（许式伟，Go和Java在继承观念上的对比）<a target="_blank" rel="noopener" href="https://www.infoq.cn/article/go-based-on-connection-combination-language-1">https://www.infoq.cn/article/go-based-on-connection-combination-language-1</a><br>（对面向对象的批评）<a target="_blank" rel="noopener" href="https://studygolang.com/articles/2944">https://studygolang.com/articles/2944</a><br>（王垠：解密“设计模式”，对设计模式的批评）<a target="_blank" rel="noopener" href="https://www.yinwang.org/blog-cn/2013/03/07/design-patterns">https://www.yinwang.org/blog-cn/2013/03/07/design-patterns</a></p>
+<ul>
+<li>少即是多（less is more）：如果一个特性并不对解决任何问题有显著价值，那么go就不提供它；如果需要一个特性，那么只有一种方法去实现</li>
+<li>面向接口编程：非侵入式接口，反对继承、反对虚函数和虚函数重载（多态）、删除构造和析构函数</li>
+<li>正交+组合的语言特性：语言的特性之间相互独立，不相互影响。比如类型和方法是互相独立的，类型之间也是相互独立的，没有子类，包也没有子包。不同特性用组合的方式来松耦合</li>
+<li>并发在语言层面支持：并发更好利用多核，有更强的表现力来模拟真实世界</li>
+</ul>
+<p>在设计上，Go秉承了C的简单粗暴。</p>
+<h3 id="为什么没有继承？"><a href="#为什么没有继承？" class="headerlink" title="为什么没有继承？"></a>为什么没有继承？</h3><p>Go没有子类型的概念，只能把类型嵌入到另一个类型中，所以没有类型系统。Go的作者认为类型系统被过度使用了，应该在这个方向上退一步。</p>
+<ul>
+<li>使用伸缩性良好的组合，而不是继承</li>
+<li>数据和方法不再绑定在一起，数据的集合用struct，方法的集合用interface，保持正交</li>
+</ul>
+<p>类似子类父类的系统造成非常脆弱的代码。类型的层次必须在早期进行设计，通常会是程序设计的第一步，但是一旦写出程序后，早期的决策就很难进行改变了。所以，类型层次结构会促成早期的过度设计，因为程序员要尽力对软件可能需要的各种可能的用法进行预测，不断地为了避免挂一漏万，不断的增加类型和抽象的层次。这种做法有点颠倒了，系统各个部分之间交互的方式本应该随着系统的发展而做出相应的改变，而不应该在一开始就固定下来。<br>作者附了一个例子，是一些以接口为参数并且其返回结果也是一个接口的函数：</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs golang"><span class="hljs-keyword">type</span> Reader <span class="hljs-keyword">interface</span> &#123;<br>    Read(p []<span class="hljs-type">byte</span>) (n <span class="hljs-type">int</span>, err <span class="hljs-type">error</span>)<br>&#125;<br><span class="hljs-comment">// 入参是接口的函数，而不是成员方法</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">ReadAll</span><span class="hljs-params">(r io.Reader)</span></span> ([]<span class="hljs-type">byte</span>, <span class="hljs-type">error</span>)<br><span class="hljs-comment">// 封装器 - 出入参都是接口</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">LoggingReader</span><span class="hljs-params">(r io.Reader)</span></span> io.Reader    <span class="hljs-comment">//读到的内容录入日志</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">LimitingReader</span><span class="hljs-params">(r io.Reader, n <span class="hljs-type">int64</span>)</span></span> io.Reader    <span class="hljs-comment">//读n个字节停下来</span><br><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">ErrorInjector</span><span class="hljs-params">(r io.Reader)</span></span> io.Reader<br></code></pre></td></tr></table></figure>
+
+<p>这种组合+函数的模式是相当灵活的。如果用继承，我们可能会多三个io.Reader的定义（或者若干个成员函数）；然后用多态去获得对应的功能<br>为什么没有异常？</p>
+<p>panic和recover这些函数是故意弄的不好用的，因为我们应该减少使用他们。不像Java库中使用异常那样，在go的库中这两个关键字几乎没有使用。</p>
+<ol>
+<li>业务中的错误并不是真正的异常情况，if和return完全可以胜任，无需控制流</li>
+<li>如果错误要使用特殊的控制结构，错误处理就会扭曲程序的控制流，非常复杂</li>
+<li>显式的错误检查会迫使程序员在错误出现的时候对错误进行思考，并进行相应的处理，而不是推给前面的调用堆栈</li>
+</ol>
+<p>毫无疑问这会使代码更长一些，但如此编码带来的清晰度和简单性可以弥补其冗长的缺点</p>
+<p>为什么没有X？</p>
+<p>总结：Go的设计着眼于编程的便利性、编译的速度、概念的正交性以及支持并发和垃圾回收等功能。如果你在Go中找不到其他语言的X特性，那么只能说明这个特性不适合Go，比如它会影响编译速度或设计的清晰度，或者使得基础系统变得特别复杂。</p>
+<p>保持Go的特性和风格</p>
+<ul>
+<li>从Go的角度考虑问题，更加让人容易理解</li>
+<li>用Go的方式写代码，more effective</li>
+</ul>
+<h1 id="容易出错的细节"><a href="#容易出错的细节" class="headerlink" title="容易出错的细节"></a>容易出错的细节</h1><h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><p>新建一个对象在go里面有好几种方法，让人迷惑，而且似乎和简洁这一设计原则违背。我们按照对象类型讨论一下：</p>
+<ol>
+<li><p>对于结构体，new(T)和&amp;T{}是等价的，都会给对象赋零值（一般人很少用new）。<br>Note：直接var obj T;&amp;T也是等价的，只不过变量有可能在堆上，有可能在栈上</p>
+</li>
+<li><p>对于slice、map、chan，make(map[string]int)和map[string]int{}等价，会对对象进行初始化。</p>
+</li>
+</ol>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs golang"><span class="hljs-keyword">var</span> a []<span class="hljs-type">int</span>                      <span class="hljs-comment">// nil</span><br>a := []<span class="hljs-type">int</span>&#123;&#125;                     <span class="hljs-comment">// not nil</span><br>a := *<span class="hljs-built_in">new</span>([]<span class="hljs-type">int</span>)                 <span class="hljs-comment">// nil</span><br>a := <span class="hljs-built_in">make</span>([]<span class="hljs-type">int</span>,<span class="hljs-number">0</span>)               <span class="hljs-comment">// not nil</span><br></code></pre></td></tr></table></figure>
+
+<p>看一个代码里的badcase：</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs golang"><span class="hljs-comment">//Badcase</span><br>ins, err := rpc.GetInsuranceInfoList(ctx, <span class="hljs-built_in">append</span>(<span class="hljs-built_in">make</span>([]<span class="hljs-type">string</span>, <span class="hljs-number">0</span>), strconv.FormatInt(parentOrderId, <span class="hljs-number">10</span>)), orderInfo.UserId)<br><span class="hljs-comment">//Correct</span><br>ins, err := rpc.GetInsuranceInfoList(ctx, []<span class="hljs-type">string</span>&#123;strconv.FormatInt(parentOrderId, <span class="hljs-number">10</span>)&#125;,<br></code></pre></td></tr></table></figure>
+
+<h2 id="零值"><a href="#零值" class="headerlink" title="零值"></a>零值</h2><p>零值和未初始化的值并不相同。不同类型的零值是什么？</p>
+<ol>
+<li>布尔类型是false，整型是0，字符串是””</li>
+<li>指针、函数、interface、slice、channel和map的零值都是nil</li>
+<li>结构体的零值是递归生成的，每个成员都是对应的零值</li>
+</ol>
+<p>我们来看一个例子。一个为nil的slice和map能做什么操作：</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs golang"><span class="hljs-comment">// 一个为nil的slice，除了不能索引外，其他的操作都是可以的</span><br><span class="hljs-comment">// Note: 如果这个slice是个指针，不适用这里的规则</span><br><span class="hljs-keyword">var</span> a []<span class="hljs-type">int</span>        <br>fmt.Printf(<span class="hljs-string">&quot;len(a):%d, cap(a):%d, a==nil:%v\n&quot;</span>, <span class="hljs-built_in">len</span>(a),<span class="hljs-built_in">cap</span>(a), a == <span class="hljs-literal">nil</span>) <span class="hljs-comment">//0 0 true</span><br><span class="hljs-keyword">for</span> _, v := <span class="hljs-keyword">range</span> a&#123;<span class="hljs-comment">// 遍历nil切片，不会panic</span><br>        fmt.Println(v) <br>&#125;<br>aa := a[<span class="hljs-number">0</span>:<span class="hljs-number">0</span>]     <span class="hljs-comment">// 取切片下标，也不会panic，只要索引都是0</span><br>bb := a[<span class="hljs-number">0</span>:<span class="hljs-number">1</span>]     <span class="hljs-comment">// panic</span><br><br><span class="hljs-comment">// nil的map，我们可以简单把它看成是一个只读的map</span><br><span class="hljs-keyword">var</span> b <span class="hljs-keyword">map</span>[<span class="hljs-type">string</span>]<span class="hljs-type">string</span><br><span class="hljs-keyword">if</span> val, ok := b[<span class="hljs-string">&quot;notexist&quot;</span>];ok&#123;<span class="hljs-comment">// 不会panic</span><br>        fmt.Println(val)<br>&#125;<br><span class="hljs-keyword">for</span> k, v := <span class="hljs-keyword">range</span> b&#123;<span class="hljs-comment">// 不会panic</span><br>        fmt.Println(k,v)<br>&#125;<br><span class="hljs-built_in">delete</span>(b, <span class="hljs-string">&quot;foo&quot;</span>) <span class="hljs-comment">// 也不会panic</span><br>fmt.Printf(<span class="hljs-string">&quot;len(b):%d, b==nil:%v\n&quot;</span>, <span class="hljs-built_in">len</span>(b), b == <span class="hljs-literal">nil</span>) <span class="hljs-comment">// 0 true</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="值传递"><a href="#值传递" class="headerlink" title="值传递"></a>值传递</h3><p>Go语言中所有的传参都是值传递，都是原值的一个副本，或者说一个拷贝。传入的数据能不能在函数内被修改，取决于是不是指针或者含有指针的类型（指针被值传递复制后依然指向同一块地址）。这就让人很疑惑，什么时候传入的参数修改会生效，什么时候不会生效？<br>slice类型在 值传递的时候len和cap不会变，所以函数内append没有用：<br>type slice struct {<br>    array unsafe.Pointer<br>    len   int<br>    cap   int<br>}<br>&#x2F;&#x2F; badcase<br>func appendMe(s []int){<br>    s &#x3D; append(s, -1)<br>}</p>
+<p>map 和 chan类型，本来就是个指针，所以函数内修改一定会生效：<br>&#x2F;&#x2F; map实际上是一个 *hmap<br>func makemap(t *maptype, hint int64, h *hmap, bucket unsafe.Pointer) *hmap {<br>    &#x2F;&#x2F;省略无关代码<br>}</p>
+<p>&#x2F;&#x2F; chan实际上是个 *hchan<br>func makechan(t *chantype, size int64) *hchan {<br>    &#x2F;&#x2F;省略无关代码<br>}</p>
+<p>再比如一个结构体作为参数：<br>&#x2F;&#x2F; 这是一个典型的指针包裹类型<br>type Person struct {<br>    name string<br>    age  *int<br>}<br>func modify(x Person){<br>    x.name &#x3D; “modified”<br>    *x.age &#x3D; 66<br>}</p>
+<p>这个结构体里的age是个指针类型，所以在函数内会被修改。<br>这种含有指针的结构体类型，里面的指针指向了其他的内存。在发生拷贝的时候，只有结构体本身的内存会被拷贝，指向的内存是和原值共享的。<br>（更多细节参考 值部：<a target="_blank" rel="noopener" href="https://gfw.go101.org/article/value-part.html">https://gfw.go101.org/article/value-part.html</a> )<br>但是我们一般希望的是，要么结构体的成员一起改变（这个简单，参数传person的指针），要么一起不改变（深拷贝）。那么另一个让人头疼的问题来了，那我如何深拷贝这个对象？<br>深拷贝<br>对于slice，go提供了似乎还不错的方式：<br>&#x2F;&#x2F; 自己复制<br>s1 :&#x3D; []int{1,2,3}<br>s2 :&#x3D; append([]int{}, s1…)<br>&#x2F;&#x2F; 效率更高的复制<br>s1 :&#x3D; []int{1,2,3}<br>s2 :&#x3D; make([]int, len(s1))<br>copy(s2, s1)</p>
+<p>如果你要拷贝一个map，只能用for循环依次把键值对赋值到新map里。<br>切记：需要拷贝map一定要深拷贝，不然如果后续在不同的协程里操作map会panic<br>如果有其他更复杂的结构体需要深拷贝呢？目前还没有很好的办法：</p>
+<ol>
+<li>自己写一个复制值的函数</li>
+<li>用序列化&#x2F;反序列化的方法来做，json，bson</li>
+<li>用反射来做<br>age :&#x3D; 22<br>p :&#x3D; &amp;Person{“Bob”, &amp;age}</li>
+</ol>
+<p>v :&#x3D; reflect.ValueOf(p).Elem()<br>vp2 :&#x3D; reflect.New(v.Type())<br>vp2.Elem().Set(v)</p>
+<p>小心interface判等<br>go实现接口的时候有两个属性，type T和value V，判等的时候两个属性都要比较。比如一个interface存了3，那么T&#x3D;int，v&#x3D;3。只有当两个值都没有设置才等于nil。<br>var pi *int &#x3D; nil<br>var pb *bool &#x3D; nil<br>var x interface{} &#x3D; pi<br>var y interface{} &#x3D; pb<br>var z interface{} &#x3D; nil</p>
+<p>fmt.Println(x &#x3D;&#x3D; y)   &#x2F;&#x2F; false<br>fmt.Println(x &#x3D;&#x3D; nil) &#x2F;&#x2F; false<br>fmt.Println(x &#x3D;&#x3D; z)   &#x2F;&#x2F; false</p>
+<p>&#x2F;&#x2F; badcase<br>type error interface {<br>    Error() string<br>}<br>func returnsError() error {<br>    var p *MyError &#x3D; nil<br>    if bad() {<br>        p &#x3D; ErrBad<br>    }<br>    return p &#x2F;&#x2F; Will always return a non-nil error.<br>}</p>
+<p>还有一种常见的场景是我们容易漏掉的。int64和int的interface也不相等：<br>var int1,int2 interface{}<br>int1 &#x3D; int64(0)<br>int2 &#x3D; int(0)<br>fmt.Printf(“%v %v &#x3D; %v”, int1, int2, int1 &#x3D;&#x3D; int2) &#x2F;&#x2F; 0 0 false</p>
+<p>&#x2F;&#x2F; 如果函数参数用了interface，如果我们很容易犯错<br>func (m *Map) Load(key, value interface{}) {<br>    if e, ok :&#x3D; read.m[key]; ok {<br>        …<br>    }<br>}<br>&#x2F;&#x2F; badcase 1: key的类型不一致导致缓存无法取出<br>m :&#x3D; sync.Map{}<br>m.Store(0, “ManualCache”)<br>val, ok :&#x3D; m.Load(int64(0)) &#x2F;&#x2F; nil false<br>&#x2F;&#x2F; badcase 2: value的类型不一致导致断言失败<br>m.Store(“key”, 0)<br>if val, ok :&#x3D; m.Load(“key”); ok {<br>        _ &#x3D; val.(int64)    &#x2F;&#x2F; panic<br>}</p>
+<p>点点点<br>…是个很常用的语法糖，能帮我们节省很多代码。<br>用作展开：<br>x :&#x3D; []int{1,2,3}<br>y :&#x3D; []int{4,5,6}<br>x &#x3D; append(x, y…) &#x2F;&#x2F;而不是for循环<br>x &#x3D; append(x, 4, 5, 6) &#x2F;&#x2F;等价于上面的</p>
+<p>用作可变参数列表：<br>&#x2F;&#x2F; Println prints to the standard logger in the manner of fmt.Println.<br>func Println(v …interface{}) {<br>    std.Output(2, fmt.Sprintln(v…))  &#x2F;&#x2F; Output takes parameters (int, string)<br>}</p>
+<p>用作简化数组声明：<br>var _ &#x3D; […]language{<br>        {“C”, 1972},<br>        {“Python”, 1991},<br>        {“Go”, 2009},<br>}<br>var b &#x3D; […]string{0: “foo”, 2: “foo”}        &#x2F;&#x2F; [3]string{“foo”, “”, “foo”}</p>
+<p>闭包里的局部变量是引用<br>闭包里起的go协程里面引用的是变量i的地址。所有的go协程启动后等待调用，在下面的协程中，部分协程很可能在for循环完成之后才被调用，所以输出结果很多都是最后一个i的值<br>&#x2F;&#x2F; bad case<br>done :&#x3D; make(chan bool)<br>for i :&#x3D; 0; i &lt; 5; i++ {<br>    go func() {<br>        println(i)<br>        done &lt;- true<br>    }()<br>}<br>for i :&#x3D; 0; i &lt; 5; i++{<br>    &lt;-done<br>}<br>&#x2F;&#x2F; 5 5 5 5 5</p>
+<p>&#x2F;&#x2F; good sample 1<br>for i :&#x3D; 0; i &lt; 5; i++ {<br>    defer func(i int) {<br>        println(i)<br>        done &lt;- true<br>    }(i)<br>}<br>&#x2F;&#x2F; good sample 2<br>for i :&#x3D; 0; i &lt; 5; i++ {<br>    i :&#x3D; i    &#x2F;&#x2F; 新建变量<br>    go func() {<br>        println(i)<br>        done &lt;- true<br>    }()<br>}<br>&#x2F;&#x2F;1 3 5 4 2</p>
+<p>不要引用大数组<br>被切片引用的数据不会被释放（即使你仅仅引用了很小一部分），会大幅降低代码性能<br>headerMap :&#x3D; make(map[string][]byte)</p>
+<p>for i :&#x3D; 0; i &lt; 5; i++ {<br>    name :&#x3D; “&#x2F;path&#x2F;to&#x2F;file”<br>    data, err :&#x3D; ioutil.ReadFile(name)<br>    if err !&#x3D; nil {<br>        log.Fatal(err)<br>    }<br>    headerMap[name] &#x3D; data[:1]<br>    &#x2F;&#x2F; better:  headerMap[name] &#x3D; append([]byte{}, data[:1]…)<br>}</p>
+<p>赋值不是原子操作<br>在64位的机器上，赋值很可能被拆成mov两次的汇编代码，因此不是原子的。我们可以用atomic里的方法帮助我们做原子操作。<br>考虑一个内存cache定时刷新的协程：因为随时有请求在读cache，所以刷新cache的时候需要保证cache的指针存取是原子操作。<br>举例：mycache *map[string]*Cache<br>&#x2F;&#x2F; 加载（读取）<br>var _ &#x3D; (*T)(atomic.LoadPointer((*unsafe.Pointer)(unsafe.Pointer(mycache))))</p>
+<p>&#x2F;&#x2F; 存储（修改）<br>atomic.StorePointer(<br>    (*unsafe.Pointer)(unsafe.Pointer(mycache)), unsafe.Pointer(&amp;newMycache))</p>
+<p>所有的操作，只要存在同时存在多个goroutine同时操作一个资源（临界区），除了带有sync，atomic，或者channel关键字的，都不安全。包括但不限于：</p>
+<ol>
+<li>并发读写map</li>
+<li>并发append切片</li>
+<li>自增变量</li>
+<li>赋值<br>接收器用指针还是值<br>Go的接收器可以传指针进来，也可以传值。注意传值的时候接收器不会被改变。官方推荐下面两种情况该用指针：</li>
+<li>MyStruct很大，需要拷贝的成本太高</li>
+<li>方法需要修改MyStruct<br>否则Go推荐使用值接收器<br>Note：如果对象有可能并发执行方法，指针接收器中可能产生数据竞争，记得加锁<br>func（s * MyStruct）pointerMethod（）{    &#x2F;&#x2F; 指针方法<br> s.Age &#x3D; -1  &#x2F;&#x2F; useful<br>}<br>func（s MyStruct）valueMethod（）{        &#x2F;&#x2F; 值方法<br> s.Age &#x3D; -1 &#x2F;&#x2F; no use<br>}</li>
+</ol>
+<p>for循环里的变量都是副本<br>for key, element &#x3D; range aContainer {…}</p>
+<p>关于上面for循环有几个点：</p>
+<ol>
+<li>实际遍历的aContainer是原始值的一个副本</li>
+<li>element是遍历到的元素的原始值的一个副本</li>
+<li>key和element整个循环都是同一个变量，而不是每次迭代都生成新变量<br>这里涉及到几个问题。一个是aContainer和element的拷贝成本。aContainer是数组的时候的拷贝成本比较大，而切片和map的拷贝成本比较小。如果想要缩小拷贝成本，我们有几个建议：</li>
+<li>遍历大数组时，可以先创建大数组的切片再放在range后面</li>
+<li>element结构比较大的时候，直接用下标key遍历，舍弃element<br>还有一个问题是遍历的时候修改，能不能生效？</li>
+<li>当aContainer是数组时，因为数组是整个复制，所以直接修改aContainer不会生效</li>
+<li>直接修改key或者element，？</li>
+<li>因为切片和map是浅复制，在循环中操作aContainer或者aContainer[key]可以生效</li>
+</ol>
+<p>因为循环里的副本和函数参数的副本非常类似，所以我们可以参考上面的“值传递”中的内容来判断修改副本是否会使得修改达到想要的效果。<br>map的值不可取址<br>map是哈希表实现的，所以值的地址在哈希表动态调整的时候可能会产生变化。因此。存着map值的地址是没有意义的，go中直接禁止了map的值的取地址。这些类型都不能取址：</p>
+<ul>
+<li>map元素</li>
+<li>string的字节元素</li>
+<li>常量（有名常量和字面量都不可以）</li>
+<li>中间结果值（函数调用、显式值转换、各种操作）<br>&#x2F;&#x2F; 下面这几行编译不通过。<br>_ &#x3D; &amp;[3]int{2, 3, 5}[0]        &#x2F;&#x2F;字面量<br>_ &#x3D; &amp;map[int]bool{1: true}[1]  &#x2F;&#x2F;字面量<br>const pi &#x3D; 3.14<br>_ &#x3D; &amp;pi                        &#x2F;&#x2F;有名常量<br>m :&#x3D; map[int]bool{1: true}<br>_ &#x3D; &amp;m[1]                      &#x2F;&#x2F;map的value<br>lt :&#x3D; [3]int{2, 3, 5}<br>_ &#x3D; &amp;lt[1:1]                   &#x2F;&#x2F;切片操作</li>
+</ul>
+<p>一般来说，一个不可寻址的值的直接部分是不可修改的。但是map的元素是个例外。 map的元素虽然不可寻址，但是每个映射元素可以被整个修改（但不可以被部分修改）：<br>type T struct{age int}<br>mt :&#x3D; map[string]T{}<br>mt[“John”] &#x3D; T{age: 29} &#x2F;&#x2F; 整体修改是允许的<br>ma :&#x3D; map[int][5]int{}<br>ma[1] &#x3D; [5]int{1: 789} &#x2F;&#x2F; 整体修改是允许的</p>
+<p>&#x2F;&#x2F; 这两个赋值编译不通过，因为部分修改一个映射元素是非法的。这看上去确实有些反直觉。<br>ma[1][1] &#x3D; 123      &#x2F;&#x2F; error<br>mt[“John”].age &#x3D; 30 &#x2F;&#x2F; error</p>
+<p>&#x2F;&#x2F; 读取映射元素的元素或者字段是没问题的。<br>fmt.Println(ma[1][1])       &#x2F;&#x2F; 789<br>fmt.Println(mt[“John”].age) &#x2F;&#x2F; 29</p>
+<p>逃逸分析<br>关心变量在栈或者堆上有助于我们对变量的生命周期有所了解，写出更好性能的代码。比如一些短周期的变量的指针如果和长生命周期的变量绑定，就会使得这个变量迟迟不能回收，影响性能。<br>Go在栈上的变量不会产生GC成本，因为变量会随着函数的退出一起销毁（当然这样性能也是最高的）。但是，变量是否在栈上，不能简单的通过是否局部变量或者是否使用new构建的引用类型来判断。有一个基本的判断原则：<br>情况1：如果变量的引用被声明它的函数返回了，那么这个变量就会逃逸到堆上<br>func ref(z S) *S {<br>  return &amp;z<br>}<br>&#x2F;&#x2F; go run -gcflags ‘-m -l’ main.go<br>.&#x2F;escape.go:10: moved to heap: z<br>.&#x2F;escape.go:11: &amp;z escapes to heap</p>
+<p>情况2：返回的结构体引用的对象会逃逸<br>func refStruct(y int) (z S) {<br>  z.M &#x3D; &amp;y<br>  return z<br>}<br>&#x2F;&#x2F; go run -gcflags ‘-m -l’ main.go<br>.&#x2F;escape.go:12: moved to heap: y<br>.&#x2F;escape.go:13: &amp;y escapes to heap</p>
+<p>情况3：map、slice、chan引用的对象会逃逸<br>func main() {<br>    a :&#x3D; make([]*int,1)<br>    b :&#x3D; 12<br>    a[0] &#x3D; &amp;b<br>}<br>&#x2F;&#x2F; go run -gcflags ‘-m -l’ maint.go<br>.&#x2F;maint.go:5:2: moved to heap: b<br>.&#x2F;maint.go:4:11: make([]*int, 1) does not escape</p>
+<p>我们看一个例子，逃逸使得性能下降了不少：<br>func BenchmarkHeap(b *testing.B) {<br>    b.ResetTimer()<br>    c :&#x3D; make(chan *T, b.N)<br>    &#x2F;&#x2F; c :&#x3D; make(chan T, b.N)<br>    for i :&#x3D; 0; i &lt; b.N; i++ {<br>        b :&#x3D; T{a: 3, b: 5}<br>        c &lt;- &amp;b<br>        &#x2F;&#x2F; c &lt;- b<br>    }<br>}<br>&#x2F;&#x2F;  go test -bench&#x3D;. -run&#x3D;none<br>BenchmarkStack-12       32297865                32.1 ns&#x2F;op<br>BenchmarkHeap-12        28062832                40.2 ns&#x2F;op</p>
+<p>routine<br>Golang并发注意点<br>goroutine性能探究和编程规范 </p>
+<ol>
+<li>最好确认routine任务的开销大于上下文切换的开销时，才使用routine。</li>
+<li>要尽量控制routine的数量，不然会起到反效果</li>
+<li>channel要注意缓冲区的大小和每次写入的数量，尽量打包写入<br>防止泄漏<br>如果routine在运行中被阻塞，或者速度很慢，就会发生泄漏（routine的数量会迅速线性增长）</li>
+<li>routinue卡死在读取chan却没数据<br>理想情况下，我们设计的读取chan的routine会把所有的内容读取完毕后才会关闭。但是，一旦读取者在读取完成之前退出，写入方写满chan之后就会卡死。</li>
+<li>routinue处理的速度过慢<br>这个情况有点类似消息队列消费者的堆积，如果新起的routine处理速度比主协程还慢的话，堆积起来的routine会越来越多，最终打爆内存<br>复用timer来替代timer.After<br>timer.After会创建很多的timer，引发很大的GC消耗。<br>&#x2F;&#x2F; 如果有100w个msg推进来，就会有100w个timer被销毁<br>func longRunning(messages &lt;-chan string) {<br> for {<br>         select {<br>         &#x2F;&#x2F; 消息间隔超过1min会return<br>         case &lt;-time.After(time.Minute):<br>                 return<br>         case msg :&#x3D; &lt;-messages:<br>                 fmt.Println(msg)<br>         }<br> }</li>
+</ol>
+<p>}<br>func longRunning(messages &lt;-chan string) {<br>        timer :&#x3D; time.NewTimer(time.Minute)<br>        defer timer.Stop()<br>        for {<br>                select {<br>                case &lt;-timer.C: &#x2F;&#x2F; 过期了<br>                        return<br>                case msg :&#x3D; &lt;-messages:<br>                        fmt.Println(msg)<br>                        &#x2F;&#x2F; 此if代码块很重要。<br>                        if !timer.Stop() {<br>                                &lt;-timer.C<br>                        }<br>                }<br>                &#x2F;&#x2F; 必须重置以复用。<br>                timer.Reset(time.Minute)<br>        }<br>}</p>
+<ul>
+<li>我们在每次处理完消息后调用timer.Stop()以便于复用。如果timer已经过期，stop会返回false，C里面还有一条过期消息，我们需要把它取出来；如果timer没有过期，stop会返回true，继续执行循环</li>
+<li>在一个Timer终止（stopped）之后并且在重置和重用此Timer值之前，我们应该确保此Timer的通道C中肯定不存在过期的通知<br>常用的仓库<br>sync和atomic<br>strings<br>Strings库是重复造轮子的重灾区，很多人试图自己再写一遍<br>前后处理<br>var s &#x3D; “abaay森z众xbbab”<br>o :&#x3D; fmt.Println<br>o(strings.TrimPrefix(s, “ab”)) &#x2F;&#x2F; aay森z众xbbab<br>o(strings.TrimSuffix(s, “ab”)) &#x2F;&#x2F; abaay森z众xbb<br>o(strings.TrimLeft(s, “ab”))   &#x2F;&#x2F; y森z众xbbab<br>o(strings.TrimRight(s, “ab”))  &#x2F;&#x2F; abaay森z众x<br>o(strings.Trim(s, “ab”))       &#x2F;&#x2F; y森z众x<br>o(strings.TrimFunc(s, func(r rune) bool {<br>  return r &lt; 128 &#x2F;&#x2F; trim all ascii chars</li>
+</ul>
+<p>})) &#x2F;&#x2F; 森z众</p>
+<p>分割与合并<br>&#x2F;&#x2F; “1 2 3” -&gt; [“1”,”2”,”3”]<br>func Fields(s string) []string     &#x2F;&#x2F; 用空白字符分割字符串<br>&#x2F;&#x2F; “1|2|3” -&gt; [“1”,”2”,”3”]<br>func Split(s, sep string) []string &#x2F;&#x2F; 用sep分割字符串，sep会被去掉<br>&#x2F;&#x2F; [“1”,”2”,”3”] -&gt; “1,2,3”<br>func Join(a []string, sep string) string &#x2F;&#x2F; 将一系列字符串连接为一个字符串，之间用sep来分隔</p>
+<p>&#x2F;&#x2F; Note:<br>&#x2F;&#x2F; “1||3” -&gt; [“1”,””,”3”]</p>
+<p>演化中的错误处理<br>满足下面的诉求：</p>
+<ol>
+<li>可以把异常传递下去，并不丢失自己的类型</li>
+<li>可以保存堆栈信息<br>Go的错误处理一直在讨论和演进，目前官方已经有几种不同的方案。对于反复写错误处理代码的问题，有几种解决的设想，可以看看上面的（Go语⾔将⾛向何⽅?）<br>import (<br>“golang.org&#x2F;x&#x2F;xerrors”<br>)</li>
+</ol>
+<p>func bar() error {<br>   if err :&#x3D; foo(); err !&#x3D; nil {<br>      return xerrors.Errorf(“bar failed: %w”, foo())<br>   }<br>   return nil<br>}<br>func foo() error {<br>   return xerrors.Errorf(“foo failed: %w”, sql.ErrNoRows)<br>}</p>
+<p>func main() {<br>   err :&#x3D; bar()<br>   if xerrors.Is(err, sql.ErrNoRows) {<br>      fmt.Printf(“data not found, %v\n”, err)<br>      fmt.Printf(“%+v\n”, err)<br>      return<br>   }<br>}<br>&#x2F;* Outputs:data not found, bar failed: foo failed: sql: no rows in result set<br>bar failed:<br>    main.bar<br>        &#x2F;usr&#x2F;four&#x2F;main.go:12</p>
+<ul>
+<li>foo failed:<br>main.foo<br>&#x2F;usr&#x2F;four&#x2F;main.go:18</li>
+<li>sql: no rows in result set<br>*&#x2F;</li>
+</ul>
+<p>参考资料<br>《Go Tour》（一个小时学会Go）<a target="_blank" rel="noopener" href="https://tour.go-zh.org/welcome/1">https://tour.go-zh.org/welcome/1</a><br>《The Go Programming Language Specification》（语法细节）<a target="_blank" rel="noopener" href="https://golang.org/ref/spec#Introduction%EF%BC%88%E4%B8%AD%E6%96%87%E7%89%88%E3%80%8AGo%E8%AF%AD%E8%A8%80%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83%E3%80%8B%EF%BC%89">https://golang.org/ref/spec#Introduction（中文版《Go语言编码规范》）</a><br>《Go语言圣经》（语法细节）<a target="_blank" rel="noopener" href="https://docs.hacknode.org/gopl-zh/">https://docs.hacknode.org/gopl-zh/</a><br>《Effective Go》（适合刚学完Go的基础语法时候读）<a target="_blank" rel="noopener" href="https://www.kancloud.cn/kancloud/effective/72199">https://www.kancloud.cn/kancloud/effective/72199</a><br>《Go语言设计和实现》（适合想了解Go某个特性实现原理的时候参考）<a target="_blank" rel="noopener" href="https://draveness.me/golang/docs/part1-prerequisite/ch02-compile/golang-compile-intro/">https://draveness.me/golang/docs/part1-prerequisite/ch02-compile/golang-compile-intro/</a><br>《Go Q&amp;A 101》（可以和官方QA结合看）<a target="_blank" rel="noopener" href="https://gfw.go101.org/article/unofficial-faq.html#time-sleep-after">https://gfw.go101.org/article/unofficial-faq.html#time-sleep-after</a><br>《Go 语言高级编程》<a target="_blank" rel="noopener" href="https://chai2010.cn/advanced-go-programming-book/">https://chai2010.cn/advanced-go-programming-book/</a><br>《Go语言原本》<a target="_blank" rel="noopener" href="https://golang.design/under-the-hood/">https://golang.design/under-the-hood/</a><br>《Google Go代码规范》<a target="_blank" rel="noopener" href="https://github.com/golang/go/wiki/CodeReviewComments">https://github.com/golang/go/wiki/CodeReviewComments</a><br>《Uber Go规范》<a target="_blank" rel="noopener" href="https://github.com/xxjwxc/uber_go_guide_cn">https://github.com/xxjwxc/uber_go_guide_cn</a></p>
+
+        </div>
+        
+        <!-- 文章导航 - 只在同分类有多篇文章时显示 -->
+        
+        
+        
+        <nav class="post-nav">
+          
+            <a class="prev" href="../golang-%E8%8C%83%E5%9E%8B/">
+              <i class="fas fa-chevron-left"></i>
+              golang-范型
+            </a>
+          
+          
+            <a class="next" href="../dubbo-%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-1--dubbo%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%92%8C%E6%80%9D%E6%83%B3/">
+              dubbo-学习和使用(1)-dubbo架构设计和思想
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          
+        </nav>
+        
+        
+        <!-- 推荐文章 -->
+        
+
+
+<div class="vs-recommended-posts">
+  <div class="vs-recommended-header">
+    <div class="section-header">
+      <i class="fas fa-lightbulb"></i>
+      <span>RELATED POSTS</span>
+    </div>
+  </div>
+  
+  <div class="vs-recommended-grid">
+    
+      <div class="vs-recommended-item" data-index="0" tabindex="0">
+        <a href="../golang-%E8%8C%83%E5%9E%8B/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>golang-范型</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              golang 范型类型声明12345 // type TPatype TParam[T ~int | float64] T 不能声明基础类型， 没有意义type Map1 [KEY int|string, VALUE string| flo...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  2 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="1" tabindex="0">
+        <a href="../golang-09-defer%E5%BB%B6%E8%BF%9F%E8%B0%83%E7%94%A8/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>golang-09-defer延迟调用</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              golang 中的defer 非常灵活， 用来替代类似java 中的try–catch Go语言中的defer有一些不同的特点及灵活性，包括程序中可以有多个defer、defer的调用可以存在于函数的任何位置等。defer可能不会被执行，例...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  3 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="2" tabindex="0">
+        <a href="../golang-08-%E5%87%BD%E6%95%B0%E5%92%8C%E6%A0%88/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>golang-08-函数和栈</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              函数是程序中为了执行特定任务而存在的一系列执行代码。函数接受输入并返回输出，执行程序的过程可以看作一系列函数的调用过程。Go语言中最重要的函数为main函数，其是程序执行用户代码的入口，在每个程序中都需要存在。 golang 中函数是一等公...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="3" tabindex="0">
+        <a href="../golang-07-hash%E8%A1%A8go%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0%E6%9C%BA%E5%88%B6/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>golang-07-hash表go语言实现机制</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              todo 底层实现原理 golang map 使用注意事项 golang 赋值的时候必须要初始化 12var hash map[int]inthash[123] =123 // panic 这里会报错 golang 支持 nil 的map ...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="4" tabindex="0">
+        <a href="../golang-06-%E6%95%B0%E7%BB%84%E5%92%8C%E5%88%87%E7%89%87/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>golang-06-数组和切片</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              golang 数组声明的三种方法123var arr [3]intvar arr2 = [4]int&amp;#123;1,2,3,4&amp;#125;arr3 := [...]int&amp;#123;1,2,3,4&amp;#125; // []int&amp;#123;1...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  2 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="5" tabindex="0">
+        <a href="../golang-05-%E5%AD%97%E7%AC%A6%E4%B8%B2/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>golang-05-字符串</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              golang 中字符串的结构12345// reflect 包中type StringHeader struct &amp;#123; Data uintptr Len int&amp;#125; Data : 指向底层的字符数组 Len : 只想底层数组...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+  </div>
+  
+  <!-- 查看更多 -->
+  <div class="vs-recommended-footer">
+    <a href="../../../../archives/" class="vs-view-more">
+      <i class="fas fa-folder-open"></i>
+      <span>View More Posts</span>
+      <i class="fas fa-chevron-right"></i>
+    </a>
+  </div>
+</div>
+
+<script>
+// 键盘导航支持
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.vs-recommended-item');
+  let currentIndex = -1;
+  
+  // 键盘事件
+  document.addEventListener('keydown', function(e) {
+    if (!items.length) return;
+    
+    if (e.key === 'Tab') {
+      // Tab键导航由浏览器处理
+      return;
+    }
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      
+      // 移除当前高亮
+      if (currentIndex >= 0) {
+        items[currentIndex].classList.remove('vs-focused');
+      }
+      
+      // 更新索引
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % items.length;
+      } else {
+        currentIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+      }
+      
+      // 添加新高亮
+      items[currentIndex].classList.add('vs-focused');
+      items[currentIndex].focus();
+    }
+    
+    if (e.key === 'Enter' && currentIndex >= 0) {
+      const link = items[currentIndex].querySelector('a');
+      if (link) link.click();
+    }
+  });
+  
+  // 鼠标悬停时更新当前索引
+  items.forEach((item, index) => {
+    item.addEventListener('mouseenter', function() {
+      currentIndex = index;
+      items.forEach(i => i.classList.remove('vs-focused'));
+      item.classList.add('vs-focused');
+    });
+  });
+});
+</script>
+
+        
+        <!-- 评论区 -->
+        
+  <div class="vs-comments-section">
+    <div class="section-header">
+      <i class="fas fa-comments"></i>
+      <span>COMMENTS</span>
+    </div>
+    
+    
+      <!-- Waline 评论系统 -->
+      <div id="waline"></div>
+      <script>
+        // 加载 Waline CSS
+        const walineCSS = document.createElement('link');
+        walineCSS.rel = 'stylesheet';
+        walineCSS.href = 'https://unpkg.com/@waline/client@v3/dist/waline.css';
+        document.head.appendChild(walineCSS);
+        
+        // 加载 Waline JS
+        const walineScript = document.createElement('script');
+        walineScript.type = 'module';
+        walineScript.onload = function() {
+          // 确保 Waline 加载后再初始化
+          import('https://unpkg.com/@waline/client@v3/dist/waline.js').then(({ init }) => {
+            const waline = init({
+              el: '#waline',
+              serverURL: 'https://vsc4tblackcat1337.vercel.app/',
+              lang: 'zh-CN',
+              locale: {},
+              emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus"],
+              requiredMeta: [],
+              login: 'disable',
+              wordLimit: 0,
+              pageSize: 10,
+              imageUploader: false,
+              highlighter: true,
+              texRenderer: false,
+              search: false,
+              pageview: false,
+              comment: true,
+              copyright: false,
+              
+              // 自动适配主题
+              dark: document.documentElement.getAttribute('data-theme') === 'dark' ? 'auto' : false,
+              
+              // 评论框占位符
+              placeholder: 'Feel free to leave a comment, no login required!',
+              
+              // 元数据配置
+              meta: ['nick', 'mail', 'link'],
+              
+              // 表情配置
+              emojiCDN: 'https://unpkg.com/@waline/emojis@1.2.0/',
+            });
+            
+            // 监听主题变化
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                  // Waline 会自动处理主题切换
+                  if (waline) {
+                    waline.update({ dark: isDark ? 'auto' : false });
+                  }
+                }
+              });
+            });
+            
+            observer.observe(document.documentElement, {
+              attributes: true,
+              attributeFilter: ['data-theme']
+            });
+          });
+        };
+        walineScript.src = 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+        document.body.appendChild(walineScript);
+      </script>
+    
+    
+  </div>
+
+      </article>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code-branch"></i>
+      master
+    </div>
+    <div class="status-item">
+      <i class="fas fa-sync"></i>
+      John Doe
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      2026-02-18
+    </div>
+    <div class="status-item">
+      Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
+    </div>
+    <div class="status-item github">
+      <a href="#" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 搜索专用配置 (HEXO_CONFIG 在 scripts.ejs 中统一定义) -->
+    <script>
+      window.VSC4T_SEARCH = {
+        root: "/"
+      };
+    </script>
+
+    <!-- 外部脚本 - 统一使用 cdnjs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
+    <script>if(typeof hljs !== 'undefined') hljs.highlightAll();</script>
+    <!-- 这里可以放置自定义脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Apply smooth scroll to non-TOC anchor links
+  document.querySelectorAll('a[href^="#"]:not(.toc-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Check if querySelector is valid before using it
+      try {
+        const targetSelector = this.getAttribute('href');
+        // Basic check for potentially invalid selectors (though not exhaustive)
+        if (targetSelector && targetSelector.length > 1) { 
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            console.warn('Smooth scroll target not found:', targetSelector);
+          }
+        } else {
+           console.warn('Invalid href for smooth scroll:', targetSelector);
+        }
+      } catch (error) {
+        console.error('Error during smooth scroll:', error, 'Selector:', this.getAttribute('href'));
+        // Fallback or alternative behavior if needed
+        // For example, try getElementById if it's just an ID
+        const targetId = this.getAttribute('href').slice(1);
+        try {
+            const targetElementById = document.getElementById(decodeURIComponent(targetId));
+            if (targetElementById) {
+                targetElementById.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (idError) {
+             console.error('Fallback getElementById also failed:', idError);
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Scripts -->
+<script>
+  // 全局配置 - 包含 i18n 字符串和主题配置
+  window.HEXO_CONFIG = {
+    language: "en",
+    root: "/",
+    
+    theme_switch: {
+      enabled: false,
+      light_start: "06:00",
+      light_end: "18:00"
+    },
+    
+    // Search i18n strings
+    search_placeholder: "Type to search...",
+    search_no_results: "No results found",
+    search_result: "result",
+    search_results: "results",
+    search_results_found: "Found undefined results",
+    search_in: "Search in",
+    search_in_title: "Title",
+    search_in_content: "Content",
+    search_in_tags: "Tags",
+    search_in_categories: "Categories",
+    search_filters: "Search Filters",
+    search_recent: "Recent Searches",
+    search_clear: "Clear",
+    search_loading: "Loading...",
+    search_error: "Error loading search data",
+    // Encryption i18n strings
+    encrypt_badge: "Protected",
+    encrypt_title: "Protected Content",
+    encrypt_description: "Enter the password to unlock this article. The password will be saved locally until you choose to re-encrypt.",
+    encrypt_label: "Password",
+    encrypt_placeholder: "Enter password to unlock",
+    encrypt_button: "Unlock",
+    encrypt_button_loading: "Unlocking...",
+    encrypt_hint: "Press Enter to submit. Password will be remembered on this device.",
+    encrypt_success: "Content unlocked successfully!",
+    encrypt_unlocked_note: "Content unlocked. You can re-encrypt at any time.",
+    encrypt_again: "Re-encrypt",
+    encrypt_wrong_password: "Incorrect password. Please try again.",
+    encrypt_show_password: "Show password",
+    encrypt_hide_password: "Hide password",
+    // Sidebar i18n strings
+    sidebar_about: "About",
+    sidebar_categories: "Categories",
+    sidebar_tags: "Tags",
+    // Post page i18n strings
+    post_toc: "TABLE OF CONTENTS",
+    post_category_posts: "CATEGORY POSTS",
+    post_article_tags: "ARTICLE TAGS"
+  };
+</script>
+
+
+
+<!-- 添加所有需要的脚本 -->
+<script src="../../../../js/search.js"></script>
+<script src="../../../../js/theme-switch.js"></script>
+
+<script src="../../../../js/password-protect.js?v=1771424192118"></script>
+
+    <script>
+      // 移动端菜单切换
+      $(document).ready(function() {
+        var $body = $('body');
+        var $sidebar = $('.sidebar-explorer');
+        var $overlay = $('.sidebar-overlay');
+        var $toggle = $('.mobile-menu-toggle');
+
+        function openSidebar() {
+          $sidebar.addClass('show');
+          $overlay.addClass('show');
+          $toggle.addClass('active');
+          $body.addClass('sidebar-open');
+        }
+
+        function closeSidebar() {
+          $sidebar.removeClass('show');
+          $overlay.removeClass('show');
+          $toggle.removeClass('active');
+          $body.removeClass('sidebar-open');
+        }
+
+        // 汉堡按钮点击切换
+        $toggle.on('click', function(e) {
+          e.stopPropagation();
+          if ($sidebar.hasClass('show')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+
+        // 点击遮罩层关闭
+        $overlay.on('click', function() {
+          closeSidebar();
+        });
+
+        // ESC 键关闭
+        $(document).on('keydown', function(e) {
+          if (e.key === 'Escape' && $sidebar.hasClass('show')) {
+            closeSidebar();
+          }
+        });
+
+        // 点击侧边栏内的链接时自动关闭侧边栏，确保锚点跳转正常
+        $sidebar.on('click', 'a', function() {
+          closeSidebar();
+        });
+      });
+    </script>
+  </body>
+</html>

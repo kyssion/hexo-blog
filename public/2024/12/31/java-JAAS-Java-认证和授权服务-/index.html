@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>java-JAAS(Java 认证和授权服务) | Hexo</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A simple dark Hexo theme inspired by code.">
+  <meta name="keywords" content="">
+  <meta name="author" content="John Doe">
+  <link rel="canonical" href="http://example.com">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="java-JAAS(Java 认证和授权服务) | Hexo">
+  <meta property="og:description" content="A simple dark Hexo theme inspired by code.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://example.com">
+  <meta property="og:site_name" content="Hexo">
+  <meta property="article:published_time" content="2024-12-31T15:02:00.000Z">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="java-JAAS(Java 认证和授权服务) | Hexo">
+  <meta name="twitter:description" content="A simple dark Hexo theme inspired by code.">
+
+  <!-- Favicon 配置 -->
+  
+
+  <!-- 外部样式 - 统一使用 jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- 代码高亮样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+  <!-- Mermaid.js 库 (defer加载) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <!-- 主题样式 -->
+  <link rel="stylesheet" href="../../../../css/theme-colors.css">
+  <link rel="stylesheet" href="../../../../css/main.css">
+  <link rel="stylesheet" href="../../../../css/code.css">
+  <link rel="stylesheet" href="../../../../css/code-custom.css">
+  <link rel="stylesheet" href="../../../../css/code-languages.css">
+  <link rel="stylesheet" href="../../../../css/mermaid.css">
+
+  <link rel="stylesheet" href="../../../../css/vs-code.css">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192135">
+  <link rel="stylesheet" href="../../../../css/tag.css">
+  <link rel="stylesheet" href="../../../../css/categories.css">
+  <link rel="stylesheet" href="../../../../css/archive.css">
+  <link rel="stylesheet" href="../../../../css/search.css">
+  <link rel="stylesheet" href="../../../../css/mobile.css">  <link rel="stylesheet" href="../../../../css/responsive.css">
+  <link rel="stylesheet" href="../../../../css/elements.css">
+
+  <!-- 添加 JetBrains Mono 字体 -->  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Add any custom head content here -->
+
+  <script defer src="../../../../js/explorer.js"></script>
+  <script defer src="../../../../js/code-enhance.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+      <div class="mobile-menu-toggle" aria-label="Toggle sidebar menu" role="button" tabindex="0">
+        <i class="fas fa-bars"></i>
+      </div>
+      <!-- 移动端侧边栏遮罩层 -->
+      <div class="sidebar-overlay" aria-hidden="true"></div>
+      <header class="vs-header">
+  <nav class="vs-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-brand">
+        <i class="fas fa-terminal"></i>
+        Hexo
+      </a>
+    </div>
+    
+    <div class="nav-right">
+      <a href="/" class="nav-item ">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="/archives/" class="nav-item ">
+        <i class="fas fa-archive"></i>
+        <span>Archives</span>
+      </a>
+      <a href="/categories/" class="nav-item ">
+        <i class="fas fa-folder"></i>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" class="nav-item ">
+        <i class="fas fa-tags"></i>
+        <span>Tags</span>
+      </a>
+      <a href="/search/" class="nav-item ">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="/about/" class="nav-item ">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function smoothScroll(event, target) {
+    event.preventDefault();
+    const targetId = target.substring(target.indexOf('#') + 1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 50, // 调整偏移量
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = target;
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.vs-header');
+    const nav = document.querySelector('.vs-nav');
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    
+    nav.style.setProperty('--scroll-percent', `${scrollPercent}%`);
+    
+    if (window.scrollY > 0) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // 添加标签页切换动画
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('nav-ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+</script>
+
+
+<div class="vscode-container">
+  <!-- 左侧资源管理器 -->
+  <div class="sidebar-explorer">
+    <!-- TOC导航 -->
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-list"></i>
+        <span>TABLE OF CONTENTS</span>
+      </div>
+      <div class="section-content">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#JAAS%E7%9A%84%E5%A4%A7%E4%BD%93%E7%BB%84%E6%88%90"><span class="toc-text">JAAS的大体组成</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E4%BE%8B%E5%AD%90"><span class="toc-text">一个例子</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E8%AE%BE%E7%BD%AE"><span class="toc-text">配置文件设置</span></a></li></ol>
+      </div>
+    </div>
+
+    <!-- 同分类文章 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-folder"></i>
+        <span>CATEGORY POSTS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-1--dubbo%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%92%8C%E6%80%9D%E6%83%B3/">dubbo-学习和使用(1)-dubbo架构设计和思想</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-8--dubbo%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83/">dubbo-学习和使用(8)-dubbo配置参考</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-1--%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2/">dubbo-深入(1)-基本使用初探</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-3--%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/">dubbo-深入(3)-注册中心</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-3--%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83/">dubbo-深入(3)-配置参考</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-4---%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">dubbo-深入(4)- 集群架构设计</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-2--%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95/">dubbo学习和使用(2)-使用初探和配置方法</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-3--dubbo%E5%8A%9F%E8%83%BD-1-/">dubbo学习和使用(3)-dubbo功能(1)</a>
+          </div>
+        
+      </div>
+    </div>
+    
+    
+    <!-- 标签列表 -->
+    
+  </div>
+
+  <!-- 主要内容区域 -->
+  <div class="editor-content">
+    <div class="tab-bar">
+      <div class="tab active">
+        <i class="fas fa-file-alt"></i>
+        <span>java-JAAS(Java 认证和授权服务).md</span>
+      </div>
+    </div>
+    
+    <div class="content-area">
+      <article class="post-content">
+        <div class="post-header">
+          <h1>java-JAAS(Java 认证和授权服务)</h1>
+          <div class="post-meta">
+            <span class="date">
+              <i class="fas fa-calendar-alt"></i>
+              2024-12-31
+            </span>
+            
+            <span class="updated-date">
+              <i class="fas fa-sync-alt"></i>
+              Updated 2026-02-18
+            </span>
+                        
+              <span class="categories">
+                <i class="fas fa-folder"></i>
+                <div class="categories-list">
+                  <ul class="category-item-post-list"><li class="category-item-post-list-item"><a class="category-item-post-list-link" href="../../../../categories/java/">java</a></li></ul>
+                </div>
+              </span>
+            
+            
+          </div>
+        </div>
+        
+        <div class="post-body vscode-markdown">
+          <blockquote>
+<p>之前写过一篇有关java内部安全机制和沙箱的一片文章,那一篇中jvm是基于代码的维度进行权限管理的,但是java在java1.4内置一个JAAS基于用户的权限管理(虽然个人觉得这个东西非常鸡肋,适合单体应用并不适合现在的微服务和分布式框架,因为有个非常坑爹的配置文件-我权限管理都是使用数据库实现的:disappointed_relieved:)</p>
+</blockquote>
+<h3 id="JAAS的大体组成"><a href="#JAAS的大体组成" class="headerlink" title="JAAS的大体组成"></a>JAAS的大体组成</h3><ol>
+<li>客户端通过一个LoginContext对象与JAAS相互作用，这个LoginContext对象提供了一种开发应用程序的方式，它不依赖于底层的认证技术。</li>
+<li>LoginContext：是javax.security.auth.login包里的一个类，它描述了用于验证对象(subjects)的方法。</li>
+<li>Subject：就是在某个你想去认证和分配访问权限的系统里的一个标识。一个主体(subject)可能是一个用户、一个进程或者是一台机器，它用javax.security.auth.Subject类表示。</li>
+<li>java.security.Principal： 由于一个Subject可能涉及多个授权（一个网上银行密码和另一个电子邮件系统），java.security.Principal就被用作在那些关联里的标识。也就是说，该Principal接口是一个能够被用作代表某个实体、公司或者登陆ID的抽象概念。一个Subject可能包含多个Principles. 稍后将有一个示例类实现了这个Principal接口。</li>
+<li>LoginContext对象调用负责实现和执行认证的LoginModules。LoginModule接口(在javax.security.auth.spi 包里)必须让认证技术的提供者去实现，并且能够被应用程序指定提供一个特定认证类型。</li>
+</ol>
+<ul>
+<li>LoginContext： 用来读取Configuaration和实例化特定的LoginModules.</li>
+<li>Configuaration： 被某个特定的应用程序用作指定认证技术或者LoginModule。因此，不同的LoginModules能够被应用到某个应用程序而不用对这个应用程序做任何的代码修改。</li>
+</ul>
+<ol start="6">
+<li>CallbackHandler 安全机制的回调器处理器,用来处理和显示回调的信息</li>
+</ol>
+<h3 id="一个例子"><a href="#一个例子" class="headerlink" title="一个例子"></a>一个例子</h3><blockquote>
+<p>主类:关键的一句第八行-在配置文件example.conf里，实体名”WeatherLogin”就是被MyClient.java用作关联这个实体的名字。这里同时还将一个回调处理程序传给了底层的LoginModule，因此他们能够通过提示用户名&#x2F;密码同用户进行交流和作用，例如：通过文本或者图形用户接口。一旦LoginContext已经被实例化了，login方法就被调用去登陆.</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// LoginContext：是javax.security.auth.login包里的一个类，它描述了用于验证对象(subjects)的方法。  </span><br><span class="hljs-comment">// LoginContext对象调用负责实现和执行认证的LoginModules。  </span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyClient</span> &#123;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>		<span class="hljs-type">LoginContext</span> <span class="hljs-variable">context</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>		<span class="hljs-keyword">try</span> &#123;<br>			<span class="hljs-comment">// 在配置文件example.conf里，实体名&quot;WeatherLogin&quot;就是被MyClient.java用作关联这个实体的名字。</span><br>			context = <span class="hljs-keyword">new</span> <span class="hljs-title class_">LoginContext</span>(<span class="hljs-string">&quot;WeatherLogin&quot;</span>, <span class="hljs-keyword">new</span> <span class="hljs-title class_">MyCallbackHandler</span>());<br>		&#125; <span class="hljs-keyword">catch</span> (LoginException le) &#123;<br>			System.err.println(<span class="hljs-string">&quot;LoginContext cannot be created. &quot;</span> + le.getMessage());<br>			System.exit(-<span class="hljs-number">1</span>);<br>		&#125; <span class="hljs-keyword">catch</span> (SecurityException se) &#123;<br>			System.err.println(<span class="hljs-string">&quot;LoginContext cannot be created. &quot;</span> + se.getMessage());<br>		&#125;<br>		<span class="hljs-keyword">try</span> &#123;<br>			context.login();<span class="hljs-comment">//使用反射调用出自己定义的实现LoginModules的类</span><br>		&#125; <span class="hljs-keyword">catch</span> (LoginException le) &#123;<br>			System.out.println(<span class="hljs-string">&quot;Authentication failed. &quot;</span> + le.getMessage());<br>			System.exit(-<span class="hljs-number">1</span>);<br>		&#125;<br>		System.out.println(<span class="hljs-string">&quot;authentication succeeded.&quot;</span>);<br>		System.exit(-<span class="hljs-number">1</span>);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>回调类:底层安全服务可能要求通过传递单个的callbacks到回调处理程序。基于传递的callbacks，回调处理程序决定怎样去获取和显示信息。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 一个基于JAAS的应用程序实现了CallbackHandler接口，  </span><br><span class="hljs-comment">// 因此它能够提示用户去输入特定的认证信息，比如用户名或者密码，或者显示错误或者警告信息。  </span><br><span class="hljs-comment">// 基于传递的callbacks，回调处理程序决定怎样去获取和显示信息。  </span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyCallbackHandler</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">CallbackHandler</span> &#123;<br>	<span class="hljs-meta">@Override</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">handle</span><span class="hljs-params">(Callback[] callbacks)</span> <span class="hljs-keyword">throws</span> IOException, UnsupportedCallbackException &#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; callbacks.length; i++) &#123;<br>			<span class="hljs-keyword">if</span> (callbacks[i] <span class="hljs-keyword">instanceof</span> NameCallback) &#123;<br>				<span class="hljs-type">NameCallback</span> <span class="hljs-variable">nc</span> <span class="hljs-operator">=</span> (NameCallback) callbacks[<span class="hljs-number">0</span>];<br>				System.err.println(nc.getPrompt());<br>				System.err.flush();<br>				<span class="hljs-type">String</span> <span class="hljs-variable">name</span> <span class="hljs-operator">=</span> (<span class="hljs-keyword">new</span> <span class="hljs-title class_">BufferedReader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">InputStreamReader</span>(System.in))).readLine();<br>				nc.setName(name);<br>			&#125; <span class="hljs-keyword">else</span> &#123;<br>				<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">UnsupportedCallbackException</span>(callbacks[i], <span class="hljs-string">&quot;callback handler not support&quot;</span>);<br>			&#125;<br>		&#125;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Module类:真实的控制操作类</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 以下代码展示了一个LoginModule简单的实现. 这个例子是非常简单的，  </span><br><span class="hljs-comment">// 因为他仅仅有一个认证字符串和一个Principal（特征） &quot;SunnyDay&quot;, 两个都是硬编码。  </span><br><span class="hljs-comment">// 如果去login，系统将显示&quot;What is the weather like today?&quot;, 如果答案是&quot;Sunny&quot;, 用户就能通过。  </span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">WeatherLoginModule</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">LoginModule</span> &#123;<br>	<span class="hljs-keyword">private</span> Subject subject;<br>	<span class="hljs-keyword">private</span> ExamplePrincipal entity;<br>	<span class="hljs-keyword">private</span> CallbackHandler callbackhandler;<br>	<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">NOT</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>	<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">OK</span> <span class="hljs-operator">=</span> <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> <span class="hljs-variable">COMMIT</span> <span class="hljs-operator">=</span> <span class="hljs-number">2</span>;<br>	<span class="hljs-keyword">private</span> <span class="hljs-type">int</span> status;<br>	<span class="hljs-comment">// initialize: 这个方法的目的就是用有关的信息去实例化这个LoginModule。</span><br>	<span class="hljs-comment">// 如果login成功，在这个方法里的Subject就被用在存储Principals和Credentials.</span><br>	<span class="hljs-comment">// 注意这个方法有一个能被用作输入认证信息的CallbackHandler。在这个例子里，我没有用CallbackHandler.</span><br>	<span class="hljs-comment">// CallbackHandler是有用的，因为它从被用作特定输入设备里分离了服务提供者。</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initialize</span><span class="hljs-params">(Subject subject, CallbackHandler callbackhandler, Map state, Map options)</span> &#123;<br>		status = NOT;<br>		entity = <span class="hljs-literal">null</span>;<br>		<span class="hljs-built_in">this</span>.subject = subject;<br>		<span class="hljs-built_in">this</span>.callbackhandler = callbackhandler;<br>	&#125;<br>	<span class="hljs-comment">// login: 请求LoginModule去认证Subject. 注意此时Principal还没有被指定。</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">login</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> LoginException &#123;<br>		<span class="hljs-keyword">if</span> (callbackhandler == <span class="hljs-literal">null</span>) &#123;<br>			<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">LoginException</span>(<span class="hljs-string">&quot;No callback handler is available&quot;</span>);<br>		&#125;<br>		Callback callbacks[] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Callback</span>[<span class="hljs-number">1</span>];<br>		callbacks[<span class="hljs-number">0</span>] = <span class="hljs-keyword">new</span> <span class="hljs-title class_">NameCallback</span>(<span class="hljs-string">&quot;What is the weather like today?&quot;</span>);<br>		<span class="hljs-type">String</span> <span class="hljs-variable">name</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>		<span class="hljs-keyword">try</span> &#123;<br>			<span class="hljs-comment">// 调用 MyCallbackHandler.java 中的 handle 方法进行处理</span><br>			<span class="hljs-comment">// 以读入用户输入的认证信息（如 username）</span><br>			callbackhandler.handle(callbacks);<br>			name = ((NameCallback) callbacks[<span class="hljs-number">0</span>]).getName();<br>		&#125; <span class="hljs-keyword">catch</span> (java.io.IOException ioe) &#123;<br>			<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">LoginException</span>(ioe.toString());<br>		&#125; <span class="hljs-keyword">catch</span> (UnsupportedCallbackException ce) &#123;<br>			<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">LoginException</span>(<span class="hljs-string">&quot;Error: &quot;</span> + ce.getCallback().toString());<br>		&#125;<br>		<span class="hljs-keyword">if</span> (name.equals(<span class="hljs-string">&quot;Sunny&quot;</span>)) &#123;<br>			entity = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ExamplePrincipal</span>(<span class="hljs-string">&quot;SunnyDay&quot;</span>);<br>			status = OK;<br>			<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>		&#125; <span class="hljs-keyword">else</span> &#123;<br>			<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>		&#125;<br>	&#125;<br>	<span class="hljs-comment">// commit: 如果LoginContext的认证全部成功就调用这个方法。</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">commit</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> LoginException &#123;<br>		<span class="hljs-keyword">if</span> (status == NOT) &#123;<br>			<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (subject == <span class="hljs-literal">null</span>) &#123;<br>			<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>		&#125;<br>		<span class="hljs-type">Set</span> <span class="hljs-variable">entities</span> <span class="hljs-operator">=</span> subject.getPrincipals();<br>		<span class="hljs-keyword">if</span> (!entities.contains(entity)) &#123;<br>			entities.add(entity);<br>		&#125;<br>		status = COMMIT;<br>		<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>	&#125;<br>	<span class="hljs-comment">// abort: 通知其他LoginModule供应者或LoginModule模型认证已经失败了。整个login将失败。</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">abort</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> LoginException &#123;<br>		<span class="hljs-keyword">if</span> ((subject != <span class="hljs-literal">null</span>) &amp;&amp; (entity != <span class="hljs-literal">null</span>)) &#123;<br>			<span class="hljs-type">Set</span> <span class="hljs-variable">entities</span> <span class="hljs-operator">=</span> subject.getPrincipals();<br>			<span class="hljs-keyword">if</span> (entities.contains(entity)) &#123;<br>				entities.remove(entity);<br>			&#125;<br>		&#125;<br>		subject = <span class="hljs-literal">null</span>;<br>		entity = <span class="hljs-literal">null</span>;<br>		status = NOT;<br>		<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>	&#125;<br>	<span class="hljs-comment">// logout: 通过从Subject里移除Principals和Credentials注销Subject。</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">logout</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> LoginException &#123;<br>		subject.getPrincipals().remove(entity);<br>		status = NOT;<br>		subject = <span class="hljs-literal">null</span>;<br>		<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Principal : Principal接口的一个实现。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// ExamplePrincipal 展示了Principal（主体特征）接口的一个实现。   </span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ExamplePrincipal</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Principal</span> &#123;<br>	<span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String name;<br>	<span class="hljs-keyword">public</span> <span class="hljs-title function_">ExamplePrincipal</span><span class="hljs-params">(String name)</span> &#123;<br>		<span class="hljs-keyword">if</span> (name == <span class="hljs-literal">null</span>) &#123;<br>			<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">IllegalArgumentException</span>(<span class="hljs-string">&quot;Null name&quot;</span>);<br>		&#125;<br>		<span class="hljs-built_in">this</span>.name = name;<br>	&#125;<br>	<span class="hljs-keyword">public</span> String <span class="hljs-title function_">getName</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-keyword">return</span> name;<br>	&#125;<br>	<span class="hljs-keyword">public</span> String <span class="hljs-title function_">toString</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-keyword">return</span> <span class="hljs-string">&quot;ExamplePrinciapl: &quot;</span> + name;<br>	&#125;<br>	<span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">equals</span><span class="hljs-params">(Object obj)</span> &#123;<br>		<span class="hljs-keyword">if</span> (obj == <span class="hljs-literal">null</span>)<br>			<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>		<span class="hljs-keyword">if</span> (obj == <span class="hljs-built_in">this</span>)<br>			<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>		<span class="hljs-keyword">if</span> (!(obj <span class="hljs-keyword">instanceof</span> ExamplePrincipal))<br>			<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>		<span class="hljs-type">ExamplePrincipal</span> <span class="hljs-variable">another</span> <span class="hljs-operator">=</span> (ExamplePrincipal) obj;<br>		<span class="hljs-keyword">return</span> name.equals(another.getName());<br>	&#125;<br>	<span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">hasCode</span><span class="hljs-params">()</span> &#123;<br>		<span class="hljs-keyword">return</span> name.hashCode();<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="配置文件设置"><a href="#配置文件设置" class="headerlink" title="配置文件设置"></a>配置文件设置</h3><blockquote>
+<p>LoginContext通过读取Configuration去决定那个LoginModule将被使用。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs java">WeatherLogin<br>&#123;<br>    com.kys.WeatherLoginModule required;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>使用下面的命令（指定了login配置文件）运行客户端.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">prompt&gt; java -Djava.security.auth.login.config=example.conf MyClient<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>引申:如果开启了安全模式java -Djava.security.manager,需要指定安全策略的</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java">grant codebase <span class="hljs-string">&quot;file:./*&quot;</span><br>&#123;<br>  permission javax.security.auth.AuthPermission <span class="hljs-string">&quot;createLoginContext&quot;</span>;<br>  permission javax.security.auth.AuthPermission <span class="hljs-string">&quot;modifyPrincipals&quot;</span>;<br>&#125;;<br></code></pre></td></tr></table></figure>
+<p>运行如下的命令运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">java -Djava.security.manager -Djava.security.policy==policy.txt -Djava.security.auth.login.config==example.conf MyClient<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>结束语: 看看就好了,知道是个啥就行了,基本上用不上</p>
+</blockquote>
+
+        </div>
+        
+        <!-- 文章导航 - 只在同分类有多篇文章时显示 -->
+        
+        
+        
+        <nav class="post-nav">
+          
+            <a class="prev" href="../java-EE-servlet3-1%E8%A7%84%E8%8C%83/">
+              <i class="fas fa-chevron-left"></i>
+              java-EE-servlet3.1规范
+            </a>
+          
+          
+            <a class="next" href="../java-System-getProperty-xxxx-%E6%96%B9%E6%B3%95%E8%A7%A3%E6%83%91/">
+              java-System.getProperty(xxxx)方法解惑
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          
+        </nav>
+        
+        
+        <!-- 推荐文章 -->
+        
+
+
+<div class="vs-recommended-posts">
+  <div class="vs-recommended-header">
+    <div class="section-header">
+      <i class="fas fa-lightbulb"></i>
+      <span>RELATED POSTS</span>
+    </div>
+  </div>
+  
+  <div class="vs-recommended-grid">
+    
+      <div class="vs-recommended-item" data-index="0" tabindex="0">
+        <a href="../java-System-getProperty-xxxx-%E6%96%B9%E6%B3%95%E8%A7%A3%E6%83%91/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>java-System.getProperty(xxxx)方法解惑</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              System.getProperty(“java.version”) 方法是输出java的运行环境变量(系统属性)的方法 主要可以输出的数据有: java.version Java 运行时环境版本java.vendor Java 运行时环境...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="1" tabindex="0">
+        <a href="../java-EE-servlet3-1%E8%A7%84%E8%8C%83/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>java-EE-servlet3.1规范</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              说道spring的web支持首先就可以想到了spring MVC 的技术(其他的技术还有spring的webflux 以后讨论),从这片博客开始要进行相关知识点的整理. spring MVC 整体的架构设计 spring 自己的webapp...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  8 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="2" tabindex="0">
+        <a href="../jackson%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>jackson使用指南</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              jaskson注解详解序列化相关注解@JsonAnyGetter这个注解可以将javabean中的mapper在序列化的时候展开成变量 比如这个json 就可以由这个javabean序列化而来 123456789public class E...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  jackson
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  3 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="3" tabindex="0">
+        <a href="../java-classpath%E7%9A%84%E7%90%86%E8%A7%A3/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>java-classpath的理解</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              这次写这一片篇文章的起因是对老大搭建的底层框架存在怀疑结果然后自己照着老大的方法运行竟然可以成功原因的费解。因此在这里记录一下自己的疑问解惑过程。 classpath到底是啥我的理解classpath 其实是 java 的一种虚拟的文件目录...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="4" tabindex="0">
+        <a href="../jackson%E4%BD%BF%E7%94%A8%E4%BB%A3%E7%A0%81%E8%BF%9B%E8%A1%8C%E9%85%8D%E7%BD%AE/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>jackson使用代码进行配置</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              jackson 使用代码进行配置的一个例子123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  jackson
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  3 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="5" tabindex="0">
+        <a href="../java-io-javaio%E6%93%8D%E4%BD%9C%E7%9A%84%E5%87%BD%E6%95%B0%E6%95%B4%E7%90%86/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>java-io-javaio操作的函数整理</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              java io 操作是一个非常重要的工具包,同样也是网络编程和各种框架编写的基本函数库,这里做一下整理 java io的层次结构 这里就先整理一下我最长用的吧 BufferReader和BufferWriter 这两个提供了writer 和...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+  </div>
+  
+  <!-- 查看更多 -->
+  <div class="vs-recommended-footer">
+    <a href="../../../../archives/" class="vs-view-more">
+      <i class="fas fa-folder-open"></i>
+      <span>View More Posts</span>
+      <i class="fas fa-chevron-right"></i>
+    </a>
+  </div>
+</div>
+
+<script>
+// 键盘导航支持
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.vs-recommended-item');
+  let currentIndex = -1;
+  
+  // 键盘事件
+  document.addEventListener('keydown', function(e) {
+    if (!items.length) return;
+    
+    if (e.key === 'Tab') {
+      // Tab键导航由浏览器处理
+      return;
+    }
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      
+      // 移除当前高亮
+      if (currentIndex >= 0) {
+        items[currentIndex].classList.remove('vs-focused');
+      }
+      
+      // 更新索引
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % items.length;
+      } else {
+        currentIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+      }
+      
+      // 添加新高亮
+      items[currentIndex].classList.add('vs-focused');
+      items[currentIndex].focus();
+    }
+    
+    if (e.key === 'Enter' && currentIndex >= 0) {
+      const link = items[currentIndex].querySelector('a');
+      if (link) link.click();
+    }
+  });
+  
+  // 鼠标悬停时更新当前索引
+  items.forEach((item, index) => {
+    item.addEventListener('mouseenter', function() {
+      currentIndex = index;
+      items.forEach(i => i.classList.remove('vs-focused'));
+      item.classList.add('vs-focused');
+    });
+  });
+});
+</script>
+
+        
+        <!-- 评论区 -->
+        
+  <div class="vs-comments-section">
+    <div class="section-header">
+      <i class="fas fa-comments"></i>
+      <span>COMMENTS</span>
+    </div>
+    
+    
+      <!-- Waline 评论系统 -->
+      <div id="waline"></div>
+      <script>
+        // 加载 Waline CSS
+        const walineCSS = document.createElement('link');
+        walineCSS.rel = 'stylesheet';
+        walineCSS.href = 'https://unpkg.com/@waline/client@v3/dist/waline.css';
+        document.head.appendChild(walineCSS);
+        
+        // 加载 Waline JS
+        const walineScript = document.createElement('script');
+        walineScript.type = 'module';
+        walineScript.onload = function() {
+          // 确保 Waline 加载后再初始化
+          import('https://unpkg.com/@waline/client@v3/dist/waline.js').then(({ init }) => {
+            const waline = init({
+              el: '#waline',
+              serverURL: 'https://vsc4tblackcat1337.vercel.app/',
+              lang: 'zh-CN',
+              locale: {},
+              emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus"],
+              requiredMeta: [],
+              login: 'disable',
+              wordLimit: 0,
+              pageSize: 10,
+              imageUploader: false,
+              highlighter: true,
+              texRenderer: false,
+              search: false,
+              pageview: false,
+              comment: true,
+              copyright: false,
+              
+              // 自动适配主题
+              dark: document.documentElement.getAttribute('data-theme') === 'dark' ? 'auto' : false,
+              
+              // 评论框占位符
+              placeholder: 'Feel free to leave a comment, no login required!',
+              
+              // 元数据配置
+              meta: ['nick', 'mail', 'link'],
+              
+              // 表情配置
+              emojiCDN: 'https://unpkg.com/@waline/emojis@1.2.0/',
+            });
+            
+            // 监听主题变化
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                  // Waline 会自动处理主题切换
+                  if (waline) {
+                    waline.update({ dark: isDark ? 'auto' : false });
+                  }
+                }
+              });
+            });
+            
+            observer.observe(document.documentElement, {
+              attributes: true,
+              attributeFilter: ['data-theme']
+            });
+          });
+        };
+        walineScript.src = 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+        document.body.appendChild(walineScript);
+      </script>
+    
+    
+  </div>
+
+      </article>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code-branch"></i>
+      master
+    </div>
+    <div class="status-item">
+      <i class="fas fa-sync"></i>
+      John Doe
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      2026-02-18
+    </div>
+    <div class="status-item">
+      Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
+    </div>
+    <div class="status-item github">
+      <a href="#" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 搜索专用配置 (HEXO_CONFIG 在 scripts.ejs 中统一定义) -->
+    <script>
+      window.VSC4T_SEARCH = {
+        root: "/"
+      };
+    </script>
+
+    <!-- 外部脚本 - 统一使用 cdnjs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
+    <script>if(typeof hljs !== 'undefined') hljs.highlightAll();</script>
+    <!-- 这里可以放置自定义脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Apply smooth scroll to non-TOC anchor links
+  document.querySelectorAll('a[href^="#"]:not(.toc-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Check if querySelector is valid before using it
+      try {
+        const targetSelector = this.getAttribute('href');
+        // Basic check for potentially invalid selectors (though not exhaustive)
+        if (targetSelector && targetSelector.length > 1) { 
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            console.warn('Smooth scroll target not found:', targetSelector);
+          }
+        } else {
+           console.warn('Invalid href for smooth scroll:', targetSelector);
+        }
+      } catch (error) {
+        console.error('Error during smooth scroll:', error, 'Selector:', this.getAttribute('href'));
+        // Fallback or alternative behavior if needed
+        // For example, try getElementById if it's just an ID
+        const targetId = this.getAttribute('href').slice(1);
+        try {
+            const targetElementById = document.getElementById(decodeURIComponent(targetId));
+            if (targetElementById) {
+                targetElementById.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (idError) {
+             console.error('Fallback getElementById also failed:', idError);
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Scripts -->
+<script>
+  // 全局配置 - 包含 i18n 字符串和主题配置
+  window.HEXO_CONFIG = {
+    language: "en",
+    root: "/",
+    
+    theme_switch: {
+      enabled: false,
+      light_start: "06:00",
+      light_end: "18:00"
+    },
+    
+    // Search i18n strings
+    search_placeholder: "Type to search...",
+    search_no_results: "No results found",
+    search_result: "result",
+    search_results: "results",
+    search_results_found: "Found undefined results",
+    search_in: "Search in",
+    search_in_title: "Title",
+    search_in_content: "Content",
+    search_in_tags: "Tags",
+    search_in_categories: "Categories",
+    search_filters: "Search Filters",
+    search_recent: "Recent Searches",
+    search_clear: "Clear",
+    search_loading: "Loading...",
+    search_error: "Error loading search data",
+    // Encryption i18n strings
+    encrypt_badge: "Protected",
+    encrypt_title: "Protected Content",
+    encrypt_description: "Enter the password to unlock this article. The password will be saved locally until you choose to re-encrypt.",
+    encrypt_label: "Password",
+    encrypt_placeholder: "Enter password to unlock",
+    encrypt_button: "Unlock",
+    encrypt_button_loading: "Unlocking...",
+    encrypt_hint: "Press Enter to submit. Password will be remembered on this device.",
+    encrypt_success: "Content unlocked successfully!",
+    encrypt_unlocked_note: "Content unlocked. You can re-encrypt at any time.",
+    encrypt_again: "Re-encrypt",
+    encrypt_wrong_password: "Incorrect password. Please try again.",
+    encrypt_show_password: "Show password",
+    encrypt_hide_password: "Hide password",
+    // Sidebar i18n strings
+    sidebar_about: "About",
+    sidebar_categories: "Categories",
+    sidebar_tags: "Tags",
+    // Post page i18n strings
+    post_toc: "TABLE OF CONTENTS",
+    post_category_posts: "CATEGORY POSTS",
+    post_article_tags: "ARTICLE TAGS"
+  };
+</script>
+
+
+
+<!-- 添加所有需要的脚本 -->
+<script src="../../../../js/search.js"></script>
+<script src="../../../../js/theme-switch.js"></script>
+
+<script src="../../../../js/password-protect.js?v=1771424192135"></script>
+
+    <script>
+      // 移动端菜单切换
+      $(document).ready(function() {
+        var $body = $('body');
+        var $sidebar = $('.sidebar-explorer');
+        var $overlay = $('.sidebar-overlay');
+        var $toggle = $('.mobile-menu-toggle');
+
+        function openSidebar() {
+          $sidebar.addClass('show');
+          $overlay.addClass('show');
+          $toggle.addClass('active');
+          $body.addClass('sidebar-open');
+        }
+
+        function closeSidebar() {
+          $sidebar.removeClass('show');
+          $overlay.removeClass('show');
+          $toggle.removeClass('active');
+          $body.removeClass('sidebar-open');
+        }
+
+        // 汉堡按钮点击切换
+        $toggle.on('click', function(e) {
+          e.stopPropagation();
+          if ($sidebar.hasClass('show')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+
+        // 点击遮罩层关闭
+        $overlay.on('click', function() {
+          closeSidebar();
+        });
+
+        // ESC 键关闭
+        $(document).on('keydown', function(e) {
+          if (e.key === 'Escape' && $sidebar.hasClass('show')) {
+            closeSidebar();
+          }
+        });
+
+        // 点击侧边栏内的链接时自动关闭侧边栏，确保锚点跳转正常
+        $sidebar.on('click', 'a', function() {
+          closeSidebar();
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>java-网络-nio-nio解析 | Hexo</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A simple dark Hexo theme inspired by code.">
+  <meta name="keywords" content="">
+  <meta name="author" content="John Doe">
+  <link rel="canonical" href="http://example.com">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="java-网络-nio-nio解析 | Hexo">
+  <meta property="og:description" content="A simple dark Hexo theme inspired by code.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://example.com">
+  <meta property="og:site_name" content="Hexo">
+  <meta property="article:published_time" content="2024-12-31T14:41:00.000Z">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="java-网络-nio-nio解析 | Hexo">
+  <meta name="twitter:description" content="A simple dark Hexo theme inspired by code.">
+
+  <!-- Favicon 配置 -->
+  
+
+  <!-- 外部样式 - 统一使用 jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- 代码高亮样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+  <!-- Mermaid.js 库 (defer加载) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <!-- 主题样式 -->
+  <link rel="stylesheet" href="../../../../css/theme-colors.css">
+  <link rel="stylesheet" href="../../../../css/main.css">
+  <link rel="stylesheet" href="../../../../css/code.css">
+  <link rel="stylesheet" href="../../../../css/code-custom.css">
+  <link rel="stylesheet" href="../../../../css/code-languages.css">
+  <link rel="stylesheet" href="../../../../css/mermaid.css">
+
+  <link rel="stylesheet" href="../../../../css/vs-code.css">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192149">
+  <link rel="stylesheet" href="../../../../css/tag.css">
+  <link rel="stylesheet" href="../../../../css/categories.css">
+  <link rel="stylesheet" href="../../../../css/archive.css">
+  <link rel="stylesheet" href="../../../../css/search.css">
+  <link rel="stylesheet" href="../../../../css/mobile.css">  <link rel="stylesheet" href="../../../../css/responsive.css">
+  <link rel="stylesheet" href="../../../../css/elements.css">
+
+  <!-- 添加 JetBrains Mono 字体 -->  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Add any custom head content here -->
+
+  <script defer src="../../../../js/explorer.js"></script>
+  <script defer src="../../../../js/code-enhance.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+      <div class="mobile-menu-toggle" aria-label="Toggle sidebar menu" role="button" tabindex="0">
+        <i class="fas fa-bars"></i>
+      </div>
+      <!-- 移动端侧边栏遮罩层 -->
+      <div class="sidebar-overlay" aria-hidden="true"></div>
+      <header class="vs-header">
+  <nav class="vs-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-brand">
+        <i class="fas fa-terminal"></i>
+        Hexo
+      </a>
+    </div>
+    
+    <div class="nav-right">
+      <a href="/" class="nav-item ">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="/archives/" class="nav-item ">
+        <i class="fas fa-archive"></i>
+        <span>Archives</span>
+      </a>
+      <a href="/categories/" class="nav-item ">
+        <i class="fas fa-folder"></i>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" class="nav-item ">
+        <i class="fas fa-tags"></i>
+        <span>Tags</span>
+      </a>
+      <a href="/search/" class="nav-item ">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="/about/" class="nav-item ">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function smoothScroll(event, target) {
+    event.preventDefault();
+    const targetId = target.substring(target.indexOf('#') + 1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 50, // 调整偏移量
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = target;
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.vs-header');
+    const nav = document.querySelector('.vs-nav');
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    
+    nav.style.setProperty('--scroll-percent', `${scrollPercent}%`);
+    
+    if (window.scrollY > 0) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // 添加标签页切换动画
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('nav-ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+</script>
+
+
+<div class="vscode-container">
+  <!-- 左侧资源管理器 -->
+  <div class="sidebar-explorer">
+    <!-- TOC导航 -->
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-list"></i>
+        <span>TABLE OF CONTENTS</span>
+      </div>
+      <div class="section-content">
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#java-nio%E6%94%AF%E6%8C%81%E7%9A%84%E8%83%8C%E5%90%8Eunix%E7%B3%BB%E7%BB%9F%E7%9A%84%E4%BA%94%E7%A7%8DIO%E6%A8%A1%E5%9E%8B"><span class="toc-text">java nio支持的背后unix系统的五种IO模型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java-%E5%87%A0%E7%A7%8Dio%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="toc-text">java 几种io的对比</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#java-%E9%9B%86%E4%B8%ADio%E6%A8%A1%E5%9E%8B%E6%A0%B7%E4%BE%8B"><span class="toc-text">java 集中io模型样例</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#BIO-%E6%A8%A1%E5%9E%8B"><span class="toc-text">BIO 模型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#java-NIO"><span class="toc-text">java NIO</span></a></li></ol></li></ol>
+      </div>
+    </div>
+
+    <!-- 同分类文章 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-folder"></i>
+        <span>CATEGORY POSTS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-1--dubbo%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%92%8C%E6%80%9D%E6%83%B3/">dubbo-学习和使用(1)-dubbo架构设计和思想</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-8--dubbo%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83/">dubbo-学习和使用(8)-dubbo配置参考</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-1--%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2/">dubbo-深入(1)-基本使用初探</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-3--%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/">dubbo-深入(3)-注册中心</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-3--%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83/">dubbo-深入(3)-配置参考</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-4---%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">dubbo-深入(4)- 集群架构设计</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-2--%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95/">dubbo学习和使用(2)-使用初探和配置方法</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-3--dubbo%E5%8A%9F%E8%83%BD-1-/">dubbo学习和使用(3)-dubbo功能(1)</a>
+          </div>
+        
+      </div>
+    </div>
+    
+    
+    <!-- 标签列表 -->
+    
+  </div>
+
+  <!-- 主要内容区域 -->
+  <div class="editor-content">
+    <div class="tab-bar">
+      <div class="tab active">
+        <i class="fas fa-file-alt"></i>
+        <span>java-网络-nio-nio解析.md</span>
+      </div>
+    </div>
+    
+    <div class="content-area">
+      <article class="post-content">
+        <div class="post-header">
+          <h1>java-网络-nio-nio解析</h1>
+          <div class="post-meta">
+            <span class="date">
+              <i class="fas fa-calendar-alt"></i>
+              2024-12-31
+            </span>
+            
+            <span class="updated-date">
+              <i class="fas fa-sync-alt"></i>
+              Updated 2026-02-18
+            </span>
+                        
+              <span class="categories">
+                <i class="fas fa-folder"></i>
+                <div class="categories-list">
+                  <ul class="category-item-post-list"><li class="category-item-post-list-item"><a class="category-item-post-list-link" href="../../../../categories/java/">java</a></li></ul>
+                </div>
+              </span>
+            
+            
+          </div>
+        </div>
+        
+        <div class="post-body vscode-markdown">
+          <h3 id="java-nio支持的背后unix系统的五种IO模型"><a href="#java-nio支持的背后unix系统的五种IO模型" class="headerlink" title="java nio支持的背后unix系统的五种IO模型"></a>java nio支持的背后unix系统的五种IO模型</h3><p>(1) 阻塞I&#x2F;O模型</p>
+<p>非常好理解最简单的IO模型</p>
+<p><img src="/images/blogimg//blogimg/java/javaNIO/1.png"></p>
+<p>(2) 非阻塞I&#x2F;O模型</p>
+<p>其实本质上就是轮训来查找是否有可以进行读取的资源</p>
+<p><img src="/images/blogimg//blogimg/java/javaNIO/2.png"></p>
+<p>(3) I&#x2F;O复用模型</p>
+<p>这个是select&#x2F;poll,linux 的epoll是进化版,基于事件驱动模型性能更好</p>
+<p><img src="/images/blogimg//blogimg/java/javaNIO/3.png"></p>
+<p>(4) 信号驱动I&#x2F;O模型</p>
+<p><img src="/images/blogimg//blogimg/java/javaNIO/4.png"></p>
+<p>(5) 异步I&#x2F;O模型</p>
+<p>这个就是AIO 全信号驱动模型</p>
+<p><img src="/images/blogimg//blogimg/java/javaNIO/5.png"></p>
+<h3 id="java-几种io的对比"><a href="#java-几种io的对比" class="headerlink" title="java 几种io的对比"></a>java 几种io的对比</h3><p><img src="/images/blogimg//blogimg/java/javaNIO/7.jpg"><br><img src="/images/blogimg//blogimg/java/javaNIO/8.png"></p>
+<h3 id="java-集中io模型样例"><a href="#java-集中io模型样例" class="headerlink" title="java 集中io模型样例"></a>java 集中io模型样例</h3><h4 id="BIO-模型"><a href="#BIO-模型" class="headerlink" title="BIO 模型"></a>BIO 模型</h4><p>java 的同步阻塞模型是一对一的线程模型最大的缺点就是缺少弹性,单用户量增加的时候,系统的线程数出于一种线性的增加状态中</p>
+<p><img src="/images/blogimg//blogimg/java/javaNIO/6.png"></p>
+<blockquote>
+<p>服务端</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.io.BufferedReader;<br><span class="hljs-keyword">import</span> java.io.IOException;<br><span class="hljs-keyword">import</span> java.io.InputStreamReader;<br><span class="hljs-keyword">import</span> java.io.PrintWriter;<br><span class="hljs-keyword">import</span> java.net.Socket;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ServerWorker</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Runnable</span>&#123;<br>    <span class="hljs-keyword">private</span> Socket socket;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">ServerWorker</span><span class="hljs-params">(Socket socket)</span>&#123;<br>        <span class="hljs-built_in">this</span>.socket = socket;<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-type">BufferedReader</span> <span class="hljs-variable">reader</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>        <span class="hljs-type">PrintWriter</span> <span class="hljs-variable">writer</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>        <span class="hljs-keyword">try</span> &#123;<br>            reader = <span class="hljs-keyword">new</span> <span class="hljs-title class_">BufferedReader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">InputStreamReader</span>(socket.getInputStream()));<br>            writer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PrintWriter</span>(socket.getOutputStream());<br>            <span class="hljs-type">String</span> <span class="hljs-variable">question</span> <span class="hljs-operator">=</span> reader.readLine();<span class="hljs-comment">//没有内容会阻塞</span><br>            <span class="hljs-keyword">while</span>(!question.equals(<span class="hljs-string">&quot;OVER&quot;</span>))&#123;<br>                <span class="hljs-type">String</span> <span class="hljs-variable">answer</span> <span class="hljs-operator">=</span> getAnswer(question);<br>                writer.println(answer);<br>                question = reader.readLine();<br>            &#125;<br>            writer.println(<span class="hljs-string">&quot;OVER&quot;</span>);<span class="hljs-comment">//OVER作为操作完成暗号</span><br>            writer.flush();<br>            <span class="hljs-keyword">if</span>(writer != <span class="hljs-literal">null</span>)&#123;<br>                writer.close();<br>            &#125;<br><br>            <span class="hljs-keyword">if</span>(reader != <span class="hljs-literal">null</span>)&#123;<br>                reader.close();<br>            &#125;<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> String <span class="hljs-title function_">getAnswer</span><span class="hljs-params">(String question)</span>&#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">answer</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>        <span class="hljs-keyword">switch</span>(question)&#123;<br>            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;who&quot;</span>:<br>                answer = <span class="hljs-string">&quot;我是小娜&quot;</span>;<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;what&quot;</span>:<br>                answer = <span class="hljs-string">&quot;我是来帮你解闷的&quot;</span>;<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">case</span> <span class="hljs-string">&quot;where&quot;</span>:<br>                answer = <span class="hljs-string">&quot;我来自外太空&quot;</span>;<br>                <span class="hljs-keyword">break</span>;<br>            <span class="hljs-keyword">default</span>:<br>                answer = <span class="hljs-string">&quot;请输入 who， 或者what， 或者where&quot;</span>;<br>        &#125;<br>        <span class="hljs-keyword">return</span> answer;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>服务端使用线程池</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.util.concurrent.ArrayBlockingQueue;<br><span class="hljs-keyword">import</span> java.util.concurrent.ExecutorService;<br><span class="hljs-keyword">import</span> java.util.concurrent.ThreadPoolExecutor;<br><span class="hljs-keyword">import</span> java.util.concurrent.TimeUnit;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ServerHandlerExecutePool</span> &#123;<br>    <span class="hljs-keyword">private</span> ExecutorService executorService;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">ServerHandlerExecutePool</span><span class="hljs-params">(<span class="hljs-type">int</span> maxPoolSize,<span class="hljs-type">int</span> queueSize)</span>&#123;<br>        executorService = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ThreadPoolExecutor</span>(Runtime.getRuntime().availableProcessors(),maxPoolSize,<br>                <span class="hljs-number">120L</span>, TimeUnit.SECONDS,<span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayBlockingQueue</span>&lt;Runnable&gt;(queueSize));<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">execute</span><span class="hljs-params">(Runnable task)</span>&#123;<br>        executorService.execute(task);<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">import</span> com.magic.web.bio.ServerWorker;<br><span class="hljs-keyword">import</span> com.magic.web.bio.simple.BIOService;<br><span class="hljs-keyword">import</span> javax.net.ServerSocketFactory;<br><span class="hljs-keyword">import</span> java.io.IOException;<br><span class="hljs-keyword">import</span> java.net.ServerSocket;<br><span class="hljs-keyword">import</span> java.net.Socket;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BIOServiceWithExecute</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span>&#123;<br>        <span class="hljs-type">BIOService</span> <span class="hljs-variable">bioService</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BIOService</span>();<br>        <span class="hljs-type">ServerSocket</span> <span class="hljs-variable">serverSocket</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>        <span class="hljs-type">Socket</span> <span class="hljs-variable">socket</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-comment">//可以设置客户连接请求队列的长度，比如5，队列长度超过5后拒绝连接请求</span><br>            <span class="hljs-comment">//serverSocket = ServerSocketFactory.getDefault().createServerSocket(8383, 5);</span><br>            serverSocket = ServerSocketFactory.getDefault().createServerSocket(<span class="hljs-number">8383</span>);<br>            <span class="hljs-type">ServerHandlerExecutePool</span> <span class="hljs-variable">executePool</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ServerHandlerExecutePool</span>(<span class="hljs-number">50</span>,<span class="hljs-number">10000</span>);<br>            <span class="hljs-keyword">while</span>(<span class="hljs-literal">true</span>)&#123;<br>                <span class="hljs-keyword">try</span>&#123;<br>                    <span class="hljs-comment">//监听直到接受连接后返回一个新Socket对象</span><br>                    socket = serverSocket.accept();<span class="hljs-comment">//阻塞</span><br>                    <span class="hljs-comment">//new一个线程处理连接请求</span><br>                    executePool.execute(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ServerWorker</span>(socket));<br>                &#125;<br>                <span class="hljs-keyword">catch</span> (Throwable e) &#123;    <span class="hljs-comment">//防止发生异常搞死服务器</span><br>                    e.printStackTrace();<br>                &#125;<br>            &#125;<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            e.printStackTrace();<br>        &#125;<br>        <span class="hljs-keyword">finally</span>&#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-keyword">if</span>(socket != <span class="hljs-literal">null</span>)&#123;<br>                    socket.close();<br>                &#125;<br>            &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>                e.printStackTrace();<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>客户端</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">import</span> java.io.BufferedReader;<br><span class="hljs-keyword">import</span> java.io.IOException;<br><span class="hljs-keyword">import</span> java.io.InputStreamReader;<br><span class="hljs-keyword">import</span> java.io.PrintWriter;<br><span class="hljs-keyword">import</span> java.net.Socket;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">BIOClient</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">BIOClient</span> <span class="hljs-variable">c</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">BIOClient</span>();<br>        <span class="hljs-comment">//种20个线程发起Socket客户端连接请求</span><br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">20</span>; i++) &#123;<br>            <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(c.<span class="hljs-keyword">new</span> <span class="hljs-title class_">Worker</span>()).start();<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Worker</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Runnable</span> &#123;<br>        <span class="hljs-meta">@Override</span><br>        <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>            <span class="hljs-type">Socket</span> <span class="hljs-variable">socket</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>            <span class="hljs-type">BufferedReader</span> <span class="hljs-variable">reader</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>            <span class="hljs-type">PrintWriter</span> <span class="hljs-variable">writer</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-comment">//创建一个Socket并连接到指定的目标服务器</span><br>                socket = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Socket</span>(<span class="hljs-string">&quot;localhost&quot;</span>, <span class="hljs-number">8383</span>);<br>                reader = <span class="hljs-keyword">new</span> <span class="hljs-title class_">BufferedReader</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">InputStreamReader</span>(<br>                        socket.getInputStream()));<br>                writer = <span class="hljs-keyword">new</span> <span class="hljs-title class_">PrintWriter</span>(socket.getOutputStream());<br>                <span class="hljs-comment">//TODO 这里必须是使用的println 因为读取的时候使用的就是 readline</span><br>                writer.println(<span class="hljs-string">&quot;who&quot;</span>);<br>                writer.println(<span class="hljs-string">&quot;what&quot;</span>);<br>                writer.println(<span class="hljs-string">&quot;where&quot;</span>);<br>                writer.println(<span class="hljs-string">&quot;OVER&quot;</span>);<span class="hljs-comment">//OVER作为操作完成暗号</span><br>                writer.flush();<br>                <span class="hljs-type">String</span> <span class="hljs-variable">answer</span> <span class="hljs-operator">=</span> reader.readLine();   <span class="hljs-comment">//没有内容会阻塞</span><br>                <span class="hljs-keyword">while</span> (!answer.equals(<span class="hljs-string">&quot;OVER&quot;</span>)) &#123;<br>                    System.out.println(Thread.currentThread().getId() + <span class="hljs-string">&quot;---Message from server:&quot;</span> + answer);<br>                    answer = reader.readLine();<br>                &#125;<br>            &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>                e.printStackTrace();<br>            &#125; <span class="hljs-keyword">finally</span> &#123;<br>                <span class="hljs-keyword">try</span> &#123;<br>                    <span class="hljs-keyword">if</span> (writer != <span class="hljs-literal">null</span>) &#123;<br>                        writer.close();<br>                    &#125;<br><br>                    <span class="hljs-keyword">if</span> (reader != <span class="hljs-literal">null</span>) &#123;<br>                        reader.close();<br>                    &#125;<br><br>                    <span class="hljs-keyword">if</span> (socket != <span class="hljs-literal">null</span>) &#123;<br>                        socket.close();<br>                    &#125;<br>                &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>                    e.printStackTrace();<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>　这种阻塞式网络io模型的缺点和优点</p>
+</blockquote>
+<p>缺点: </p>
+<ol>
+<li>线程占用的比较多</li>
+<li>如果处理多个请求一个请求阻塞了,会导致所有的请求都阻塞掉</li>
+</ol>
+<h4 id="java-NIO"><a href="#java-NIO" class="headerlink" title="java NIO"></a>java NIO</h4><p>ps java nio比较难 , 里面有很多的点需要处理</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br></pre></td><td class="code"><pre><code class="hljs java"><br><span class="hljs-comment">//client</span><br><span class="hljs-keyword">import</span> java.io.IOException;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">NioClient</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ClientReactor</span>(<span class="hljs-string">&quot;127.0.0.1&quot;</span>,<span class="hljs-number">12345</span>)).start();<br>    &#125;<br>&#125;<br><br><span class="hljs-keyword">import</span> java.io.IOException;<br><span class="hljs-keyword">import</span> java.net.InetAddress;<br><span class="hljs-keyword">import</span> java.net.InetSocketAddress;<br><span class="hljs-keyword">import</span> java.nio.ByteBuffer;<br><span class="hljs-keyword">import</span> java.nio.channels.SelectionKey;<br><span class="hljs-keyword">import</span> java.nio.channels.Selector;<br><span class="hljs-keyword">import</span> java.nio.channels.SocketChannel;<br><span class="hljs-keyword">import</span> java.util.Iterator;<br><span class="hljs-keyword">import</span> java.util.Set;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ClientReactor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Runnable</span> &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> port;<br>    <span class="hljs-keyword">private</span> String host;<br>    <span class="hljs-keyword">private</span> SocketChannel socketChannel;<br>    <span class="hljs-keyword">private</span> Selector selector;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">volatile</span> <span class="hljs-type">boolean</span> stop;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">stop</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-built_in">this</span>.stop = <span class="hljs-literal">true</span>;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">ClientReactor</span><span class="hljs-params">(String host, <span class="hljs-type">int</span> port)</span> &#123;<br>        <span class="hljs-built_in">this</span>.host = host == <span class="hljs-literal">null</span> ? <span class="hljs-string">&quot;127.0.0.1&quot;</span> : host;<br>        <span class="hljs-built_in">this</span>.port = port;<br>        <span class="hljs-keyword">try</span> &#123;<br>            selector = Selector.open();<br>            socketChannel = SocketChannel.open();<br>            socketChannel.configureBlocking(<span class="hljs-literal">false</span>);<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            e.printStackTrace();<br>            System.exit(<span class="hljs-number">1</span>);<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doWrite</span><span class="hljs-params">(SocketChannel socketChannel)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>        <span class="hljs-type">byte</span>[] bytes = <span class="hljs-string">&quot;client send info&quot;</span>.getBytes();<br>        <span class="hljs-type">ByteBuffer</span> <span class="hljs-variable">byteBuffer</span> <span class="hljs-operator">=</span> ByteBuffer.allocate(bytes.length);<br>        byteBuffer.put(bytes);<br>        byteBuffer.flip();<br>        socketChannel.write(byteBuffer);<br>        <span class="hljs-keyword">if</span> (!byteBuffer.hasRemaining()) &#123;<br>            System.out.println(<span class="hljs-string">&quot;Send order 2 server succeed.&quot;</span>);<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doConnect</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>.socketChannel.connect(<span class="hljs-keyword">new</span> <span class="hljs-title class_">InetSocketAddress</span>(host, port))) &#123;<br>            socketChannel.register(selector, SelectionKey.OP_READ);<br>            doWrite(socketChannel);<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            socketChannel.register(selector, SelectionKey.OP_CONNECT);<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">handleInput</span><span class="hljs-params">(SelectionKey selectionKey)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>        <span class="hljs-keyword">if</span> (selectionKey.isValid()) &#123;<br>            <span class="hljs-type">SocketChannel</span> <span class="hljs-variable">socketChannel</span> <span class="hljs-operator">=</span> (SocketChannel) selectionKey.channel();<br>            <span class="hljs-keyword">if</span> (selectionKey.isConnectable()) &#123;<br>                <span class="hljs-keyword">if</span>(socketChannel.finishConnect()) &#123;<br>                    socketChannel.register(selector, SelectionKey.OP_READ);<br>                    doWrite(socketChannel);<br>                &#125;<span class="hljs-keyword">else</span>&#123;<br>                    System.exit(<span class="hljs-number">1</span>);<br>                &#125;<br>            &#125;<br>            <span class="hljs-keyword">if</span> (selectionKey.isReadable()) &#123;<br>                <span class="hljs-type">ByteBuffer</span> <span class="hljs-variable">byteBuffer</span> <span class="hljs-operator">=</span> ByteBuffer.allocate(<span class="hljs-number">1024</span>);<br>                <span class="hljs-type">int</span> <span class="hljs-variable">readLength</span> <span class="hljs-operator">=</span> socketChannel.read(byteBuffer);<br>                <span class="hljs-keyword">if</span> (readLength &gt; <span class="hljs-number">0</span>) &#123;<br>                    byteBuffer.flip();<br>                    <span class="hljs-type">byte</span>[] bytes = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[byteBuffer.remaining()];<br>                    byteBuffer.get(bytes);<br>                    <span class="hljs-type">String</span> <span class="hljs-variable">body</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(bytes,<span class="hljs-string">&quot;UTF-8&quot;</span>);<br>                    System.out.println(body);<br>                    <span class="hljs-built_in">this</span>.stop();<br>                &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (readLength&lt;<span class="hljs-number">0</span>)&#123;<br>                    selectionKey.cancel();<br>                    socketChannel.close();<br>                &#125;<span class="hljs-keyword">else</span>&#123;<br>                    ;<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">try</span> &#123;<br>            doConnect();<br>        &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>            e.printStackTrace();<br>            System.exit(<span class="hljs-number">1</span>);<br>        &#125;<br>        <span class="hljs-keyword">while</span> (!stop) &#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                selector.select(<span class="hljs-number">1000</span>);<br>                Set&lt;SelectionKey&gt; selectionKeys = <span class="hljs-built_in">this</span>.selector.selectedKeys();<br>                Iterator&lt;SelectionKey&gt; iterator = selectionKeys.iterator();<br>                <span class="hljs-type">SelectionKey</span> <span class="hljs-variable">selectionKey</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>                <span class="hljs-keyword">while</span> (iterator.hasNext()) &#123;<br>                    selectionKey = iterator.next();<br>                    iterator.remove();<br>                    <span class="hljs-keyword">try</span> &#123;<br>                        handleInput(selectionKey);<br>                    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;<br>                        e.printStackTrace();<br>                        <span class="hljs-keyword">if</span> (selectionKey != <span class="hljs-literal">null</span>) &#123;<br>                            selectionKey.cancel();<br>                            <span class="hljs-keyword">if</span> (selectionKey.channel() != <span class="hljs-literal">null</span>)<br>                                selectionKey.channel().close();<br>                        &#125;<br>                    &#125;<br>                &#125;<br>            &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>                e.printStackTrace();<br>            &#125;<br>        &#125;<br>        <span class="hljs-comment">// 多路复用器关闭后，所有注册在上面的Channel和Pipe等资源都会被自动去注册并关闭，所以不需要重复释放资源</span><br>        <span class="hljs-keyword">if</span> (selector != <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                selector.close();<br>            &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>                e.printStackTrace();<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//server</span><br><span class="hljs-keyword">import</span> java.io.IOException;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">NioServer</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>        <span class="hljs-type">ServerReactor</span> <span class="hljs-variable">serverReactor</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ServerReactor</span>(<span class="hljs-number">12345</span>);<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">Thread</span>(serverReactor,<span class="hljs-string">&quot;nio_server&quot;</span>).start();<br>    &#125;<br>&#125;<br><span class="hljs-keyword">import</span> java.io.IOException;<br><span class="hljs-keyword">import</span> java.net.InetAddress;<br><span class="hljs-keyword">import</span> java.net.InetSocketAddress;<br><span class="hljs-keyword">import</span> java.nio.ByteBuffer;<br><span class="hljs-keyword">import</span> java.nio.channels.SelectionKey;<br><span class="hljs-keyword">import</span> java.nio.channels.Selector;<br><span class="hljs-keyword">import</span> java.nio.channels.ServerSocketChannel;<br><span class="hljs-keyword">import</span> java.nio.channels.SocketChannel;<br><span class="hljs-keyword">import</span> java.util.Date;<br><span class="hljs-keyword">import</span> java.util.Iterator;<br><span class="hljs-keyword">import</span> java.util.Set;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ServerReactor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Runnable</span> &#123;<br><br>    <span class="hljs-keyword">private</span> Selector selector;<br>    <span class="hljs-keyword">private</span> ServerSocketChannel serverSocketChannel;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">volatile</span> <span class="hljs-type">boolean</span> stop;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">ServerReactor</span><span class="hljs-params">(<span class="hljs-type">int</span> port)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>        <span class="hljs-comment">//创建reactor线程创建多路复用器</span><br>        selector = Selector.open();<br>        <span class="hljs-comment">//用于监听客户端管道是所有管道的父管道</span><br>        serverSocketChannel = ServerSocketChannel.open();<br>        <span class="hljs-comment">//设置为非阻塞模式</span><br>        serverSocketChannel.configureBlocking(<span class="hljs-literal">false</span>);<br>        <span class="hljs-comment">//绑定端口</span><br>        serverSocketChannel.socket().bind(<span class="hljs-keyword">new</span> <span class="hljs-title class_">InetSocketAddress</span>(port),<span class="hljs-number">1024</span>);<br>        <span class="hljs-comment">//将channel 注册到selector上监听 ACCEPT</span><br>        <span class="hljs-type">SelectionKey</span> <span class="hljs-variable">selectionKey</span> <span class="hljs-operator">=</span> serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);<br>        System.out.println(<span class="hljs-string">&quot;the server is start in port : &quot;</span> + port);<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">stop</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-built_in">this</span>.stop = <span class="hljs-literal">true</span>;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">handleInput</span><span class="hljs-params">(SelectionKey key)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>        <span class="hljs-keyword">if</span> (key.isValid()) &#123;<br>            <span class="hljs-keyword">if</span> (key.isAcceptable()) &#123;<br>                <span class="hljs-type">ServerSocketChannel</span> <span class="hljs-variable">ssc</span> <span class="hljs-operator">=</span> (ServerSocketChannel) key.channel();<br>                <span class="hljs-type">SocketChannel</span> <span class="hljs-variable">socketChannel</span> <span class="hljs-operator">=</span> ssc.accept();<br>                socketChannel.configureBlocking(<span class="hljs-literal">false</span>);<br>                socketChannel.register(selector, SelectionKey.OP_READ);<br>            &#125;<br>            <span class="hljs-keyword">if</span> (key.isReadable()) &#123;<br>                <span class="hljs-type">SocketChannel</span> <span class="hljs-variable">socketChannel</span> <span class="hljs-operator">=</span> (SocketChannel) key.channel();<br>                <span class="hljs-type">ByteBuffer</span> <span class="hljs-variable">byteBuffer</span> <span class="hljs-operator">=</span> ByteBuffer.allocate(<span class="hljs-number">1024</span>);<br>                <span class="hljs-type">int</span> <span class="hljs-variable">readByteLength</span> <span class="hljs-operator">=</span> socketChannel.read(byteBuffer);<br>                <span class="hljs-keyword">if</span> (readByteLength &gt; <span class="hljs-number">0</span>) &#123;<br>                    byteBuffer.flip();<br>                    <span class="hljs-type">byte</span>[] bytes = <span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[byteBuffer.remaining()];<br>                    byteBuffer.get(bytes);<br>                    <span class="hljs-type">String</span> <span class="hljs-variable">body</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(bytes, <span class="hljs-string">&quot;UTF-8&quot;</span>);<br>                    System.out.println(<span class="hljs-string">&quot;the time server receive order : &quot;</span> + body);<br>                    <span class="hljs-type">String</span> <span class="hljs-variable">sendInfo</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;this is server you and now TIme is : &quot;</span> + <span class="hljs-keyword">new</span> <span class="hljs-title class_">Date</span>().toString();<br>                    doWrite(socketChannel, sendInfo);<br>                &#125;<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(readByteLength&lt;<span class="hljs-number">0</span>)&#123;<br>                    <span class="hljs-comment">// 对端链路关闭</span><br>                    key.cancel();<br>                    socketChannel.close();<br>                    System.out.println(<span class="hljs-string">&quot;close socket&quot;</span>);<br>                &#125;<br>            &#125;<br>        &#125;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">doWrite</span><span class="hljs-params">(SocketChannel socketChannel, String sendInfo)</span> <span class="hljs-keyword">throws</span> IOException &#123;<br>        <span class="hljs-keyword">if</span> (sendInfo != <span class="hljs-literal">null</span> &amp;&amp; sendInfo.trim().length() &gt; <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-type">byte</span>[] bytes = sendInfo.getBytes();<br>            <span class="hljs-type">ByteBuffer</span> <span class="hljs-variable">writerByteBuffer</span> <span class="hljs-operator">=</span> ByteBuffer.allocate(bytes.length);<br>            writerByteBuffer.put(bytes);<br>            writerByteBuffer.flip();<br>            socketChannel.write(writerByteBuffer);<br>        &#125;<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">//</span><br>        <span class="hljs-keyword">while</span> (!stop) &#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                <span class="hljs-comment">//设置每秒进行一次查找就绪状态的通道</span><br>                selector.select(<span class="hljs-number">1000</span>);<br>                Set&lt;SelectionKey&gt; keys = selector.selectedKeys();<br>                Iterator&lt;SelectionKey&gt; iterable = keys.iterator();<br>                <span class="hljs-type">SelectionKey</span> <span class="hljs-variable">selectionKey</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>                <span class="hljs-keyword">while</span> (iterable.hasNext()) &#123;<br>                    selectionKey = iterable.next();<br>                    iterable.remove();<br>                    <span class="hljs-keyword">try</span> &#123;<br>                        handleInput(selectionKey);<br>                    &#125;<span class="hljs-keyword">catch</span> (IOException e)&#123;<br>                        selectionKey.cancel();<br>                        <span class="hljs-keyword">if</span>(selectionKey.channel() != <span class="hljs-literal">null</span>)&#123;<br>                            selectionKey.channel().close();<br>                        &#125;<br>                        System.out.println(<span class="hljs-string">&quot;远程连接异常进行关闭&quot;</span>);<br>                    &#125;<br><br>                &#125;<br>            &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>                e.printStackTrace();<br>            &#125;<br>        &#125;<br>        <span class="hljs-comment">// 多路复用器关闭后，所有注册在上面的Channel和Pipe等资源都会被自动去注册并关闭，所以不需要重复释放资源</span><br>        <span class="hljs-keyword">if</span> (selector != <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">try</span> &#123;<br>                selector.close();<br>            &#125; <span class="hljs-keyword">catch</span> (IOException e) &#123;<br>                e.printStackTrace();<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+        </div>
+        
+        <!-- 文章导航 - 只在同分类有多篇文章时显示 -->
+        
+        
+        
+        <nav class="post-nav">
+          
+            <a class="prev" href="../java-%E7%BD%91%E7%BB%9C-bio%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">
+              <i class="fas fa-chevron-left"></i>
+              java-网络-bio网络编程
+            </a>
+          
+          
+            <a class="next" href="../java-%E7%BD%91%E8%B7%AF-nio-%E4%BB%8E%E6%BA%90%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90javaNIO%E7%9A%84%E8%BF%90%E8%A1%8C%E8%BF%87%E7%A8%8B-%E4%B8%80-/">
+              java-网路-nio-从源代码分析javaNIO的运行过程(一)
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          
+        </nav>
+        
+        
+        <!-- 推荐文章 -->
+        
+
+
+<div class="vs-recommended-posts">
+  <div class="vs-recommended-header">
+    <div class="section-header">
+      <i class="fas fa-lightbulb"></i>
+      <span>RELATED POSTS</span>
+    </div>
+  </div>
+  
+  <div class="vs-recommended-grid">
+    
+      <div class="vs-recommended-item" data-index="0" tabindex="0">
+        <a href="../java-%E7%BD%91%E7%BB%9C-bio%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>java-网络-bio网络编程</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              java的网络编程是一个硬茬 这里记录一下java 阻塞式网络编程的正确姿势 编写一个服务端程序12345678910111213141516171819202122public class setver &amp;#123; public sta...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="1" tabindex="0">
+        <a href="../java-%E7%BD%91%E8%B7%AF-nio-%E4%BB%8E%E6%BA%90%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90javaNIO%E7%9A%84%E8%BF%90%E8%A1%8C%E8%BF%87%E7%A8%8B-%E4%B8%80-/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>java-网路-nio-从源代码分析javaNIO的运行过程(一)</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              这一节解析一下 java NIO中 ServerSocketChannel创建的过程 channel 在java中表示通道，是用来进行数据的有效传输 广义上来说通道可以被分为两类：File I&amp;#x2F;O和Stream I&amp;#x2F;O，...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="2" tabindex="0">
+        <a href="../java-%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>java-枚举类型</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              枚举类型在java世界使用enum类型的场景是非常多的，但是相比较java中其他的类型这个类型使用的时候还是比较少的这里记录一下 枚举类型创建 枚举类型的创建和传统的类的实现是相同的，不过要注意枚举类型拥有一个高级的用法用法就是使用valu...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="3" tabindex="0">
+        <a href="../java-%E8%B5%84%E6%BA%90%E8%8E%B7%E5%8F%96-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%B8%AD-jar%E5%8C%85%E4%B8%AD-jar%E5%8C%85%E4%B8%AD%E7%9A%84jar%E4%B8%AD/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>java-资源获取-文件系统中-jar包中-jar包中的jar中</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              一开始其实用这个题目作为文章的标题很难受，但是没有办法java的文件获取就是这么负载:cold_sweat: java获取数据获取文件系统的api这个就不罗嗦了，就是java的文件操作FileInputStream等等 java如果获取ja...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  2 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="4" tabindex="0">
+        <a href="../java-%E6%97%B6%E9%97%B4%E5%A4%84%E7%90%86%E5%A4%8F%E4%BB%A4%E6%97%B6%E5%86%AC%E4%BB%A4%E6%97%B6%E8%B7%A8%E6%97%B6%E5%8C%BA%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>java-时间处理夏令时冬令时跨时区问题处理</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              作为一个成熟的编程语言，java自然有一堆方法来解决的时间的问题。有的时候我们会因为对java一些内置的api不是太熟悉，对某个场景不熟悉，导致遇到了棘手的问题。比如这个场景夏令时和冬令时 夏令时和冬令时在做全球性的功能时绝对少不了遇到时区...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="5" tabindex="0">
+        <a href="../java-%E9%87%8D%E8%BD%BD-%E9%87%8D%E5%86%99%E5%92%8C%E6%A1%A5%E6%8E%A5%E6%96%B9%E6%B3%95/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>java-重载-重写和桥接方法</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              今天在进行 java 反射库的封装过程中,发现了一个问题,之前对java重载和重写的机制认识并不是很深入.这里决定深入的整理一下 重载 定义 一个类中具有多个重名的方法,如果父子类满足条件也能构成重载方法 特点 方法名称相同 参数列表不许不...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+  </div>
+  
+  <!-- 查看更多 -->
+  <div class="vs-recommended-footer">
+    <a href="../../../../archives/" class="vs-view-more">
+      <i class="fas fa-folder-open"></i>
+      <span>View More Posts</span>
+      <i class="fas fa-chevron-right"></i>
+    </a>
+  </div>
+</div>
+
+<script>
+// 键盘导航支持
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.vs-recommended-item');
+  let currentIndex = -1;
+  
+  // 键盘事件
+  document.addEventListener('keydown', function(e) {
+    if (!items.length) return;
+    
+    if (e.key === 'Tab') {
+      // Tab键导航由浏览器处理
+      return;
+    }
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      
+      // 移除当前高亮
+      if (currentIndex >= 0) {
+        items[currentIndex].classList.remove('vs-focused');
+      }
+      
+      // 更新索引
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % items.length;
+      } else {
+        currentIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+      }
+      
+      // 添加新高亮
+      items[currentIndex].classList.add('vs-focused');
+      items[currentIndex].focus();
+    }
+    
+    if (e.key === 'Enter' && currentIndex >= 0) {
+      const link = items[currentIndex].querySelector('a');
+      if (link) link.click();
+    }
+  });
+  
+  // 鼠标悬停时更新当前索引
+  items.forEach((item, index) => {
+    item.addEventListener('mouseenter', function() {
+      currentIndex = index;
+      items.forEach(i => i.classList.remove('vs-focused'));
+      item.classList.add('vs-focused');
+    });
+  });
+});
+</script>
+
+        
+        <!-- 评论区 -->
+        
+  <div class="vs-comments-section">
+    <div class="section-header">
+      <i class="fas fa-comments"></i>
+      <span>COMMENTS</span>
+    </div>
+    
+    
+      <!-- Waline 评论系统 -->
+      <div id="waline"></div>
+      <script>
+        // 加载 Waline CSS
+        const walineCSS = document.createElement('link');
+        walineCSS.rel = 'stylesheet';
+        walineCSS.href = 'https://unpkg.com/@waline/client@v3/dist/waline.css';
+        document.head.appendChild(walineCSS);
+        
+        // 加载 Waline JS
+        const walineScript = document.createElement('script');
+        walineScript.type = 'module';
+        walineScript.onload = function() {
+          // 确保 Waline 加载后再初始化
+          import('https://unpkg.com/@waline/client@v3/dist/waline.js').then(({ init }) => {
+            const waline = init({
+              el: '#waline',
+              serverURL: 'https://vsc4tblackcat1337.vercel.app/',
+              lang: 'zh-CN',
+              locale: {},
+              emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus"],
+              requiredMeta: [],
+              login: 'disable',
+              wordLimit: 0,
+              pageSize: 10,
+              imageUploader: false,
+              highlighter: true,
+              texRenderer: false,
+              search: false,
+              pageview: false,
+              comment: true,
+              copyright: false,
+              
+              // 自动适配主题
+              dark: document.documentElement.getAttribute('data-theme') === 'dark' ? 'auto' : false,
+              
+              // 评论框占位符
+              placeholder: 'Feel free to leave a comment, no login required!',
+              
+              // 元数据配置
+              meta: ['nick', 'mail', 'link'],
+              
+              // 表情配置
+              emojiCDN: 'https://unpkg.com/@waline/emojis@1.2.0/',
+            });
+            
+            // 监听主题变化
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                  // Waline 会自动处理主题切换
+                  if (waline) {
+                    waline.update({ dark: isDark ? 'auto' : false });
+                  }
+                }
+              });
+            });
+            
+            observer.observe(document.documentElement, {
+              attributes: true,
+              attributeFilter: ['data-theme']
+            });
+          });
+        };
+        walineScript.src = 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+        document.body.appendChild(walineScript);
+      </script>
+    
+    
+  </div>
+
+      </article>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code-branch"></i>
+      master
+    </div>
+    <div class="status-item">
+      <i class="fas fa-sync"></i>
+      John Doe
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      2026-02-18
+    </div>
+    <div class="status-item">
+      Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
+    </div>
+    <div class="status-item github">
+      <a href="#" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 搜索专用配置 (HEXO_CONFIG 在 scripts.ejs 中统一定义) -->
+    <script>
+      window.VSC4T_SEARCH = {
+        root: "/"
+      };
+    </script>
+
+    <!-- 外部脚本 - 统一使用 cdnjs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
+    <script>if(typeof hljs !== 'undefined') hljs.highlightAll();</script>
+    <!-- 这里可以放置自定义脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Apply smooth scroll to non-TOC anchor links
+  document.querySelectorAll('a[href^="#"]:not(.toc-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Check if querySelector is valid before using it
+      try {
+        const targetSelector = this.getAttribute('href');
+        // Basic check for potentially invalid selectors (though not exhaustive)
+        if (targetSelector && targetSelector.length > 1) { 
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            console.warn('Smooth scroll target not found:', targetSelector);
+          }
+        } else {
+           console.warn('Invalid href for smooth scroll:', targetSelector);
+        }
+      } catch (error) {
+        console.error('Error during smooth scroll:', error, 'Selector:', this.getAttribute('href'));
+        // Fallback or alternative behavior if needed
+        // For example, try getElementById if it's just an ID
+        const targetId = this.getAttribute('href').slice(1);
+        try {
+            const targetElementById = document.getElementById(decodeURIComponent(targetId));
+            if (targetElementById) {
+                targetElementById.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (idError) {
+             console.error('Fallback getElementById also failed:', idError);
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Scripts -->
+<script>
+  // 全局配置 - 包含 i18n 字符串和主题配置
+  window.HEXO_CONFIG = {
+    language: "en",
+    root: "/",
+    
+    theme_switch: {
+      enabled: false,
+      light_start: "06:00",
+      light_end: "18:00"
+    },
+    
+    // Search i18n strings
+    search_placeholder: "Type to search...",
+    search_no_results: "No results found",
+    search_result: "result",
+    search_results: "results",
+    search_results_found: "Found undefined results",
+    search_in: "Search in",
+    search_in_title: "Title",
+    search_in_content: "Content",
+    search_in_tags: "Tags",
+    search_in_categories: "Categories",
+    search_filters: "Search Filters",
+    search_recent: "Recent Searches",
+    search_clear: "Clear",
+    search_loading: "Loading...",
+    search_error: "Error loading search data",
+    // Encryption i18n strings
+    encrypt_badge: "Protected",
+    encrypt_title: "Protected Content",
+    encrypt_description: "Enter the password to unlock this article. The password will be saved locally until you choose to re-encrypt.",
+    encrypt_label: "Password",
+    encrypt_placeholder: "Enter password to unlock",
+    encrypt_button: "Unlock",
+    encrypt_button_loading: "Unlocking...",
+    encrypt_hint: "Press Enter to submit. Password will be remembered on this device.",
+    encrypt_success: "Content unlocked successfully!",
+    encrypt_unlocked_note: "Content unlocked. You can re-encrypt at any time.",
+    encrypt_again: "Re-encrypt",
+    encrypt_wrong_password: "Incorrect password. Please try again.",
+    encrypt_show_password: "Show password",
+    encrypt_hide_password: "Hide password",
+    // Sidebar i18n strings
+    sidebar_about: "About",
+    sidebar_categories: "Categories",
+    sidebar_tags: "Tags",
+    // Post page i18n strings
+    post_toc: "TABLE OF CONTENTS",
+    post_category_posts: "CATEGORY POSTS",
+    post_article_tags: "ARTICLE TAGS"
+  };
+</script>
+
+
+
+<!-- 添加所有需要的脚本 -->
+<script src="../../../../js/search.js"></script>
+<script src="../../../../js/theme-switch.js"></script>
+
+<script src="../../../../js/password-protect.js?v=1771424192150"></script>
+
+    <script>
+      // 移动端菜单切换
+      $(document).ready(function() {
+        var $body = $('body');
+        var $sidebar = $('.sidebar-explorer');
+        var $overlay = $('.sidebar-overlay');
+        var $toggle = $('.mobile-menu-toggle');
+
+        function openSidebar() {
+          $sidebar.addClass('show');
+          $overlay.addClass('show');
+          $toggle.addClass('active');
+          $body.addClass('sidebar-open');
+        }
+
+        function closeSidebar() {
+          $sidebar.removeClass('show');
+          $overlay.removeClass('show');
+          $toggle.removeClass('active');
+          $body.removeClass('sidebar-open');
+        }
+
+        // 汉堡按钮点击切换
+        $toggle.on('click', function(e) {
+          e.stopPropagation();
+          if ($sidebar.hasClass('show')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+
+        // 点击遮罩层关闭
+        $overlay.on('click', function() {
+          closeSidebar();
+        });
+
+        // ESC 键关闭
+        $(document).on('keydown', function(e) {
+          if (e.key === 'Escape' && $sidebar.hasClass('show')) {
+            closeSidebar();
+          }
+        });
+
+        // 点击侧边栏内的链接时自动关闭侧边栏，确保锚点跳转正常
+        $sidebar.on('click', 'a', function() {
+          closeSidebar();
+        });
+      });
+    </script>
+  </body>
+</html>

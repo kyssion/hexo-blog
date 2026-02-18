@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>netty-(0)-netty demo 和netty的基本组建 | Hexo</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A simple dark Hexo theme inspired by code.">
+  <meta name="keywords" content="netty">
+  <meta name="author" content="John Doe">
+  <link rel="canonical" href="http://example.com">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="netty-(0)-netty demo 和netty的基本组建 | Hexo">
+  <meta property="og:description" content="A simple dark Hexo theme inspired by code.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://example.com">
+  <meta property="og:site_name" content="Hexo">
+  <meta property="article:published_time" content="2024-12-31T13:55:00.000Z">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="netty-(0)-netty demo 和netty的基本组建 | Hexo">
+  <meta name="twitter:description" content="A simple dark Hexo theme inspired by code.">
+
+  <!-- Favicon 配置 -->
+  
+
+  <!-- 外部样式 - 统一使用 jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- 代码高亮样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+  <!-- Mermaid.js 库 (defer加载) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <!-- 主题样式 -->
+  <link rel="stylesheet" href="../../../../css/theme-colors.css">
+  <link rel="stylesheet" href="../../../../css/main.css">
+  <link rel="stylesheet" href="../../../../css/code.css">
+  <link rel="stylesheet" href="../../../../css/code-custom.css">
+  <link rel="stylesheet" href="../../../../css/code-languages.css">
+  <link rel="stylesheet" href="../../../../css/mermaid.css">
+
+  <link rel="stylesheet" href="../../../../css/vs-code.css">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192173">
+  <link rel="stylesheet" href="../../../../css/tag.css">
+  <link rel="stylesheet" href="../../../../css/categories.css">
+  <link rel="stylesheet" href="../../../../css/archive.css">
+  <link rel="stylesheet" href="../../../../css/search.css">
+  <link rel="stylesheet" href="../../../../css/mobile.css">  <link rel="stylesheet" href="../../../../css/responsive.css">
+  <link rel="stylesheet" href="../../../../css/elements.css">
+
+  <!-- 添加 JetBrains Mono 字体 -->  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Add any custom head content here -->
+
+  <script defer src="../../../../js/explorer.js"></script>
+  <script defer src="../../../../js/code-enhance.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+      <div class="mobile-menu-toggle" aria-label="Toggle sidebar menu" role="button" tabindex="0">
+        <i class="fas fa-bars"></i>
+      </div>
+      <!-- 移动端侧边栏遮罩层 -->
+      <div class="sidebar-overlay" aria-hidden="true"></div>
+      <header class="vs-header">
+  <nav class="vs-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-brand">
+        <i class="fas fa-terminal"></i>
+        Hexo
+      </a>
+    </div>
+    
+    <div class="nav-right">
+      <a href="/" class="nav-item ">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="/archives/" class="nav-item ">
+        <i class="fas fa-archive"></i>
+        <span>Archives</span>
+      </a>
+      <a href="/categories/" class="nav-item ">
+        <i class="fas fa-folder"></i>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" class="nav-item ">
+        <i class="fas fa-tags"></i>
+        <span>Tags</span>
+      </a>
+      <a href="/search/" class="nav-item ">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="/about/" class="nav-item ">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function smoothScroll(event, target) {
+    event.preventDefault();
+    const targetId = target.substring(target.indexOf('#') + 1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 50, // 调整偏移量
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = target;
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.vs-header');
+    const nav = document.querySelector('.vs-nav');
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    
+    nav.style.setProperty('--scroll-percent', `${scrollPercent}%`);
+    
+    if (window.scrollY > 0) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // 添加标签页切换动画
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('nav-ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+</script>
+
+
+<div class="vscode-container">
+  <!-- 左侧资源管理器 -->
+  <div class="sidebar-explorer">
+    <!-- TOC导航 -->
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-list"></i>
+        <span>TABLE OF CONTENTS</span>
+      </div>
+      <div class="section-content">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#netty-0-netty-demo-%E5%92%8Cnetty%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%84%E5%BB%BA"><span class="toc-text">netty(0)-netty demo 和netty的基本组建</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80-%E9%A6%96%E5%85%88%E5%B1%95%E7%A4%BA%E8%BF%99%E4%B8%AAdemo%E7%9A%84%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-text">一.首先展示这个demo的目录结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C-%E4%BB%A3%E7%A0%81"><span class="toc-text">二.代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D%E4%B8%80%E4%B8%8Bnetty%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90%E6%9C%89%E9%82%A3%E4%BA%9B"><span class="toc-text">介绍一下netty的基本组成有那些</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Bootstrap"><span class="toc-text">Bootstrap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#eventloop-group"><span class="toc-text">eventloop group</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#channel-Channelhandle-ChannelHandleContext-ChannelPipeline"><span class="toc-text">channel Channelhandle ChannelHandleContext ChannelPipeline</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-netty-channel"><span class="toc-text">1. netty channel</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-channelhandle"><span class="toc-text">2. channelhandle</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-channelhandlecontext"><span class="toc-text">3. channelhandlecontext</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-ChannelPipeline"><span class="toc-text">3. ChannelPipeline</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-%E6%95%B4%E4%BD%93%E6%80%BB%E7%BB%93"><span class="toc-text">4 .整体总结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ChannelFuture"><span class="toc-text">ChannelFuture</span></a></li></ol></li></ol>
+      </div>
+    </div>
+
+    <!-- 同分类文章 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-folder"></i>
+        <span>CATEGORY POSTS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-1--dubbo%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%92%8C%E6%80%9D%E6%83%B3/">dubbo-学习和使用(1)-dubbo架构设计和思想</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-8--dubbo%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83/">dubbo-学习和使用(8)-dubbo配置参考</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-1--%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2/">dubbo-深入(1)-基本使用初探</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-3--%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/">dubbo-深入(3)-注册中心</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-3--%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83/">dubbo-深入(3)-配置参考</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-4---%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">dubbo-深入(4)- 集群架构设计</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-2--%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95/">dubbo学习和使用(2)-使用初探和配置方法</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-3--dubbo%E5%8A%9F%E8%83%BD-1-/">dubbo学习和使用(3)-dubbo功能(1)</a>
+          </div>
+        
+      </div>
+    </div>
+    
+    
+    <!-- 标签列表 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-tags"></i>
+        <span>ARTICLE TAGS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../../../tags/netty/">netty</a>
+            <span class="count">(7)</span>
+          </div>
+        
+      </div>
+    </div>
+    
+  </div>
+
+  <!-- 主要内容区域 -->
+  <div class="editor-content">
+    <div class="tab-bar">
+      <div class="tab active">
+        <i class="fas fa-file-alt"></i>
+        <span>netty-(0)-netty demo 和netty的基本组建.md</span>
+      </div>
+    </div>
+    
+    <div class="content-area">
+      <article class="post-content">
+        <div class="post-header">
+          <h1>netty-(0)-netty demo 和netty的基本组建</h1>
+          <div class="post-meta">
+            <span class="date">
+              <i class="fas fa-calendar-alt"></i>
+              2024-12-31
+            </span>
+            
+            <span class="updated-date">
+              <i class="fas fa-sync-alt"></i>
+              Updated 2026-02-18
+            </span>
+                        
+              <span class="categories">
+                <i class="fas fa-folder"></i>
+                <div class="categories-list">
+                  <ul class="category-item-post-list"><li class="category-item-post-list-item"><a class="category-item-post-list-link" href="../../../../categories/java/">java</a></li></ul>
+                </div>
+              </span>
+            
+            
+              <span class="tags">
+                <i class="fas fa-tags"></i>
+                <div class="tags-list">
+                  <ul class="tag-item-post-list" itemprop="keywords"><li class="tag-item-post-list-item"><a class="tag-item-post-list-link" href="../../../../tags/netty/" rel="tag">netty</a></li></ul>
+                </div>
+              </span>
+            
+          </div>
+        </div>
+        
+        <div class="post-body vscode-markdown">
+          <h2 id="netty-0-netty-demo-和netty的基本组建"><a href="#netty-0-netty-demo-和netty的基本组建" class="headerlink" title="netty(0)-netty demo 和netty的基本组建"></a>netty(0)-netty demo 和netty的基本组建</h2><h3 id="一-首先展示这个demo的目录结构"><a href="#一-首先展示这个demo的目录结构" class="headerlink" title="一.首先展示这个demo的目录结构"></a>一.首先展示这个demo的目录结构</h3><p><img src="/images/blogimg//blogimg/netty/4.png"><br>EchoClient 和 EchoServer 分别表示 客户端和服务端的运行程序，对应的Handler 数据调用的时候相关的操作方法</p>
+<h3 id="二-代码"><a href="#二-代码" class="headerlink" title="二.代码"></a>二.代码</h3><ul>
+<li>choClient.class</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">EchoClient</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> String host;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> port;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">EchoClient</span><span class="hljs-params">(String host, <span class="hljs-type">int</span> port)</span> &#123;<br>        <span class="hljs-built_in">this</span>.host = host;<br>        <span class="hljs-built_in">this</span>.port = port;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">EchoClient</span>(<span class="hljs-string">&quot;127.0.0.1&quot;</span>,<span class="hljs-number">3330</span>).start();<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">start</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception&#123;<br>        <span class="hljs-type">EventLoopGroup</span> <span class="hljs-variable">group</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NioEventLoopGroup</span>();<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-type">Bootstrap</span> <span class="hljs-variable">bootstrap</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Bootstrap</span>();<br>            bootstrap.group(group)<br>                    .channel(NioSocketChannel.class)<br>                    .remoteAddress(<span class="hljs-keyword">new</span> <span class="hljs-title class_">InetSocketAddress</span>(host,port))<br>                    .handler(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ChannelInitializer</span>&lt;SocketChannel&gt;() &#123;<br>                        <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initChannel</span><span class="hljs-params">(SocketChannel ch)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>                            ch.pipeline().addLast(<span class="hljs-keyword">new</span> <span class="hljs-title class_">EchoClientHandler</span>());<br>                        &#125;<br>                    &#125;);<br>            <span class="hljs-type">ChannelFuture</span> <span class="hljs-variable">future</span> <span class="hljs-operator">=</span> bootstrap.connect().sync();<br>            future.channel().closeFuture().sync();<br>        &#125; <span class="hljs-keyword">finally</span> &#123;<br>            group.shutdownGracefully().sync();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>EchoClientHandler.class</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">EchoClientHandler</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">SimpleChannelInboundHandler</span>&lt;ByteBuf&gt; &#123;<br>    <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">channelRead0</span><span class="hljs-params">(ChannelHandlerContext ctx, ByteBuf msg)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        System.out.println(<span class="hljs-string">&quot;client received: &quot;</span>+ msg.toString(CharsetUtil.UTF_8));<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">channelActive</span><span class="hljs-params">(ChannelHandlerContext ctx)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        ctx.writeAndFlush(Unpooled.copiedBuffer(<span class="hljs-string">&quot;Netty rocks!&quot;</span>,CharsetUtil.UTF_8));<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">exceptionCaught</span><span class="hljs-params">(ChannelHandlerContext ctx, Throwable cause)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        cause.printStackTrace();<br>        ctx.close();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>EchoServer.class</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">EchoServer</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-type">int</span> port;<span class="hljs-comment">//帮顶相关的接口</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">EchoServer</span><span class="hljs-params">(<span class="hljs-type">int</span> port)</span> &#123;<br>        <span class="hljs-built_in">this</span>.port = port;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-keyword">new</span> <span class="hljs-title class_">EchoServer</span>(<span class="hljs-number">3330</span>).start();<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">start</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-keyword">final</span> <span class="hljs-type">EchoServerHandler</span> <span class="hljs-variable">serverHandler</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">EchoServerHandler</span>();<br>        <span class="hljs-type">EventLoopGroup</span> <span class="hljs-variable">group</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NioEventLoopGroup</span>();<br>        <span class="hljs-keyword">try</span> &#123;<br>            <span class="hljs-type">ServerBootstrap</span> <span class="hljs-variable">b</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ServerBootstrap</span>();<br>            b.group(group).channel(NioServerSocketChannel.class)<br>                    .localAddress(<span class="hljs-keyword">new</span> <span class="hljs-title class_">InetSocketAddress</span>(port))<br>                    .childHandler(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ChannelInitializer</span>&lt;SocketChannel&gt;() &#123;<br>                        <span class="hljs-meta">@Override</span><br>                        <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initChannel</span><span class="hljs-params">(SocketChannel ch)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>                            ch.pipeline().addLast(serverHandler);<br>                        &#125;<br>                    &#125;);<br>            <span class="hljs-type">ChannelFuture</span> <span class="hljs-variable">f</span> <span class="hljs-operator">=</span> b.bind().sync();<br>            f.channel().closeFuture().sync();<br>        &#125; <span class="hljs-keyword">finally</span> &#123;<br>            group.shutdownGracefully().sync();<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>EchoServerHandler.class</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@ChannelHandler</span>.Sharable<span class="hljs-comment">//表示一个ChannelHandler 可以被多个Channel安全的共享</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">EchoServerHandler</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ChannelInboundHandlerAdapter</span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">channelRead</span><span class="hljs-params">(ChannelHandlerContext ctx, Object msg)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        ByteBuf in= (ByteBuf) msg;<br>        System.out.println(<span class="hljs-string">&quot;server received: &quot;</span> + in.toString(CharsetUtil.UTF_8));<br>        ctx.write(in);<span class="hljs-comment">//表示相关的写法写给发送这而不冲刷相关的消息</span><br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">channelReadComplete</span><span class="hljs-params">(ChannelHandlerContext ctx)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-comment">//将未觉消息冲刷到远程节点，并且关闭该Channel</span><br>        ctx.writeAndFlush(Unpooled.EMPTY_BUFFER).addListener(ChannelFutureListener.CLOSE);<br>    &#125;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">exceptionCaught</span><span class="hljs-params">(ChannelHandlerContext ctx, Throwable cause)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        cause.printStackTrace();<br>        ctx.close();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h2 id="介绍一下netty的基本组成有那些"><a href="#介绍一下netty的基本组成有那些" class="headerlink" title="介绍一下netty的基本组成有那些"></a>介绍一下netty的基本组成有那些</h2><h3 id="Bootstrap"><a href="#Bootstrap" class="headerlink" title="Bootstrap"></a>Bootstrap</h3><p>这个基本类是一个便利的基本工厂用来实现netty 快速配置的方法类</p>
+<p>bootstrap实现netty快速配置的过程是这样的</p>
+<p><img src="/images/blogimg//blogimg/netty/16.png"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">try</span> &#123;   <span class="hljs-comment">//1 设置reactor 线程</span><br>    b.group(bossLoopGroup, workerLoopGroup);<br>    <span class="hljs-comment">//2 设置nio类型的channel</span><br>    b.channel(NioServerSocketChannel.class);<br>    <span class="hljs-comment">//3 设置监听端口</span><br>    b.localAddress(<span class="hljs-keyword">new</span> <span class="hljs-title class_">InetSocketAddress</span>(port));<br>    <span class="hljs-comment">//4 设置通道选项</span><br>    b.option(ChannelOption.SO_KEEPALIVE, <span class="hljs-literal">true</span>);<br>    b.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);<br><br>    <span class="hljs-comment">//5 装配流水线</span><br>    b.childHandler(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ChannelInitializer</span>&lt;SocketChannel&gt;()<br>    &#123;<br>        <span class="hljs-comment">//有连接到达时会创建一个channel</span><br>        <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initChannel</span><span class="hljs-params">(SocketChannel ch)</span> <span class="hljs-keyword">throws</span> Exception<br>        &#123;<br>            ch.pipeline().addLast(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ProtobufDecoder</span>());<br>            ch.pipeline().addLast(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ProtobufEncoder</span>());<br>            <span class="hljs-comment">// pipeline管理channel中的Handler</span><br>            <span class="hljs-comment">// 在channel队列中添加一个handler来处理业务</span><br>            ch.pipeline().addLast(<span class="hljs-string">&quot;serverHandler&quot;</span>, serverHandler);<br>        &#125;<br>    &#125;);<br>    <span class="hljs-comment">// 6 开始绑定server</span><br>    <span class="hljs-comment">// 通过调用sync同步方法阻塞直到绑定成功</span><br><br>    <span class="hljs-type">ChannelFuture</span> <span class="hljs-variable">channelFuture</span> <span class="hljs-operator">=</span> b.bind().sync();<br>    LOGGER.info(ChatServer.class.getName() +<br>            <span class="hljs-string">&quot; started and listen on &quot;</span> + <br>            channelFuture.channel().localAddress());<br><br>    <span class="hljs-comment">// 7 监听通道关闭事件</span><br>    <span class="hljs-comment">// 应用程序会一直等待，直到channel关闭</span><br>    ChannelFuture closeFuture=  channelFuture.channel().closeFuture();<br>    closeFuture.sync();<br>&#125; <span class="hljs-keyword">catch</span> (Exception e)&#123;<br>    e.printStackTrace();<br>&#125; <span class="hljs-keyword">finally</span>&#123;<br>    <span class="hljs-comment">// 8 优雅关闭EventLoopGroup，</span><br>    <span class="hljs-comment">// 释放掉所有资源包括创建的线程</span><br>    workerLoopGroup.shutdownGracefully();<br>    bossLoopGroup.shutdownGracefully();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<blockquote>
+<p>netty 其实提供了两组的bootstrap ， 和serverBootstrap 分别对应client端和server端</p>
+</blockquote>
+<h3 id="eventloop-group"><a href="#eventloop-group" class="headerlink" title="eventloop group"></a>eventloop group</h3><p>netty 是基于事件循环的，并且是muilt-eventLoop （多线程版eventloop）</p>
+<p>在服务端，netty提供了两套线程组类来供eventloop使用 bossloopGroup 和 wordloopGroup</p>
+<p>！<a href="blogimg/netty/17.png"></a></p>
+<p>分离的取决于netty的架构设计，之前我们说过netty的服务端channel分为parent channel 和childern channel，分别负责创建链接和使用链接</p>
+<p>loopGroup也是这样进行分组的</p>
+<ul>
+<li><p>bossLoopGroup 表示服务器连接监听线程组，专门接受 accept 新的客户端client 连接</p>
+</li>
+<li><p>workerGroup 表示处理每一条连接的数据收发的线程组</p>
+</li>
+</ul>
+<p>在线程组和启动器都创建完成后，就可以开始设置线程组：通过 b.group(bossGroup, workerGroup) 方法，给引导器配置两大线程组。<br>配置完成之后，整个引导类的 reactor 线程正式确定。这里确定的工作模式，为父子线程的模型。</p>
+<p>如果只设置一个线程组，具体的方法为 —— b.group( workerGroup) 。<br>配置完成一个线程组，则所有的 channel ，包括服务监听通道父亲channel 和所有的子channel ，都工作在同一个线程组中。</p>
+<h3 id="channel-Channelhandle-ChannelHandleContext-ChannelPipeline"><a href="#channel-Channelhandle-ChannelHandleContext-ChannelPipeline" class="headerlink" title="channel Channelhandle ChannelHandleContext ChannelPipeline"></a>channel Channelhandle ChannelHandleContext ChannelPipeline</h3><p>channel在netty中其实是对应一种链接类型（或者说socket的类型）</p>
+<p>netty 目前的链接类型大约是如下的几种</p>
+<ul>
+<li>NioSocketChannel, 代表异步的客户端 TCP Socket 连接.</li>
+<li>NioServerSocketChannel, 异步的服务器端 TCP Socket 连接.</li>
+<li>NioDatagramChannel, 异步的 UDP 连接</li>
+<li>NioSctpChannel, 异步的客户端 Sctp 连接.</li>
+<li>NioSctpServerChannel, 异步的 Sctp 服务器端连接.</li>
+<li>OioSocketChannel, 同步的客户端 TCP Socket 连接.</li>
+<li>OioServerSocketChannel, 同步的服务器端 TCP Socket 连接.</li>
+<li>OioDatagramChannel, 同步的 UDP 连接</li>
+<li>OioSctpChannel, 同步的 Sctp 服务器端连接.</li>
+<li>OioSctpServerChannel, 同步的客户端 TCP Socket 连接.</li>
+</ul>
+<p>netty 其实可以说90%以上的设计点都是在channel方法上，这里说明一下netty的chanel有那些</p>
+<h4 id="1-netty-channel"><a href="#1-netty-channel" class="headerlink" title="1. netty channel"></a>1. netty channel</h4><p>netty在设计的时候其实channel分为parent channel和childern channel</p>
+<blockquote>
+<p>parent channel:服务器连接监听的channel,用来坚监听服务器链接和创建链接<br>childern channel:一个socket 对应的channel,由parent channel 创建的channel</p>
+</blockquote>
+<p>总结channel其实就是netty实际链接的一种抽象</p>
+<h4 id="2-channelhandle"><a href="#2-channelhandle" class="headerlink" title="2. channelhandle"></a>2. channelhandle</h4><p>ChannelHandler用于处理Channel对应的事件 （netty定义了大量的事件，通过这些事件调用对应的handle方法）<br>ChannelHandler接口里面只定义了三个生命周期方法，我们主要实现它的子接口ChannelInboundHandler和ChannelOutboundHandler，为了便利，框架提供了ChannelInboundHandlerAdapter，ChannelOutboundHandlerAdapter和ChannelDuplexHandler这三个适配类，在使用的时候只需要实现你关注的方法即可</p>
+<p>ChannelInboundHandler 事件：</p>
+<table>
+<thead>
+<tr>
+<th>回调方法</th>
+<th>触发时机</th>
+<th>client</th>
+<th>server</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>channelRegistered</td>
+<td>当前channel注册到EventLoop</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td>channelUnregistered</td>
+<td>当前channel从EventLoop取消注册</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td>channelActive</td>
+<td>当前channel激活的时候</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td>channelInactive</td>
+<td>当前channel不活跃的时候，也就是当前channel到了它生命周期末</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td>channelRead</td>
+<td>当前channel从远端读取到数据</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td>channelReadComplete</td>
+<td>channel read消费完读取的数据的时候被触发</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td>userEventTriggered</td>
+<td>用户事件触发的时候</td>
+<td>FALSE</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td>channelWritabilityChanged</td>
+<td>channel的写状态变化的时候触发</td>
+<td>FALSE</td>
+<td>FALSE</td>
+</tr>
+</tbody></table>
+<p>ChannelOutboundHandler：</p>
+<table>
+<thead>
+<tr>
+<th>回调方法</th>
+<th>触发时机</th>
+<th>client</th>
+<th>server</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>bind</td>
+<td>bind操作执行前触发</td>
+<td>false</td>
+<td>true</td>
+</tr>
+<tr>
+<td>connect</td>
+<td>connect 操作执行前触发</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr>
+<td>disconnect</td>
+<td>disconnect 操作执行前触发</td>
+<td>true</td>
+<td>false</td>
+</tr>
+<tr>
+<td>close</td>
+<td>close操作执行前触发</td>
+<td>false</td>
+<td>true</td>
+</tr>
+<tr>
+<td>deregister</td>
+<td>deregister操作执行前触发</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>read</td>
+<td>read操作执行前触发</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td>write</td>
+<td>write操作执行前触发</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td>flush</td>
+<td>flush操作执行前触发</td>
+<td>true</td>
+<td>true</td>
+</tr>
+</tbody></table>
+<h4 id="3-channelhandlecontext"><a href="#3-channelhandlecontext" class="headerlink" title="3. channelhandlecontext"></a>3. channelhandlecontext</h4><p>这个是 channelhandle的一种封装，可以理解为中间层，相当于netty的数据层和调度层的中间层</p>
+<p>当一个channelHandle 加入到netty中的时候，netty将会自动的将这个channelhandle包装成 channelhandlecontext，供上方使用</p>
+<blockquote>
+<p>注意channelhandleContext的数据其实非常封闭的，他只能处理自己的和之后的数据 并不能应修改这个流程中的所有数据，如果进行修改的是channel或者channlePipeline 的话，从头重新掉用数据</p>
+</blockquote>
+<h4 id="3-ChannelPipeline"><a href="#3-ChannelPipeline" class="headerlink" title="3. ChannelPipeline"></a>3. ChannelPipeline</h4><p>这个就是一个channelhandlecontext处理节点的一个集合， 一个channel（数据源）对应一个channelPopeline，一个channelPipeline对应一组channelhandleContext.</p>
+<p>channelPipeline &gt; 其实就是eventloop处理队列的一个抽象，修改channelPipeline中的数据将会影响整个netty对应这个channel的处理方式</p>
+<h4 id="4-整体总结"><a href="#4-整体总结" class="headerlink" title="4 .整体总结"></a>4 .整体总结</h4><p><img src="/images/blogimg//blogimg/netty/18.png"></p>
+<p><img src="/images/blogimg//blogimg/netty/19.webp"></p>
+<p><img src="/images/blogimg//blogimg/netty/20.webp"></p>
+<p><img src="/images/blogimg//blogimg/netty/21.jpg"></p>
+<ol>
+<li><p>一个channel对应一个channelPopeline 一个channelPipeline 对应一组 channelContext 一个channelContext承载一个channelhandle</p>
+</li>
+<li><p>处理进入的时候走的是ChannelInboundHandler接口的处理实现类，吐出的时候走的是ChannelOutboundHandler接口的实现类</p>
+</li>
+<li><p>netty提供了两个通用的handle</p>
+</li>
+</ol>
+<blockquote>
+<p>HeadContext</p>
+</blockquote>
+<p>HeadContext实现了ChannelOutboundHandler，ChannelInboundHandler这两个接口</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">HeadContext</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractChannelHandlerContext</span><br>            <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ChannelOutboundHandler</span>, ChannelInboundHandler<br></code></pre></td></tr></table></figure>
+
+<p>因为在头部，所以说HeadContext中关于in和out的回调方法都会触发<br>关于ChannelInboundHandler，HeadContext的作用是进行一些前置操作，以及把事件传递到下一个ChannelHandlerContext的ChannelInboundHandler中去</p>
+<blockquote>
+<p>  TailContext<br>TailContext实现了ChannelInboundHandler接口，会在ChannelInboundHandler调用链最后执行，只要是对调用链完成处理的情况进行处理，看下channelRead实现</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">channelRead</span><span class="hljs-params">(ChannelHandlerContext ctx, Object msg)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>    onUnhandledInboundMessage(msg);<br>&#125;<br><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onUnhandledInboundMessage</span><span class="hljs-params">(Object msg)</span> &#123;<br>    <span class="hljs-keyword">try</span> &#123;<br>        logger.debug(<br>                <span class="hljs-string">&quot;Discarded inbound message &#123;&#125; that reached at the tail of the pipeline. &quot;</span> +<br>                        <span class="hljs-string">&quot;Please check your pipeline configuration.&quot;</span>, msg);<br>    &#125; <span class="hljs-keyword">finally</span> &#123;<br>        ReferenceCountUtil.release(msg);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="ChannelFuture"><a href="#ChannelFuture" class="headerlink" title="ChannelFuture"></a>ChannelFuture</h3><p>这个已经是netty最后一个组建，这个方法用来通知netty中channel的状态，因为netty是异步的，所以通过这种方法来实现一个监控</p>
+<blockquote>
+<p>ps 从这里我们也可以明白了其实如果netty需要增加一个链接一定会再实现上面的这一套操作创建一个新的future</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">// 6 开始绑定server</span><br><span class="hljs-comment">// 通过调用sync同步方法阻塞直到绑定成功</span><br><br><span class="hljs-type">ChannelFuture</span> <span class="hljs-variable">channelFuture</span> <span class="hljs-operator">=</span> b.bind().sync();<br>LOGGER.info(ChatServer.class.getName() +<br>        <span class="hljs-string">&quot; started and listen on &quot;</span> + <br>        channelFuture.channel().localAddress());<br><br><span class="hljs-comment">// 7 监听通道关闭事件</span><br><span class="hljs-comment">// 应用程序会一直等待，直到channel关闭</span><br>ChannelFuture closeFuture=  channelFuture.channel().closeFuture();<br>closeFuture.sync();<br></code></pre></td></tr></table></figure>
+
+        </div>
+        
+        <!-- 文章导航 - 只在同分类有多篇文章时显示 -->
+        
+        
+        
+        <nav class="post-nav">
+          
+            <a class="prev" href="../mybatis-%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E8%AE%B0%E5%BD%95-1--building%E5%8C%85/">
+              <i class="fas fa-chevron-left"></i>
+              mybatis-源码阅读记录(1)-building包
+            </a>
+          
+          
+            <a class="next" href="../netty--1-%E4%BC%A0%E8%BE%93api/">
+              netty-(1)传输api
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          
+        </nav>
+        
+        
+        <!-- 推荐文章 -->
+        
+
+
+<div class="vs-recommended-posts">
+  <div class="vs-recommended-header">
+    <div class="section-header">
+      <i class="fas fa-lightbulb"></i>
+      <span>RELATED POSTS</span>
+    </div>
+  </div>
+  
+  <div class="vs-recommended-grid">
+    
+      <div class="vs-recommended-item" data-index="0" tabindex="0">
+        <a href="../netty--1-%E4%BC%A0%E8%BE%93api/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>netty-(1)传输api</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              传输API的核心是interfaceChannel，它被用于所有的I&amp;#x2F;O操作。Channel类的层次结构如图 每个Channel都将会被分配一个ChannelPipeline和ChannelConfig。ChannelConfig...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  netty
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="1" tabindex="0">
+        <a href="../netty--2-byteBuf/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>netty-(2)byteBuf</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              netty byteBufNetty的数据处理API通过两个组件暴露——abstract class ByteBuf和interface ByteBufHolder。 下面是一些ByteBuf API的优点： 它可以被用户自定义的缓冲区类型...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  netty
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="2" tabindex="0">
+        <a href="../netty--3-channelHandler/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>netty-(3)channelHandler</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              之前有一个netty的数据流处理图 在这张图中可以体现出在ChannelPipeline中将ChannelHandler链接在一起以组织处理逻辑,并且使用ChannelHandlerContext传递参数 ChannelHandler家族 ...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  netty
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  3 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="3" tabindex="0">
+        <a href="../netty--4-EventLoop%E5%92%8C%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>netty-(4)EventLoop和线程模型</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              线程池模型概述基本的线程池化模式可以描述为： 从池的空闲线程列表中选择一个Thread，并且指派它去运行一个已提交的任务（一个Runnable的实现）；当任务完成时，将该Thread返回给该列表，使其可被重用。 netty中线程模型(eve...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  netty
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="4" tabindex="0">
+        <a href="../netty--5-bootstrap/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>netty-(5)bootstrap</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              其实对于任何框架来说,都会有一个公共的入口,在netty中这个入口被叫做 bootstrap 引导 引导类的层次结构包括一个抽象的父类和两个具体的引导子类 针对上图我们能看出来,特定于客户端或者服务器的引导步骤则分别由Bootstrap或S...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  netty
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  3 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="5" tabindex="0">
+        <a href="../netty-%E9%AB%98%E6%80%A7%E8%83%BD%E7%BD%91%E7%BB%9C%E6%A1%86%E6%9E%B6-Netty%E7%9A%84%E7%BB%84%E5%BB%BA%E5%92%8C%E8%AE%BE%E8%AE%A1/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>netty-高性能网络框架-Netty的组建和设计</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              netty高性能网络框架-Netty的组建和设计 在Netty框架中有三大关键组建 ChannelEventLoopchannelFutureChannelHandlerchannelPipelinebootstrap 如果和网络中的相关概...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  netty
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+  </div>
+  
+  <!-- 查看更多 -->
+  <div class="vs-recommended-footer">
+    <a href="../../../../archives/" class="vs-view-more">
+      <i class="fas fa-folder-open"></i>
+      <span>View More Posts</span>
+      <i class="fas fa-chevron-right"></i>
+    </a>
+  </div>
+</div>
+
+<script>
+// 键盘导航支持
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.vs-recommended-item');
+  let currentIndex = -1;
+  
+  // 键盘事件
+  document.addEventListener('keydown', function(e) {
+    if (!items.length) return;
+    
+    if (e.key === 'Tab') {
+      // Tab键导航由浏览器处理
+      return;
+    }
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      
+      // 移除当前高亮
+      if (currentIndex >= 0) {
+        items[currentIndex].classList.remove('vs-focused');
+      }
+      
+      // 更新索引
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % items.length;
+      } else {
+        currentIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+      }
+      
+      // 添加新高亮
+      items[currentIndex].classList.add('vs-focused');
+      items[currentIndex].focus();
+    }
+    
+    if (e.key === 'Enter' && currentIndex >= 0) {
+      const link = items[currentIndex].querySelector('a');
+      if (link) link.click();
+    }
+  });
+  
+  // 鼠标悬停时更新当前索引
+  items.forEach((item, index) => {
+    item.addEventListener('mouseenter', function() {
+      currentIndex = index;
+      items.forEach(i => i.classList.remove('vs-focused'));
+      item.classList.add('vs-focused');
+    });
+  });
+});
+</script>
+
+        
+        <!-- 评论区 -->
+        
+  <div class="vs-comments-section">
+    <div class="section-header">
+      <i class="fas fa-comments"></i>
+      <span>COMMENTS</span>
+    </div>
+    
+    
+      <!-- Waline 评论系统 -->
+      <div id="waline"></div>
+      <script>
+        // 加载 Waline CSS
+        const walineCSS = document.createElement('link');
+        walineCSS.rel = 'stylesheet';
+        walineCSS.href = 'https://unpkg.com/@waline/client@v3/dist/waline.css';
+        document.head.appendChild(walineCSS);
+        
+        // 加载 Waline JS
+        const walineScript = document.createElement('script');
+        walineScript.type = 'module';
+        walineScript.onload = function() {
+          // 确保 Waline 加载后再初始化
+          import('https://unpkg.com/@waline/client@v3/dist/waline.js').then(({ init }) => {
+            const waline = init({
+              el: '#waline',
+              serverURL: 'https://vsc4tblackcat1337.vercel.app/',
+              lang: 'zh-CN',
+              locale: {},
+              emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus"],
+              requiredMeta: [],
+              login: 'disable',
+              wordLimit: 0,
+              pageSize: 10,
+              imageUploader: false,
+              highlighter: true,
+              texRenderer: false,
+              search: false,
+              pageview: false,
+              comment: true,
+              copyright: false,
+              
+              // 自动适配主题
+              dark: document.documentElement.getAttribute('data-theme') === 'dark' ? 'auto' : false,
+              
+              // 评论框占位符
+              placeholder: 'Feel free to leave a comment, no login required!',
+              
+              // 元数据配置
+              meta: ['nick', 'mail', 'link'],
+              
+              // 表情配置
+              emojiCDN: 'https://unpkg.com/@waline/emojis@1.2.0/',
+            });
+            
+            // 监听主题变化
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                  // Waline 会自动处理主题切换
+                  if (waline) {
+                    waline.update({ dark: isDark ? 'auto' : false });
+                  }
+                }
+              });
+            });
+            
+            observer.observe(document.documentElement, {
+              attributes: true,
+              attributeFilter: ['data-theme']
+            });
+          });
+        };
+        walineScript.src = 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+        document.body.appendChild(walineScript);
+      </script>
+    
+    
+  </div>
+
+      </article>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code-branch"></i>
+      master
+    </div>
+    <div class="status-item">
+      <i class="fas fa-sync"></i>
+      John Doe
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      2026-02-18
+    </div>
+    <div class="status-item">
+      Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
+    </div>
+    <div class="status-item github">
+      <a href="#" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 搜索专用配置 (HEXO_CONFIG 在 scripts.ejs 中统一定义) -->
+    <script>
+      window.VSC4T_SEARCH = {
+        root: "/"
+      };
+    </script>
+
+    <!-- 外部脚本 - 统一使用 cdnjs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
+    <script>if(typeof hljs !== 'undefined') hljs.highlightAll();</script>
+    <!-- 这里可以放置自定义脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Apply smooth scroll to non-TOC anchor links
+  document.querySelectorAll('a[href^="#"]:not(.toc-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Check if querySelector is valid before using it
+      try {
+        const targetSelector = this.getAttribute('href');
+        // Basic check for potentially invalid selectors (though not exhaustive)
+        if (targetSelector && targetSelector.length > 1) { 
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            console.warn('Smooth scroll target not found:', targetSelector);
+          }
+        } else {
+           console.warn('Invalid href for smooth scroll:', targetSelector);
+        }
+      } catch (error) {
+        console.error('Error during smooth scroll:', error, 'Selector:', this.getAttribute('href'));
+        // Fallback or alternative behavior if needed
+        // For example, try getElementById if it's just an ID
+        const targetId = this.getAttribute('href').slice(1);
+        try {
+            const targetElementById = document.getElementById(decodeURIComponent(targetId));
+            if (targetElementById) {
+                targetElementById.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (idError) {
+             console.error('Fallback getElementById also failed:', idError);
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Scripts -->
+<script>
+  // 全局配置 - 包含 i18n 字符串和主题配置
+  window.HEXO_CONFIG = {
+    language: "en",
+    root: "/",
+    
+    theme_switch: {
+      enabled: false,
+      light_start: "06:00",
+      light_end: "18:00"
+    },
+    
+    // Search i18n strings
+    search_placeholder: "Type to search...",
+    search_no_results: "No results found",
+    search_result: "result",
+    search_results: "results",
+    search_results_found: "Found undefined results",
+    search_in: "Search in",
+    search_in_title: "Title",
+    search_in_content: "Content",
+    search_in_tags: "Tags",
+    search_in_categories: "Categories",
+    search_filters: "Search Filters",
+    search_recent: "Recent Searches",
+    search_clear: "Clear",
+    search_loading: "Loading...",
+    search_error: "Error loading search data",
+    // Encryption i18n strings
+    encrypt_badge: "Protected",
+    encrypt_title: "Protected Content",
+    encrypt_description: "Enter the password to unlock this article. The password will be saved locally until you choose to re-encrypt.",
+    encrypt_label: "Password",
+    encrypt_placeholder: "Enter password to unlock",
+    encrypt_button: "Unlock",
+    encrypt_button_loading: "Unlocking...",
+    encrypt_hint: "Press Enter to submit. Password will be remembered on this device.",
+    encrypt_success: "Content unlocked successfully!",
+    encrypt_unlocked_note: "Content unlocked. You can re-encrypt at any time.",
+    encrypt_again: "Re-encrypt",
+    encrypt_wrong_password: "Incorrect password. Please try again.",
+    encrypt_show_password: "Show password",
+    encrypt_hide_password: "Hide password",
+    // Sidebar i18n strings
+    sidebar_about: "About",
+    sidebar_categories: "Categories",
+    sidebar_tags: "Tags",
+    // Post page i18n strings
+    post_toc: "TABLE OF CONTENTS",
+    post_category_posts: "CATEGORY POSTS",
+    post_article_tags: "ARTICLE TAGS"
+  };
+</script>
+
+
+
+<!-- 添加所有需要的脚本 -->
+<script src="../../../../js/search.js"></script>
+<script src="../../../../js/theme-switch.js"></script>
+
+<script src="../../../../js/password-protect.js?v=1771424192173"></script>
+
+    <script>
+      // 移动端菜单切换
+      $(document).ready(function() {
+        var $body = $('body');
+        var $sidebar = $('.sidebar-explorer');
+        var $overlay = $('.sidebar-overlay');
+        var $toggle = $('.mobile-menu-toggle');
+
+        function openSidebar() {
+          $sidebar.addClass('show');
+          $overlay.addClass('show');
+          $toggle.addClass('active');
+          $body.addClass('sidebar-open');
+        }
+
+        function closeSidebar() {
+          $sidebar.removeClass('show');
+          $overlay.removeClass('show');
+          $toggle.removeClass('active');
+          $body.removeClass('sidebar-open');
+        }
+
+        // 汉堡按钮点击切换
+        $toggle.on('click', function(e) {
+          e.stopPropagation();
+          if ($sidebar.hasClass('show')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+
+        // 点击遮罩层关闭
+        $overlay.on('click', function() {
+          closeSidebar();
+        });
+
+        // ESC 键关闭
+        $(document).on('keydown', function(e) {
+          if (e.key === 'Escape' && $sidebar.hasClass('show')) {
+            closeSidebar();
+          }
+        });
+
+        // 点击侧边栏内的链接时自动关闭侧边栏，确保锚点跳转正常
+        $sidebar.on('click', 'a', function() {
+          closeSidebar();
+        });
+      });
+    </script>
+  </body>
+</html>

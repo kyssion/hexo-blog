@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>spring5-springMVC使用简介 | Hexo</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A simple dark Hexo theme inspired by code.">
+  <meta name="keywords" content="spring">
+  <meta name="author" content="John Doe">
+  <link rel="canonical" href="http://example.com">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="spring5-springMVC使用简介 | Hexo">
+  <meta property="og:description" content="A simple dark Hexo theme inspired by code.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://example.com">
+  <meta property="og:site_name" content="Hexo">
+  <meta property="article:published_time" content="2024-12-31T13:35:00.000Z">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="spring5-springMVC使用简介 | Hexo">
+  <meta name="twitter:description" content="A simple dark Hexo theme inspired by code.">
+
+  <!-- Favicon 配置 -->
+  
+
+  <!-- 外部样式 - 统一使用 jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- 代码高亮样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+  <!-- Mermaid.js 库 (defer加载) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <!-- 主题样式 -->
+  <link rel="stylesheet" href="../../../../css/theme-colors.css">
+  <link rel="stylesheet" href="../../../../css/main.css">
+  <link rel="stylesheet" href="../../../../css/code.css">
+  <link rel="stylesheet" href="../../../../css/code-custom.css">
+  <link rel="stylesheet" href="../../../../css/code-languages.css">
+  <link rel="stylesheet" href="../../../../css/mermaid.css">
+
+  <link rel="stylesheet" href="../../../../css/vs-code.css">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192184">
+  <link rel="stylesheet" href="../../../../css/tag.css">
+  <link rel="stylesheet" href="../../../../css/categories.css">
+  <link rel="stylesheet" href="../../../../css/archive.css">
+  <link rel="stylesheet" href="../../../../css/search.css">
+  <link rel="stylesheet" href="../../../../css/mobile.css">  <link rel="stylesheet" href="../../../../css/responsive.css">
+  <link rel="stylesheet" href="../../../../css/elements.css">
+
+  <!-- 添加 JetBrains Mono 字体 -->  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Add any custom head content here -->
+
+  <script defer src="../../../../js/explorer.js"></script>
+  <script defer src="../../../../js/code-enhance.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+      <div class="mobile-menu-toggle" aria-label="Toggle sidebar menu" role="button" tabindex="0">
+        <i class="fas fa-bars"></i>
+      </div>
+      <!-- 移动端侧边栏遮罩层 -->
+      <div class="sidebar-overlay" aria-hidden="true"></div>
+      <header class="vs-header">
+  <nav class="vs-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-brand">
+        <i class="fas fa-terminal"></i>
+        Hexo
+      </a>
+    </div>
+    
+    <div class="nav-right">
+      <a href="/" class="nav-item ">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="/archives/" class="nav-item ">
+        <i class="fas fa-archive"></i>
+        <span>Archives</span>
+      </a>
+      <a href="/categories/" class="nav-item ">
+        <i class="fas fa-folder"></i>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" class="nav-item ">
+        <i class="fas fa-tags"></i>
+        <span>Tags</span>
+      </a>
+      <a href="/search/" class="nav-item ">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="/about/" class="nav-item ">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function smoothScroll(event, target) {
+    event.preventDefault();
+    const targetId = target.substring(target.indexOf('#') + 1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 50, // 调整偏移量
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = target;
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.vs-header');
+    const nav = document.querySelector('.vs-nav');
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    
+    nav.style.setProperty('--scroll-percent', `${scrollPercent}%`);
+    
+    if (window.scrollY > 0) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // 添加标签页切换动画
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('nav-ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+</script>
+
+
+<div class="vscode-container">
+  <!-- 左侧资源管理器 -->
+  <div class="sidebar-explorer">
+    <!-- TOC导航 -->
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-list"></i>
+        <span>TABLE OF CONTENTS</span>
+      </div>
+      <div class="section-content">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#spring5-springMVC%E4%BD%BF%E7%94%A8"><span class="toc-text">spring5-springMVC使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#java-controller"><span class="toc-text">java  controller</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#springMVC-webapplication-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">springMVC webapplication 配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#web-xml%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-text">web.xml配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#springMVC%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="toc-text">springMVC过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E6%B5%81%E7%A8%8B%E7%AE%80%E4%BB%8B"><span class="toc-text">相关流程简介</span></a></li></ol></li></ol>
+      </div>
+    </div>
+
+    <!-- 同分类文章 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-folder"></i>
+        <span>CATEGORY POSTS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-1--dubbo%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E5%92%8C%E6%80%9D%E6%83%B3/">dubbo-学习和使用(1)-dubbo架构设计和思想</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-8--dubbo%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83/">dubbo-学习和使用(8)-dubbo配置参考</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-1--%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2/">dubbo-深入(1)-基本使用初探</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-3--%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83/">dubbo-深入(3)-注册中心</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-3--%E9%85%8D%E7%BD%AE%E5%8F%82%E8%80%83/">dubbo-深入(3)-配置参考</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo-%E6%B7%B1%E5%85%A5-4---%E9%9B%86%E7%BE%A4%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">dubbo-深入(4)- 集群架构设计</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-2--%E4%BD%BF%E7%94%A8%E5%88%9D%E6%8E%A2%E5%92%8C%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95/">dubbo学习和使用(2)-使用初探和配置方法</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../dubbo%E5%AD%A6%E4%B9%A0%E5%92%8C%E4%BD%BF%E7%94%A8-3--dubbo%E5%8A%9F%E8%83%BD-1-/">dubbo学习和使用(3)-dubbo功能(1)</a>
+          </div>
+        
+      </div>
+    </div>
+    
+    
+    <!-- 标签列表 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-tags"></i>
+        <span>ARTICLE TAGS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../../../tags/spring/">spring</a>
+            <span class="count">(32)</span>
+          </div>
+        
+      </div>
+    </div>
+    
+  </div>
+
+  <!-- 主要内容区域 -->
+  <div class="editor-content">
+    <div class="tab-bar">
+      <div class="tab active">
+        <i class="fas fa-file-alt"></i>
+        <span>spring5-springMVC使用简介.md</span>
+      </div>
+    </div>
+    
+    <div class="content-area">
+      <article class="post-content">
+        <div class="post-header">
+          <h1>spring5-springMVC使用简介</h1>
+          <div class="post-meta">
+            <span class="date">
+              <i class="fas fa-calendar-alt"></i>
+              2024-12-31
+            </span>
+            
+            <span class="updated-date">
+              <i class="fas fa-sync-alt"></i>
+              Updated 2026-02-18
+            </span>
+                        
+              <span class="categories">
+                <i class="fas fa-folder"></i>
+                <div class="categories-list">
+                  <ul class="category-item-post-list"><li class="category-item-post-list-item"><a class="category-item-post-list-link" href="../../../../categories/java/">java</a></li></ul>
+                </div>
+              </span>
+            
+            
+              <span class="tags">
+                <i class="fas fa-tags"></i>
+                <div class="tags-list">
+                  <ul class="tag-item-post-list" itemprop="keywords"><li class="tag-item-post-list-item"><a class="tag-item-post-list-link" href="../../../../tags/spring/" rel="tag">spring</a></li></ul>
+                </div>
+              </span>
+            
+          </div>
+        </div>
+        
+        <div class="post-body vscode-markdown">
+          <h2 id="spring5-springMVC使用"><a href="#spring5-springMVC使用" class="headerlink" title="spring5-springMVC使用"></a>spring5-springMVC使用</h2><p>使用一个基本demo进行相关的整理</p>
+<h3 id="java-controller"><a href="#java-controller" class="headerlink" title="java  controller"></a>java  controller</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//当不是用配置文件的时候我们将不需要使用接口直接使用一个注释</span><br><span class="hljs-meta">@Controller</span><span class="hljs-comment">//这个注释讲这个bean配制成一个控制器-注解没有标记只是起到了一个标记的作用</span><br><span class="hljs-comment">//注意要让这个注解起到作用需要早xml文件中进行配置</span><br><span class="hljs-meta">@EnableWebMvc</span><br><span class="hljs-comment">//@RequestMapping(value=&quot;/sdf&quot;)//这样下面的所有方法的起始地址就是/sdf</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Noconfig</span> &#123;<br>    <span class="hljs-meta">@RequestMapping(value=&quot;/mappingOne&quot;,method=&#123;RequestMethod.GET,RequestMethod.PUT&#125;)</span><br>    <span class="hljs-comment">//注解中属性-value：表示需要匹配的url的格式。 //method：表示所需处理请求的http 协议(如get,post,put,delete等)，可选值为RequestMethod这个enum的值。</span><br>    <span class="hljs-comment">//params:格式为”paramname=paramvalue” 或 “paramname!=paramvalue”。不带参数则表示paramvalue可以为任意值。</span><br>    <span class="hljs-comment">//  如params =  &#123;&quot;param1=1&quot;,&quot;param2!=2&quot;,&quot;param3&quot;&#125;,</span><br>    <span class="hljs-comment">//  表示对应的url必须包括param1,param2,param3三个参数，其中param1的值必须为1，param2的值不能为2，param3的值可以为任意值。</span><br>    <span class="hljs-comment">//headers:用来限定对应的reqeust请求的headers中必须包括的内容，例如</span><br>    <span class="hljs-comment">//  headers=&#123;&quot;Connection=keep-alive&quot;&#125;, 表示请求头中的connection的值必须为keep-alive。</span><br>    <span class="hljs-comment">//  定义的方法中可以讲需要的属性直接写进去,从而直接能得到,spring底层使用反射技术能动态的知道你需要什么属性</span><br>    <span class="hljs-comment">//spring支持的属性</span><br>    <span class="hljs-comment">//     java- HttpServletRequest HttpServletServletResponse HttpSession Locale </span><br>    <span class="hljs-comment">//           inputstream reader outputStream writer Map </span><br>    <span class="hljs-comment">//spring的属性WebRequest NativeWebRequest ModeMap model- </span><br>    <span class="hljs-comment">//         表单对象(气势model 或者 map 或者 ModeMap就是封装了request.setAttrbute方法)</span><br>    <span class="hljs-comment">//注意这些参数都是在一个请求中有效也就是说只要获取了对台进行操作在一次请求转发过程中都能获得和进行操作</span><br>    <span class="hljs-keyword">public</span> ModelAndView <span class="hljs-title function_">mappingOne</span><span class="hljs-params">(HttpServletRequest request,HttpServletResponse response ,ModelMap modelMap)</span>&#123;<br>        System.out.println(request.getParameter(<span class="hljs-string">&quot;one&quot;</span>));<br>        modelMap.addAttribute(<span class="hljs-string">&quot;xixi&quot;</span>, <span class="hljs-string">&quot;123145&quot;</span>);<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ModelAndView</span>(<span class="hljs-string">&quot;myModeAndView&quot;</span>);<br>        <span class="hljs-comment">//处理方法可以返回的类型</span><br>        <span class="hljs-comment">//Modelandview Medel map View 代表逻辑属兔名称的String void </span><br>    &#125;<br>    <span class="hljs-meta">@RequestMapping(value=&quot;mappingTwo/&#123;id&#125;/&#123;xixi&#125;&quot;,method=&#123;RequestMethod.GET,RequestMethod.POST&#125;)</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">mappingTwo</span><span class="hljs-params">(<span class="hljs-meta">@PathVariable()</span> <span class="hljs-type">int</span> id,<span class="hljs-meta">@PathVariable</span> String xixi)</span>&#123;<br>        <span class="hljs-comment">//一种解析url的方法 -讲url地址地址中的方法进行解析处理  名称要相互匹配要相同</span><br>        <span class="hljs-comment">//name(value) - 指定绑定的参数</span><br><br>        System.out.println(id+<span class="hljs-string">&quot;  &quot;</span>+xixi);<br>    &#125;<br>    <span class="hljs-meta">@RequestMapping(value=&quot;mappingThree&quot;,method=&#123;RequestMethod.GET,RequestMethod.POST&#125;)</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">mappingThree</span><span class="hljs-params">(<span class="hljs-meta">@RequestParam(value=&quot;sadf&quot;)</span> <span class="hljs-type">int</span> id,<span class="hljs-meta">@RequestParam</span> String hehe)</span>&#123;<br>        <span class="hljs-comment">//讲url 地址中的响应字子自动和函数中的参数相匹配 注意名称要相互匹配要相同</span><br>        <span class="hljs-comment">//name-指定参数中那个元素和者个进行绑定 value 是他的别名</span><br>        <span class="hljs-comment">//defaulfvalue -  指定默认的参数</span><br>        System.out.println(id+<span class="hljs-string">&quot;  &quot;</span>+hehe);<br>    &#125;<br>    <span class="hljs-comment">//spring 重定向</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">mappingFour</span><span class="hljs-params">(RedirectAttributes redirectAttributes)</span>&#123;<br>        redirectAttributes.addFlashAttribute(<span class="hljs-string">&quot;xx&quot;</span>, <span class="hljs-string">&quot;asdfasdf&quot;</span>);<span class="hljs-comment">//使用这个方法可以实现内部的重定向属性传递方法</span><br>        <span class="hljs-comment">//在spring中返回字符串使用rediret开头的时候表使用了重定向技术</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;redirect:/xxxx/&quot;</span>;<br>    &#125;<br>    <span class="hljs-comment">//设置请求头为utf8 解决中文乱码</span><br>    <span class="hljs-meta">@RequestMapping(value=&quot;name&quot;,produces = &quot;application/json;charset=utf-8&quot;)</span><br>    <span class="hljs-meta">@ResponseBody</span><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">hehe</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;sdfsdf&quot;</span>;<br>    &#125;<br>    <span class="hljs-comment">//model and view </span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">springModelandView</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-comment">//modelandview 其实是将model和view 封装在一个如果想使用需要使用get方法生成</span><br>        <span class="hljs-type">ModelAndView</span> <span class="hljs-variable">modelAndView</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ModelAndView</span>();<br>        <span class="hljs-comment">//modelAndView= new ModelAndView(viewName, model)</span><br>        modelAndView.addAllObjects(<span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;String,String&gt;());<br>        modelAndView.addObject(<span class="hljs-string">&quot;xxx&quot;</span>, <span class="hljs-string">&quot;xxx&quot;</span>);<br>        View view=modelAndView.getView();<br>        <span class="hljs-type">ModelMap</span> <span class="hljs-variable">map</span> <span class="hljs-operator">=</span>modelAndView.getModelMap();<br>        modelAndView.setView(view);<br>        modelAndView.setViewName(<span class="hljs-string">&quot;xxx&quot;</span>);<br>        <span class="hljs-comment">//modelMap--其实是map的实现类而已</span><br>        ModelMap map2= <span class="hljs-keyword">new</span> <span class="hljs-title class_">ModelMap</span>();<br>        map.addAllAttributes(<span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;String,String&gt;());<br>        map.addAttribute(<span class="hljs-string">&quot;xx&quot;</span>, <span class="hljs-string">&quot;heh&quot;</span>);<br>        <span class="hljs-comment">//view---没什么用就当是字符串就好了</span><br>        <span class="hljs-type">View</span> <span class="hljs-variable">view2</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">View</span>() &#123;<br>            <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">render</span><span class="hljs-params">(Map&lt;String, ?&gt; arg0, HttpServletRequest arg1, HttpServletResponse arg2)</span> <span class="hljs-keyword">throws</span> Exception &#123;&#125;<br>            <span class="hljs-keyword">public</span> String <span class="hljs-title function_">getContentType</span><span class="hljs-params">()</span> &#123;<span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;&#125;<br>        &#125;;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>其他一些注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@EnableWebMvc</span><span class="hljs-comment">//开起一些viewResolver或者MessageConverter等</span><br><span class="hljs-meta">@RestController</span><span class="hljs-comment">// 相当于Controller和ResponseBody的结合，使用在类上面，导致所有的返回值都是body类型</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="springMVC-webapplication-配置文件"><a href="#springMVC-webapplication-配置文件" class="headerlink" title="springMVC webapplication 配置文件"></a>springMVC webapplication 配置文件</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">beans</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/beans&quot;</span></span><br><span class="hljs-tag">       <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="hljs-tag">       <span class="hljs-attr">xmlns:mvc</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/mvc&quot;</span></span><br><span class="hljs-tag">       <span class="hljs-attr">xmlns:context</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/context&quot;</span></span><br><span class="hljs-tag">       <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd</span></span><br><span class="hljs-string"><span class="hljs-tag">		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd</span></span><br><span class="hljs-string"><span class="hljs-tag">		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">context:annotation-config</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">context:annotation-config</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- 激活spring关于annotation的DI --&gt;</span><br>    <span class="hljs-comment">&lt;!--  	注册 DefaultAnnotationHandlerMapping 和AnnotationMethodHandlerAdapter两个bean，</span><br><span class="hljs-comment">    及一系列缺省的messageconverter(需要classpath中有相应的lib包的支持)</span><br><span class="hljs-comment">            并且启用了controler中的url请求参数绑定参数绑定</span><br><span class="hljs-comment">     --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">mvc:annotation-driven</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">mvc:annotation-driven</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- 注册HandlerInterceptors 或 WebRequestInterceptors 拦截器来拦截request请求 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">mvc:interceptors</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">mvc:interceptor</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">mvc:mapping</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/*&quot;</span> /&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">bean</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;p_spring事务.hasconfig.CustomerTransforHasConfig&quot;</span> /&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">mvc:interceptor</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">mvc:interceptors</span>&gt;</span><br><br>    <span class="hljs-comment">&lt;!--将spring mvc的DispatcherServlet替换当前web server的缺省的Servlet。</span><br><span class="hljs-comment">        这样做的好处是定义spring mvc处理请求时，不再需要定义*.do,*.action,/action/*之类的url-pattern，</span><br><span class="hljs-comment">        而是可以直接定义为&lt;url-pattern&gt;/&lt;/url-pattern&gt; </span><br><span class="hljs-comment">        （注意不是&lt;url-pattern&gt;/*&lt;/url-pattern&gt;，/*将匹配所有请求而导致所有jsp和静态内容都无法正常显示，而/只匹配缺省的servlet）。 </span><br><span class="hljs-comment">        常见web 容器的default servlet name spring mvc中都能自动识别，</span><br><span class="hljs-comment">        但对于不常见的web 容器或default servlet name 被改写过的，则需增加参数 default-servlet-name来指定对应的servlet name. </span><br><span class="hljs-comment">        需与&lt;mvc:annotation-driven/&gt;一起使用 </span><br><span class="hljs-comment">    --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">mvc:default-servlet-handler</span>/&gt;</span><br>    <span class="hljs-comment">&lt;!-- 将指定路径的请求直接转到对应的view上，而不需要特定的controller来处理请求 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">mvc:view-controller</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/hello/*&quot;</span> <span class="hljs-attr">view-name</span>=<span class="hljs-string">&quot;helloWorld&quot;</span>/&gt;</span><br>    <span class="hljs-comment">&lt;!-- 将指定URL 的匹配模式来访问静态文件 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">mvc:resources</span> <span class="hljs-attr">mapping</span>=<span class="hljs-string">&quot;/js/**&quot;</span> <span class="hljs-attr">location</span>=<span class="hljs-string">&quot;/WEB-INF/js/&quot;</span> <span class="hljs-attr">cache-period</span>=<span class="hljs-string">&quot;3600&quot;</span>/&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">beans</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="web-xml配置文件"><a href="#web-xml配置文件" class="headerlink" title="web.xml配置文件"></a>web.xml配置文件</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;UTF-8&quot;</span>?&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">web-app</span> <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span><br><span class="hljs-tag">         <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;</span></span><br><span class="hljs-tag">         <span class="hljs-attr">xsi:schemaLocation</span>=<span class="hljs-string">&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd&quot;</span></span><br><span class="hljs-tag">         <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;WebApp_ID&quot;</span> <span class="hljs-attr">version</span>=<span class="hljs-string">&quot;3.1&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">display-name</span>&gt;</span>Spring和SpringMVC和SpringBoot和Mybatis<span class="hljs-tag">&lt;/<span class="hljs-name">display-name</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">welcome-file-list</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">welcome-file</span>&gt;</span>index.html<span class="hljs-tag">&lt;/<span class="hljs-name">welcome-file</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">welcome-file</span>&gt;</span>index.htm<span class="hljs-tag">&lt;/<span class="hljs-name">welcome-file</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">welcome-file</span>&gt;</span>index.jsp<span class="hljs-tag">&lt;/<span class="hljs-name">welcome-file</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">welcome-file</span>&gt;</span>default.html<span class="hljs-tag">&lt;/<span class="hljs-name">welcome-file</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">welcome-file</span>&gt;</span>default.htm<span class="hljs-tag">&lt;/<span class="hljs-name">welcome-file</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">welcome-file</span>&gt;</span>default.jsp<span class="hljs-tag">&lt;/<span class="hljs-name">welcome-file</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">welcome-file-list</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- 在spring体系中 root appliction使用 ContextLoaderListener进行加载 webapplication使用 Dispatchar加载  webappliction会继承 rootapplication 的继承 --&gt;</span><br>    <span class="hljs-comment">&lt;!-- 和ContextLoaderListener 相互对应实现对除了mvc层的控制 自动装配ApplicationContext的配置信息。因为它实现了ServletContextListener这个接口--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">context-param</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>contextConfigLocation<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span><br>        <span class="hljs-comment">&lt;!-- 如果不写默认的配置路径是 /WEB-INF/applicationContext.xml 下面的配置使用通配符表示使用所有的配置文件--&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>/WEB-INF/application.xml<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">context-param</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">listener</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">listener-class</span>&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="hljs-tag">&lt;/<span class="hljs-name">listener-class</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">listener</span>&gt;</span><br>    <span class="hljs-comment">&lt;!-- 添加文字控制servlet层 --&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">filter</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">filter-name</span>&gt;</span>CharacterEncodingFilter<span class="hljs-tag">&lt;/<span class="hljs-name">filter-name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">filter-class</span>&gt;</span>org.springframework.web.filter.CharacterEncodingFilter<span class="hljs-tag">&lt;/<span class="hljs-name">filter-class</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">init-param</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>encoding<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>utf-8<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">init-param</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">filter</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">filter-mapping</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">filter-name</span>&gt;</span>CharacterEncodingFilter<span class="hljs-tag">&lt;/<span class="hljs-name">filter-name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/*<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">filter-mapping</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">servlet</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>springMVC<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-class</span>&gt;</span><br>        <span class="hljs-comment">&lt;!-- 设置webappliction 的默认加载位置 --&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">init-param</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>contextConfigLocation<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>/WEB-INF/springMVC-servlet.xml<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">init-param</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">load-on-startup</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">load-on-startup</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">servlet</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-mapping</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>springMVC<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">servlet-mapping</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">web-app</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="springMVC过滤器"><a href="#springMVC过滤器" class="headerlink" title="springMVC过滤器"></a>springMVC过滤器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> q_springMVC.过滤器;<br><br><span class="hljs-keyword">import</span> javax.servlet.http.HttpServletRequest;<br><span class="hljs-keyword">import</span> javax.servlet.http.HttpServletResponse;<br><br><span class="hljs-keyword">import</span> org.springframework.web.servlet.HandlerInterceptor;<br><span class="hljs-keyword">import</span> org.springframework.web.servlet.ModelAndView;<br><span class="hljs-comment">//实现自定义spring拦截器必须继承的接口HandlerINterceptor  但是如果要使用这个拦截器需要将这个拦截器注册到相应的springmvc的配置文件(不是web.xml)中去</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyspringFilter</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">HandlerInterceptor</span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">afterCompletion</span><span class="hljs-params">(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, Exception arg3)</span><br>            <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-comment">// TODO Auto-generated method stub</span><br>        <span class="hljs-comment">//请求结束的时候调用的方法 object类的效果和上面的的相同 Exception表示抛出的异常</span><br>        <span class="hljs-comment">//试图完成后执行的各种参数</span><br><br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><span class="hljs-comment">//在业务处理器处理请求执行完成后,生成视图之前执行</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">postHandle</span><span class="hljs-params">(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, ModelAndView arg3)</span><br>            <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-comment">// TODO Auto-generated method stub</span><br><br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><span class="hljs-comment">//这个方法表示是否见当前的请求拦截下来 true表示不false 拦截  参数中有一个object 的类i表示将要进行拦截对象的实例</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">preHandle</span><span class="hljs-params">(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-comment">// TODO Auto-generated method stub</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="相关流程简介"><a href="#相关流程简介" class="headerlink" title="相关流程简介"></a>相关流程简介</h3><p><img src="/images/blogimg//blogimg/springMVC/1.png"></p>
+<p><img src="/images/blogimg//blogimg/springMVC/2.png"></p>
+<p><img src="/images/blogimg//blogimg/springMVC/3.png"></p>
+
+        </div>
+        
+        <!-- 文章导航 - 只在同分类有多篇文章时显示 -->
+        
+        
+        
+        <nav class="post-nav">
+          
+            <a class="prev" href="../spring5-core%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%BD%BF%E7%94%A8/">
+              <i class="fas fa-chevron-left"></i>
+              spring5-core核心配置文件使用
+            </a>
+          
+          
+            <a class="next" href="../spring5-springMVC%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82%E6%94%AF%E6%8C%81/">
+              spring5-springMVC异步请求支持
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          
+        </nav>
+        
+        
+        <!-- 推荐文章 -->
+        
+
+
+<div class="vs-recommended-posts">
+  <div class="vs-recommended-header">
+    <div class="section-header">
+      <i class="fas fa-lightbulb"></i>
+      <span>RELATED POSTS</span>
+    </div>
+  </div>
+  
+  <div class="vs-recommended-grid">
+    
+      <div class="vs-recommended-item" data-index="0" tabindex="0">
+        <a href="../spring5-core%E6%A0%B8%E5%BF%83%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%BD%BF%E7%94%A8/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>spring5-core核心配置文件使用</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              依赖注入和控制反转IOC inversion of control 控制反转 DI Dependency Injection 依赖注入 依赖注入当然是某个对象依赖于IoC&amp;#x2F;DI的容器，对象需要IoC&amp;#x2F;DI的容器来提供对象...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  spring
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  4 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="1" tabindex="0">
+        <a href="../spring5-springMVC%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82%E6%94%AF%E6%8C%81/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>spring5-springMVC异步请求支持</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              pring5-springMVC异步请求支持提供AsyncRestTemplate用于客户端非阻塞异步支持 服务端12345678910111213141516171819202122@RestControllerpublic class ...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  spring
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="2" tabindex="0">
+        <a href="../spring5-condition%E6%B3%A8%E8%A7%A3%E5%AE%9E%E7%8E%B0bean%E7%BB%86%E8%87%B4%E6%8E%A7%E5%88%B6/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>spring5-condition注解实现bean细致控制</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  spring
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="3" tabindex="0">
+        <a href="../spring5-springMVC%E8%AF%A6%E8%A7%A3/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>spring5-springMVC详解</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              说道spring的web支持首先就可以想到了spring MVC 的技术(其他的技术还有spring的webflux 以后讨论),从这片博客开始要进行相关知识点的整理. spring MVC 整体的架构设计 spring 自己的webapp...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  spring
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  8 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="4" tabindex="0">
+        <a href="../spring5-beanfactory%E7%B3%BB%E5%88%97%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%88%86%E6%9E%90/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>spring5-beanfactory系列接口的分析</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  spring
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="5" tabindex="0">
+        <a href="../spring5-springMVC%E8%BF%94%E5%9B%9E%E5%80%BC%E5%92%8C%E8%AF%B7%E6%B1%82%E5%80%BC%E9%A2%84%E5%85%88%E5%A4%84%E7%90%86/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>spring5-springMVC返回值和请求值预先处理</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              一般情况下，我们有的时候可能需要对web框架的返回值进行一定的处理，但是这种情况下有一定的局限性比如下面这种使用拦截器的情况 123456public class ControllerReturnInterceptor implements...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  spring
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+  </div>
+  
+  <!-- 查看更多 -->
+  <div class="vs-recommended-footer">
+    <a href="../../../../archives/" class="vs-view-more">
+      <i class="fas fa-folder-open"></i>
+      <span>View More Posts</span>
+      <i class="fas fa-chevron-right"></i>
+    </a>
+  </div>
+</div>
+
+<script>
+// 键盘导航支持
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.vs-recommended-item');
+  let currentIndex = -1;
+  
+  // 键盘事件
+  document.addEventListener('keydown', function(e) {
+    if (!items.length) return;
+    
+    if (e.key === 'Tab') {
+      // Tab键导航由浏览器处理
+      return;
+    }
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      
+      // 移除当前高亮
+      if (currentIndex >= 0) {
+        items[currentIndex].classList.remove('vs-focused');
+      }
+      
+      // 更新索引
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % items.length;
+      } else {
+        currentIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+      }
+      
+      // 添加新高亮
+      items[currentIndex].classList.add('vs-focused');
+      items[currentIndex].focus();
+    }
+    
+    if (e.key === 'Enter' && currentIndex >= 0) {
+      const link = items[currentIndex].querySelector('a');
+      if (link) link.click();
+    }
+  });
+  
+  // 鼠标悬停时更新当前索引
+  items.forEach((item, index) => {
+    item.addEventListener('mouseenter', function() {
+      currentIndex = index;
+      items.forEach(i => i.classList.remove('vs-focused'));
+      item.classList.add('vs-focused');
+    });
+  });
+});
+</script>
+
+        
+        <!-- 评论区 -->
+        
+  <div class="vs-comments-section">
+    <div class="section-header">
+      <i class="fas fa-comments"></i>
+      <span>COMMENTS</span>
+    </div>
+    
+    
+      <!-- Waline 评论系统 -->
+      <div id="waline"></div>
+      <script>
+        // 加载 Waline CSS
+        const walineCSS = document.createElement('link');
+        walineCSS.rel = 'stylesheet';
+        walineCSS.href = 'https://unpkg.com/@waline/client@v3/dist/waline.css';
+        document.head.appendChild(walineCSS);
+        
+        // 加载 Waline JS
+        const walineScript = document.createElement('script');
+        walineScript.type = 'module';
+        walineScript.onload = function() {
+          // 确保 Waline 加载后再初始化
+          import('https://unpkg.com/@waline/client@v3/dist/waline.js').then(({ init }) => {
+            const waline = init({
+              el: '#waline',
+              serverURL: 'https://vsc4tblackcat1337.vercel.app/',
+              lang: 'zh-CN',
+              locale: {},
+              emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus"],
+              requiredMeta: [],
+              login: 'disable',
+              wordLimit: 0,
+              pageSize: 10,
+              imageUploader: false,
+              highlighter: true,
+              texRenderer: false,
+              search: false,
+              pageview: false,
+              comment: true,
+              copyright: false,
+              
+              // 自动适配主题
+              dark: document.documentElement.getAttribute('data-theme') === 'dark' ? 'auto' : false,
+              
+              // 评论框占位符
+              placeholder: 'Feel free to leave a comment, no login required!',
+              
+              // 元数据配置
+              meta: ['nick', 'mail', 'link'],
+              
+              // 表情配置
+              emojiCDN: 'https://unpkg.com/@waline/emojis@1.2.0/',
+            });
+            
+            // 监听主题变化
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                  // Waline 会自动处理主题切换
+                  if (waline) {
+                    waline.update({ dark: isDark ? 'auto' : false });
+                  }
+                }
+              });
+            });
+            
+            observer.observe(document.documentElement, {
+              attributes: true,
+              attributeFilter: ['data-theme']
+            });
+          });
+        };
+        walineScript.src = 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+        document.body.appendChild(walineScript);
+      </script>
+    
+    
+  </div>
+
+      </article>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code-branch"></i>
+      master
+    </div>
+    <div class="status-item">
+      <i class="fas fa-sync"></i>
+      John Doe
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      2026-02-18
+    </div>
+    <div class="status-item">
+      Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
+    </div>
+    <div class="status-item github">
+      <a href="#" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 搜索专用配置 (HEXO_CONFIG 在 scripts.ejs 中统一定义) -->
+    <script>
+      window.VSC4T_SEARCH = {
+        root: "/"
+      };
+    </script>
+
+    <!-- 外部脚本 - 统一使用 cdnjs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
+    <script>if(typeof hljs !== 'undefined') hljs.highlightAll();</script>
+    <!-- 这里可以放置自定义脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Apply smooth scroll to non-TOC anchor links
+  document.querySelectorAll('a[href^="#"]:not(.toc-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Check if querySelector is valid before using it
+      try {
+        const targetSelector = this.getAttribute('href');
+        // Basic check for potentially invalid selectors (though not exhaustive)
+        if (targetSelector && targetSelector.length > 1) { 
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            console.warn('Smooth scroll target not found:', targetSelector);
+          }
+        } else {
+           console.warn('Invalid href for smooth scroll:', targetSelector);
+        }
+      } catch (error) {
+        console.error('Error during smooth scroll:', error, 'Selector:', this.getAttribute('href'));
+        // Fallback or alternative behavior if needed
+        // For example, try getElementById if it's just an ID
+        const targetId = this.getAttribute('href').slice(1);
+        try {
+            const targetElementById = document.getElementById(decodeURIComponent(targetId));
+            if (targetElementById) {
+                targetElementById.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (idError) {
+             console.error('Fallback getElementById also failed:', idError);
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Scripts -->
+<script>
+  // 全局配置 - 包含 i18n 字符串和主题配置
+  window.HEXO_CONFIG = {
+    language: "en",
+    root: "/",
+    
+    theme_switch: {
+      enabled: false,
+      light_start: "06:00",
+      light_end: "18:00"
+    },
+    
+    // Search i18n strings
+    search_placeholder: "Type to search...",
+    search_no_results: "No results found",
+    search_result: "result",
+    search_results: "results",
+    search_results_found: "Found undefined results",
+    search_in: "Search in",
+    search_in_title: "Title",
+    search_in_content: "Content",
+    search_in_tags: "Tags",
+    search_in_categories: "Categories",
+    search_filters: "Search Filters",
+    search_recent: "Recent Searches",
+    search_clear: "Clear",
+    search_loading: "Loading...",
+    search_error: "Error loading search data",
+    // Encryption i18n strings
+    encrypt_badge: "Protected",
+    encrypt_title: "Protected Content",
+    encrypt_description: "Enter the password to unlock this article. The password will be saved locally until you choose to re-encrypt.",
+    encrypt_label: "Password",
+    encrypt_placeholder: "Enter password to unlock",
+    encrypt_button: "Unlock",
+    encrypt_button_loading: "Unlocking...",
+    encrypt_hint: "Press Enter to submit. Password will be remembered on this device.",
+    encrypt_success: "Content unlocked successfully!",
+    encrypt_unlocked_note: "Content unlocked. You can re-encrypt at any time.",
+    encrypt_again: "Re-encrypt",
+    encrypt_wrong_password: "Incorrect password. Please try again.",
+    encrypt_show_password: "Show password",
+    encrypt_hide_password: "Hide password",
+    // Sidebar i18n strings
+    sidebar_about: "About",
+    sidebar_categories: "Categories",
+    sidebar_tags: "Tags",
+    // Post page i18n strings
+    post_toc: "TABLE OF CONTENTS",
+    post_category_posts: "CATEGORY POSTS",
+    post_article_tags: "ARTICLE TAGS"
+  };
+</script>
+
+
+
+<!-- 添加所有需要的脚本 -->
+<script src="../../../../js/search.js"></script>
+<script src="../../../../js/theme-switch.js"></script>
+
+<script src="../../../../js/password-protect.js?v=1771424192184"></script>
+
+    <script>
+      // 移动端菜单切换
+      $(document).ready(function() {
+        var $body = $('body');
+        var $sidebar = $('.sidebar-explorer');
+        var $overlay = $('.sidebar-overlay');
+        var $toggle = $('.mobile-menu-toggle');
+
+        function openSidebar() {
+          $sidebar.addClass('show');
+          $overlay.addClass('show');
+          $toggle.addClass('active');
+          $body.addClass('sidebar-open');
+        }
+
+        function closeSidebar() {
+          $sidebar.removeClass('show');
+          $overlay.removeClass('show');
+          $toggle.removeClass('active');
+          $body.removeClass('sidebar-open');
+        }
+
+        // 汉堡按钮点击切换
+        $toggle.on('click', function(e) {
+          e.stopPropagation();
+          if ($sidebar.hasClass('show')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+
+        // 点击遮罩层关闭
+        $overlay.on('click', function() {
+          closeSidebar();
+        });
+
+        // ESC 键关闭
+        $(document).on('keydown', function(e) {
+          if (e.key === 'Escape' && $sidebar.hasClass('show')) {
+            closeSidebar();
+          }
+        });
+
+        // 点击侧边栏内的链接时自动关闭侧边栏，确保锚点跳转正常
+        $sidebar.on('click', 'a', function() {
+          closeSidebar();
+        });
+      });
+    </script>
+  </body>
+</html>

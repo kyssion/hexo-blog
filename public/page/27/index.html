@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title> | Hexo</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A simple dark Hexo theme inspired by code.">
+  <meta name="keywords" content="">
+  <meta name="author" content="John Doe">
+  <link rel="canonical" href="http://example.com">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content=" | Hexo">
+  <meta property="og:description" content="A simple dark Hexo theme inspired by code.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://example.com">
+  <meta property="og:site_name" content="Hexo">
+  
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content=" | Hexo">
+  <meta name="twitter:description" content="A simple dark Hexo theme inspired by code.">
+
+  <!-- Favicon 配置 -->
+  
+
+  <!-- 外部样式 - 统一使用 jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- 代码高亮样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+  <!-- Mermaid.js 库 (defer加载) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <!-- 主题样式 -->
+  <link rel="stylesheet" href="../../css/theme-colors.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/code.css">
+  <link rel="stylesheet" href="../../css/code-custom.css">
+  <link rel="stylesheet" href="../../css/code-languages.css">
+  <link rel="stylesheet" href="../../css/mermaid.css">
+
+  <link rel="stylesheet" href="../../css/vs-code.css">
+  <link rel="stylesheet" href="../../css/post.css?v=1771424192261">
+  <link rel="stylesheet" href="../../css/tag.css">
+  <link rel="stylesheet" href="../../css/categories.css">
+  <link rel="stylesheet" href="../../css/archive.css">
+  <link rel="stylesheet" href="../../css/search.css">
+  <link rel="stylesheet" href="../../css/mobile.css">  <link rel="stylesheet" href="../../css/responsive.css">
+  <link rel="stylesheet" href="../../css/elements.css">
+
+  <!-- 添加 JetBrains Mono 字体 -->  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Add any custom head content here -->
+
+  <script defer src="../../js/explorer.js"></script>
+  <script defer src="../../js/code-enhance.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+      <div class="mobile-menu-toggle" aria-label="Toggle sidebar menu" role="button" tabindex="0">
+        <i class="fas fa-bars"></i>
+      </div>
+      <!-- 移动端侧边栏遮罩层 -->
+      <div class="sidebar-overlay" aria-hidden="true"></div>
+      <header class="vs-header">
+  <nav class="vs-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-brand">
+        <i class="fas fa-terminal"></i>
+        Hexo
+      </a>
+    </div>
+    
+    <div class="nav-right">
+      <a href="/" class="nav-item active">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="/archives/" class="nav-item ">
+        <i class="fas fa-archive"></i>
+        <span>Archives</span>
+      </a>
+      <a href="/categories/" class="nav-item ">
+        <i class="fas fa-folder"></i>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" class="nav-item ">
+        <i class="fas fa-tags"></i>
+        <span>Tags</span>
+      </a>
+      <a href="/search/" class="nav-item ">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="/about/" class="nav-item ">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function smoothScroll(event, target) {
+    event.preventDefault();
+    const targetId = target.substring(target.indexOf('#') + 1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 50, // 调整偏移量
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = target;
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.vs-header');
+    const nav = document.querySelector('.vs-nav');
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    
+    nav.style.setProperty('--scroll-percent', `${scrollPercent}%`);
+    
+    if (window.scrollY > 0) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // 添加标签页切换动画
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('nav-ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+</script>
+
+
+<div class="vscode-container">
+  <div class="sidebar-explorer">
+    <div class="explorer-header">
+      <span class="explorer-title">
+        <i class="fas fa-folder-open"></i> EXPLORER
+      </span>
+    </div>
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-chevron-down"></i>
+        <span>BLOG CONTENTS</span>
+      </div>
+      
+      <div class="section-content">
+          <div class="folder">
+            <i class="fas fa-folder"></i>
+            <a href="../../categories/%E8%8B%B1%E8%AF%AD/" class="category-link">
+              <span>英语</span>
+              <span class="count">(1)</span>
+            </a>
+          </div>
+          <div class="folder">
+            <i class="fas fa-folder"></i>
+            <a href="../../categories/%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/" class="category-link">
+              <span>架构设计</span>
+              <span class="count">(6)</span>
+            </a>
+          </div>
+          <div class="folder">
+            <i class="fas fa-folder"></i>
+            <a href="../../categories/%E6%96%B0%E5%8D%9A%E5%AE%A2/" class="category-link">
+              <span>新博客</span>
+              <span class="count">(21)</span>
+            </a>
+          </div>
+          <div class="folder">
+            <i class="fas fa-folder"></i>
+            <a href="../../categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/" class="category-link">
+              <span>软件开发</span>
+              <span class="count">(13)</span>
+            </a>
+          </div>
+          <div class="folder">
+            <i class="fas fa-folder"></i>
+            <a href="../../categories/docker/" class="category-link">
+              <span>docker</span>
+              <span class="count">(4)</span>
+            </a>
+          </div>
+          <div class="folder">
+            <i class="fas fa-folder"></i>
+            <a href="../../categories/java/" class="category-link">
+              <span>java</span>
+              <span class="count">(155)</span>
+            </a>
+          </div>
+          <div class="folder">
+            <i class="fas fa-folder"></i>
+            <a href="../../categories/git/" class="category-link">
+              <span>git</span>
+              <span class="count">(2)</span>
+            </a>
+          </div>
+          <div class="folder">
+            <i class="fas fa-folder"></i>
+            <a href="../../categories/go%E8%AF%AD%E8%A8%80/" class="category-link">
+              <span>go语言</span>
+              <span class="count">(13)</span>
+            </a>
+          </div>
+          <div class="folder">
+            <i class="fas fa-folder"></i>
+            <a href="../../categories/golang/" class="category-link">
+              <span>golang</span>
+              <span class="count">(5)</span>
+            </a>
+          </div>
+          <div class="folder">
+            <i class="fas fa-folder"></i>
+            <a href="../../categories/%E5%89%8D%E7%AB%AF/" class="category-link">
+              <span>前端</span>
+              <span class="count">(11)</span>
+            </a>
+          </div>
+          <div class="folder">
+            <i class="fas fa-folder"></i>
+            <a href="../../categories/kafka/" class="category-link">
+              <span>kafka</span>
+              <span class="count">(3)</span>
+            </a>
+          </div>
+          <div class="folder">
+            <i class="fas fa-folder"></i>
+            <a href="../../categories/linux/" class="category-link">
+              <span>linux</span>
+              <span class="count">(3)</span>
+            </a>
+          </div>
+          <div class="folder">
+            <i class="fas fa-folder"></i>
+            <a href="../../categories/%E8%BF%90%E7%BB%B4%E7%B3%BB%E7%BB%9F/" class="category-link">
+              <span>运维系统</span>
+              <span class="count">(1)</span>
+            </a>
+          </div>
+          <div class="folder">
+            <i class="fas fa-folder"></i>
+            <a href="../../categories/mysql/" class="category-link">
+              <span>mysql</span>
+              <span class="count">(12)</span>
+            </a>
+          </div>
+          <div class="folder">
+            <i class="fas fa-folder"></i>
+            <a href="../../categories/nginx/" class="category-link">
+              <span>nginx</span>
+              <span class="count">(1)</span>
+            </a>
+          </div>
+          <div class="folder">
+            <i class="fas fa-folder"></i>
+            <a href="../../categories/postgresql/" class="category-link">
+              <span>postgresql</span>
+              <span class="count">(2)</span>
+            </a>
+          </div>
+          <div class="folder">
+            <i class="fas fa-folder"></i>
+            <a href="../../categories/redis/" class="category-link">
+              <span>redis</span>
+              <span class="count">(4)</span>
+            </a>
+          </div>
+          <div class="folder">
+            <i class="fas fa-folder"></i>
+            <a href="../../categories/mq/" class="category-link">
+              <span>mq</span>
+              <span class="count">(2)</span>
+            </a>
+          </div>
+          <div class="folder">
+            <i class="fas fa-folder"></i>
+            <a href="../../categories/rust/" class="category-link">
+              <span>rust</span>
+              <span class="count">(7)</span>
+            </a>
+          </div>
+          <div class="folder">
+            <i class="fas fa-folder"></i>
+            <a href="../../categories/%E5%9B%A2%E9%98%9F%E5%BC%80%E5%8F%91%E5%B7%A5%E4%BD%9C%E7%AD%89%E5%85%B6%E4%BB%96%E8%BD%AF%E6%8A%80%E8%83%BD/" class="category-link">
+              <span>团队开发工作等其他软技能</span>
+              <span class="count">(1)</span>
+            </a>
+          </div>
+          <div class="folder">
+            <i class="fas fa-folder"></i>
+            <a href="../../categories/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/" class="category-link">
+              <span>系统设计</span>
+              <span class="count">(1)</span>
+            </a>
+          </div>
+          <div class="folder">
+            <i class="fas fa-folder"></i>
+            <a href="../../categories/%E9%80%9A%E8%AF%86/" class="category-link">
+              <span>通识</span>
+              <span class="count">(1)</span>
+            </a>
+          </div>
+          <div class="folder">
+            <i class="fas fa-folder"></i>
+            <a href="../../categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="category-link">
+              <span>计算机网络</span>
+              <span class="count">(3)</span>
+            </a>
+          </div>
+      </div>
+    </div>
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-chevron-down"></i>
+        <span>RECENT POSTS</span>
+      </div>
+      
+      <div class="section-content">
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../2024/12/31/docker-1--%E5%9F%BA%E7%A1%80/">docker(1)-基础</a>
+          </div>
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../2024/12/31/docker-2--%E9%95%9C%E5%83%8F%E4%BD%BF%E7%94%A8%E5%92%8C%E5%91%BD%E4%BB%A4/">docker(2)-镜像使用和命令</a>
+          </div>
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../2024/12/31/docker-4--dockerfile%E5%AE%9A%E5%88%B6%E9%95%9C%E5%83%8F/">docker(4)-dockerfile定制镜像</a>
+          </div>
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../2024/12/31/docker-4--dockerfile%E6%8C%87%E4%BB%A4/">docker(4)-dockerfile指令</a>
+          </div>
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../2024/12/31/git-%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">git-基本使用教程</a>
+          </div>
+      </div>
+    </div>
+
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-chevron-down"></i>
+        <span>TAGS</span>
+      </div>
+      
+      <div class="section-content">
+        
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../tags/aouth2-0/">aouth2.0</a>
+            <span class="count">(1)</span>
+          </div>
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../tags/dubbo/">dubbo</a>
+            <span class="count">(12)</span>
+          </div>
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../tags/%E5%88%86%E6%B5%81%E8%83%BD%E5%8A%9B/">分流能力</a>
+            <span class="count">(1)</span>
+          </div>
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../tags/gradle/">gradle</a>
+            <span class="count">(14)</span>
+          </div>
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../tags/groovy/">groovy</a>
+            <span class="count">(4)</span>
+          </div>
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../tags/jackson/">jackson</a>
+            <span class="count">(2)</span>
+          </div>
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../tags/java%E7%89%88%E6%9C%AC%E5%92%8C%E6%9B%B4%E6%96%B0%E5%86%85%E5%AE%B9/">java版本和更新内容</a>
+            <span class="count">(3)</span>
+          </div>
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../tags/java%E7%9A%84stream/">java的stream</a>
+            <span class="count">(6)</span>
+          </div>
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../tags/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/">java多线程</a>
+            <span class="count">(5)</span>
+          </div>
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../tags/java%E8%8C%83%E5%9E%8B%E5%8F%8D%E5%B0%84%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F/">java范型反射类型系统</a>
+            <span class="count">(7)</span>
+          </div>
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../tags/javascript/">javascript</a>
+            <span class="count">(10)</span>
+          </div>
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../tags/junit4/">junit4</a>
+            <span class="count">(3)</span>
+          </div>
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../tags/jvm%E8%99%9A%E6%8B%9F%E6%9C%BA/">jvm虚拟机</a>
+            <span class="count">(4)</span>
+          </div>
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../tags/maven/">maven</a>
+            <span class="count">(3)</span>
+          </div>
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../tags/mybatis/">mybatis</a>
+            <span class="count">(10)</span>
+          </div>
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../tags/netty/">netty</a>
+            <span class="count">(7)</span>
+          </div>
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../tags/nodejs/">nodejs</a>
+            <span class="count">(1)</span>
+          </div>
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+            <span class="count">(10)</span>
+          </div>
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../tags/spring/">spring</a>
+            <span class="count">(32)</span>
+          </div>
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../tags/spring%E7%9B%B8%E5%85%B3%E4%B8%80%E4%BA%9B%E9%9B%B6%E6%95%A3%E7%9A%84%E7%BB%86%E8%8A%82/">spring相关一些零散的细节</a>
+            <span class="count">(2)</span>
+          </div>
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../tags/undertow/">undertow</a>
+            <span class="count">(3)</span>
+          </div>
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../tags/vertx/">vertx</a>
+            <span class="count">(12)</span>
+          </div>
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../tags/%E5%BE%AE%E8%A7%82%E7%BB%8F%E6%B5%8E%E7%BB%8F%E6%B5%8E%E5%AD%A6/">微观经济经济学</a>
+            <span class="count">(1)</span>
+          </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="editor-content">
+    <div class="tab-bar">
+      <div class="tab active">
+        <i class="fas fa-home"></i>
+        <span>welcome.md</span>
+      </div>
+    </div>
+    
+    <div class="content-area">
+      <div class="posts-container">
+          
+          <div class="post-card has-thumbnail">
+            <div class="post-card-content">
+              <div class="post-card-top">
+                <div class="post-card-info">
+                  <div class="post-header">
+                    <i class="fas fa-file-alt"></i>
+                    <span class="post-title">
+                      <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-1--iteratoer/">GoF设计模式(1)-iteratoer</a>
+                      
+                    </span>
+                  </div>
+                  
+                  <div class="post-meta">
+                    <span class="date">
+                      <i class="fas fa-calendar-alt"></i>
+                      2024-12-31
+                    </span>
+                      <span class="category">
+                        <i class="fas fa-folder"></i>
+                        <a class="category-link" href="../../categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/">软件开发</a>
+                      </span>
+                  </div>
+                </div>
+                
+                  <div class="post-thumbnail">
+                    <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-1--iteratoer/">
+                      <img src="/images/blogimg//blogimg/GAF/1.png" alt="GoF设计模式(1)-iteratoer" loading="lazy">
+                    </a>
+                  </div>
+                
+              </div>
+              
+              <div class="post-excerpt">
+                GoF设计模式-iteratoer迭代器模式这个设计模式个人在感觉上是非常常用的一种设计模式，通过将数据的遍历过程和业务逻辑结构，可以在遍历过程中分解出一些共用的遍历方法，提高效率。
+
+反思：目前的感觉迭代器模式的核心思想就是将数据的遍历和处理和调用过程接偶，其原因是遍历过程具有一定的通用性，通过解耦可以更加方便的降低代码的重复率。重要的思想还有数据的桥接方法，使用继承方式还是使用数据引用传递的方...
+              </div>
+              
+              <div class="post-footer">
+                <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-1--iteratoer/" class="read-more">
+                  <i class="fas fa-code"></i>
+                  Read More
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="post-card has-thumbnail">
+            <div class="post-card-content">
+              <div class="post-card-top">
+                <div class="post-card-info">
+                  <div class="post-header">
+                    <i class="fas fa-file-alt"></i>
+                    <span class="post-title">
+                      <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-10--strategy/">GoF设计模式(10)-strategy</a>
+                      
+                    </span>
+                  </div>
+                  
+                  <div class="post-meta">
+                    <span class="date">
+                      <i class="fas fa-calendar-alt"></i>
+                      2024-12-31
+                    </span>
+                      <span class="category">
+                        <i class="fas fa-folder"></i>
+                        <a class="category-link" href="../../categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/">软件开发</a>
+                      </span>
+                  </div>
+                </div>
+                
+                  <div class="post-thumbnail">
+                    <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-10--strategy/">
+                      <img src="/images/blogimg//blogimg/GAF/10.png" alt="GoF设计模式(10)-strategy" loading="lazy">
+                    </a>
+                  </div>
+                
+              </div>
+              
+              <div class="post-excerpt">
+                策略模式这个模式和bridge 模式非常像，如果说区别可能就是bridge强调的是扩展性而stragtegy强调使用方法
+策略模式类图
+策略模式例子context 策略的使用者12345678910111213141516171819202122232425262728293031323334353637383940package org.kys.Gaf.strategy;public class...
+              </div>
+              
+              <div class="post-footer">
+                <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-10--strategy/" class="read-more">
+                  <i class="fas fa-code"></i>
+                  Read More
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="post-card has-thumbnail">
+            <div class="post-card-content">
+              <div class="post-card-top">
+                <div class="post-card-info">
+                  <div class="post-header">
+                    <i class="fas fa-file-alt"></i>
+                    <span class="post-title">
+                      <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-2--Adapter/">GoF设计模式(2)-Adapter</a>
+                      
+                    </span>
+                  </div>
+                  
+                  <div class="post-meta">
+                    <span class="date">
+                      <i class="fas fa-calendar-alt"></i>
+                      2024-12-31
+                    </span>
+                      <span class="category">
+                        <i class="fas fa-folder"></i>
+                        <a class="category-link" href="../../categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/">软件开发</a>
+                      </span>
+                  </div>
+                </div>
+                
+                  <div class="post-thumbnail">
+                    <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-2--Adapter/">
+                      <img src="/images/blogimg//blogimg/GAF/2.png" alt="GoF设计模式(2)-Adapter" loading="lazy">
+                    </a>
+                  </div>
+                
+              </div>
+              
+              <div class="post-excerpt">
+                适配器模式这个模式个人的感觉是解决了代码特殊部分和通用部分差异性的问题，在处理逻辑中有一部分存在相同的地方但是有部分地方不同的时候可以使用这个方法将相关的不同点进行进一步的适配从而实现代码的复用。
+适配器模式类图适配器模式在GAF书中定义了两种
+
+使用引用的方式进行构建
+
+
+
+使用继承的方式进行构建
+
+
+
+注意： 使用接口和使用抽象类的原因是因为java只能支持单继承，如果业务数据和逻辑操作之间的...
+              </div>
+              
+              <div class="post-footer">
+                <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-2--Adapter/" class="read-more">
+                  <i class="fas fa-code"></i>
+                  Read More
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="post-card has-thumbnail">
+            <div class="post-card-content">
+              <div class="post-card-top">
+                <div class="post-card-info">
+                  <div class="post-header">
+                    <i class="fas fa-file-alt"></i>
+                    <span class="post-title">
+                      <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-3--Template-Method/">GoF设计模式(3)-Template Method</a>
+                      
+                    </span>
+                  </div>
+                  
+                  <div class="post-meta">
+                    <span class="date">
+                      <i class="fas fa-calendar-alt"></i>
+                      2024-12-31
+                    </span>
+                      <span class="category">
+                        <i class="fas fa-folder"></i>
+                        <a class="category-link" href="../../categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/">软件开发</a>
+                      </span>
+                  </div>
+                </div>
+                
+                  <div class="post-thumbnail">
+                    <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-3--Template-Method/">
+                      <img src="/images/blogimg//blogimg/GAF/4.png" alt="GoF设计模式(3)-Template Method" loading="lazy">
+                    </a>
+                  </div>
+                
+              </div>
+              
+              <div class="post-excerpt">
+                模板方法模式这个设计模式个人的感觉，其实实现了一个标准化的流程，实现类是实现标准的类，而流程由一开始的抽先类或者接口定义了，是标准的继承用法
+模板方法模式类图
+模板方法例子使用抽象类的模板123456789101112131415161718192021222324252627package org.kys.Gaf.templateMethod;/** * 模板 */public abstract...
+              </div>
+              
+              <div class="post-footer">
+                <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-3--Template-Method/" class="read-more">
+                  <i class="fas fa-code"></i>
+                  Read More
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="post-card has-thumbnail">
+            <div class="post-card-content">
+              <div class="post-card-top">
+                <div class="post-card-info">
+                  <div class="post-header">
+                    <i class="fas fa-file-alt"></i>
+                    <span class="post-title">
+                      <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-4--Factory-Method/">GoF设计模式(4)-Factory Method</a>
+                      
+                    </span>
+                  </div>
+                  
+                  <div class="post-meta">
+                    <span class="date">
+                      <i class="fas fa-calendar-alt"></i>
+                      2024-12-31
+                    </span>
+                      <span class="category">
+                        <i class="fas fa-folder"></i>
+                        <a class="category-link" href="../../categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/">软件开发</a>
+                      </span>
+                  </div>
+                </div>
+                
+                  <div class="post-thumbnail">
+                    <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-4--Factory-Method/">
+                      <img src="/images/blogimg//blogimg/GAF/5.png" alt="GoF设计模式(4)-Factory Method" loading="lazy">
+                    </a>
+                  </div>
+                
+              </div>
+              
+              <div class="post-excerpt">
+                工厂方法模式这个模式之前的时候感觉比较困难，现在感觉这个模式同样是比较简单的，要注意一下的几个思想。
+
+工厂方法模式一开始的时候是将工厂接口和工厂生产的产品同时定义出来的。
+工厂生产的东西需要传入指定的数据才能生产出来比如下面例子中定义的IDcard类
+
+
+扩展思路&gt; 其实感觉这个模式其实可以和模板方法模式结合使用，在构建产品的过程中使用模板方法模式可以进一步的解耦和优化流程。
+
+工厂方法模...
+              </div>
+              
+              <div class="post-footer">
+                <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-4--Factory-Method/" class="read-more">
+                  <i class="fas fa-code"></i>
+                  Read More
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="post-card">
+            <div class="post-card-content">
+              <div class="post-card-top">
+                <div class="post-card-info">
+                  <div class="post-header">
+                    <i class="fas fa-file-alt"></i>
+                    <span class="post-title">
+                      <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-5--%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">GoF设计模式(5)-单例模式</a>
+                      
+                    </span>
+                  </div>
+                  
+                  <div class="post-meta">
+                    <span class="date">
+                      <i class="fas fa-calendar-alt"></i>
+                      2024-12-31
+                    </span>
+                      <span class="category">
+                        <i class="fas fa-folder"></i>
+                        <a class="category-link" href="../../categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/">软件开发</a>
+                      </span>
+                  </div>
+                </div>
+                
+              </div>
+              
+              <div class="post-excerpt">
+                单例模式这个模式其实并不需要过多的阐释，重点是如何构建好一个单例模式，最基础的代码如下
+12345678package org.kys.Gaf.singleton;public class Singleton &#123;    private static final Singleton = new Singleton();    private Singleton() &#123;&#125;...
+              </div>
+              
+              <div class="post-footer">
+                <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-5--%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" class="read-more">
+                  <i class="fas fa-code"></i>
+                  Read More
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="post-card has-thumbnail">
+            <div class="post-card-content">
+              <div class="post-card-top">
+                <div class="post-card-info">
+                  <div class="post-header">
+                    <i class="fas fa-file-alt"></i>
+                    <span class="post-title">
+                      <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6--prototype/">GoF设计模式(6)-prototype</a>
+                      
+                    </span>
+                  </div>
+                  
+                  <div class="post-meta">
+                    <span class="date">
+                      <i class="fas fa-calendar-alt"></i>
+                      2024-12-31
+                    </span>
+                      <span class="category">
+                        <i class="fas fa-folder"></i>
+                        <a class="category-link" href="../../categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/">软件开发</a>
+                      </span>
+                  </div>
+                </div>
+                
+                  <div class="post-thumbnail">
+                    <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6--prototype/">
+                      <img src="/images/blogimg//blogimg/GAF/6.png" alt="GoF设计模式(6)-prototype" loading="lazy">
+                    </a>
+                  </div>
+                
+              </div>
+              
+              <div class="post-excerpt">
+                原型模式原型模式其实本质上解决了如下的两个问题：
+
+类名称和类的绑定，无法实现动态的（通过字符串或者名称很方便的）生成想要生成的相关累的实例。
+一个统一的入口将相同种类（实现同一个借口或者继承自相同的类的类）进行统一的管理
+
+
+自我引申： 感觉这个模式，相当于商品的买卖，而圆形模式中的字符串就相当于需要金钱（一种通用的可共识的东西），而产出的类，就相当于商品
+
+原型模式类图
+根据上面所说的我的理解...
+              </div>
+              
+              <div class="post-footer">
+                <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-6--prototype/" class="read-more">
+                  <i class="fas fa-code"></i>
+                  Read More
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="post-card has-thumbnail">
+            <div class="post-card-content">
+              <div class="post-card-top">
+                <div class="post-card-info">
+                  <div class="post-header">
+                    <i class="fas fa-file-alt"></i>
+                    <span class="post-title">
+                      <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-7--Builder/">GoF设计模式(7)-Builder</a>
+                      
+                    </span>
+                  </div>
+                  
+                  <div class="post-meta">
+                    <span class="date">
+                      <i class="fas fa-calendar-alt"></i>
+                      2024-12-31
+                    </span>
+                      <span class="category">
+                        <i class="fas fa-folder"></i>
+                        <a class="category-link" href="../../categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/">软件开发</a>
+                      </span>
+                  </div>
+                </div>
+                
+                  <div class="post-thumbnail">
+                    <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-7--Builder/">
+                      <img src="/images/blogimg//blogimg/GAF/8.png" alt="GoF设计模式(7)-Builder" loading="lazy">
+                    </a>
+                  </div>
+                
+              </div>
+              
+              <div class="post-excerpt">
+                建造者模式这个模式在我的个人感觉中感觉就像是升级版的模板方法模式，这个模式中的director起到了监控和调用各种builer类的方法（感觉相当于在），然后在director中编写对应的流程函数（construction）来调用指定的相关的各种函数。和模板方法中使用hashmap进行字符串到具体clone 的对应关系相同，在建造者模式中我也使用了HashMap进行获取对象的解耦，实现了统一入口
+
+...
+              </div>
+              
+              <div class="post-footer">
+                <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-7--Builder/" class="read-more">
+                  <i class="fas fa-code"></i>
+                  Read More
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="post-card">
+            <div class="post-card-content">
+              <div class="post-card-top">
+                <div class="post-card-info">
+                  <div class="post-header">
+                    <i class="fas fa-file-alt"></i>
+                    <span class="post-title">
+                      <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-8-abstractFactory/">GoF设计模式(8)abstractFactory</a>
+                      
+                    </span>
+                  </div>
+                  
+                  <div class="post-meta">
+                    <span class="date">
+                      <i class="fas fa-calendar-alt"></i>
+                      2024-12-31
+                    </span>
+                      <span class="category">
+                        <i class="fas fa-folder"></i>
+                        <a class="category-link" href="../../categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/">软件开发</a>
+                      </span>
+                  </div>
+                </div>
+                
+              </div>
+              
+              <div class="post-excerpt">
+                ...
+              </div>
+              
+              <div class="post-footer">
+                <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-8-abstractFactory/" class="read-more">
+                  <i class="fas fa-code"></i>
+                  Read More
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="post-card has-thumbnail">
+            <div class="post-card-content">
+              <div class="post-card-top">
+                <div class="post-card-info">
+                  <div class="post-header">
+                    <i class="fas fa-file-alt"></i>
+                    <span class="post-title">
+                      <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-9--Bridge/">GoF设计模式(9)-Bridge</a>
+                      
+                    </span>
+                  </div>
+                  
+                  <div class="post-meta">
+                    <span class="date">
+                      <i class="fas fa-calendar-alt"></i>
+                      2024-12-31
+                    </span>
+                      <span class="category">
+                        <i class="fas fa-folder"></i>
+                        <a class="category-link" href="../../categories/%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/">软件开发</a>
+                      </span>
+                  </div>
+                </div>
+                
+                  <div class="post-thumbnail">
+                    <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-9--Bridge/">
+                      <img src="/images/blogimg//blogimg/GAF/9.png" alt="GoF设计模式(9)-Bridge" loading="lazy">
+                    </a>
+                  </div>
+                
+              </div>
+              
+              <div class="post-excerpt">
+                桥接模式桥接模式我的感觉这个模式就是使用模板方法模式和适配器的模式的结合。
+在GoF书中，将类的扩展分为，类的功能层次划分和类的结构层次划分
+
+类的功能层次划分： 通过继承来对添加相关的功能，其实也就是外部调用的实际方法
+
+类的实现层次划分：父类（接口或者抽象类），通过继承将这个作为一个特殊的实现类适配不同的情况，比如说一个类定义了一个操作系统底层的接口，其子类通过实现，支持了windowns和l...
+              </div>
+              
+              <div class="post-footer">
+                <a href="../../2024/12/31/GoF%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-9--Bridge/" class="read-more">
+                  <i class="fas fa-code"></i>
+                  Read More
+                </a>
+              </div>
+            </div>
+          </div>
+      </div>
+      
+      
+<nav class="pagination-container" aria-label="Page navigation">
+  <span class="pagination-info">Page 27 of 28</span>
+  <div class="pagination">
+    
+      <a class="page-btn" href="../26/" aria-label="Previous page">
+        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      
+        <a class="page-btn" href="../../index.html">1</a>
+      
+    
+      
+        <a class="page-btn" href="../2/">2</a>
+      
+    
+      
+        <a class="page-btn" href="../3/">3</a>
+      
+    
+      
+        <a class="page-btn" href="../4/">4</a>
+      
+    
+      
+        <a class="page-btn" href="../5/">5</a>
+      
+    
+      
+        <a class="page-btn" href="../6/">6</a>
+      
+    
+      
+        <a class="page-btn" href="../7/">7</a>
+      
+    
+      
+        <a class="page-btn" href="../8/">8</a>
+      
+    
+      
+        <a class="page-btn" href="../9/">9</a>
+      
+    
+      
+        <a class="page-btn" href="../10/">10</a>
+      
+    
+      
+        <a class="page-btn" href="../11/">11</a>
+      
+    
+      
+        <a class="page-btn" href="../12/">12</a>
+      
+    
+      
+        <a class="page-btn" href="../13/">13</a>
+      
+    
+      
+        <a class="page-btn" href="../14/">14</a>
+      
+    
+      
+        <a class="page-btn" href="../15/">15</a>
+      
+    
+      
+        <a class="page-btn" href="../16/">16</a>
+      
+    
+      
+        <a class="page-btn" href="../17/">17</a>
+      
+    
+      
+        <a class="page-btn" href="../18/">18</a>
+      
+    
+      
+        <a class="page-btn" href="../19/">19</a>
+      
+    
+      
+        <a class="page-btn" href="../20/">20</a>
+      
+    
+      
+        <a class="page-btn" href="../21/">21</a>
+      
+    
+      
+        <a class="page-btn" href="../22/">22</a>
+      
+    
+      
+        <a class="page-btn" href="../23/">23</a>
+      
+    
+      
+        <a class="page-btn" href="../24/">24</a>
+      
+    
+      
+        <a class="page-btn" href="../25/">25</a>
+      
+    
+      
+        <a class="page-btn" href="../26/">26</a>
+      
+    
+      
+        <span class="page-btn current" aria-current="page">27</span>
+      
+    
+      
+        <a class="page-btn" href="../28/">28</a>
+      
+    
+
+    
+      <a class="page-btn" href="../28/" aria-label="Next page">
+        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+      </a>
+    
+  </div>
+</nav>
+
+
+    </div>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code-branch"></i>
+      master
+    </div>
+    <div class="status-item">
+      <i class="fas fa-sync"></i>
+      John Doe
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      2026-02-18
+    </div>
+    <div class="status-item">
+      Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
+    </div>
+    <div class="status-item github">
+      <a href="#" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 搜索专用配置 (HEXO_CONFIG 在 scripts.ejs 中统一定义) -->
+    <script>
+      window.VSC4T_SEARCH = {
+        root: "/"
+      };
+    </script>
+
+    <!-- 外部脚本 - 统一使用 cdnjs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
+    <script>if(typeof hljs !== 'undefined') hljs.highlightAll();</script>
+    <!-- 这里可以放置自定义脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Apply smooth scroll to non-TOC anchor links
+  document.querySelectorAll('a[href^="#"]:not(.toc-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Check if querySelector is valid before using it
+      try {
+        const targetSelector = this.getAttribute('href');
+        // Basic check for potentially invalid selectors (though not exhaustive)
+        if (targetSelector && targetSelector.length > 1) { 
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            console.warn('Smooth scroll target not found:', targetSelector);
+          }
+        } else {
+           console.warn('Invalid href for smooth scroll:', targetSelector);
+        }
+      } catch (error) {
+        console.error('Error during smooth scroll:', error, 'Selector:', this.getAttribute('href'));
+        // Fallback or alternative behavior if needed
+        // For example, try getElementById if it's just an ID
+        const targetId = this.getAttribute('href').slice(1);
+        try {
+            const targetElementById = document.getElementById(decodeURIComponent(targetId));
+            if (targetElementById) {
+                targetElementById.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (idError) {
+             console.error('Fallback getElementById also failed:', idError);
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Scripts -->
+<script>
+  // 全局配置 - 包含 i18n 字符串和主题配置
+  window.HEXO_CONFIG = {
+    language: "en",
+    root: "/",
+    
+    theme_switch: {
+      enabled: false,
+      light_start: "06:00",
+      light_end: "18:00"
+    },
+    
+    // Search i18n strings
+    search_placeholder: "Type to search...",
+    search_no_results: "No results found",
+    search_result: "result",
+    search_results: "results",
+    search_results_found: "Found undefined results",
+    search_in: "Search in",
+    search_in_title: "Title",
+    search_in_content: "Content",
+    search_in_tags: "Tags",
+    search_in_categories: "Categories",
+    search_filters: "Search Filters",
+    search_recent: "Recent Searches",
+    search_clear: "Clear",
+    search_loading: "Loading...",
+    search_error: "Error loading search data",
+    // Encryption i18n strings
+    encrypt_badge: "Protected",
+    encrypt_title: "Protected Content",
+    encrypt_description: "Enter the password to unlock this article. The password will be saved locally until you choose to re-encrypt.",
+    encrypt_label: "Password",
+    encrypt_placeholder: "Enter password to unlock",
+    encrypt_button: "Unlock",
+    encrypt_button_loading: "Unlocking...",
+    encrypt_hint: "Press Enter to submit. Password will be remembered on this device.",
+    encrypt_success: "Content unlocked successfully!",
+    encrypt_unlocked_note: "Content unlocked. You can re-encrypt at any time.",
+    encrypt_again: "Re-encrypt",
+    encrypt_wrong_password: "Incorrect password. Please try again.",
+    encrypt_show_password: "Show password",
+    encrypt_hide_password: "Hide password",
+    // Sidebar i18n strings
+    sidebar_about: "About",
+    sidebar_categories: "Categories",
+    sidebar_tags: "Tags",
+    // Post page i18n strings
+    post_toc: "TABLE OF CONTENTS",
+    post_category_posts: "CATEGORY POSTS",
+    post_article_tags: "ARTICLE TAGS"
+  };
+</script>
+
+
+
+<!-- 添加所有需要的脚本 -->
+<script src="../../js/search.js"></script>
+<script src="../../js/theme-switch.js"></script>
+
+<script src="../../js/password-protect.js?v=1771424192261"></script>
+
+    <script>
+      // 移动端菜单切换
+      $(document).ready(function() {
+        var $body = $('body');
+        var $sidebar = $('.sidebar-explorer');
+        var $overlay = $('.sidebar-overlay');
+        var $toggle = $('.mobile-menu-toggle');
+
+        function openSidebar() {
+          $sidebar.addClass('show');
+          $overlay.addClass('show');
+          $toggle.addClass('active');
+          $body.addClass('sidebar-open');
+        }
+
+        function closeSidebar() {
+          $sidebar.removeClass('show');
+          $overlay.removeClass('show');
+          $toggle.removeClass('active');
+          $body.removeClass('sidebar-open');
+        }
+
+        // 汉堡按钮点击切换
+        $toggle.on('click', function(e) {
+          e.stopPropagation();
+          if ($sidebar.hasClass('show')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+
+        // 点击遮罩层关闭
+        $overlay.on('click', function() {
+          closeSidebar();
+        });
+
+        // ESC 键关闭
+        $(document).on('keydown', function(e) {
+          if (e.key === 'Escape' && $sidebar.hasClass('show')) {
+            closeSidebar();
+          }
+        });
+
+        // 点击侧边栏内的链接时自动关闭侧边栏，确保锚点跳转正常
+        $sidebar.on('click', 'a', function() {
+          closeSidebar();
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>如何做一次完美的压测 | Hexo</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A simple dark Hexo theme inspired by code.">
+  <meta name="keywords" content="">
+  <meta name="author" content="John Doe">
+  <link rel="canonical" href="http://example.com">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="如何做一次完美的压测 | Hexo">
+  <meta property="og:description" content="A simple dark Hexo theme inspired by code.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://example.com">
+  <meta property="og:site_name" content="Hexo">
+  <meta property="article:published_time" content="2024-12-31T12:15:00.000Z">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="如何做一次完美的压测 | Hexo">
+  <meta name="twitter:description" content="A simple dark Hexo theme inspired by code.">
+
+  <!-- Favicon 配置 -->
+  
+
+  <!-- 外部样式 - 统一使用 jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- 代码高亮样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+  <!-- Mermaid.js 库 (defer加载) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <!-- 主题样式 -->
+  <link rel="stylesheet" href="../../../../css/theme-colors.css">
+  <link rel="stylesheet" href="../../../../css/main.css">
+  <link rel="stylesheet" href="../../../../css/code.css">
+  <link rel="stylesheet" href="../../../../css/code-custom.css">
+  <link rel="stylesheet" href="../../../../css/code-languages.css">
+  <link rel="stylesheet" href="../../../../css/mermaid.css">
+
+  <link rel="stylesheet" href="../../../../css/vs-code.css">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192224">
+  <link rel="stylesheet" href="../../../../css/tag.css">
+  <link rel="stylesheet" href="../../../../css/categories.css">
+  <link rel="stylesheet" href="../../../../css/archive.css">
+  <link rel="stylesheet" href="../../../../css/search.css">
+  <link rel="stylesheet" href="../../../../css/mobile.css">  <link rel="stylesheet" href="../../../../css/responsive.css">
+  <link rel="stylesheet" href="../../../../css/elements.css">
+
+  <!-- 添加 JetBrains Mono 字体 -->  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Add any custom head content here -->
+
+  <script defer src="../../../../js/explorer.js"></script>
+  <script defer src="../../../../js/code-enhance.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+      <div class="mobile-menu-toggle" aria-label="Toggle sidebar menu" role="button" tabindex="0">
+        <i class="fas fa-bars"></i>
+      </div>
+      <!-- 移动端侧边栏遮罩层 -->
+      <div class="sidebar-overlay" aria-hidden="true"></div>
+      <header class="vs-header">
+  <nav class="vs-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-brand">
+        <i class="fas fa-terminal"></i>
+        Hexo
+      </a>
+    </div>
+    
+    <div class="nav-right">
+      <a href="/" class="nav-item ">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="/archives/" class="nav-item ">
+        <i class="fas fa-archive"></i>
+        <span>Archives</span>
+      </a>
+      <a href="/categories/" class="nav-item ">
+        <i class="fas fa-folder"></i>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" class="nav-item ">
+        <i class="fas fa-tags"></i>
+        <span>Tags</span>
+      </a>
+      <a href="/search/" class="nav-item ">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="/about/" class="nav-item ">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function smoothScroll(event, target) {
+    event.preventDefault();
+    const targetId = target.substring(target.indexOf('#') + 1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 50, // 调整偏移量
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = target;
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.vs-header');
+    const nav = document.querySelector('.vs-nav');
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    
+    nav.style.setProperty('--scroll-percent', `${scrollPercent}%`);
+    
+    if (window.scrollY > 0) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // 添加标签页切换动画
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('nav-ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+</script>
+
+
+<div class="vscode-container">
+  <!-- 左侧资源管理器 -->
+  <div class="sidebar-explorer">
+    <!-- TOC导航 -->
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-list"></i>
+        <span>TABLE OF CONTENTS</span>
+      </div>
+      <div class="section-content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%8E%E6%B5%8B%E8%AF%95%E7%9B%B8%E5%85%B3%E7%9A%84%E6%8C%87%E6%A0%87"><span class="toc-text">与测试相关的指标</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E8%8E%B7%E5%BE%97%E6%8C%87%E6%A0%87"><span class="toc-text">如何获得指标</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E7%9C%9F%E6%AD%A3%E7%9A%84%E6%8A%8A%E6%9C%BA%E5%99%A8%E7%9A%84%E6%80%A7%E8%83%BD%E5%8E%8B%E5%87%BA%E6%9D%A5-%E5%81%9A%E4%B8%80%E6%AC%A1%E5%AE%8C%E7%BE%8E%E7%9A%84%E5%8E%8B%E6%B5%8B"><span class="toc-text">如何真正的把机器的性能压出来,做一次完美的压测</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A6%96%E5%85%88%E6%88%91%E4%BB%AC%E8%A6%81%E5%81%9A%E6%80%A7%E8%83%BD%E9%A2%84%E4%BC%B0"><span class="toc-text">首先我们要做性能预估</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%B6%E5%AE%9A%E5%8E%8B%E5%8A%9B%E5%B1%82%E7%BA%A7%E5%92%8C%E5%AF%B9%E5%BA%94%E7%9A%84%E6%8C%87%E6%A0%87"><span class="toc-text">制定压力层级和对应的指标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E7%93%B6%E9%A2%88%E5%AE%9A%E4%BD%8D"><span class="toc-text">性能瓶颈定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E7%93%B6%E9%A2%88%E5%AE%9A%E4%BD%8D-%E5%85%B6%E4%BB%96%E6%96%B9%E9%9D%A2"><span class="toc-text">性能瓶颈定位-其他方面</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#qps%E4%B8%8A%E4%B8%8D%E5%8E%BB%E9%97%AE%E9%A2%98%E5%8F%AF%E8%83%BD%E5%B9%B6%E4%B8%8D%E6%98%AF%E5%90%8E%E5%8F%B0%E7%9A%84%E4%BA%8B%E6%83%85-%E4%B8%8D%E5%90%8C%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%B3%BB%E7%BB%9F%E9%97%B4%E7%9A%84%E7%9B%B8%E4%BA%92%E8%B0%83%E7%94%A8%E4%B9%9F%E5%8F%AF%E8%83%BD%E4%BC%9A%E5%AF%BC%E8%87%B4%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98"><span class="toc-text">qps上不去问题可能并不是后台的事情 , 不同类型的系统间的相互调用也可能会导致性能问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%A7%E8%83%BD%E7%93%B6%E9%A2%88%E5%AE%9A%E4%BD%8D-%E5%8E%8B%E6%B5%8B%E7%9A%84%E6%97%B6%E5%80%99%E5%8E%8B%E5%8A%9B%E6%9C%BA%E5%99%A8%E4%B9%9F%E8%A6%81%E6%B3%A8%E6%84%8F-%E6%9C%89%E7%9A%84%E6%97%B6%E5%80%99%E7%93%B6%E9%A2%88%E5%8F%AF%E8%83%BD%E6%98%AF%E5%8E%8B%E5%8A%9B%E6%9C%BA%E5%99%A8%E7%9A%84"><span class="toc-text">性能瓶颈定位-压测的时候压力机器也要注意 , 有的时候瓶颈可能是压力机器的</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%80%E5%90%8E"><span class="toc-text">最后</span></a></li></ol>
+      </div>
+    </div>
+
+    <!-- 同分类文章 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-folder"></i>
+        <span>CATEGORY POSTS</span>
+      </div>
+      <div class="section-content">
+        
+      </div>
+    </div>
+    
+    
+    <!-- 标签列表 -->
+    
+  </div>
+
+  <!-- 主要内容区域 -->
+  <div class="editor-content">
+    <div class="tab-bar">
+      <div class="tab active">
+        <i class="fas fa-file-alt"></i>
+        <span>如何做一次完美的压测.md</span>
+      </div>
+    </div>
+    
+    <div class="content-area">
+      <article class="post-content">
+        <div class="post-header">
+          <h1>如何做一次完美的压测</h1>
+          <div class="post-meta">
+            <span class="date">
+              <i class="fas fa-calendar-alt"></i>
+              2024-12-31
+            </span>
+            
+            <span class="updated-date">
+              <i class="fas fa-sync-alt"></i>
+              Updated 2026-02-18
+            </span>
+                        
+              <span class="categories">
+                <i class="fas fa-folder"></i>
+                <div class="categories-list">
+                  <ul class="category-item-post-list"><li class="category-item-post-list-item"><a class="category-item-post-list-link" href="../../../../categories/%E5%9B%A2%E9%98%9F%E5%BC%80%E5%8F%91%E5%B7%A5%E4%BD%9C%E7%AD%89%E5%85%B6%E4%BB%96%E8%BD%AF%E6%8A%80%E8%83%BD/">团队开发工作等其他软技能</a></li></ul>
+                </div>
+              </span>
+            
+            
+          </div>
+        </div>
+        
+        <div class="post-body vscode-markdown">
+          <blockquote>
+<p>压力测试其实有的时候更考验人的经验</p>
+</blockquote>
+<h1 id="与测试相关的指标"><a href="#与测试相关的指标" class="headerlink" title="与测试相关的指标"></a>与测试相关的指标</h1><ol>
+<li>qps : 每秒查询数 -&gt; 这个指标一般用在数据库上 , 不过很多人都把这个和TPS混淆,这个知道怎么会是就行了</li>
+<li>tps : 每秒内的事务数 -&gt; 执行多组操作的性能 -&gt; 也是数据库的一个指标 , 不过呢我们可以把我们的后台接口操作想象成一个事务 , 所以这个指标是标准的</li>
+<li>pv : 只的是调用次数</li>
+<li>RT : 接口的响应时间</li>
+<li>cpu使用率 : 大家都懂</li>
+<li>cpu loading指数 : 这个指标比较重要 , 能反映出cpu当前的”疲劳”程度 , 当前cpu处理任务数量 , 一般最大都要保证内核数量*1.2一下</li>
+<li>内存 : 大家都懂</li>
+<li>出向和入向流量 : 大家都懂</li>
+</ol>
+<p>还有两个词 , 低延迟和高吞吐</p>
+<h1 id="如何获得指标"><a href="#如何获得指标" class="headerlink" title="如何获得指标"></a>如何获得指标</h1><p>使用常用的压测工具都可以 , jmeter等等 , 这类操作工具都会将qps 或者 tps , RT 整理统计出来 , 这里就不展开了</p>
+<h1 id="如何真正的把机器的性能压出来-做一次完美的压测"><a href="#如何真正的把机器的性能压出来-做一次完美的压测" class="headerlink" title="如何真正的把机器的性能压出来,做一次完美的压测"></a>如何真正的把机器的性能压出来,做一次完美的压测</h1><blockquote>
+<p>去压测性能的真的是一个技术活 , 是一个慢慢试出来的过程</p>
+</blockquote>
+<h2 id="首先我们要做性能预估"><a href="#首先我们要做性能预估" class="headerlink" title="首先我们要做性能预估"></a>首先我们要做性能预估</h2><blockquote>
+<p>面对一个集群 , 性能如何应该怎么预估呢?</p>
+</blockquote>
+<p>没别的办法 , 看经验 , 靠猜 </p>
+<p>但是也可以使用一些简单的办法 , 比如</p>
+<ol>
+<li>由小道大 , 逐级测试 -&gt; 用一个小的压力做初次预估 , 慢慢逼近性能极限</li>
+<li>参照物法 , 逐渐逼近 -&gt; 一组内公司内类似规模的系统 , 进行初次预估</li>
+<li>玄学瞎猜 , 慢慢测试 -&gt; 没有任何可以参考的就瞎猜一个吧 , 然后慢慢去寻找</li>
+</ol>
+<h2 id="制定压力层级和对应的指标"><a href="#制定压力层级和对应的指标" class="headerlink" title="制定压力层级和对应的指标"></a>制定压力层级和对应的指标</h2><blockquote>
+<p>在压测过程中性能(QPS&#x2F;TPS)的随着压力的变化曲线应该是一个波浪状的 </p>
+</blockquote>
+<p>找出了预估的并发大小之后(一般是一个5的倍数的并发数) , 以这个为基准 , 增加多少并发 , 减少多少并发 , 列成表格 , 注意记录各种性能的指标</p>
+<p>比如 : </p>
+<table>
+<thead>
+<tr>
+<th>接口</th>
+<th>并发数量</th>
+<th>压测时间</th>
+<th>tps&#x2F;qps</th>
+<th>pv</th>
+<th>RT(min)</th>
+<th>RT(max)</th>
+<th>RT(average)</th>
+<th>RT(median)</th>
+<th>cpu loading</th>
+<th>cpu 使用率</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>goods_list</td>
+<td>10</td>
+<td>60s</td>
+<td>3000</td>
+<td>1w</td>
+<td>1ms</td>
+<td>30ms</td>
+<td>15ms</td>
+<td>20ms</td>
+<td>6</td>
+<td>100%</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>ps : 这里就有一统计学的东西了 , 比如中位数和平均值 ,其实在压测的时候中位数更能体现出RT这个指标的实际效果</p>
+</blockquote>
+<blockquote>
+<p>注意 : 这个得出的性能(qps&#x2F;tps)信息最后至少有一个下降的维度 , 是一个波浪状的效果 ,  这样才能找到性能的极限</p>
+</blockquote>
+<blockquote>
+<p>注意 : 最终性能要使用有效数据 ,  如果RT 超过限制或者cpu loading 超过了限制 , 那么这个数据认为不达标 , 但是这个可以用作统计分析</p>
+</blockquote>
+<h2 id="性能瓶颈定位"><a href="#性能瓶颈定位" class="headerlink" title="性能瓶颈定位"></a>性能瓶颈定位</h2><blockquote>
+<p>影响性能的原因有多种 , 不一定真的是系统本身的问题</p>
+</blockquote>
+<p>通过上面的制定压力层级和对应的指标 , 我们已经可以确定了我们当前系统的极限性能了 , 我们不禁想问这些真的是我们的极限性能了吗?</p>
+<blockquote>
+<p>其实我们通过 cpu loading qps tps RT PV 等其实已经能确定当前场景下的一个最佳性能了 , 接写来就需要进行性能问题排查调优</p>
+</blockquote>
+<p>瓶颈排查:</p>
+<ol>
+<li>排查日志 , 找到耗时过长逻辑 , 定位分析 , 比如java 系的系统可以使用 alibaba 开源的在线性能分析工具 <a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/index.html">arthas</a></li>
+<li>排查网络问题 : 当确认代码逻辑没有问题的时候 , 网络延迟过高也会影响qps , 比如跨机房调用等 . 这个时候需要找运维同学协助解决 , 做部署迁移 ,  搭建专用线路等方法</li>
+<li>最后 cpu瓶颈 : 这个时候只能通过加机器,升级机器硬件能力解决</li>
+</ol>
+<p>性能调优</p>
+<blockquote>
+<p>这个步骤就很多了, 要针对自己的技术栈进行操作  ,  比如 java 可修改jvm参数 , 看一下 jvm GC , 内存状态 , 分别对应的进行一下调优 . ps java事情真多… …</p>
+</blockquote>
+<h2 id="性能瓶颈定位-其他方面"><a href="#性能瓶颈定位-其他方面" class="headerlink" title="性能瓶颈定位-其他方面"></a>性能瓶颈定位-其他方面</h2><h3 id="qps上不去问题可能并不是后台的事情-不同类型的系统间的相互调用也可能会导致性能问题"><a href="#qps上不去问题可能并不是后台的事情-不同类型的系统间的相互调用也可能会导致性能问题" class="headerlink" title="qps上不去问题可能并不是后台的事情 , 不同类型的系统间的相互调用也可能会导致性能问题"></a>qps上不去问题可能并不是后台的事情 , 不同类型的系统间的相互调用也可能会导致性能问题</h3><blockquote>
+<p>随着现在互联网架构的升级 epoll 模式的广泛应用 ,系统之间的调用也可能成为性能的瓶颈</p>
+</blockquote>
+<p>举个例子</p>
+<ul>
+<li>传统java线程体系是一个典型的低延迟系统 , 因为线程模型是独立执行的不会正常理想情况下不会中途终止执行(线程上下文切换) , 所以说一个任务执行完成的时间就是这个任务执行在cpu中的最短时间.</li>
+<li>golang&#x2F;nodejs是高吞吐系统 , 应为底层用了epoll 模型使用事件轮询 , 其实本质上是将多个任务分配到一个线程中去执行 , 也就是说一个任务执行完的时间近似等于这一个线程所有任务完成的平均时间 .</li>
+</ul>
+<p>上面介绍完了 -&gt; 引出重点 , 上面的两个系统,如果java去调用golang或者nodejs的等类似的系统的话 , java就会出现性能问题</p>
+<p>因为java 在线程模型下 , 要能保证高的性能必须保证延迟要足够低 , 否则会导致线程过多,线程上下文切换频繁 , 结果拉低整个性能. 但是golang&#x2F;nodejs 只是保证的吞吐 qps 没有保证延迟RT 所以 , 会导致底层服务性能很好吞吐量高但是上层服务怎么优化都没办法实现高并发.</p>
+<blockquote>
+<p>如何解决 , java 抛弃线程模型使用NIO , 应为针对会联网应用在延迟可控的情况下应该尽可能的追求吞吐量 , 但是java NIO模型需要写异步回调 , 代码很编写这会导致开发效率降低 . 权衡下来 , 只能java增加机器来解决了.</p>
+</blockquote>
+<h2 id="性能瓶颈定位-压测的时候压力机器也要注意-有的时候瓶颈可能是压力机器的"><a href="#性能瓶颈定位-压测的时候压力机器也要注意-有的时候瓶颈可能是压力机器的" class="headerlink" title="性能瓶颈定位-压测的时候压力机器也要注意 , 有的时候瓶颈可能是压力机器的"></a>性能瓶颈定位-压测的时候压力机器也要注意 , 有的时候瓶颈可能是压力机器的</h2><p>如果我们只是使用一台压力机器进行压测是片面的 , 因为网络的开销\延迟 ,都能影响到压力机器对测试机器的负载 , 也就是说压力机到了上限但是测试机还没有道</p>
+<blockquote>
+<p>解决方法 , 使用集群进行压力测试</p>
+</blockquote>
+<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>这里只是记录了单个业务的压测方法 , 其实现在架构中还有针对整个调用链路的压测</p>
+<blockquote>
+<p>全链路压测 其实是这种单业务压测的范化场景 , 需要调动各个部门 , 各个系统的开发人员一起做性能压测 , 技术上的操作和单业务压测是类似的 , 只是多了一些<strong>调用链路性能指标</strong> , <strong>各个系统之间调用的性能记录</strong> , 还有一些<strong>故障演练</strong> .   其实全链路更考验我们的组织能力,团队协作和沟通交流能力.</p>
+</blockquote>
+
+        </div>
+        
+        <!-- 文章导航 - 只在同分类有多篇文章时显示 -->
+        
+        
+        
+        
+        <!-- 推荐文章 -->
+        
+
+
+<div class="vs-recommended-posts">
+  <div class="vs-recommended-header">
+    <div class="section-header">
+      <i class="fas fa-lightbulb"></i>
+      <span>RELATED POSTS</span>
+    </div>
+  </div>
+  
+  <div class="vs-recommended-grid">
+    
+      <div class="vs-recommended-item" data-index="0" tabindex="0">
+        <a href="../Devops%E8%BF%90%E7%BB%B4%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9F%BA%E7%A1%80%E9%97%AE%E9%A2%98-linux%E7%BB%88%E6%AD%A2%E6%8C%87%E4%BB%A4/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>Devops运维遇到的一个基础问题-linux终止指令</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              其实这个东西是linux的一个信号 linux 结束任务有三种信号量 sigint sigterm sigkill sigint : 和ctrl+c关联 , 用来终止当前终端中正在运行的任务 sigterm : 相当于kill进程 , 会终...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="1" tabindex="0">
+        <a href="../nodejs/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>nodejs</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              脚本化运行nodejs 安装nodejs ， 然后编写对应的nodejs 脚本1#!/usr/bin/env node 退出 1process.exit(1) 这个方法会抛出一个错误码 0 正常 1 nodejs 环境初始化 12expor...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  nodejs
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="2" tabindex="0">
+        <a href="../dubbo%E5%88%86%E6%9E%90-1--%E6%8F%92%E4%BB%B6%E5%8C%96%E6%A8%A1%E5%9D%97%E5%8C%96%E8%83%BD%E5%8A%9B%E7%B1%BBSPI%E8%83%BD%E5%8A%9B%E8%AE%BE%E8%AE%A1%E8%A7%A3%E6%9E%90/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>dubbo分析(1)-插件化模块化能力类SPI能力设计解析</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              基于dubbo 2.7 版本 都说duboo的插件化是基于spi我并不认同着一个观点。 我认为dubbo是自己实现了一波spi类似spring boot 总结：dubbo 并没有使用java的spi而是实现了一种更加强悍的spi机制（自动类...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  6 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="3" tabindex="0">
+        <a href="../%E6%80%9D%E8%B7%AF/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>思路</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              设计页面的层级结构 - 虚拟dom树 设计页面的数据流转结构 - 运行态
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  javascript
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="4" tabindex="0">
+        <a href="../dubbo%E5%88%86%E6%9E%90-2--dubbo%E6%9C%8D%E5%8A%A1%E6%9A%B4%E9%9C%B2%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>dubbo分析(2)-dubbo服务暴露代码分析</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              基于dubbo2.7 + 上一篇分析了dubbo有关自动化扩展的相关信息，这一片正式进入主题，研究一下dubbo服务初始化的过程 初始化代码的展示1234567891011121314public class ApplicationProv...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  1 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="5" tabindex="0">
+        <a href="../javascript-%E4%BB%8Ejs%E6%9D%A5%E8%81%8A%E8%81%8A%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>javascript-从js来聊聊异步编程</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              从js来聊聊异步编程文章的目的揭开go的 gorouter,c#的 async&amp;#x2F;await等 使用同步的写法写异步代码的神秘面纱 , 证明其本质就是一个语法糖 为什么使用js来讲异步编程因为js可以通过编程语言自己的语法特性,实现...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  javascript
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Dec 31
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  4 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+  </div>
+  
+  <!-- 查看更多 -->
+  <div class="vs-recommended-footer">
+    <a href="../../../../archives/" class="vs-view-more">
+      <i class="fas fa-folder-open"></i>
+      <span>View More Posts</span>
+      <i class="fas fa-chevron-right"></i>
+    </a>
+  </div>
+</div>
+
+<script>
+// 键盘导航支持
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.vs-recommended-item');
+  let currentIndex = -1;
+  
+  // 键盘事件
+  document.addEventListener('keydown', function(e) {
+    if (!items.length) return;
+    
+    if (e.key === 'Tab') {
+      // Tab键导航由浏览器处理
+      return;
+    }
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      
+      // 移除当前高亮
+      if (currentIndex >= 0) {
+        items[currentIndex].classList.remove('vs-focused');
+      }
+      
+      // 更新索引
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % items.length;
+      } else {
+        currentIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+      }
+      
+      // 添加新高亮
+      items[currentIndex].classList.add('vs-focused');
+      items[currentIndex].focus();
+    }
+    
+    if (e.key === 'Enter' && currentIndex >= 0) {
+      const link = items[currentIndex].querySelector('a');
+      if (link) link.click();
+    }
+  });
+  
+  // 鼠标悬停时更新当前索引
+  items.forEach((item, index) => {
+    item.addEventListener('mouseenter', function() {
+      currentIndex = index;
+      items.forEach(i => i.classList.remove('vs-focused'));
+      item.classList.add('vs-focused');
+    });
+  });
+});
+</script>
+
+        
+        <!-- 评论区 -->
+        
+  <div class="vs-comments-section">
+    <div class="section-header">
+      <i class="fas fa-comments"></i>
+      <span>COMMENTS</span>
+    </div>
+    
+    
+      <!-- Waline 评论系统 -->
+      <div id="waline"></div>
+      <script>
+        // 加载 Waline CSS
+        const walineCSS = document.createElement('link');
+        walineCSS.rel = 'stylesheet';
+        walineCSS.href = 'https://unpkg.com/@waline/client@v3/dist/waline.css';
+        document.head.appendChild(walineCSS);
+        
+        // 加载 Waline JS
+        const walineScript = document.createElement('script');
+        walineScript.type = 'module';
+        walineScript.onload = function() {
+          // 确保 Waline 加载后再初始化
+          import('https://unpkg.com/@waline/client@v3/dist/waline.js').then(({ init }) => {
+            const waline = init({
+              el: '#waline',
+              serverURL: 'https://vsc4tblackcat1337.vercel.app/',
+              lang: 'zh-CN',
+              locale: {},
+              emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus"],
+              requiredMeta: [],
+              login: 'disable',
+              wordLimit: 0,
+              pageSize: 10,
+              imageUploader: false,
+              highlighter: true,
+              texRenderer: false,
+              search: false,
+              pageview: false,
+              comment: true,
+              copyright: false,
+              
+              // 自动适配主题
+              dark: document.documentElement.getAttribute('data-theme') === 'dark' ? 'auto' : false,
+              
+              // 评论框占位符
+              placeholder: 'Feel free to leave a comment, no login required!',
+              
+              // 元数据配置
+              meta: ['nick', 'mail', 'link'],
+              
+              // 表情配置
+              emojiCDN: 'https://unpkg.com/@waline/emojis@1.2.0/',
+            });
+            
+            // 监听主题变化
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                  // Waline 会自动处理主题切换
+                  if (waline) {
+                    waline.update({ dark: isDark ? 'auto' : false });
+                  }
+                }
+              });
+            });
+            
+            observer.observe(document.documentElement, {
+              attributes: true,
+              attributeFilter: ['data-theme']
+            });
+          });
+        };
+        walineScript.src = 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+        document.body.appendChild(walineScript);
+      </script>
+    
+    
+  </div>
+
+      </article>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code-branch"></i>
+      master
+    </div>
+    <div class="status-item">
+      <i class="fas fa-sync"></i>
+      John Doe
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      2026-02-18
+    </div>
+    <div class="status-item">
+      Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
+    </div>
+    <div class="status-item github">
+      <a href="#" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 搜索专用配置 (HEXO_CONFIG 在 scripts.ejs 中统一定义) -->
+    <script>
+      window.VSC4T_SEARCH = {
+        root: "/"
+      };
+    </script>
+
+    <!-- 外部脚本 - 统一使用 cdnjs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
+    <script>if(typeof hljs !== 'undefined') hljs.highlightAll();</script>
+    <!-- 这里可以放置自定义脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Apply smooth scroll to non-TOC anchor links
+  document.querySelectorAll('a[href^="#"]:not(.toc-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Check if querySelector is valid before using it
+      try {
+        const targetSelector = this.getAttribute('href');
+        // Basic check for potentially invalid selectors (though not exhaustive)
+        if (targetSelector && targetSelector.length > 1) { 
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            console.warn('Smooth scroll target not found:', targetSelector);
+          }
+        } else {
+           console.warn('Invalid href for smooth scroll:', targetSelector);
+        }
+      } catch (error) {
+        console.error('Error during smooth scroll:', error, 'Selector:', this.getAttribute('href'));
+        // Fallback or alternative behavior if needed
+        // For example, try getElementById if it's just an ID
+        const targetId = this.getAttribute('href').slice(1);
+        try {
+            const targetElementById = document.getElementById(decodeURIComponent(targetId));
+            if (targetElementById) {
+                targetElementById.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (idError) {
+             console.error('Fallback getElementById also failed:', idError);
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Scripts -->
+<script>
+  // 全局配置 - 包含 i18n 字符串和主题配置
+  window.HEXO_CONFIG = {
+    language: "en",
+    root: "/",
+    
+    theme_switch: {
+      enabled: false,
+      light_start: "06:00",
+      light_end: "18:00"
+    },
+    
+    // Search i18n strings
+    search_placeholder: "Type to search...",
+    search_no_results: "No results found",
+    search_result: "result",
+    search_results: "results",
+    search_results_found: "Found undefined results",
+    search_in: "Search in",
+    search_in_title: "Title",
+    search_in_content: "Content",
+    search_in_tags: "Tags",
+    search_in_categories: "Categories",
+    search_filters: "Search Filters",
+    search_recent: "Recent Searches",
+    search_clear: "Clear",
+    search_loading: "Loading...",
+    search_error: "Error loading search data",
+    // Encryption i18n strings
+    encrypt_badge: "Protected",
+    encrypt_title: "Protected Content",
+    encrypt_description: "Enter the password to unlock this article. The password will be saved locally until you choose to re-encrypt.",
+    encrypt_label: "Password",
+    encrypt_placeholder: "Enter password to unlock",
+    encrypt_button: "Unlock",
+    encrypt_button_loading: "Unlocking...",
+    encrypt_hint: "Press Enter to submit. Password will be remembered on this device.",
+    encrypt_success: "Content unlocked successfully!",
+    encrypt_unlocked_note: "Content unlocked. You can re-encrypt at any time.",
+    encrypt_again: "Re-encrypt",
+    encrypt_wrong_password: "Incorrect password. Please try again.",
+    encrypt_show_password: "Show password",
+    encrypt_hide_password: "Hide password",
+    // Sidebar i18n strings
+    sidebar_about: "About",
+    sidebar_categories: "Categories",
+    sidebar_tags: "Tags",
+    // Post page i18n strings
+    post_toc: "TABLE OF CONTENTS",
+    post_category_posts: "CATEGORY POSTS",
+    post_article_tags: "ARTICLE TAGS"
+  };
+</script>
+
+
+
+<!-- 添加所有需要的脚本 -->
+<script src="../../../../js/search.js"></script>
+<script src="../../../../js/theme-switch.js"></script>
+
+<script src="../../../../js/password-protect.js?v=1771424192224"></script>
+
+    <script>
+      // 移动端菜单切换
+      $(document).ready(function() {
+        var $body = $('body');
+        var $sidebar = $('.sidebar-explorer');
+        var $overlay = $('.sidebar-overlay');
+        var $toggle = $('.mobile-menu-toggle');
+
+        function openSidebar() {
+          $sidebar.addClass('show');
+          $overlay.addClass('show');
+          $toggle.addClass('active');
+          $body.addClass('sidebar-open');
+        }
+
+        function closeSidebar() {
+          $sidebar.removeClass('show');
+          $overlay.removeClass('show');
+          $toggle.removeClass('active');
+          $body.removeClass('sidebar-open');
+        }
+
+        // 汉堡按钮点击切换
+        $toggle.on('click', function(e) {
+          e.stopPropagation();
+          if ($sidebar.hasClass('show')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+
+        // 点击遮罩层关闭
+        $overlay.on('click', function() {
+          closeSidebar();
+        });
+
+        // ESC 键关闭
+        $(document).on('keydown', function(e) {
+          if (e.key === 'Escape' && $sidebar.hasClass('show')) {
+            closeSidebar();
+          }
+        });
+
+        // 点击侧边栏内的链接时自动关闭侧边栏，确保锚点跳转正常
+        $sidebar.on('click', 'a', function() {
+          closeSidebar();
+        });
+      });
+    </script>
+  </body>
+</html>
