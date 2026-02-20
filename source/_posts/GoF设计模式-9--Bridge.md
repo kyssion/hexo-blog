@@ -20,7 +20,7 @@ tags: [设计模式]
 
 ### 桥接模式
 
-![](/images/blogimg//blogimg/GAF/9.png)
+![](/images/blogimg/GAF/9.png)
 
 > 桥接模式本质上就是将类的功能层次和实现层次分离
 

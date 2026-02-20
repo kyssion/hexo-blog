@@ -11,7 +11,7 @@ tags: [设计模式]
 
 ### 策略模式类图
 
-![](/images/blogimg//blogimg/GAF/10.png)
+![](/images/blogimg/GAF/10.png)
 
 ### 策略模式例子
 

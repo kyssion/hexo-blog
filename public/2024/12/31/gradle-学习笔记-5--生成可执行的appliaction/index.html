@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192126">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205031">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -266,7 +266,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -294,12 +294,12 @@
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs groovy">plugins &#123;<br>    id <span class="hljs-string">&#x27;java&#x27;</span><br>    id <span class="hljs-string">&#x27;application&#x27;</span><br>&#125;<br>sourceCompatibility = <span class="hljs-number">1.8</span><br>mainClassName=<span class="hljs-string">&#x27;xxx.Xxx&#x27;</span><br>repositories &#123;<br>    mavenCentral()<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>这个是在idea中查看的,可以看出已经出现了run的task</p>
-<p><img src="/images/blogimg//blogimg/gradle/3.png"></p>
+<p><img src="/images/blogimg/gradle/3.png"></p>
 <p>通过gradle的task –all命令同样可以看见</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">Application tasks<br>-----------------<br>run - Runs this project as a JVM application<br></code></pre></td></tr></table></figure>
 
 <h1 id="一个demo实例"><a href="#一个demo实例" class="headerlink" title="一个demo实例"></a>一个demo实例</h1><p>项目的目录结构如下</p>
-<p><img src="/images/blogimg//blogimg/gradle/4.png"></p>
+<p><img src="/images/blogimg/gradle/4.png"></p>
 <p>首先在main方法中实现了一个简单的函数返回一个字符串</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">App</span> &#123;<br><br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">getGreeting</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;hello world&quot;</span>;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        System.out.println(<span class="hljs-keyword">new</span> <span class="hljs-title class_">App</span>().getGreeting());<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -319,7 +319,7 @@
 <blockquote>
 <p>引申 一下把,看一下这里的测试,当运行了gradle 的build命令的时候,同样会执行测试样例,并且在build的reports文件夹中生成对应的测试报告html</p>
 </blockquote>
-<p><img src="/images/blogimg//blogimg/gradle/5.png"></p>
+<p><img src="/images/blogimg/gradle/5.png"></p>
 
         </div>
         
@@ -755,7 +755,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -884,7 +884,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192127"></script>
+<script src="../../../../js/password-protect.js?v=1771605205031"></script>
 
     <script>
       // 移动端菜单切换

@@ -1,0 +1,2542 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>广告术语（8）-广告反作弊和质量术语 | Hexo</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A simple dark Hexo theme inspired by code.">
+  <meta name="keywords" content="广告术语">
+  <meta name="author" content="John Doe">
+  <link rel="canonical" href="http://example.com">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="广告术语（8）-广告反作弊和质量术语 | Hexo">
+  <meta property="og:description" content="A simple dark Hexo theme inspired by code.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://example.com">
+  <meta property="og:site_name" content="Hexo">
+  <meta property="article:published_time" content="2026-02-16T16:25:30.000Z">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="广告术语（8）-广告反作弊和质量术语 | Hexo">
+  <meta name="twitter:description" content="A simple dark Hexo theme inspired by code.">
+
+  <!-- Favicon 配置 -->
+  
+
+  <!-- 外部样式 - 统一使用 jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- 代码高亮样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+  <!-- Mermaid.js 库 (defer加载) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <!-- 主题样式 -->
+  <link rel="stylesheet" href="../../../../css/theme-colors.css">
+  <link rel="stylesheet" href="../../../../css/main.css">
+  <link rel="stylesheet" href="../../../../css/code.css">
+  <link rel="stylesheet" href="../../../../css/code-custom.css">
+  <link rel="stylesheet" href="../../../../css/code-languages.css">
+  <link rel="stylesheet" href="../../../../css/mermaid.css">
+
+  <link rel="stylesheet" href="../../../../css/vs-code.css">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205007">
+  <link rel="stylesheet" href="../../../../css/tag.css">
+  <link rel="stylesheet" href="../../../../css/categories.css">
+  <link rel="stylesheet" href="../../../../css/archive.css">
+  <link rel="stylesheet" href="../../../../css/search.css">
+  <link rel="stylesheet" href="../../../../css/mobile.css">  <link rel="stylesheet" href="../../../../css/responsive.css">
+  <link rel="stylesheet" href="../../../../css/elements.css">
+
+  <!-- 添加 JetBrains Mono 字体 -->  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Add any custom head content here -->
+
+  <script defer src="../../../../js/explorer.js"></script>
+  <script defer src="../../../../js/code-enhance.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+      <div class="mobile-menu-toggle" aria-label="Toggle sidebar menu" role="button" tabindex="0">
+        <i class="fas fa-bars"></i>
+      </div>
+      <!-- 移动端侧边栏遮罩层 -->
+      <div class="sidebar-overlay" aria-hidden="true"></div>
+      <header class="vs-header">
+  <nav class="vs-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-brand">
+        <i class="fas fa-terminal"></i>
+        Hexo
+      </a>
+    </div>
+    
+    <div class="nav-right">
+      <a href="/" class="nav-item ">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="/archives/" class="nav-item ">
+        <i class="fas fa-archive"></i>
+        <span>Archives</span>
+      </a>
+      <a href="/categories/" class="nav-item ">
+        <i class="fas fa-folder"></i>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" class="nav-item ">
+        <i class="fas fa-tags"></i>
+        <span>Tags</span>
+      </a>
+      <a href="/search/" class="nav-item ">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="/about/" class="nav-item ">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function smoothScroll(event, target) {
+    event.preventDefault();
+    const targetId = target.substring(target.indexOf('#') + 1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 50, // 调整偏移量
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = target;
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.vs-header');
+    const nav = document.querySelector('.vs-nav');
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    
+    nav.style.setProperty('--scroll-percent', `${scrollPercent}%`);
+    
+    if (window.scrollY > 0) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // 添加标签页切换动画
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('nav-ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+</script>
+
+
+<div class="vscode-container">
+  <!-- 左侧资源管理器 -->
+  <div class="sidebar-explorer">
+    <!-- TOC导航 -->
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-list"></i>
+        <span>TABLE OF CONTENTS</span>
+      </div>
+      <div class="section-content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B9%BF%E5%91%8A%E5%8F%8D%E4%BD%9C%E5%BC%8A%E4%B8%8E%E8%B4%A8%E9%87%8F%E6%9C%AF%E8%AF%AD"><span class="toc-text">广告反作弊与质量术语</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%97%A0%E6%95%88%E6%B5%81%E9%87%8F-IVT-%E5%88%86%E7%B1%BB%E4%BD%93%E7%B3%BB"><span class="toc-text">一、无效流量(IVT)分类体系</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E8%AE%BE%E5%A4%87%E8%AF%86%E5%88%AB%E4%B8%8E%E6%8C%87%E7%BA%B9%E6%8A%80%E6%9C%AF"><span class="toc-text">二、设备识别与指纹技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%BD%9C%E5%BC%8A%E6%89%8B%E6%AE%B5%E7%B1%BB%E5%9E%8B"><span class="toc-text">三、作弊手段类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E9%80%8F%E6%98%8E%E5%BA%A6%E5%8D%8F%E8%AE%AE%E4%B8%8E%E4%BE%9B%E5%BA%94%E9%93%BE"><span class="toc-text">四、透明度协议与供应链</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E5%93%81%E7%89%8C%E5%AE%89%E5%85%A8%E4%B8%8E%E5%86%85%E5%AE%B9%E9%AA%8C%E8%AF%81"><span class="toc-text">五、品牌安全与内容验证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E8%B4%A8%E9%87%8F%E9%AA%8C%E8%AF%81%E6%8C%87%E6%A0%87"><span class="toc-text">六、质量验证指标</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E5%BD%92%E5%9B%A0%E4%B8%8E%E9%98%B2%E4%BD%9C%E5%BC%8A"><span class="toc-text">七、归因与防作弊</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E6%A3%80%E6%B5%8B%E6%8A%80%E6%9C%AF%E4%B8%8E%E6%96%B9%E6%B3%95"><span class="toc-text">八、检测技术与方法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%9D%E3%80%81%E6%A0%87%E5%87%86%E7%BB%84%E7%BB%87%E4%B8%8E%E8%AE%A4%E8%AF%81"><span class="toc-text">九、标准组织与认证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E3%80%81%E7%AC%AC%E4%B8%89%E6%96%B9%E9%AA%8C%E8%AF%81%E5%85%AC%E5%8F%B8"><span class="toc-text">十、第三方验证公司</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%B8%80%E3%80%81%E8%A7%86%E9%A2%91%E4%B8%8ECTV-OTT%E4%B8%93%E7%94%A8%E6%9C%AF%E8%AF%AD"><span class="toc-text">十一、视频与CTV&#x2F;OTT专用术语</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%BA%8C%E3%80%81AI%E4%B8%8E%E6%96%B0%E5%85%B4%E6%8A%80%E6%9C%AF"><span class="toc-text">十二、AI与新兴技术</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%B8%89%E3%80%81%E4%B8%AD%E5%9B%BD%E6%9C%AC%E5%9C%9F%E6%A0%87%E5%87%86%E4%B8%8E%E6%9C%AF%E8%AF%AD"><span class="toc-text">十三、中国本土标准与术语</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E5%9B%9B%E3%80%81%E8%AE%A1%E4%BB%B7%E4%B8%8E%E7%BB%93%E7%AE%97%E6%9C%AF%E8%AF%AD"><span class="toc-text">十四、计价与结算术语</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%BA%94%E3%80%81%E5%85%B6%E4%BB%96%E9%87%8D%E8%A6%81%E6%9C%AF%E8%AF%AD"><span class="toc-text">十五、其他重要术语</span></a></li></ol></li></ol>
+      </div>
+    </div>
+
+    <!-- 同分类文章 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-folder"></i>
+        <span>CATEGORY POSTS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../21/%E5%B9%BF%E5%91%8A%EF%BC%881%EF%BC%89%E5%85%A8%E5%B1%80%E8%A7%86%E8%A7%92%E7%9C%8B%E6%95%B4%E4%B8%AA%E5%B9%BF%E5%91%8A%E8%A1%8C%E4%B8%9A%E8%A7%92%E8%89%B2%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB%E5%92%8C%E4%BD%9C%E7%94%A8/">广告（1）全局视角看整个广告行业角色之间的关系和作用</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../20/%E5%B9%BF%E5%91%8A%EF%BC%882%EF%BC%89-%E7%A9%BF%E5%B1%B1%E7%94%B2%E5%B9%BF%E5%91%8A%E8%A7%92%E8%89%B2%E5%92%8C%E6%8A%80%E6%9C%AF/">广告（2）-穿山甲广告角色和技术</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../19/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%8810%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%9B%BD%E5%86%85%E8%A1%8C%E4%B8%9A%E6%9C%AF%E8%AF%AD/">广告术语（10）-广告国内行业术语</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../18/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%889%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%B7%A5%E7%A8%8B%E5%92%8C%E8%BF%90%E7%BB%B4%E7%9B%B8%E5%85%B3%E6%9C%AF%E8%AF%AD/">广告术语（9）-广告工程和运维相关术语</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../16/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%887%EF%BC%89-%E5%B9%BF%E5%91%8A%E9%9A%90%E7%A7%81%E5%90%88%E8%A7%84%E6%9C%AF%E8%AF%AD/">广告术语（7）-广告隐私合规术语</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../15/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%886%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%BD%92%E5%9B%A0%E5%92%8C%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95%E6%9C%AF%E8%AF%AD/">广告术语（6）-广告归因和评估方法术语</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../14/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%885%EF%BC%89-%E5%B9%BF%E5%91%8A%E4%BC%98%E5%8C%96%E5%92%8C%E5%87%BA%E4%BB%B7%E7%AD%96%E7%95%A5%E6%9C%AF%E8%AF%AD/">广告术语（5）-广告优化和出价策略术语</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../13/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%884%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%8D%8F%E8%AE%AE%E5%92%8C%E6%A0%87%E5%87%86%E6%9C%AF%E8%AF%AD/">广告术语（4）-广告协议和标准术语</a>
+          </div>
+        
+      </div>
+    </div>
+    
+    
+    <!-- 标签列表 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-tags"></i>
+        <span>ARTICLE TAGS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../../../tags/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD/">广告术语</a>
+            <span class="count">(10)</span>
+          </div>
+        
+      </div>
+    </div>
+    
+  </div>
+
+  <!-- 主要内容区域 -->
+  <div class="editor-content">
+    <div class="tab-bar">
+      <div class="tab active">
+        <i class="fas fa-file-alt"></i>
+        <span>广告术语（8）-广告反作弊和质量术语.md</span>
+      </div>
+    </div>
+    
+    <div class="content-area">
+      <article class="post-content">
+        <div class="post-header">
+          <h1>广告术语（8）-广告反作弊和质量术语</h1>
+          <div class="post-meta">
+            <span class="date">
+              <i class="fas fa-calendar-alt"></i>
+              2026-02-17
+            </span>
+            
+            <span class="updated-date">
+              <i class="fas fa-sync-alt"></i>
+              Updated 2026-02-21
+            </span>
+                        
+              <span class="categories">
+                <i class="fas fa-folder"></i>
+                <div class="categories-list">
+                  <ul class="category-item-post-list"><li class="category-item-post-list-item"><a class="category-item-post-list-link" href="../../../../categories/%E5%B9%BF%E5%91%8A/">广告</a></li></ul>
+                </div>
+              </span>
+            
+            
+              <span class="tags">
+                <i class="fas fa-tags"></i>
+                <div class="tags-list">
+                  <ul class="tag-item-post-list" itemprop="keywords"><li class="tag-item-post-list-item"><a class="tag-item-post-list-link" href="../../../../tags/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD/" rel="tag">广告术语</a></li></ul>
+                </div>
+              </span>
+            
+          </div>
+        </div>
+        
+        <div class="post-body vscode-markdown">
+          <h1 id="广告反作弊与质量术语"><a href="#广告反作弊与质量术语" class="headerlink" title="广告反作弊与质量术语"></a>广告反作弊与质量术语</h1><h2 id="一、无效流量-IVT-分类体系"><a href="#一、无效流量-IVT-分类体系" class="headerlink" title="一、无效流量(IVT)分类体系"></a>一、无效流量(IVT)分类体系</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>IVT (Invalid Traffic)</strong></td>
+<td>无效流量</td>
+<td>总称，包括所有非人类或非预期流量</td>
+</tr>
+<tr>
+<td><strong>GIVT (General IVT)</strong></td>
+<td>一般无效流量</td>
+<td>已知爬虫、蜘蛛、数据中心IP等可识别流量</td>
+</tr>
+<tr>
+<td><strong>SIVT (Sophisticated IVT)</strong></td>
+<td>高级无效流量</td>
+<td>设备农场、模拟器、劫持流量等难以识别的流量</td>
+</tr>
+<tr>
+<td><strong>FIVT (Filtered IVT)</strong></td>
+<td>已过滤无效流量</td>
+<td>经检测系统过滤后的无效流量</td>
+</tr>
+<tr>
+<td><strong>UIVT (Unfiltered IVT)</strong></td>
+<td>未过滤无效流量</td>
+<td>尚未被检测系统识别的无效流量</td>
+</tr>
+<tr>
+<td><strong>Bot Traffic</strong></td>
+<td>机器人流量</td>
+<td>自动化程序产生的流量</td>
+</tr>
+<tr>
+<td><strong>Human Traffic</strong></td>
+<td>人类流量</td>
+<td>真实用户产生的有效流量</td>
+</tr>
+<tr>
+<td><strong>Hybrid Traffic</strong></td>
+<td>混合流量</td>
+<td>人类与机器人混合的流量</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="二、设备识别与指纹技术"><a href="#二、设备识别与指纹技术" class="headerlink" title="二、设备识别与指纹技术"></a>二、设备识别与指纹技术</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Device Fingerprinting</strong></td>
+<td>设备指纹</td>
+<td>Canvas&#x2F;WebGL&#x2F;电池&#x2F;字体等特征识别</td>
+</tr>
+<tr>
+<td><strong>Browser Fingerprinting</strong></td>
+<td>浏览器指纹</td>
+<td>基于浏览器配置的唯一标识</td>
+</tr>
+<tr>
+<td><strong>Device Graph</strong></td>
+<td>设备图谱</td>
+<td>跨设备用户关联图谱</td>
+</tr>
+<tr>
+<td><strong>IDFA (Identifier for Advertisers)</strong></td>
+<td>广告标识符(iOS)</td>
+<td>Apple设备的广告追踪ID</td>
+</tr>
+<tr>
+<td><strong>GAID (Google Advertising ID)</strong></td>
+<td>谷歌广告ID</td>
+<td>Android设备的广告追踪ID</td>
+</tr>
+<tr>
+<td><strong>OAID (Open Anonymous Device Identifier)</strong></td>
+<td>开放匿名设备标识</td>
+<td>中国移动安全联盟的设备ID</td>
+</tr>
+<tr>
+<td><strong>IMEI&#x2F;IMSI</strong></td>
+<td>设备国际标识</td>
+<td>手机硬件唯一标识</td>
+</tr>
+<tr>
+<td><strong>MAC Address</strong></td>
+<td>物理地址</td>
+<td>网络设备硬件地址</td>
+</tr>
+<tr>
+<td><strong>IP Fingerprinting</strong></td>
+<td>IP指纹</td>
+<td>基于IP地址的设备识别</td>
+</tr>
+<tr>
+<td><strong>Cookie Matching</strong></td>
+<td>Cookie匹配</td>
+<td>跨域用户识别技术</td>
+</tr>
+<tr>
+<td><strong>Probabilistic Matching</strong></td>
+<td>概率匹配</td>
+<td>基于统计的设备关联</td>
+</tr>
+<tr>
+<td><strong>Deterministic Matching</strong></td>
+<td>确定匹配</td>
+<td>基于唯一ID的设备关联</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="三、作弊手段类型"><a href="#三、作弊手段类型" class="headerlink" title="三、作弊手段类型"></a>三、作弊手段类型</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Click Spamming</strong></td>
+<td>点击劫持</td>
+<td>大量伪造点击骗取归因</td>
+</tr>
+<tr>
+<td><strong>Click Injection</strong></td>
+<td>点击注入</td>
+<td>Android渠道常见，在转化前注入点击</td>
+</tr>
+<tr>
+<td><strong>SDK Spoofing</strong></td>
+<td>SDK伪造</td>
+<td>伪造广告请求刷量</td>
+</tr>
+<tr>
+<td><strong>Ad Stacking</strong></td>
+<td>广告堆叠</td>
+<td>同一广告位多层广告堆叠，只展示最上层但计费多层</td>
+</tr>
+<tr>
+<td><strong>Pixel Stuffing</strong></td>
+<td>像素填充</td>
+<td>将广告压缩至1x1像素不可见区域但仍计费</td>
+</tr>
+<tr>
+<td><strong>Domain Spoofing</strong></td>
+<td>域名欺骗</td>
+<td>伪造优质媒体域名出售低价流量</td>
+</tr>
+<tr>
+<td><strong>App Spoofing</strong></td>
+<td>应用欺骗</td>
+<td>伪造应用包名&#x2F;签名骗取流量</td>
+</tr>
+<tr>
+<td><strong>Location Spoofing</strong></td>
+<td>位置欺骗</td>
+<td>伪造GPS位置信息</td>
+</tr>
+<tr>
+<td><strong>Install Hijacking</strong></td>
+<td>安装劫持</td>
+<td>劫持自然安装归因为广告安装</td>
+</tr>
+<tr>
+<td><strong>Attribution Manipulation</strong></td>
+<td>归因操纵</td>
+<td>伪造点击&#x2F;展示时间戳骗取归因</td>
+</tr>
+<tr>
+<td><strong>Auto Refresh</strong></td>
+<td>自动刷新</td>
+<td>页面&#x2F;广告自动刷新刷量</td>
+</tr>
+<tr>
+<td><strong>Incentivized Traffic</strong></td>
+<td>激励流量</td>
+<td>用户为奖励点击&#x2F;观看广告</td>
+</tr>
+<tr>
+<td><strong>Traffic Exchange Network</strong></td>
+<td>流量交换网络</td>
+<td>用户互换点击&#x2F;展示的作弊网络</td>
+</tr>
+<tr>
+<td><strong>Botnet</strong></td>
+<td>僵尸网络</td>
+<td>被控制的设备网络用于刷量</td>
+</tr>
+<tr>
+<td><strong>Device Farm</strong></td>
+<td>设备农场</td>
+<td>大量真实设备集中刷量</td>
+</tr>
+<tr>
+<td><strong>Emulator</strong></td>
+<td>模拟器</td>
+<td>虚拟设备运行广告刷量</td>
+</tr>
+<tr>
+<td><strong>Root&#x2F;Jailbreak Detection</strong></td>
+<td>越狱检测</td>
+<td>识别被破解的设备</td>
+</tr>
+<tr>
+<td><strong>Ad Masking</strong></td>
+<td>广告隐藏</td>
+<td>隐藏广告但仍计费</td>
+</tr>
+<tr>
+<td><strong>Hidden Ad</strong></td>
+<td>隐藏广告</td>
+<td>用户不可见的广告展示</td>
+</tr>
+<tr>
+<td><strong>Background Traffic</strong></td>
+<td>后台流量</td>
+<td>应用后台运行时产生的流量</td>
+</tr>
+<tr>
+<td><strong>Replay Attack</strong></td>
+<td>重放攻击</td>
+<td>重复发送合法请求刷量</td>
+</tr>
+<tr>
+<td><strong>Man-in-the-Middle</strong></td>
+<td>中间人攻击</td>
+<td>拦截并篡改广告请求</td>
+</tr>
+<tr>
+<td><strong>Cookie Stuffing</strong></td>
+<td>Cookie填充</td>
+<td>强制植入Cookie骗取佣金</td>
+</tr>
+<tr>
+<td><strong>Ad Injection</strong></td>
+<td>广告注入</td>
+<td>未经同意在页面注入广告</td>
+</tr>
+<tr>
+<td><strong>Malvertising</strong></td>
+<td>恶意广告</td>
+<td>包含恶意代码的广告</td>
+</tr>
+<tr>
+<td><strong>Phishing Ad</strong></td>
+<td>钓鱼广告</td>
+<td>诱导用户输入敏感信息的广告</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="四、透明度协议与供应链"><a href="#四、透明度协议与供应链" class="headerlink" title="四、透明度协议与供应链"></a>四、透明度协议与供应链</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>ads.txt</strong></td>
+<td>授权数字卖家</td>
+<td>防止域名欺骗，公布授权销售某媒体广告库存的卖家列表</td>
+</tr>
+<tr>
+<td><strong>app-ads.txt</strong></td>
+<td>应用授权卖家</td>
+<td>ads.txt的移动应用版本</td>
+</tr>
+<tr>
+<td><strong>sellers.json</strong></td>
+<td>卖家透明度文件</td>
+<td>披露广告供应链中所有卖家的身份信息</td>
+</tr>
+<tr>
+<td><strong>Supply Path Optimization (SPO)</strong></td>
+<td>供应路径优化</td>
+<td>优化广告采购路径，减少中间环节作弊风险</td>
+</tr>
+<tr>
+<td><strong>Demand Path Optimization (DPO)</strong></td>
+<td>需求路径优化</td>
+<td>优化需求方采购策略</td>
+</tr>
+<tr>
+<td><strong>ads.cert</strong></td>
+<td>广告认证协议</td>
+<td>程序化广告交易签名认证</td>
+</tr>
+<tr>
+<td><strong>OpenRTB</strong></td>
+<td>开放实时竞价协议</td>
+<td>程序化广告交易标准协议</td>
+</tr>
+<tr>
+<td><strong>Pre-bid</strong></td>
+<td>竞价前验证</td>
+<td>在竞价前验证流量质量</td>
+</tr>
+<tr>
+<td><strong>Post-bid</strong></td>
+<td>竞价后验证</td>
+<td>在竞价后验证流量质量</td>
+</tr>
+<tr>
+<td><strong>Private Marketplace (PMP)</strong></td>
+<td>私有交易市场</td>
+<td>受邀买家才能参与的程序化交易</td>
+</tr>
+<tr>
+<td><strong>Preferred Deals</strong></td>
+<td>优先交易</td>
+<td>固定价格的优先购买权</td>
+</tr>
+<tr>
+<td><strong>Programmatic Guaranteed</strong></td>
+<td>程序化保量</td>
+<td>程序化方式的保量交易</td>
+</tr>
+<tr>
+<td><strong>Header Bidding</strong></td>
+<td>头部竞价</td>
+<td>同时向多个需求方发起竞价</td>
+</tr>
+<tr>
+<td><strong>Server-side Bidding</strong></td>
+<td>服务器端竞价</td>
+<td>服务器端执行的竞价</td>
+</tr>
+<tr>
+<td><strong>Client-side Bidding</strong></td>
+<td>客户端竞价</td>
+<td>客户端执行的竞价</td>
+</tr>
+<tr>
+<td><strong>Bid Shading</strong></td>
+<td>竞价优化</td>
+<td>智能调整出价以获得最优价格</td>
+</tr>
+<tr>
+<td><strong>Floor Price</strong></td>
+<td>底价</td>
+<td>媒体设置的最低竞价</td>
+</tr>
+<tr>
+<td><strong>Reserve Price</strong></td>
+<td>保留价</td>
+<td>卖方愿意接受的最低价格</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="五、品牌安全与内容验证"><a href="#五、品牌安全与内容验证" class="headerlink" title="五、品牌安全与内容验证"></a>五、品牌安全与内容验证</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Brand Safety</strong></td>
+<td>品牌安全</td>
+<td>避免广告出现在不良内容旁</td>
+</tr>
+<tr>
+<td><strong>Brand Suitability</strong></td>
+<td>品牌适宜性</td>
+<td>比品牌安全更细化，按品牌调性匹配内容环境</td>
+</tr>
+<tr>
+<td><strong>Content Verification</strong></td>
+<td>内容验证</td>
+<td>第三方验证广告展示的内容环境是否合规</td>
+</tr>
+<tr>
+<td><strong>Ad Verification</strong></td>
+<td>广告验证</td>
+<td>第三方服务验证广告是否按约定展示</td>
+</tr>
+<tr>
+<td><strong>Contextual Targeting</strong></td>
+<td>上下文定向</td>
+<td>基于页面内容匹配广告</td>
+</tr>
+<tr>
+<td><strong>Exclusion List</strong></td>
+<td>排除列表</td>
+<td>禁止广告投放的网站&#x2F;应用列表</td>
+</tr>
+<tr>
+<td><strong>Inclusion List</strong></td>
+<td>包含列表</td>
+<td>允许广告投放的网站&#x2F;应用列表</td>
+</tr>
+<tr>
+<td><strong>Blocklist</strong></td>
+<td>黑名单</td>
+<td>禁止的流量来源列表</td>
+</tr>
+<tr>
+<td><strong>Allowlist</strong></td>
+<td>白名单</td>
+<td>允许的流量来源列表</td>
+</tr>
+<tr>
+<td><strong>Keyword Blocking</strong></td>
+<td>关键词屏蔽</td>
+<td>屏蔽包含特定关键词的内容</td>
+</tr>
+<tr>
+<td><strong>Sentiment Analysis</strong></td>
+<td>情感分析</td>
+<td>分析内容情感倾向</td>
+</tr>
+<tr>
+<td><strong>Image Recognition</strong></td>
+<td>图像识别</td>
+<td>识别广告周围图像内容</td>
+</tr>
+<tr>
+<td><strong>Video Content Analysis</strong></td>
+<td>视频内容分析</td>
+<td>分析视频广告内容环境</td>
+</tr>
+<tr>
+<td><strong>Audio Content Analysis</strong></td>
+<td>音频内容分析</td>
+<td>分析音频广告内容环境</td>
+</tr>
+<tr>
+<td><strong>Hate Speech Detection</strong></td>
+<td>仇恨言论检测</td>
+<td>识别仇恨言论内容</td>
+</tr>
+<tr>
+<td><strong>Violence Detection</strong></td>
+<td>暴力内容检测</td>
+<td>识别暴力内容</td>
+</tr>
+<tr>
+<td><strong>Adult Content Detection</strong></td>
+<td>成人内容检测</td>
+<td>识别成人内容</td>
+</tr>
+<tr>
+<td><strong>Fake News Detection</strong></td>
+<td>假新闻检测</td>
+<td>识别虚假新闻内容</td>
+</tr>
+<tr>
+<td><strong>Piracy Detection</strong></td>
+<td>盗版内容检测</td>
+<td>识别盗版内容</td>
+</tr>
+<tr>
+<td><strong>Tragedy &amp; Conflict</strong></td>
+<td>悲剧与冲突内容</td>
+<td>识别悲剧和冲突相关内容</td>
+</tr>
+<tr>
+<td><strong>Sensitive Events</strong></td>
+<td>敏感事件</td>
+<td>识别敏感事件相关内容</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="六、质量验证指标"><a href="#六、质量验证指标" class="headerlink" title="六、质量验证指标"></a>六、质量验证指标</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Viewability</strong></td>
+<td>广告可见度</td>
+<td>MRC标准：展示广告≥50%像素可见且持续≥1秒，视频≥2秒</td>
+</tr>
+<tr>
+<td><strong>In-View Rate</strong></td>
+<td>可见率</td>
+<td>广告可见的展示比例</td>
+</tr>
+<tr>
+<td><strong>Time-in-View</strong></td>
+<td>可见时长</td>
+<td>广告保持可见的时间</td>
+</tr>
+<tr>
+<td><strong>VCR (Video Completion Rate)</strong></td>
+<td>视频完播率</td>
+<td>视频广告播放完成比例</td>
+</tr>
+<tr>
+<td><strong>VTR (Video Through Rate)</strong></td>
+<td>视频播放率</td>
+<td>视频广告开始播放的比例</td>
+</tr>
+<tr>
+<td><strong>CTR (Click-Through Rate)</strong></td>
+<td>点击率</td>
+<td>点击次数&#x2F;展示次数</td>
+</tr>
+<tr>
+<td><strong>CTRV (Click-Through Rate Verification)</strong></td>
+<td>点击率验证</td>
+<td>验证点击率的真实性</td>
+</tr>
+<tr>
+<td><strong>CVR (Conversion Rate)</strong></td>
+<td>转化率</td>
+<td>转化次数&#x2F;点击次数</td>
+</tr>
+<tr>
+<td><strong>IVT Rate</strong></td>
+<td>无效流量率</td>
+<td>无效流量&#x2F;总流量</td>
+</tr>
+<tr>
+<td><strong>Fraud Rate</strong></td>
+<td>作弊率</td>
+<td>作弊流量&#x2F;总流量</td>
+</tr>
+<tr>
+<td><strong>Quality Score</strong></td>
+<td>质量评分</td>
+<td>综合流量质量评分</td>
+</tr>
+<tr>
+<td><strong>Ad Trust Score</strong></td>
+<td>广告信任度评分</td>
+<td>综合评估流量&#x2F;媒体可信度的评分体系</td>
+</tr>
+<tr>
+<td><strong>Publisher Score</strong></td>
+<td>发布商评分</td>
+<td>发布商质量评分</td>
+</tr>
+<tr>
+<td><strong>Traffic Quality Index</strong></td>
+<td>流量质量指数</td>
+<td>综合流量质量指标</td>
+</tr>
+<tr>
+<td><strong>Attention Metric</strong></td>
+<td>注意力指标</td>
+<td>衡量用户注意力程度</td>
+</tr>
+<tr>
+<td><strong>Engagement Rate</strong></td>
+<td>互动率</td>
+<td>用户互动比例</td>
+</tr>
+<tr>
+<td><strong>Hover Rate</strong></td>
+<td>悬停率</td>
+<td>鼠标悬停广告的比例</td>
+</tr>
+<tr>
+<td><strong>Audio On Rate</strong></td>
+<td>音频开启率</td>
+<td>视频广告音频开启比例</td>
+</tr>
+<tr>
+<td><strong>Mute Rate</strong></td>
+<td>静音率</td>
+<td>视频广告静音比例</td>
+</tr>
+<tr>
+<td><strong>Skip Rate</strong></td>
+<td>跳过率</td>
+<td>跳过广告的比例</td>
+</tr>
+<tr>
+<td><strong>Full Screen Rate</strong></td>
+<td>全屏率</td>
+<td>全屏展示的比例</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="七、归因与防作弊"><a href="#七、归因与防作弊" class="headerlink" title="七、归因与防作弊"></a>七、归因与防作弊</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Attribution</strong></td>
+<td>归因</td>
+<td>将转化归因于特定广告触点的过程</td>
+</tr>
+<tr>
+<td><strong>Attribution Fraud</strong></td>
+<td>归因作弊</td>
+<td>伪造点击&#x2F;展示时间戳骗取归因</td>
+</tr>
+<tr>
+<td><strong>Last Click Attribution</strong></td>
+<td>最后点击归因</td>
+<td>将转化归因于最后一次点击</td>
+</tr>
+<tr>
+<td><strong>First Click Attribution</strong></td>
+<td>首次点击归因</td>
+<td>将转化归因于第一次点击</td>
+</tr>
+<tr>
+<td><strong>Multi-Touch Attribution</strong></td>
+<td>多触点归因</td>
+<td>考虑多个触点的归因模型</td>
+</tr>
+<tr>
+<td><strong>Lookback Window</strong></td>
+<td>回溯窗口</td>
+<td>归因的有效时间范围</td>
+</tr>
+<tr>
+<td><strong>Lookback Window Manipulation</strong></td>
+<td>回溯窗口操纵</td>
+<td>操纵回溯窗口骗取归因</td>
+</tr>
+<tr>
+<td><strong>Post-Attribution</strong></td>
+<td>归因后防作弊</td>
+<td>安装后持续监测，识别异常留存&#x2F;付费行为</td>
+</tr>
+<tr>
+<td><strong>Post-Install Monitoring</strong></td>
+<td>安装后监控</td>
+<td>监控安装后的用户行为</td>
+</tr>
+<tr>
+<td><strong>Retention Fraud</strong></td>
+<td>留存作弊</td>
+<td>伪造用户留存数据</td>
+</tr>
+<tr>
+<td><strong>Revenue Fraud</strong></td>
+<td>收入作弊</td>
+<td>伪造用户付费数据</td>
+</tr>
+<tr>
+<td><strong>Event Flooding</strong></td>
+<td>事件洪水</td>
+<td>大量伪造事件骗取归因</td>
+</tr>
+<tr>
+<td><strong>Click Flooding</strong></td>
+<td>点击洪水</td>
+<td>大量伪造点击骗取归因</td>
+</tr>
+<tr>
+<td><strong>Impression Flooding</strong></td>
+<td>展示洪水</td>
+<td>大量伪造展示骗取归因</td>
+</tr>
+<tr>
+<td><strong>Install Postback</strong></td>
+<td>安装回传</td>
+<td>应用安装后向广告平台回传数据</td>
+</tr>
+<tr>
+<td><strong>Ad Fraud Postback</strong></td>
+<td>作弊回扫</td>
+<td>事后申请退款或抵扣</td>
+</tr>
+<tr>
+<td><strong>Chargeback</strong></td>
+<td>退款&#x2F;拒付</td>
+<td>因作弊申请退款</td>
+</tr>
+<tr>
+<td><strong>Makegood</strong></td>
+<td>补偿</td>
+<td>因流量问题提供的补偿</td>
+</tr>
+<tr>
+<td><strong>Reconciliation</strong></td>
+<td>对账</td>
+<td>广告主与媒体之间的数据核对</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="八、检测技术与方法"><a href="#八、检测技术与方法" class="headerlink" title="八、检测技术与方法"></a>八、检测技术与方法</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Bot Detection</strong></td>
+<td>机器人检测</td>
+<td>行为序列异常识别</td>
+</tr>
+<tr>
+<td><strong>Anomaly Detection</strong></td>
+<td>异常检测</td>
+<td>识别异常行为模式</td>
+</tr>
+<tr>
+<td><strong>Behavioral Analysis</strong></td>
+<td>行为分析</td>
+<td>分析用户行为模式</td>
+</tr>
+<tr>
+<td><strong>Pattern Recognition</strong></td>
+<td>模式识别</td>
+<td>识别作弊模式</td>
+</tr>
+<tr>
+<td><strong>Machine Learning Detection</strong></td>
+<td>机器学习检测</td>
+<td>使用ML模型检测作弊</td>
+</tr>
+<tr>
+<td><strong>Deep Learning Detection</strong></td>
+<td>深度学习检测</td>
+<td>使用深度学习检测作弊</td>
+</tr>
+<tr>
+<td><strong>Real-time Detection</strong></td>
+<td>实时检测</td>
+<td>实时识别作弊流量</td>
+</tr>
+<tr>
+<td><strong>Batch Detection</strong></td>
+<td>批量检测</td>
+<td>批量分析识别作弊</td>
+</tr>
+<tr>
+<td><strong>Heuristic Analysis</strong></td>
+<td>启发式分析</td>
+<td>基于规则的分析方法</td>
+</tr>
+<tr>
+<td><strong>Statistical Analysis</strong></td>
+<td>统计分析</td>
+<td>基于统计的检测方法</td>
+</tr>
+<tr>
+<td><strong>Network Analysis</strong></td>
+<td>网络分析</td>
+<td>分析网络请求模式</td>
+</tr>
+<tr>
+<td><strong>Device Analysis</strong></td>
+<td>设备分析</td>
+<td>分析设备特征</td>
+</tr>
+<tr>
+<td><strong>IP Analysis</strong></td>
+<td>IP分析</td>
+<td>分析IP地址模式</td>
+</tr>
+<tr>
+<td><strong>Time-series Analysis</strong></td>
+<td>时间序列分析</td>
+<td>分析时间模式</td>
+</tr>
+<tr>
+<td><strong>Geolocation Analysis</strong></td>
+<td>地理位置分析</td>
+<td>分析地理位置模式</td>
+</tr>
+<tr>
+<td><strong>Velocity Check</strong></td>
+<td>速度检查</td>
+<td>检查操作频率是否异常</td>
+</tr>
+<tr>
+<td><strong>Threshold Alert</strong></td>
+<td>阈值告警</td>
+<td>超过阈值时告警</td>
+</tr>
+<tr>
+<td><strong>Risk Scoring</strong></td>
+<td>风险评分</td>
+<td>计算流量风险分数</td>
+</tr>
+<tr>
+<td><strong>Confidence Score</strong></td>
+<td>置信度评分</td>
+<td>检测结果的可信度</td>
+</tr>
+<tr>
+<td><strong>False Positive</strong></td>
+<td>误报</td>
+<td>正常流量被误判为作弊</td>
+</tr>
+<tr>
+<td><strong>False Negative</strong></td>
+<td>漏报</td>
+<td>作弊流量未被识别</td>
+</tr>
+<tr>
+<td><strong>Precision</strong></td>
+<td>精确率</td>
+<td>正确识别的作弊流量比例</td>
+</tr>
+<tr>
+<td><strong>Recall</strong></td>
+<td>召回率</td>
+<td>被识别的作弊流量占实际作弊流量的比例</td>
+</tr>
+<tr>
+<td><strong>F1 Score</strong></td>
+<td>F1分数</td>
+<td>精确率和召回率的调和平均</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="九、标准组织与认证"><a href="#九、标准组织与认证" class="headerlink" title="九、标准组织与认证"></a>九、标准组织与认证</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>IAB (Interactive Advertising Bureau)</strong></td>
+<td>互动广告局</td>
+<td>制定数字广告标准的行业组织</td>
+</tr>
+<tr>
+<td><strong>MRC (Media Rating Council)</strong></td>
+<td>媒体评级委员会</td>
+<td>制定广告测量和可见度标准</td>
+</tr>
+<tr>
+<td><strong>TAG (Trustworthy Accountability Group)</strong></td>
+<td>可信责任组织</td>
+<td>反作弊认证机构</td>
+</tr>
+<tr>
+<td><strong>TAG CAF (Certified Against Fraud)</strong></td>
+<td>反作弊认证</td>
+<td>TAG的反作弊认证标准</td>
+</tr>
+<tr>
+<td><strong>TAG BCA (Brand Safety)</strong></td>
+<td>品牌安全认证</td>
+<td>TAG的品牌安全认证</td>
+</tr>
+<tr>
+<td><strong>TAG PIR (Piracy)</strong></td>
+<td>盗版内容认证</td>
+<td>TAG的盗版内容认证</td>
+</tr>
+<tr>
+<td><strong>ISO 20637</strong></td>
+<td>广告验证国际标准</td>
+<td>广告验证流程国际标准</td>
+</tr>
+<tr>
+<td><strong>GB&#x2F;T 34090</strong></td>
+<td>中国互动广告标准</td>
+<td>中国互动广告投放验证标准</td>
+</tr>
+<tr>
+<td><strong>MRC Viewability Standard</strong></td>
+<td>MRC可见度标准</td>
+<td>广告可见度测量标准</td>
+</tr>
+<tr>
+<td><strong>IAB Tech Lab</strong></td>
+<td>IAB技术实验室</td>
+<td>IAB的技术标准制定部门</td>
+</tr>
+<tr>
+<td><strong>OMID (Open Measurement SDK)</strong></td>
+<td>开放测量SDK</td>
+<td>移动端广告测量标准SDK</td>
+</tr>
+<tr>
+<td><strong>SRA (Sellers.json, ads.txt, ads.cert)</strong></td>
+<td>供应链透明度协议</td>
+<td>广告供应链透明度标准套件</td>
+</tr>
+<tr>
+<td><strong>OpenRTB</strong></td>
+<td>开放实时竞价</td>
+<td>程序化广告交易协议标准</td>
+</tr>
+<tr>
+<td><strong>VAST (Video Ad Serving Template)</strong></td>
+<td>视频广告服务模板</td>
+<td>视频广告标准</td>
+</tr>
+<tr>
+<td><strong>VPAID (Video Player-Ad Interface Definition)</strong></td>
+<td>视频播放器接口定义</td>
+<td>视频广告交互标准</td>
+</tr>
+<tr>
+<td><strong>SIMID (Secure Interactive Media Interface Definition)</strong></td>
+<td>安全交互媒体接口</td>
+<td>视频广告交互新标准</td>
+</tr>
+<tr>
+<td><strong>UCOM (Unified Component Object Model)</strong></td>
+<td>统一组件模型</td>
+<td>广告组件标准</td>
+</tr>
+<tr>
+<td><strong>CCPA</strong></td>
+<td>加州消费者隐私法案</td>
+<td>美国加州隐私法规</td>
+</tr>
+<tr>
+<td><strong>GDPR</strong></td>
+<td>通用数据保护条例</td>
+<td>欧盟隐私法规</td>
+</tr>
+<tr>
+<td><strong>COPPA</strong></td>
+<td>儿童在线隐私保护法</td>
+<td>美国儿童隐私保护法规</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十、第三方验证公司"><a href="#十、第三方验证公司" class="headerlink" title="十、第三方验证公司"></a>十、第三方验证公司</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>DoubleVerify (DV)</strong></td>
+<td>双重验证</td>
+<td>领先的广告验证公司</td>
+</tr>
+<tr>
+<td><strong>Integral Ad Science (IAS)</strong></td>
+<td>广告科学</td>
+<td>广告验证和 optimization 公司</td>
+</tr>
+<tr>
+<td><strong>Moat (Oracle)</strong></td>
+<td>广告测量</td>
+<td>Oracle旗下的广告测量公司</td>
+</tr>
+<tr>
+<td><strong>Comscore</strong></td>
+<td>康姆斯科</td>
+<td>媒体测量和分析公司</td>
+</tr>
+<tr>
+<td><strong>Nielsen</strong></td>
+<td>尼尔森</td>
+<td>媒体测量和受众分析公司</td>
+</tr>
+<tr>
+<td><strong>Kantar</strong></td>
+<td>凯度</td>
+<td>市场研究和媒体测量公司</td>
+</tr>
+<tr>
+<td><strong>Grapeshot</strong></td>
+<td>上下文定向</td>
+<td>上下文定向技术公司</td>
+</tr>
+<tr>
+<td><strong>White Ops (Human)</strong></td>
+<td>反作弊公司</td>
+<td>领先的反作弊公司</td>
+</tr>
+<tr>
+<td><strong>Cheq</strong></td>
+<td>反作弊平台</td>
+<td>AI驱动的反作弊平台</td>
+</tr>
+<tr>
+<td><strong>HUMAN Security</strong></td>
+<td>人类安全</td>
+<td>原White Ops，网络安全公司</td>
+</tr>
+<tr>
+<td><strong>Integral Ad Science</strong></td>
+<td>广告科学</td>
+<td>广告验证公司</td>
+</tr>
+<tr>
+<td><strong>Pixalate</strong></td>
+<td>反作弊分析</td>
+<td>反作弊和流量分析公司</td>
+</tr>
+<tr>
+<td><strong>Integral</strong></td>
+<td>验证服务</td>
+<td>广告验证服务</td>
+</tr>
+<tr>
+<td><strong>The Media Trust</strong></td>
+<td>媒体信任</td>
+<td>数字安全和隐私公司</td>
+</tr>
+<tr>
+<td><strong>Confiant</strong></td>
+<td>广告安全</td>
+<td>恶意广告检测公司</td>
+</tr>
+<tr>
+<td><strong>Zefr</strong></td>
+<td>视频验证</td>
+<td>视频广告验证公司</td>
+</tr>
+<tr>
+<td><strong>OpenSlate</strong></td>
+<td>内容验证</td>
+<td>YouTube内容验证公司</td>
+</tr>
+<tr>
+<td><strong>Lumen</strong></td>
+<td>注意力测量</td>
+<td>广告注意力测量公司</td>
+</tr>
+<tr>
+<td><strong>Chartboost</strong></td>
+<td>移动广告</td>
+<td>移动广告网络(已被Unity收购)</td>
+</tr>
+<tr>
+<td><strong>Adjust</strong></td>
+<td>归因平台</td>
+<td>移动归因和分析平台</td>
+</tr>
+<tr>
+<td><strong>AppsFlyer</strong></td>
+<td>归因平台</td>
+<td>移动归因和营销分析</td>
+</tr>
+<tr>
+<td><strong>Branch</strong></td>
+<td>深度链接</td>
+<td>深度链接和归因平台</td>
+</tr>
+<tr>
+<td><strong>Kochava</strong></td>
+<td>归因分析</td>
+<td>移动归因和分析平台</td>
+</tr>
+<tr>
+<td><strong>Singular</strong></td>
+<td>营销分析</td>
+<td>移动营销分析平台</td>
+</tr>
+<tr>
+<td><strong>Tenjin</strong></td>
+<td>游戏分析</td>
+<td>移动游戏分析平台</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十一、视频与CTV-OTT专用术语"><a href="#十一、视频与CTV-OTT专用术语" class="headerlink" title="十一、视频与CTV&#x2F;OTT专用术语"></a>十一、视频与CTV&#x2F;OTT专用术语</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>CTV (Connected TV)</strong></td>
+<td>联网电视</td>
+<td>连接互联网的电视设备</td>
+</tr>
+<tr>
+<td><strong>OTT (Over-The-Top)</strong></td>
+<td>流媒体服务</td>
+<td>通过互联网提供的视频服务</td>
+</tr>
+<tr>
+<td><strong>ACR (Automatic Content Recognition)</strong></td>
+<td>自动内容识别</td>
+<td>识别电视播放内容的技术</td>
+</tr>
+<tr>
+<td><strong>ACR Fraud</strong></td>
+<td>ACR作弊</td>
+<td>伪造ACR数据</td>
+</tr>
+<tr>
+<td><strong>Household Level Spoofing</strong></td>
+<td>家庭级欺骗</td>
+<td>伪造家庭级别的数据</td>
+</tr>
+<tr>
+<td><strong>Out-of-Stream Fraud</strong></td>
+<td>流外作弊</td>
+<td>视频流之外的作弊</td>
+</tr>
+<tr>
+<td><strong>Audio Muting Fraud</strong></td>
+<td>音频静音作弊</td>
+<td>静音状态下仍计费</td>
+</tr>
+<tr>
+<td><strong>Pre-roll</strong></td>
+<td>前贴片广告</td>
+<td>视频播放前的广告</td>
+</tr>
+<tr>
+<td><strong>Mid-roll</strong></td>
+<td>中插广告</td>
+<td>视频播放中的广告</td>
+</tr>
+<tr>
+<td><strong>Post-roll</strong></td>
+<td>后贴片广告</td>
+<td>视频播放后的广告</td>
+</tr>
+<tr>
+<td><strong>Bumper Ad</strong></td>
+<td>bumper广告</td>
+<td>短时长不可跳过广告</td>
+</tr>
+<tr>
+<td><strong>Skippable Ad</strong></td>
+<td>可跳过广告</td>
+<td>用户可跳过的广告</td>
+</tr>
+<tr>
+<td><strong>Non-skippable Ad</strong></td>
+<td>不可跳过广告</td>
+<td>用户不可跳过的广告</td>
+</tr>
+<tr>
+<td><strong>Companion Ad</strong></td>
+<td>伴随广告</td>
+<td>视频播放时的伴随展示广告</td>
+</tr>
+<tr>
+<td><strong>Overlay Ad</strong></td>
+<td>覆盖广告</td>
+<td>覆盖在视频上的广告</td>
+</tr>
+<tr>
+<td><strong>Interstitial Ad</strong></td>
+<td>插屏广告</td>
+<td>全屏插播广告</td>
+</tr>
+<tr>
+<td><strong>Rewarded Video</strong></td>
+<td>激励视频</td>
+<td>观看后获得奖励的视频广告</td>
+</tr>
+<tr>
+<td><strong>Playable Ad</strong></td>
+<td>可玩广告</td>
+<td>可交互试玩的广告</td>
+</tr>
+<tr>
+<td><strong>Dynamic Ad Insertion (DAI)</strong></td>
+<td>动态广告插入</td>
+<td>动态插入广告到视频流</td>
+</tr>
+<tr>
+<td><strong>Server-Side Ad Insertion (SSAI)</strong></td>
+<td>服务器端广告插入</td>
+<td>服务器端插入广告</td>
+</tr>
+<tr>
+<td><strong>Client-Side Ad Insertion (CSAI)</strong></td>
+<td>客户端广告插入</td>
+<td>客户端插入广告</td>
+</tr>
+<tr>
+<td><strong>Ad Pod</strong></td>
+<td>广告播</td>
+<td>连续播放的多个广告</td>
+</tr>
+<tr>
+<td><strong>Ad Break</strong></td>
+<td>广告插播</td>
+<td>视频中的广告中断点</td>
+</tr>
+<tr>
+<td><strong>Quartile Tracking</strong></td>
+<td>四分之一追踪</td>
+<td>追踪视频播放的25%&#x2F;50%&#x2F;75%&#x2F;100%</td>
+</tr>
+<tr>
+<td><strong>Buffer Rate</strong></td>
+<td>缓冲率</td>
+<td>视频缓冲的比例</td>
+</tr>
+<tr>
+<td><strong>Start Rate</strong></td>
+<td>开始率</td>
+<td>视频开始播放的比例</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十二、AI与新兴技术"><a href="#十二、AI与新兴技术" class="headerlink" title="十二、AI与新兴技术"></a>十二、AI与新兴技术</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>AI Fraud Detection</strong></td>
+<td>AI作弊检测</td>
+<td>使用人工智能检测作弊</td>
+</tr>
+<tr>
+<td><strong>Neural Network Detection</strong></td>
+<td>神经网络检测</td>
+<td>使用神经网络检测作弊</td>
+</tr>
+<tr>
+<td><strong>Adversarial Attack</strong></td>
+<td>对抗攻击</td>
+<td>针对AI模型的攻击</td>
+</tr>
+<tr>
+<td><strong>Model Poisoning</strong></td>
+<td>模型投毒</td>
+<td>污染训练数据影响模型</td>
+</tr>
+<tr>
+<td><strong>Deep Fake Detection</strong></td>
+<td>深度伪造检测</td>
+<td>检测AI生成的虚假内容</td>
+</tr>
+<tr>
+<td><strong>Generative AI Fraud</strong></td>
+<td>生成式AI作弊</td>
+<td>使用生成式AI进行作弊</td>
+</tr>
+<tr>
+<td><strong>Synthetic Traffic</strong></td>
+<td>合成流量</td>
+<td>AI生成的虚假流量</td>
+</tr>
+<tr>
+<td><strong>Behavioral Biometrics</strong></td>
+<td>行为生物识别</td>
+<td>基于用户行为的身份识别</td>
+</tr>
+<tr>
+<td><strong>Passive Authentication</strong></td>
+<td>被动认证</td>
+<td>无感知的用户认证</td>
+</tr>
+<tr>
+<td><strong>Zero Trust Architecture</strong></td>
+<td>零信任架构</td>
+<td>不信任任何请求的安全架构</td>
+</tr>
+<tr>
+<td><strong>Blockchain Verification</strong></td>
+<td>区块链验证</td>
+<td>使用区块链验证广告交易</td>
+</tr>
+<tr>
+<td><strong>Smart Contract</strong></td>
+<td>智能合约</td>
+<td>自动执行的合约</td>
+</tr>
+<tr>
+<td><strong>Privacy-Preserving Computation</strong></td>
+<td>隐私保护计算</td>
+<td>保护隐私的计算方法</td>
+</tr>
+<tr>
+<td><strong>Federated Learning</strong></td>
+<td>联邦学习</td>
+<td>分布式机器学习</td>
+</tr>
+<tr>
+<td><strong>Differential Privacy</strong></td>
+<td>差分隐私</td>
+<td>保护个人隐私的技术</td>
+</tr>
+<tr>
+<td><strong>Homomorphic Encryption</strong></td>
+<td>同态加密</td>
+<td>加密状态下进行计算</td>
+</tr>
+<tr>
+<td><strong>Secure Multi-Party Computation</strong></td>
+<td>安全多方计算</td>
+<td>多方安全计算</td>
+</tr>
+<tr>
+<td><strong>Clean Room</strong></td>
+<td>数据清洁室</td>
+<td>安全的数据协作环境</td>
+</tr>
+<tr>
+<td><strong>Identity Resolution</strong></td>
+<td>身份解析</td>
+<td>跨平台用户身份识别</td>
+</tr>
+<tr>
+<td><strong>Unified ID</strong></td>
+<td>统一ID</td>
+<td>跨平台用户标识</td>
+</tr>
+<tr>
+<td><strong>Contextual AI</strong></td>
+<td>上下文AI</td>
+<td>基于上下文的AI分析</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十三、中国本土标准与术语"><a href="#十三、中国本土标准与术语" class="headerlink" title="十三、中国本土标准与术语"></a>十三、中国本土标准与术语</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>金标尺</strong></td>
+<td>中国广告协会认证</td>
+<td>数字媒体高质量认证</td>
+</tr>
+<tr>
+<td><strong>银标尺</strong></td>
+<td>中国广告协会认证</td>
+<td>数字媒体中质量认证</td>
+</tr>
+<tr>
+<td><strong>铜标尺</strong></td>
+<td>中国广告协会认证</td>
+<td>数字媒体基础质量认证</td>
+</tr>
+<tr>
+<td><strong>CAM (China Ad Monitoring)</strong></td>
+<td>中国广告监测</td>
+<td>中国广告监测标准</td>
+</tr>
+<tr>
+<td><strong>CAAA</strong></td>
+<td>中国广告协会</td>
+<td>中国广告行业协会</td>
+</tr>
+<tr>
+<td><strong>MMA China</strong></td>
+<td>中国移动营销联盟</td>
+<td>中国移动营销行业组织</td>
+</tr>
+<tr>
+<td><strong>MIA</strong></td>
+<td>移动广告联盟</td>
+<td>中国移动广告行业组织</td>
+</tr>
+<tr>
+<td><strong>GMTA</strong></td>
+<td>全球移动广告联盟</td>
+<td>全球移动广告组织</td>
+</tr>
+<tr>
+<td><strong>GB&#x2F;T 34090.2-2017</strong></td>
+<td>互动广告标准</td>
+<td>中国互动广告投放验证标准</td>
+</tr>
+<tr>
+<td><strong>T&#x2F;SHAA 0002</strong></td>
+<td>上海广告协会标准</td>
+<td>数字广告内容审核标准</td>
+</tr>
+<tr>
+<td><strong>互联网广告管理办法</strong></td>
+<td>中国法规</td>
+<td>中国互联网广告管理规定</td>
+</tr>
+<tr>
+<td><strong>广告法违禁词</strong></td>
+<td>中国广告法</td>
+<td>禁止使用的广告用语</td>
+</tr>
+<tr>
+<td><strong>秒针系统</strong></td>
+<td>第三方监测</td>
+<td>中国领先的广告监测公司</td>
+</tr>
+<tr>
+<td><strong>国双科技</strong></td>
+<td>数据分析</td>
+<td>中国广告数据分析公司</td>
+</tr>
+<tr>
+<td><strong>AdMaster</strong></td>
+<td>广告监测</td>
+<td>中国广告监测公司(已被秒针收购)</td>
+</tr>
+<tr>
+<td><strong>MIGU</strong></td>
+<td>咪咕</td>
+<td>中国移动旗下媒体平台</td>
+</tr>
+<tr>
+<td><strong>CAICT</strong></td>
+<td>中国信通院</td>
+<td>中国信息通信研究院</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十四、计价与结算术语"><a href="#十四、计价与结算术语" class="headerlink" title="十四、计价与结算术语"></a>十四、计价与结算术语</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>CPM (Cost Per Mille)</strong></td>
+<td>千次展示成本</td>
+<td>每千次展示的费用</td>
+</tr>
+<tr>
+<td><strong>CPC (Cost Per Click)</strong></td>
+<td>每次点击成本</td>
+<td>每次点击的费用</td>
+</tr>
+<tr>
+<td><strong>CPA (Cost Per Action)</strong></td>
+<td>每次行动成本</td>
+<td>每次转化行动的费用</td>
+</tr>
+<tr>
+<td><strong>CPI (Cost Per Install)</strong></td>
+<td>每次安装成本</td>
+<td>每次应用安装的费用</td>
+</tr>
+<tr>
+<td><strong>CPS (Cost Per Sale)</strong></td>
+<td>每次销售成本</td>
+<td>每次销售的费用</td>
+</tr>
+<tr>
+<td><strong>CPV (Cost Per View)</strong></td>
+<td>每次观看成本</td>
+<td>每次视频观看的费用</td>
+</tr>
+<tr>
+<td><strong>CPT (Cost Per Time)</strong></td>
+<td>每次时间成本</td>
+<td>按时间计费</td>
+</tr>
+<tr>
+<td><strong>CPD (Cost Per Day)</strong></td>
+<td>每天成本</td>
+<td>按天计费</td>
+</tr>
+<tr>
+<td><strong>oCPM (Optimized CPM)</strong></td>
+<td>优化千次展示成本</td>
+<td>智能优化的CPM</td>
+</tr>
+<tr>
+<td><strong>oCPC (Optimized CPC)</strong></td>
+<td>优化每次点击成本</td>
+<td>智能优化的CPC</td>
+</tr>
+<tr>
+<td><strong>PDB (Programmatic Direct Buy)</strong></td>
+<td>程序化直接购买</td>
+<td>程序化保量购买</td>
+</tr>
+<tr>
+<td><strong>PD (Programmatic Direct)</strong></td>
+<td>程序化直接</td>
+<td>程序化直接交易</td>
+</tr>
+<tr>
+<td><strong>PA (Private Auction)</strong></td>
+<td>私有竞价</td>
+<td>私有市场的竞价</td>
+</tr>
+<tr>
+<td><strong>RTB (Real Time Bidding)</strong></td>
+<td>实时竞价</td>
+<td>实时竞价购买</td>
+</tr>
+<tr>
+<td><strong>GSP (Generalized Second Price)</strong></td>
+<td>广义第二价格</td>
+<td>常见的竞价机制</td>
+</tr>
+<tr>
+<td><strong>VCG (Vickrey-Clarke-Groves)</strong></td>
+<td>VCG机制</td>
+<td>另一种竞价机制</td>
+</tr>
+<tr>
+<td><strong>First Price Auction</strong></td>
+<td>第一价格拍卖</td>
+<td>最高出价者支付其出价</td>
+</tr>
+<tr>
+<td><strong>Second Price Auction</strong></td>
+<td>第二价格拍卖</td>
+<td>最高出价者支付第二高出价</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十五、其他重要术语"><a href="#十五、其他重要术语" class="headerlink" title="十五、其他重要术语"></a>十五、其他重要术语</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Ad Server</strong></td>
+<td>广告服务器</td>
+<td>管理和投放广告的系统</td>
+</tr>
+<tr>
+<td><strong>DSP (Demand Side Platform)</strong></td>
+<td>需求方平台</td>
+<td>广告主购买广告的平台</td>
+</tr>
+<tr>
+<td><strong>SSP (Supply Side Platform)</strong></td>
+<td>供应方平台</td>
+<td>媒体出售广告位的平台</td>
+</tr>
+<tr>
+<td><strong>Ad Exchange</strong></td>
+<td>广告交易平台</td>
+<td>程序化广告交易市场</td>
+</tr>
+<tr>
+<td><strong>DMP (Data Management Platform)</strong></td>
+<td>数据管理平台</td>
+<td>管理用户数据的平台</td>
+</tr>
+<tr>
+<td><strong>CDP (Customer Data Platform)</strong></td>
+<td>客户数据平台</td>
+<td>整合客户数据的平台</td>
+</tr>
+<tr>
+<td><strong>CMP (Consent Management Platform)</strong></td>
+<td>同意管理平台</td>
+<td>管理用户同意的平台</td>
+</tr>
+<tr>
+<td><strong>TCF (Transparency &amp; Consent Framework)</strong></td>
+<td>透明同意框架</td>
+<td>IAB的同意管理框架</td>
+</tr>
+<tr>
+<td><strong>GVL (Global Vendor List)</strong></td>
+<td>全球供应商列表</td>
+<td>TCF的供应商列表</td>
+</tr>
+<tr>
+<td><strong>Consent String</strong></td>
+<td>同意字符串</td>
+<td>编码的用户同意信息</td>
+</tr>
+<tr>
+<td><strong>Cookie Deprecation</strong></td>
+<td>Cookie淘汰</td>
+<td>第三方Cookie逐步淘汰</td>
+</tr>
+<tr>
+<td><strong>Privacy Sandbox</strong></td>
+<td>隐私沙盒</td>
+<td>Google的隐私保护方案</td>
+</tr>
+<tr>
+<td><strong>FLoC (Federated Learning of Cohorts)</strong></td>
+<td>联邦学习群组</td>
+<td>Google的兴趣群组方案(已废弃)</td>
+</tr>
+<tr>
+<td><strong>Topics API</strong></td>
+<td>主题API</td>
+<td>Google的替代方案</td>
+</tr>
+<tr>
+<td><strong>FLEDGE</strong></td>
+<td>再营销API</td>
+<td>Google的再营销方案</td>
+</tr>
+<tr>
+<td><strong>Attribution Reporting API</strong></td>
+<td>归因报告API</td>
+<td>Google的归因方案</td>
+</tr>
+<tr>
+<td><strong>SKAdNetwork</strong></td>
+<td>SK广告网络</td>
+<td>Apple的归因框架</td>
+</tr>
+<tr>
+<td><strong>App Tracking Transparency (ATT)</strong></td>
+<td>应用追踪透明度</td>
+<td>Apple的追踪许可框架</td>
+</tr>
+<tr>
+<td><strong>IDFA Deprecation</strong></td>
+<td>IDFA淘汰</td>
+<td>Apple限制IDFA使用</td>
+</tr>
+<tr>
+<td><strong>GAID Changes</strong></td>
+<td>GAID变更</td>
+<td>Google对GAID的限制</td>
+</tr>
+<tr>
+<td><strong>Data Clean Room</strong></td>
+<td>数据清洁室</td>
+<td>安全的数据协作环境</td>
+</tr>
+</tbody></table>
+
+        </div>
+        
+        <!-- 文章导航 - 只在同分类有多篇文章时显示 -->
+        
+        
+        
+        <nav class="post-nav">
+          
+            <a class="prev" href="../../18/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%889%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%B7%A5%E7%A8%8B%E5%92%8C%E8%BF%90%E7%BB%B4%E7%9B%B8%E5%85%B3%E6%9C%AF%E8%AF%AD/">
+              <i class="fas fa-chevron-left"></i>
+              广告术语（9）-广告工程和运维相关术语
+            </a>
+          
+          
+            <a class="next" href="../../16/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%887%EF%BC%89-%E5%B9%BF%E5%91%8A%E9%9A%90%E7%A7%81%E5%90%88%E8%A7%84%E6%9C%AF%E8%AF%AD/">
+              广告术语（7）-广告隐私合规术语
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          
+        </nav>
+        
+        
+        <!-- 推荐文章 -->
+        
+
+
+<div class="vs-recommended-posts">
+  <div class="vs-recommended-header">
+    <div class="section-header">
+      <i class="fas fa-lightbulb"></i>
+      <span>RELATED POSTS</span>
+    </div>
+  </div>
+  
+  <div class="vs-recommended-grid">
+    
+      <div class="vs-recommended-item" data-index="0" tabindex="0">
+        <a href="../../16/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%887%EF%BC%89-%E5%B9%BF%E5%91%8A%E9%9A%90%E7%A7%81%E5%90%88%E8%A7%84%E6%9C%AF%E8%AF%AD/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>广告术语（7）-广告隐私合规术语</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              广告系统隐私与合规完整术语表一、全球隐私法规框架 术语 定义 适用范围&amp;#x2F;说明 GDPR 通用数据保护条例 欧盟&amp;#x2F;欧洲经济区，全球影响最广 CCPA 加州消费者隐私法 美国加州，2020年生效 CPRA 加州隐私权法案 C...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  广告术语
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Feb 16
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  7 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="1" tabindex="0">
+        <a href="../../18/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%889%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%B7%A5%E7%A8%8B%E5%92%8C%E8%BF%90%E7%BB%B4%E7%9B%B8%E5%85%B3%E6%9C%AF%E8%AF%AD/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>广告术语（9）-广告工程和运维相关术语</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              广告系统工程与运维术语全景一、竞价交易层（Bid &amp;amp; Transaction Layer） 术语 定义 说明 Bid Request 竞价请求 ADX向DSP发送的竞价邀请 Bid Response 竞价响应 DSP返回的出价信息 ...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  广告术语
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Feb 18
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  12 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="2" tabindex="0">
+        <a href="../../19/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%8810%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%9B%BD%E5%86%85%E8%A1%8C%E4%B8%9A%E6%9C%AF%E8%AF%AD/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>广告术语（10）-广告国内行业术语</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              国内广告行业特色术语终极大全一、平台专有术语🔴 字节系（巨量引擎） 术语 含义 巨量引擎 字节跳动旗下广告投放平台总称 巨量AD 巨量引擎非电商类广告投放平台 巨量千川 巨量引擎电商类广告投放平台 穿山甲 字节旗下移动广告联盟，第三方Ap...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  广告术语
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Feb 19
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  6 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="3" tabindex="0">
+        <a href="../../15/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%886%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%BD%92%E5%9B%A0%E5%92%8C%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95%E6%9C%AF%E8%AF%AD/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>广告术语（6）-广告归因和评估方法术语</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              广告归因与评估方法终极完整清单一、归因模型类（Attribution Models） 序号 术语 定义 来源&amp;#x2F;应用 1 Last Click 末次点击归因 通用基础 2 First Click 首次点击归因 通用基础 3 Line...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  广告术语
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Feb 15
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  20 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="4" tabindex="0">
+        <a href="../../14/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%885%EF%BC%89-%E5%B9%BF%E5%91%8A%E4%BC%98%E5%8C%96%E5%92%8C%E5%87%BA%E4%BB%B7%E7%AD%96%E7%95%A5%E6%9C%AF%E8%AF%AD/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>广告术语（5）-广告优化和出价策略术语</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              📋 广告出价与优化策略完整全景图 (2026 版)一、竞价机制与拍卖类型 (Auction Mechanisms &amp;amp; Types) 术语 定义 说明 应用场景 First Price Auction (GFP) 第一价格拍卖 最高...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  广告术语
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Feb 14
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  18 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="5" tabindex="0">
+        <a href="../../13/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%884%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%8D%8F%E8%AE%AE%E5%92%8C%E6%A0%87%E5%87%86%E6%9C%AF%E8%AF%AD/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>广告术语（4）-广告协议和标准术语</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              📋 广告系统协议与标准完整汇总 (全球+中国)一、完整协议与标准总表🔴 核心必备标准 (覆盖率 85%+) 术语 定义 适用范围 覆盖率 发布机构 OpenRTB 2.5&amp;#x2F;3.0 开放实时竞价协议 全球程序化交易 95%+ I...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  广告术语
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Feb 13
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  3 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+  </div>
+  
+  <!-- 查看更多 -->
+  <div class="vs-recommended-footer">
+    <a href="../../../../archives/" class="vs-view-more">
+      <i class="fas fa-folder-open"></i>
+      <span>View More Posts</span>
+      <i class="fas fa-chevron-right"></i>
+    </a>
+  </div>
+</div>
+
+<script>
+// 键盘导航支持
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.vs-recommended-item');
+  let currentIndex = -1;
+  
+  // 键盘事件
+  document.addEventListener('keydown', function(e) {
+    if (!items.length) return;
+    
+    if (e.key === 'Tab') {
+      // Tab键导航由浏览器处理
+      return;
+    }
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      
+      // 移除当前高亮
+      if (currentIndex >= 0) {
+        items[currentIndex].classList.remove('vs-focused');
+      }
+      
+      // 更新索引
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % items.length;
+      } else {
+        currentIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+      }
+      
+      // 添加新高亮
+      items[currentIndex].classList.add('vs-focused');
+      items[currentIndex].focus();
+    }
+    
+    if (e.key === 'Enter' && currentIndex >= 0) {
+      const link = items[currentIndex].querySelector('a');
+      if (link) link.click();
+    }
+  });
+  
+  // 鼠标悬停时更新当前索引
+  items.forEach((item, index) => {
+    item.addEventListener('mouseenter', function() {
+      currentIndex = index;
+      items.forEach(i => i.classList.remove('vs-focused'));
+      item.classList.add('vs-focused');
+    });
+  });
+});
+</script>
+
+        
+        <!-- 评论区 -->
+        
+  <div class="vs-comments-section">
+    <div class="section-header">
+      <i class="fas fa-comments"></i>
+      <span>COMMENTS</span>
+    </div>
+    
+    
+      <!-- Waline 评论系统 -->
+      <div id="waline"></div>
+      <script>
+        // 加载 Waline CSS
+        const walineCSS = document.createElement('link');
+        walineCSS.rel = 'stylesheet';
+        walineCSS.href = 'https://unpkg.com/@waline/client@v3/dist/waline.css';
+        document.head.appendChild(walineCSS);
+        
+        // 加载 Waline JS
+        const walineScript = document.createElement('script');
+        walineScript.type = 'module';
+        walineScript.onload = function() {
+          // 确保 Waline 加载后再初始化
+          import('https://unpkg.com/@waline/client@v3/dist/waline.js').then(({ init }) => {
+            const waline = init({
+              el: '#waline',
+              serverURL: 'https://vsc4tblackcat1337.vercel.app/',
+              lang: 'zh-CN',
+              locale: {},
+              emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus"],
+              requiredMeta: [],
+              login: 'disable',
+              wordLimit: 0,
+              pageSize: 10,
+              imageUploader: false,
+              highlighter: true,
+              texRenderer: false,
+              search: false,
+              pageview: false,
+              comment: true,
+              copyright: false,
+              
+              // 自动适配主题
+              dark: document.documentElement.getAttribute('data-theme') === 'dark' ? 'auto' : false,
+              
+              // 评论框占位符
+              placeholder: 'Feel free to leave a comment, no login required!',
+              
+              // 元数据配置
+              meta: ['nick', 'mail', 'link'],
+              
+              // 表情配置
+              emojiCDN: 'https://unpkg.com/@waline/emojis@1.2.0/',
+            });
+            
+            // 监听主题变化
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                  // Waline 会自动处理主题切换
+                  if (waline) {
+                    waline.update({ dark: isDark ? 'auto' : false });
+                  }
+                }
+              });
+            });
+            
+            observer.observe(document.documentElement, {
+              attributes: true,
+              attributeFilter: ['data-theme']
+            });
+          });
+        };
+        walineScript.src = 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+        document.body.appendChild(walineScript);
+      </script>
+    
+    
+  </div>
+
+      </article>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code-branch"></i>
+      master
+    </div>
+    <div class="status-item">
+      <i class="fas fa-sync"></i>
+      John Doe
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      2026-02-21
+    </div>
+    <div class="status-item">
+      Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
+    </div>
+    <div class="status-item github">
+      <a href="#" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 搜索专用配置 (HEXO_CONFIG 在 scripts.ejs 中统一定义) -->
+    <script>
+      window.VSC4T_SEARCH = {
+        root: "/"
+      };
+    </script>
+
+    <!-- 外部脚本 - 统一使用 cdnjs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
+    <script>if(typeof hljs !== 'undefined') hljs.highlightAll();</script>
+    <!-- 这里可以放置自定义脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Apply smooth scroll to non-TOC anchor links
+  document.querySelectorAll('a[href^="#"]:not(.toc-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Check if querySelector is valid before using it
+      try {
+        const targetSelector = this.getAttribute('href');
+        // Basic check for potentially invalid selectors (though not exhaustive)
+        if (targetSelector && targetSelector.length > 1) { 
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            console.warn('Smooth scroll target not found:', targetSelector);
+          }
+        } else {
+           console.warn('Invalid href for smooth scroll:', targetSelector);
+        }
+      } catch (error) {
+        console.error('Error during smooth scroll:', error, 'Selector:', this.getAttribute('href'));
+        // Fallback or alternative behavior if needed
+        // For example, try getElementById if it's just an ID
+        const targetId = this.getAttribute('href').slice(1);
+        try {
+            const targetElementById = document.getElementById(decodeURIComponent(targetId));
+            if (targetElementById) {
+                targetElementById.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (idError) {
+             console.error('Fallback getElementById also failed:', idError);
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Scripts -->
+<script>
+  // 全局配置 - 包含 i18n 字符串和主题配置
+  window.HEXO_CONFIG = {
+    language: "en",
+    root: "/",
+    
+    theme_switch: {
+      enabled: false,
+      light_start: "06:00",
+      light_end: "18:00"
+    },
+    
+    // Search i18n strings
+    search_placeholder: "Type to search...",
+    search_no_results: "No results found",
+    search_result: "result",
+    search_results: "results",
+    search_results_found: "Found undefined results",
+    search_in: "Search in",
+    search_in_title: "Title",
+    search_in_content: "Content",
+    search_in_tags: "Tags",
+    search_in_categories: "Categories",
+    search_filters: "Search Filters",
+    search_recent: "Recent Searches",
+    search_clear: "Clear",
+    search_loading: "Loading...",
+    search_error: "Error loading search data",
+    // Encryption i18n strings
+    encrypt_badge: "Protected",
+    encrypt_title: "Protected Content",
+    encrypt_description: "Enter the password to unlock this article. The password will be saved locally until you choose to re-encrypt.",
+    encrypt_label: "Password",
+    encrypt_placeholder: "Enter password to unlock",
+    encrypt_button: "Unlock",
+    encrypt_button_loading: "Unlocking...",
+    encrypt_hint: "Press Enter to submit. Password will be remembered on this device.",
+    encrypt_success: "Content unlocked successfully!",
+    encrypt_unlocked_note: "Content unlocked. You can re-encrypt at any time.",
+    encrypt_again: "Re-encrypt",
+    encrypt_wrong_password: "Incorrect password. Please try again.",
+    encrypt_show_password: "Show password",
+    encrypt_hide_password: "Hide password",
+    // Sidebar i18n strings
+    sidebar_about: "About",
+    sidebar_categories: "Categories",
+    sidebar_tags: "Tags",
+    // Post page i18n strings
+    post_toc: "TABLE OF CONTENTS",
+    post_category_posts: "CATEGORY POSTS",
+    post_article_tags: "ARTICLE TAGS"
+  };
+</script>
+
+
+
+<!-- 添加所有需要的脚本 -->
+<script src="../../../../js/search.js"></script>
+<script src="../../../../js/theme-switch.js"></script>
+
+<script src="../../../../js/password-protect.js?v=1771605205007"></script>
+
+    <script>
+      // 移动端菜单切换
+      $(document).ready(function() {
+        var $body = $('body');
+        var $sidebar = $('.sidebar-explorer');
+        var $overlay = $('.sidebar-overlay');
+        var $toggle = $('.mobile-menu-toggle');
+
+        function openSidebar() {
+          $sidebar.addClass('show');
+          $overlay.addClass('show');
+          $toggle.addClass('active');
+          $body.addClass('sidebar-open');
+        }
+
+        function closeSidebar() {
+          $sidebar.removeClass('show');
+          $overlay.removeClass('show');
+          $toggle.removeClass('active');
+          $body.removeClass('sidebar-open');
+        }
+
+        // 汉堡按钮点击切换
+        $toggle.on('click', function(e) {
+          e.stopPropagation();
+          if ($sidebar.hasClass('show')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+
+        // 点击遮罩层关闭
+        $overlay.on('click', function() {
+          closeSidebar();
+        });
+
+        // ESC 键关闭
+        $(document).on('keydown', function(e) {
+          if (e.key === 'Escape' && $sidebar.hasClass('show')) {
+            closeSidebar();
+          }
+        });
+
+        // 点击侧边栏内的链接时自动关闭侧边栏，确保锚点跳转正常
+        $sidebar.on('click', 'a', function() {
+          closeSidebar();
+        });
+      });
+    </script>
+  </body>
+</html>

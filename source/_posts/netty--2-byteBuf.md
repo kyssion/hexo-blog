@@ -24,7 +24,7 @@ Netty的数据处理API通过两个组件暴露——abstract class ByteBuf和in
 
 byteBuf拥有两个不同的索引- 记录读位置的readerIndex 和记录写位置的writerIndex
 
-![](/images/blogimg//blogimg/netty/6.png)
+![](/images/blogimg/netty/6.png)
 
 可读的位置就是 readerIndex 到writerIndex 之间的位置
 
@@ -71,7 +71,7 @@ if (!directBuf.hasArray()) {  // 检查ByteBuf 是否由数组支撑。如果不
 
 因为我们不想为每个消息都重新分配这两个缓冲区，所以使用CompositeByteBuf是一个完美的选择。它在消除了没必要的复制的同时，暴露了通用的ByteBuf API
 
-![](/images/blogimg//blogimg/netty/7.png)
+![](/images/blogimg/netty/7.png)
 
 ### bytebuffer分配方式
 

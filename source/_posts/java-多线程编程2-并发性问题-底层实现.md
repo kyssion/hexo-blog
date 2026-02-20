@@ -11,13 +11,13 @@ tags: [java多线程]
 
 基于高速缓存的存储交互很好地解决了处理器与内存的速度矛盾,但是也为计算机系统带来更高的复杂度,因为它引入了一个新的问题:缓存一致性(Cache Coherence)。在多处理器系统中,每个处理器都有自己的高速缓存,而它们又共享同一主内存(MainMemory)
 
-![](/images/blogimg//blogimg/java/1.png)
+![](/images/blogimg/java/1.png)
 
 ### 主内存与工作内存
 
 Java内存模型规定了所有的变量都存储在主内存(Main Memory)中(此处的主内存与介绍物理硬件时的主内存名字一样,两者也可以互相类比,但此处仅是虚拟机内存的一部分)。每条线程还有自己的工作内存(Working Memory,可与前面讲的处理器高速缓存类比),线程的工作内存中保存了被该线程使用到的变量的主内存副本拷贝 ,线程对变量的所有操作(读取、赋值等)都必须在工作内存中进行,而不能直接读写主内存中的变量 。
 
-![](/images/blogimg//blogimg/java/2.png)
+![](/images/blogimg/java/2.png)
 
 主内存与工作内存之间具体的交互协议,即一个变量如何从主内存拷贝到工作内存、如何从工作内存同步回主内存之类的实现细节,Java内存模型中定义了以下8种操作来完成,虚拟机实现时必须保证下面提及的每一种操作都是原子的、不可再分的
 
@@ -92,7 +92,7 @@ Java内存模型要求lock、unlock、read、load、assign、use、store、write
 
 对于Sun JDK来说,它的Windows版与Linux版都是使用一对一的线程模型实现的,一条Java线程就映射到一条轻量级进程之中,因为Windows和Linux系统提供的线程模型就是一对一的
 
-![](/images/blogimg//blogimg/java/3.png)
+![](/images/blogimg/java/3.png)
 
 ### Java线程调度
 
@@ -100,7 +100,7 @@ Java内存模型要求lock、unlock、read、load、assign、use、store、write
 
 ### 状态转换
 
-![](/images/blogimg//blogimg/java/4.png)
+![](/images/blogimg/java/4.png)
 
 1. 新建(New):创建后尚未启动的线程处于这种状态。
 2. 运行(Runable):Runable包括了操作系统线程状态中的Running和Ready,也就是处于此状态的线程有可能正在执行,也有可能正在等待着CPU为它分配执行时间。

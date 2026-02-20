@@ -210,7 +210,7 @@ public class XxxServiceImpl implements XxxService {
 ## 隐式参数
 可以通过 RpcContext 上的 setAttachment 和 getAttachment 在服务消费方和提供方之间进行参数的隐式传递。 [1]
 
-![](/images/blogimg//blogimg/dubbo/n7.png)
+![](/images/blogimg/dubbo/n7.png)
 
 在服务消费方端设置隐式参数
 setAttachment 设置的 KV 对，在完成下面一次远程调用会被清空，即多次远程调用要多次设置。
@@ -235,7 +235,7 @@ public class XxxServiceImpl implements XxxService {
 
 基于 NIO 的非阻塞实现并行调用，客户端不需要启动多线程即可完成并行调用多个远程服务，相对多线程开销较小。 [1]
 
-![](/images/blogimg//blogimg/dubbo/n8.png)
+![](/images/blogimg/dubbo/n8.png)
 
 在 consumer.xml 中配置：
 

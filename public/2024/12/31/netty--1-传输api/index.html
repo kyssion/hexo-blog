@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192174">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205075">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -266,7 +266,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -289,7 +289,7 @@
         
         <div class="post-body vscode-markdown">
           <p>传输API的核心是interfaceChannel，它被用于所有的I&#x2F;O操作。Channel类的层次结构如图</p>
-<p><img src="/images/blogimg//blogimg/netty/5.png"></p>
+<p><img src="/images/blogimg/netty/5.png"></p>
 <p>每个Channel都将会被分配一个ChannelPipeline和ChannelConfig。ChannelConfig包含了该Channel的所有配置设置，并且支持热更新。由于特定的传输可能具有独特的设置，所以它可能会实现一个ChannelConfig的子类型。（请参考ChannelConfig实现对应的Javadoc。）</p>
 <p>由于Channel是独一无二的，所以为了保证顺序将Channel声明为java.lang.Comparable的一个子接口。因此，如果两个不同的Channel实例都返回了相同的散列码，那么AbstractChannel中的compareTo()方法的实现将会抛出一个Error。</p>
 <p>ChannelPipeline持有所有将应用于入站和出站数据以及事件的ChannelHandler实例，这些ChannelHandler实现了应用程序用于处理状态变化以及数据处理的逻辑。</p>
@@ -776,7 +776,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -905,7 +905,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192174"></script>
+<script src="../../../../js/password-protect.js?v=1771605205075"></script>
 
     <script>
       // 移动端菜单切换

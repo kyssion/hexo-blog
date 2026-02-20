@@ -13,7 +13,7 @@ Java把异常当作对象来处理，并定义一个基类java.lang.Throwable作
 
 Java异常层次结构图如下图所示：
 
-![](/images/blogimg//blogimg/java/11.png)
+![](/images/blogimg/java/11.png)
 
 从图中可以看出所有异常类型都是内置类Throwable的子类，因而Throwable在异常类的层次结构的顶层。
 

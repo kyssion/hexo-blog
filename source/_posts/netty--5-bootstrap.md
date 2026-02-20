@@ -9,7 +9,7 @@ tags: [netty]
 
 引导类的层次结构包括一个抽象的父类和两个具体的引导子类
 
-![](/images/blogimg//blogimg/netty/13.png)
+![](/images/blogimg/netty/13.png)
 
 针对上图我们能看出来,特定于客户端或者服务器的引导步骤则分别由Bootstrap或ServerBootstrap处理
 
@@ -21,7 +21,7 @@ tags: [netty]
 
 Bootstrap类负责为客户端和使用无连接协议的应用程序创建Channel
 
-![](/images/blogimg//blogimg/netty/14.png)
+![](/images/blogimg/netty/14.png)
 
 ```java
 EventLoopGroup group = new NioEventLoopGroup();
@@ -56,7 +56,7 @@ future.addListener(new ChannelFutureListener() {
 
 下图展示了ServerBootstrap在bind()方法被调用时创建了一个ServerChannel，并且该ServerChannel管理了多个子Channel。
 
-![](/images/blogimg//blogimg/netty/15.png)
+![](/images/blogimg/netty/15.png)
 
 ```java
 NioEventLoopGroup group = new NioEventLoopGroup();

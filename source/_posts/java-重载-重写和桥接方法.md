@@ -35,7 +35,7 @@ tags: []
 
 ## 重载和重写的对比
 
-![](/images/blogimg//blogimg/java/12.png)
+![](/images/blogimg/java/12.png)
 
 ## 重载中产生的桥接方法
 

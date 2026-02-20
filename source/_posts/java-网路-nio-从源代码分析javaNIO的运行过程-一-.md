@@ -30,7 +30,7 @@ tags: []
 
 Java NIO中的 ServerSocketChannel 是一个可以监听新进来的TCP连接的通道, 类似ServerSocket一样。要注意的是和DatagramChannel和SocketChannel不同，ServerSocketChannel本身不具备传输数据的能力，而只是负责监听传入的连接和创建新的SocketChannel。
 
-![](/images/blogimg//blogimg/nio/1.png)
+![](/images/blogimg/nio/1.png)
 
 #### 创建一个ServerSocket很简单，代码如下
 

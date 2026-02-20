@@ -1,0 +1,4351 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>广告术语（5）-广告优化和出价策略术语 | Hexo</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A simple dark Hexo theme inspired by code.">
+  <meta name="keywords" content="广告术语">
+  <meta name="author" content="John Doe">
+  <link rel="canonical" href="http://example.com">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="广告术语（5）-广告优化和出价策略术语 | Hexo">
+  <meta property="og:description" content="A simple dark Hexo theme inspired by code.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://example.com">
+  <meta property="og:site_name" content="Hexo">
+  <meta property="article:published_time" content="2026-02-13T16:25:30.000Z">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="广告术语（5）-广告优化和出价策略术语 | Hexo">
+  <meta name="twitter:description" content="A simple dark Hexo theme inspired by code.">
+
+  <!-- Favicon 配置 -->
+  
+
+  <!-- 外部样式 - 统一使用 jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- 代码高亮样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+  <!-- Mermaid.js 库 (defer加载) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <!-- 主题样式 -->
+  <link rel="stylesheet" href="../../../../css/theme-colors.css">
+  <link rel="stylesheet" href="../../../../css/main.css">
+  <link rel="stylesheet" href="../../../../css/code.css">
+  <link rel="stylesheet" href="../../../../css/code-custom.css">
+  <link rel="stylesheet" href="../../../../css/code-languages.css">
+  <link rel="stylesheet" href="../../../../css/mermaid.css">
+
+  <link rel="stylesheet" href="../../../../css/vs-code.css">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205010">
+  <link rel="stylesheet" href="../../../../css/tag.css">
+  <link rel="stylesheet" href="../../../../css/categories.css">
+  <link rel="stylesheet" href="../../../../css/archive.css">
+  <link rel="stylesheet" href="../../../../css/search.css">
+  <link rel="stylesheet" href="../../../../css/mobile.css">  <link rel="stylesheet" href="../../../../css/responsive.css">
+  <link rel="stylesheet" href="../../../../css/elements.css">
+
+  <!-- 添加 JetBrains Mono 字体 -->  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Add any custom head content here -->
+
+  <script defer src="../../../../js/explorer.js"></script>
+  <script defer src="../../../../js/code-enhance.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+      <div class="mobile-menu-toggle" aria-label="Toggle sidebar menu" role="button" tabindex="0">
+        <i class="fas fa-bars"></i>
+      </div>
+      <!-- 移动端侧边栏遮罩层 -->
+      <div class="sidebar-overlay" aria-hidden="true"></div>
+      <header class="vs-header">
+  <nav class="vs-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-brand">
+        <i class="fas fa-terminal"></i>
+        Hexo
+      </a>
+    </div>
+    
+    <div class="nav-right">
+      <a href="/" class="nav-item ">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="/archives/" class="nav-item ">
+        <i class="fas fa-archive"></i>
+        <span>Archives</span>
+      </a>
+      <a href="/categories/" class="nav-item ">
+        <i class="fas fa-folder"></i>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" class="nav-item ">
+        <i class="fas fa-tags"></i>
+        <span>Tags</span>
+      </a>
+      <a href="/search/" class="nav-item ">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="/about/" class="nav-item ">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function smoothScroll(event, target) {
+    event.preventDefault();
+    const targetId = target.substring(target.indexOf('#') + 1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 50, // 调整偏移量
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = target;
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.vs-header');
+    const nav = document.querySelector('.vs-nav');
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    
+    nav.style.setProperty('--scroll-percent', `${scrollPercent}%`);
+    
+    if (window.scrollY > 0) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // 添加标签页切换动画
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('nav-ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+</script>
+
+
+<div class="vscode-container">
+  <!-- 左侧资源管理器 -->
+  <div class="sidebar-explorer">
+    <!-- TOC导航 -->
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-list"></i>
+        <span>TABLE OF CONTENTS</span>
+      </div>
+      <div class="section-content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%93%8B-%E5%B9%BF%E5%91%8A%E5%87%BA%E4%BB%B7%E4%B8%8E%E4%BC%98%E5%8C%96%E7%AD%96%E7%95%A5%E5%AE%8C%E6%95%B4%E5%85%A8%E6%99%AF%E5%9B%BE-2026-%E7%89%88"><span class="toc-text">📋 广告出价与优化策略完整全景图 (2026 版)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%AB%9E%E4%BB%B7%E6%9C%BA%E5%88%B6%E4%B8%8E%E6%8B%8D%E5%8D%96%E7%B1%BB%E5%9E%8B-Auction-Mechanisms-Types"><span class="toc-text">一、竞价机制与拍卖类型 (Auction Mechanisms &amp; Types)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E5%9F%BA%E7%A1%80%E8%AE%A1%E8%B4%B9%E6%A8%A1%E5%BC%8F-Basic-Pricing-Models"><span class="toc-text">二、基础计费模式 (Basic Pricing Models)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%99%BA%E8%83%BD%E5%87%BA%E4%BB%B7%E7%AD%96%E7%95%A5-Smart-Bidding-Strategies"><span class="toc-text">三、智能出价策略 (Smart Bidding Strategies)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%87%BA%E4%BB%B7%E6%8E%A7%E5%88%B6%E6%8A%80%E6%9C%AF-Bid-Control-Techniques"><span class="toc-text">四、出价控制技术 (Bid Control Techniques)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E9%A2%84%E7%AE%97%E4%B8%8E%E6%B6%88%E8%80%97%E6%8E%A7%E5%88%B6-Budget-Pacing-Control"><span class="toc-text">五、预算与消耗控制 (Budget &amp; Pacing Control)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E9%A2%91%E6%8E%A7%E4%B8%8E%E6%9B%9D%E5%85%89%E7%AE%A1%E7%90%86-Frequency-Exposure-Management"><span class="toc-text">六、频控与曝光管理 (Frequency &amp; Exposure Management)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E5%8F%97%E4%BC%97%E4%B8%8E%E5%AE%9A%E5%90%91%E7%AD%96%E7%95%A5-Audience-Targeting-Strategies"><span class="toc-text">七、受众与定向策略 (Audience &amp; Targeting Strategies)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E5%88%9B%E6%84%8F%E4%B8%8E%E5%86%85%E5%AE%B9%E4%BC%98%E5%8C%96-Creative-Content-Optimization"><span class="toc-text">八、创意与内容优化 (Creative &amp; Content Optimization)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%9D%E3%80%81%E5%85%B3%E9%94%AE%E8%AF%8D%E4%B8%8E%E6%90%9C%E7%B4%A2%E4%BC%98%E5%8C%96-Keyword-Search-Optimization"><span class="toc-text">九、关键词与搜索优化 (Keyword &amp; Search Optimization)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E3%80%81%E8%B4%A6%E6%88%B7%E7%BB%93%E6%9E%84%E4%B8%8E%E5%B1%82%E7%BA%A7%E4%BC%98%E5%8C%96-Account-Structure-Optimization"><span class="toc-text">十、账户结构与层级优化 (Account Structure Optimization)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%B8%80%E3%80%81%E8%B4%A8%E9%87%8F%E5%BE%97%E5%88%86%E4%B8%8E%E7%9B%B8%E5%85%B3%E6%80%A7-Quality-Score-Relevance"><span class="toc-text">十一、质量得分与相关性 (Quality Score &amp; Relevance)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%BA%8C%E3%80%81%E5%BD%92%E5%9B%A0%E4%B8%8E%E6%95%88%E6%9E%9C%E6%B5%8B%E9%87%8F-Attribution-Measurement"><span class="toc-text">十二、归因与效果测量 (Attribution &amp; Measurement)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%B8%89%E3%80%81%E6%8A%95%E6%94%BE%E7%8E%AF%E5%A2%83%E4%B8%8E%E5%BA%93%E5%AD%98%E4%BC%98%E5%8C%96-Inventory-Supply-Optimization"><span class="toc-text">十三、投放环境与库存优化 (Inventory &amp; Supply Optimization)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E5%9B%9B%E3%80%81%E7%AB%9E%E4%BA%89%E4%B8%8E%E5%B8%82%E5%9C%BA%E7%AD%96%E7%95%A5-Competitive-Market-Strategy"><span class="toc-text">十四、竞争与市场策略 (Competitive &amp; Market Strategy)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%BA%94%E3%80%81%E5%B9%B3%E5%8F%B0%E7%89%B9%E5%AE%9A%E7%AD%96%E7%95%A5-Platform-Specific-Strategies"><span class="toc-text">十五、平台特定策略 (Platform-Specific Strategies)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E5%85%AD%E3%80%81%E7%94%B5%E5%95%86%E4%B8%8E%E5%BA%94%E7%94%A8%E7%89%B9%E6%9C%89%E7%AD%96%E7%95%A5-E-commerce-App-Specific"><span class="toc-text">十六、电商与应用特有策略 (E-commerce &amp; App Specific)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%B8%83%E3%80%81%E5%86%B7%E5%90%AF%E5%8A%A8%E4%B8%8E%E5%AD%A6%E4%B9%A0%E6%9C%9F%E7%AE%A1%E7%90%86-Cold-Start-Learning-Phase"><span class="toc-text">十七、冷启动与学习期管理 (Cold Start &amp; Learning Phase)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E5%85%AB%E3%80%81%E6%97%B6%E9%97%B4%E4%B8%8E%E7%A9%BA%E9%97%B4%E4%BC%98%E5%8C%96-Time-Space-Optimization"><span class="toc-text">十八、时间与空间优化 (Time &amp; Space Optimization)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%B9%9D%E3%80%812025-2026-%E6%96%B0%E5%85%B4%E8%B6%8B%E5%8A%BF-Emerging-Trends-2025-2026"><span class="toc-text">十九、2025-2026 新兴趋势 (Emerging Trends 2025-2026)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E5%8D%81%E3%80%81B2B-%E7%89%B9%E5%AE%9A%E7%AD%96%E7%95%A5-B2B-Specific-Strategies"><span class="toc-text">二十、B2B 特定策略 (B2B Specific Strategies)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E5%8D%81%E4%B8%80%E3%80%81%E8%A7%86%E9%A2%91%E4%B8%8E-CTV-%E7%AD%96%E7%95%A5-Video-CTV-Strategies"><span class="toc-text">二十一、视频与 CTV 策略 (Video &amp; CTV Strategies)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E5%8D%81%E4%BA%8C%E3%80%81%E5%90%88%E8%A7%84%E4%B8%8E%E9%9A%90%E7%A7%81%E7%AD%96%E7%95%A5-Compliance-Privacy-Strategies"><span class="toc-text">二十二、合规与隐私策略 (Compliance &amp; Privacy Strategies)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E5%8D%81%E4%B8%89%E3%80%81%E9%AB%98%E7%BA%A7-AI-%E4%B8%8E%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AD%96%E7%95%A5-Advanced-AI-ML-Strategies"><span class="toc-text">二十三、高级 AI 与机器学习策略 (Advanced AI &amp; ML Strategies)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%89%80%E6%9C%89%E5%8E%9F%E5%A7%8B%E8%A6%86%E7%9B%96%E5%88%86%E6%9E%90"><span class="toc-text">所有原始覆盖分析</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol>
+      </div>
+    </div>
+
+    <!-- 同分类文章 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-folder"></i>
+        <span>CATEGORY POSTS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../21/%E5%B9%BF%E5%91%8A%EF%BC%881%EF%BC%89%E5%85%A8%E5%B1%80%E8%A7%86%E8%A7%92%E7%9C%8B%E6%95%B4%E4%B8%AA%E5%B9%BF%E5%91%8A%E8%A1%8C%E4%B8%9A%E8%A7%92%E8%89%B2%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB%E5%92%8C%E4%BD%9C%E7%94%A8/">广告（1）全局视角看整个广告行业角色之间的关系和作用</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../20/%E5%B9%BF%E5%91%8A%EF%BC%882%EF%BC%89-%E7%A9%BF%E5%B1%B1%E7%94%B2%E5%B9%BF%E5%91%8A%E8%A7%92%E8%89%B2%E5%92%8C%E6%8A%80%E6%9C%AF/">广告（2）-穿山甲广告角色和技术</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../19/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%8810%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%9B%BD%E5%86%85%E8%A1%8C%E4%B8%9A%E6%9C%AF%E8%AF%AD/">广告术语（10）-广告国内行业术语</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../18/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%889%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%B7%A5%E7%A8%8B%E5%92%8C%E8%BF%90%E7%BB%B4%E7%9B%B8%E5%85%B3%E6%9C%AF%E8%AF%AD/">广告术语（9）-广告工程和运维相关术语</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../17/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%888%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%8F%8D%E4%BD%9C%E5%BC%8A%E5%92%8C%E8%B4%A8%E9%87%8F%E6%9C%AF%E8%AF%AD/">广告术语（8）-广告反作弊和质量术语</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../16/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%887%EF%BC%89-%E5%B9%BF%E5%91%8A%E9%9A%90%E7%A7%81%E5%90%88%E8%A7%84%E6%9C%AF%E8%AF%AD/">广告术语（7）-广告隐私合规术语</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../15/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%886%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%BD%92%E5%9B%A0%E5%92%8C%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95%E6%9C%AF%E8%AF%AD/">广告术语（6）-广告归因和评估方法术语</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../13/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%884%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%8D%8F%E8%AE%AE%E5%92%8C%E6%A0%87%E5%87%86%E6%9C%AF%E8%AF%AD/">广告术语（4）-广告协议和标准术语</a>
+          </div>
+        
+      </div>
+    </div>
+    
+    
+    <!-- 标签列表 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-tags"></i>
+        <span>ARTICLE TAGS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../../../tags/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD/">广告术语</a>
+            <span class="count">(10)</span>
+          </div>
+        
+      </div>
+    </div>
+    
+  </div>
+
+  <!-- 主要内容区域 -->
+  <div class="editor-content">
+    <div class="tab-bar">
+      <div class="tab active">
+        <i class="fas fa-file-alt"></i>
+        <span>广告术语（5）-广告优化和出价策略术语.md</span>
+      </div>
+    </div>
+    
+    <div class="content-area">
+      <article class="post-content">
+        <div class="post-header">
+          <h1>广告术语（5）-广告优化和出价策略术语</h1>
+          <div class="post-meta">
+            <span class="date">
+              <i class="fas fa-calendar-alt"></i>
+              2026-02-14
+            </span>
+            
+            <span class="updated-date">
+              <i class="fas fa-sync-alt"></i>
+              Updated 2026-02-21
+            </span>
+                        
+              <span class="categories">
+                <i class="fas fa-folder"></i>
+                <div class="categories-list">
+                  <ul class="category-item-post-list"><li class="category-item-post-list-item"><a class="category-item-post-list-link" href="../../../../categories/%E5%B9%BF%E5%91%8A/">广告</a></li></ul>
+                </div>
+              </span>
+            
+            
+              <span class="tags">
+                <i class="fas fa-tags"></i>
+                <div class="tags-list">
+                  <ul class="tag-item-post-list" itemprop="keywords"><li class="tag-item-post-list-item"><a class="tag-item-post-list-link" href="../../../../tags/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD/" rel="tag">广告术语</a></li></ul>
+                </div>
+              </span>
+            
+          </div>
+        </div>
+        
+        <div class="post-body vscode-markdown">
+          <h1 id="📋-广告出价与优化策略完整全景图-2026-版"><a href="#📋-广告出价与优化策略完整全景图-2026-版" class="headerlink" title="📋 广告出价与优化策略完整全景图 (2026 版)"></a>📋 广告出价与优化策略完整全景图 (2026 版)</h1><h2 id="一、竞价机制与拍卖类型-Auction-Mechanisms-Types"><a href="#一、竞价机制与拍卖类型-Auction-Mechanisms-Types" class="headerlink" title="一、竞价机制与拍卖类型 (Auction Mechanisms &amp; Types)"></a>一、竞价机制与拍卖类型 (Auction Mechanisms &amp; Types)</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>First Price Auction (GFP)</strong></td>
+<td>第一价格拍卖</td>
+<td>最高出价者按自己出价支付</td>
+<td>程序化广告、Header Bidding</td>
+</tr>
+<tr>
+<td><strong>Second Price Auction (GSP)</strong></td>
+<td>第二价格拍卖</td>
+<td>最高出价者按次高出价 +0.01 支付</td>
+<td>Google 搜索广告</td>
+</tr>
+<tr>
+<td><strong>VCG Auction</strong></td>
+<td>VCG 拍卖机制</td>
+<td>按社会成本计费，鼓励真实出价</td>
+<td>Facebook 部分场景</td>
+</tr>
+<tr>
+<td><strong>Generalized First Price (GFP)</strong></td>
+<td>广义第一价格</td>
+<td>第一价格拍卖的变体</td>
+<td>部分程序化平台</td>
+</tr>
+<tr>
+<td><strong>Generalized Second Price (GSP)</strong></td>
+<td>广义第二价格</td>
+<td>第二价格拍卖的变体，考虑质量分</td>
+<td>Google&#x2F;Bing 搜索</td>
+</tr>
+<tr>
+<td><strong>Expressive Auction</strong></td>
+<td>表达性拍卖</td>
+<td>允许广告主提交复杂出价表达式</td>
+<td>高级程序化</td>
+</tr>
+<tr>
+<td><strong>Combinatorial Auction</strong></td>
+<td>组合拍卖</td>
+<td>允许对广告位组合出价</td>
+<td>多位置打包</td>
+</tr>
+<tr>
+<td><strong>Sequential Auction</strong></td>
+<td>序列拍卖</td>
+<td>多个广告位依次拍卖</td>
+<td>多广告位场景</td>
+</tr>
+<tr>
+<td><strong>Simultaneous Auction</strong></td>
+<td>同时拍卖</td>
+<td>多个广告位同时拍卖</td>
+<td>多广告位场景</td>
+</tr>
+<tr>
+<td><strong>RTB (Real-Time Bidding)</strong></td>
+<td>实时竞价</td>
+<td>毫秒级程序化竞价，每次展示独立拍卖</td>
+<td>程序化展示广告</td>
+</tr>
+<tr>
+<td><strong>Header Bidding</strong></td>
+<td>头部竞价</td>
+<td>让多个广告交易所同时竞价</td>
+<td>媒体方收益优化</td>
+</tr>
+<tr>
+<td><strong>Unified Auction</strong></td>
+<td>统一拍卖</td>
+<td>Google Ad Manager 的统一竞价机制</td>
+<td>谷歌广告生态</td>
+</tr>
+<tr>
+<td><strong>Floor Price Strategy</strong></td>
+<td>底价策略</td>
+<td>设置最低可接受出价，过滤低质流量</td>
+<td>媒体方&#x2F;SSP</td>
+</tr>
+<tr>
+<td><strong>Dynamic Floor Price</strong></td>
+<td>动态底价</td>
+<td>根据流量质量动态调整底价</td>
+<td>程序化交易</td>
+</tr>
+<tr>
+<td><strong>Hard Floor</strong></td>
+<td>硬底价</td>
+<td>绝对不可低于的最低价格</td>
+<td>媒体方保护</td>
+</tr>
+<tr>
+<td><strong>Soft Floor</strong></td>
+<td>软底价</td>
+<td>可协商的最低价格参考</td>
+<td>媒体方优化</td>
+</tr>
+<tr>
+<td><strong>Bid Ceiling</strong></td>
+<td>出价上限</td>
+<td>设置最高出价限制，防止超预算</td>
+<td>广告主侧</td>
+</tr>
+<tr>
+<td><strong>Bid Floor</strong></td>
+<td>出价底价</td>
+<td>程序化交易中的最低出价门槛</td>
+<td>DSP&#x2F;ADX</td>
+</tr>
+<tr>
+<td><strong>Reserve Price</strong></td>
+<td>保留价格</td>
+<td>媒体方设置的最低成交价格</td>
+<td>SSP&#x2F;Ad Exchange</td>
+</tr>
+<tr>
+<td><strong>Spot Market</strong></td>
+<td>现货市场</td>
+<td>即时交易的广告库存市场</td>
+<td>程序化交易</td>
+</tr>
+<tr>
+<td><strong>Forward Market</strong></td>
+<td>远期市场</td>
+<td>提前锁定未来广告库存</td>
+<td>品牌广告</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="二、基础计费模式-Basic-Pricing-Models"><a href="#二、基础计费模式-Basic-Pricing-Models" class="headerlink" title="二、基础计费模式 (Basic Pricing Models)"></a>二、基础计费模式 (Basic Pricing Models)</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>CPM (Cost Per Mille)</strong></td>
+<td>千次展示成本</td>
+<td>品牌曝光导向</td>
+<td>品牌广告、展示广告</td>
+</tr>
+<tr>
+<td><strong>vCPM (Viewable CPM)</strong></td>
+<td>可见千次展示成本</td>
+<td>仅计算可见展示</td>
+<td>品牌广告</td>
+</tr>
+<tr>
+<td><strong>CPC (Cost Per Click)</strong></td>
+<td>单次点击成本</td>
+<td>流量导向</td>
+<td>搜索广告、信息流</td>
+</tr>
+<tr>
+<td><strong>CPA (Cost Per Action)</strong></td>
+<td>单次转化成本</td>
+<td>效果导向</td>
+<td>效果广告</td>
+</tr>
+<tr>
+<td><strong>CPV (Cost Per View)</strong></td>
+<td>单次观看成本</td>
+<td>视频广告专用</td>
+<td>YouTube、抖音视频</td>
+</tr>
+<tr>
+<td><strong>CPV (Cost Per Visit)</strong></td>
+<td>单次访问成本</td>
+<td>网站访问导向</td>
+<td>引流广告</td>
+</tr>
+<tr>
+<td><strong>CPL (Cost Per Lead)</strong></td>
+<td>单次线索成本</td>
+<td>表单&#x2F;留资导向</td>
+<td>B2B、教育、金融</td>
+</tr>
+<tr>
+<td><strong>CPS (Cost Per Sale)</strong></td>
+<td>单次销售成本</td>
+<td>电商成交导向</td>
+<td>电商广告、联盟营销</td>
+</tr>
+<tr>
+<td><strong>CPI (Cost Per Install)</strong></td>
+<td>单次安装成本</td>
+<td>应用下载导向</td>
+<td>APP 推广</td>
+</tr>
+<tr>
+<td><strong>CPH (Cost Per Hour)</strong></td>
+<td>单次通话成本</td>
+<td>电话转化导向</td>
+<td>本地服务、电话咨询</td>
+</tr>
+<tr>
+<td><strong>CPE (Cost Per Engagement)</strong></td>
+<td>单次互动成本</td>
+<td>社交互动导向</td>
+<td>社交媒体广告</td>
+</tr>
+<tr>
+<td><strong>CPCV (Cost Per Completed View)</strong></td>
+<td>单次完整观看成本</td>
+<td>视频完播导向</td>
+<td>视频广告</td>
+</tr>
+<tr>
+<td><strong>CPD (Cost Per Day)</strong></td>
+<td>单日成本</td>
+<td>包天广告</td>
+<td>开屏广告、首页位</td>
+</tr>
+<tr>
+<td><strong>CPW (Cost Per Week)</strong></td>
+<td>单周成本</td>
+<td>包周广告</td>
+<td>长期展示位</td>
+</tr>
+<tr>
+<td><strong>CPM+ (CPM Plus)</strong></td>
+<td>CPM 加分成</td>
+<td>基础 CPM 加收入分成</td>
+<td>混合计费</td>
+</tr>
+<tr>
+<td><strong>Revenue Share</strong></td>
+<td>收入分成</td>
+<td>按收入比例分成</td>
+<td>联盟营销、网红合作</td>
+</tr>
+<tr>
+<td><strong>Hybrid Pricing</strong></td>
+<td>混合计费</td>
+<td>多种计费模式组合</td>
+<td>复杂场景</td>
+</tr>
+<tr>
+<td><strong>Performance-Based</strong></td>
+<td>效果计费</td>
+<td>基于实际效果付费</td>
+<td>效果广告</td>
+</tr>
+<tr>
+<td><strong>Flat Fee</strong></td>
+<td>固定费用</td>
+<td>固定金额购买广告位</td>
+<td>品牌广告</td>
+</tr>
+<tr>
+<td><strong>Cost Per Conversation</strong></td>
+<td>单次对话成本</td>
+<td>聊天&#x2F;客服对话导向</td>
+<td>客服广告</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="三、智能出价策略-Smart-Bidding-Strategies"><a href="#三、智能出价策略-Smart-Bidding-Strategies" class="headerlink" title="三、智能出价策略 (Smart Bidding Strategies)"></a>三、智能出价策略 (Smart Bidding Strategies)</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>oCPM (Optimized CPM)</strong></td>
+<td>优化千次展示成本</td>
+<td>基于转化概率动态调整出价</td>
+<td>抖音、腾讯广告</td>
+</tr>
+<tr>
+<td><strong>oCPC (Optimized CPC)</strong></td>
+<td>优化单次点击成本</td>
+<td>基于转化概率动态调整点击出价</td>
+<td>百度、信息流</td>
+</tr>
+<tr>
+<td><strong>oCPA (Optimized CPA)</strong></td>
+<td>优化单次转化成本</td>
+<td>基于转化概率动态调整出价</td>
+<td>效果广告</td>
+</tr>
+<tr>
+<td><strong>oCPX</strong></td>
+<td>智能出价统称</td>
+<td>国内对 oCPM&#x2F;oCPA 的泛称</td>
+<td>中国广告平台</td>
+</tr>
+<tr>
+<td><strong>tCPA (Target CPA)</strong></td>
+<td>目标转化成本</td>
+<td>设定目标 CPA，系统自动优化</td>
+<td>Google、Meta</td>
+</tr>
+<tr>
+<td><strong>tROAS (Target ROAS)</strong></td>
+<td>目标广告支出回报率</td>
+<td>设定目标 ROI，系统自动优化</td>
+<td>Google、Meta</td>
+</tr>
+<tr>
+<td><strong>Maximize Conversions</strong></td>
+<td>最大化转化</td>
+<td>预算内获取最多转化</td>
+<td>Google Ads</td>
+</tr>
+<tr>
+<td><strong>Maximize Conversion Value</strong></td>
+<td>最大化转化价值</td>
+<td>预算内获取最高转化总价值</td>
+<td>Google Ads</td>
+</tr>
+<tr>
+<td><strong>Maximize Clicks</strong></td>
+<td>最大化点击</td>
+<td>预算内获取最多点击</td>
+<td>流量导向</td>
+</tr>
+<tr>
+<td><strong>Target Impression Share</strong></td>
+<td>目标展示份额</td>
+<td>争取特定排名&#x2F;位置的展示占比</td>
+<td>Google 搜索</td>
+</tr>
+<tr>
+<td><strong>Target Search Page Location</strong></td>
+<td>目标搜索页面位置</td>
+<td>争取搜索结果页特定位置</td>
+<td>Google 搜索</td>
+</tr>
+<tr>
+<td><strong>Target Outrank Share</strong></td>
+<td>目标超越份额</td>
+<td>争取超越特定竞争对手</td>
+<td>竞争策略</td>
+</tr>
+<tr>
+<td><strong>Enhanced CPC (ECPC)</strong></td>
+<td>增强型 CPC</td>
+<td>手动 CPC 基础上智能浮动±30%</td>
+<td>Google Ads</td>
+</tr>
+<tr>
+<td><strong>Portfolio Bid Strategy</strong></td>
+<td>组合出价策略</td>
+<td>多广告组共享同一出价策略</td>
+<td>Google Ads</td>
+</tr>
+<tr>
+<td><strong>Value-Based Bidding</strong></td>
+<td>价值出价</td>
+<td>基于用户 LTV 差异化出价</td>
+<td>电商、高客单价</td>
+</tr>
+<tr>
+<td><strong>AI Agent Bidding</strong></td>
+<td>AI 代理出价</td>
+<td>自主 AI 代理执行复杂出价决策</td>
+<td>前沿应用</td>
+</tr>
+<tr>
+<td><strong>Dynamic Bid Adjustment</strong></td>
+<td>动态出价调整</td>
+<td>基于实时信号自动调整出价</td>
+<td>程序化广告</td>
+</tr>
+<tr>
+<td><strong>Deep Conversion Bidding</strong></td>
+<td>深度转化出价</td>
+<td>基于深度转化事件优化出价</td>
+<td>巨量引擎</td>
+</tr>
+<tr>
+<td><strong>Dual-Objective Bidding</strong></td>
+<td>双目标出价</td>
+<td>同时优化两个目标 (如转化 +ROAS)</td>
+<td>复杂目标</td>
+</tr>
+<tr>
+<td><strong>Multi-Goal Bidding</strong></td>
+<td>多目标出价</td>
+<td>同时优化多个目标</td>
+<td>复杂场景</td>
+</tr>
+<tr>
+<td><strong>Sequential Bidding</strong></td>
+<td>序列出价</td>
+<td>基于用户旅程阶段差异化出价</td>
+<td>全漏斗营销</td>
+</tr>
+<tr>
+<td><strong>Lifetime Value Bidding</strong></td>
+<td>生命周期价值出价</td>
+<td>基于用户 LTV 预测出价</td>
+<td>长期价值</td>
+</tr>
+<tr>
+<td><strong>Margin-Based Bidding</strong></td>
+<td>利润率出价</td>
+<td>基于产品利润率差异化出价</td>
+<td>电商</td>
+</tr>
+<tr>
+<td><strong>Inventory-Based Bidding</strong></td>
+<td>库存驱动出价</td>
+<td>基于库存水平调整出价</td>
+<td>电商清仓</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="四、出价控制技术-Bid-Control-Techniques"><a href="#四、出价控制技术-Bid-Control-Techniques" class="headerlink" title="四、出价控制技术 (Bid Control Techniques)"></a>四、出价控制技术 (Bid Control Techniques)</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Bid Shading</strong></td>
+<td>出价遮蔽</td>
+<td>在第二价格拍卖中智能降低出价，略高于次高出价即可获胜</td>
+<td>程序化广告、DSP</td>
+</tr>
+<tr>
+<td><strong>Bid Multiplier</strong></td>
+<td>出价系数&#x2F;出价调节器</td>
+<td>对特定维度 (时段&#x2F;地域&#x2F;设备&#x2F;人群) 设置±% 出价调整</td>
+<td>所有主流平台</td>
+</tr>
+<tr>
+<td><strong>Bid Adjustment</strong></td>
+<td>出价调整</td>
+<td>广义的出价系数调整</td>
+<td>通用术语</td>
+</tr>
+<tr>
+<td><strong>Device Bid Adjustment</strong></td>
+<td>设备出价调整</td>
+<td>针对手机&#x2F;平板&#x2F;电脑差异化出价</td>
+<td>多设备投放</td>
+</tr>
+<tr>
+<td><strong>Location Bid Adjustment</strong></td>
+<td>地域出价调整</td>
+<td>针对不同地理位置调整出价</td>
+<td>本地&#x2F;全国投放</td>
+</tr>
+<tr>
+<td><strong>Time Bid Adjustment</strong></td>
+<td>时段出价调整</td>
+<td>针对不同时间段调整出价</td>
+<td>Dayparting</td>
+</tr>
+<tr>
+<td><strong>Audience Bid Adjustment</strong></td>
+<td>人群出价调整</td>
+<td>针对不同人群包调整出价</td>
+<td>精细化定向</td>
+</tr>
+<tr>
+<td><strong>Browser&#x2F;OS Bid Adjustment</strong></td>
+<td>浏览器&#x2F;系统出价调整</td>
+<td>针对特定浏览器或操作系统</td>
+<td>技术定向</td>
+</tr>
+<tr>
+<td><strong>Connection Type Adjustment</strong></td>
+<td>网络类型调整</td>
+<td>WiFi&#x2F;4G&#x2F;5G 等不同网络环境</td>
+<td>移动端优化</td>
+</tr>
+<tr>
+<td><strong>Placement Bid Adjustment</strong></td>
+<td>版位出价调整</td>
+<td>针对不同展示位置调整出价</td>
+<td>展示广告</td>
+</tr>
+<tr>
+<td><strong>Keyword Match Type Adjustment</strong></td>
+<td>关键词匹配类型调整</td>
+<td>针对不同匹配类型调整出价</td>
+<td>搜索广告</td>
+</tr>
+<tr>
+<td><strong>Ad Schedule Adjustment</strong></td>
+<td>广告时间表调整</td>
+<td>按小时&#x2F;星期调整出价</td>
+<td>时段优化</td>
+</tr>
+<tr>
+<td><strong>Demographic Adjustment</strong></td>
+<td>人口统计调整</td>
+<td>按年龄&#x2F;性别&#x2F;收入调整出价</td>
+<td>人群定向</td>
+</tr>
+<tr>
+<td><strong>Weather-Based Adjustment</strong></td>
+<td>天气驱动调整</td>
+<td>根据天气条件调整出价</td>
+<td>本地服务</td>
+</tr>
+<tr>
+<td><strong>Event-Based Adjustment</strong></td>
+<td>事件驱动调整</td>
+<td>根据特殊事件调整出价</td>
+<td>营销活动</td>
+</tr>
+<tr>
+<td><strong>Competitor-Based Adjustment</strong></td>
+<td>竞争驱动调整</td>
+<td>根据竞争对手活动调整出价</td>
+<td>竞争策略</td>
+</tr>
+<tr>
+<td><strong>Real-Time Bid Adjustment</strong></td>
+<td>实时出价调整</td>
+<td>基于实时信号动态调整</td>
+<td>程序化广告</td>
+</tr>
+<tr>
+<td><strong>Predictive Bid Adjustment</strong></td>
+<td>预测性出价调整</td>
+<td>基于预测模型调整出价</td>
+<td>AI 优化</td>
+</tr>
+<tr>
+<td><strong>Constraint-Based Bidding</strong></td>
+<td>约束出价</td>
+<td>在多重约束条件下优化出价</td>
+<td>复杂场景</td>
+</tr>
+<tr>
+<td><strong>Risk-Adjusted Bidding</strong></td>
+<td>风险调整出价</td>
+<td>考虑风险因素的出价策略</td>
+<td>保守策略</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="五、预算与消耗控制-Budget-Pacing-Control"><a href="#五、预算与消耗控制-Budget-Pacing-Control" class="headerlink" title="五、预算与消耗控制 (Budget &amp; Pacing Control)"></a>五、预算与消耗控制 (Budget &amp; Pacing Control)</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Budget Pacing</strong></td>
+<td>预算平滑</td>
+<td>控制预算在周期内均匀&#x2F;智能消耗</td>
+<td>所有广告投放</td>
+</tr>
+<tr>
+<td><strong>Standard Pacing</strong></td>
+<td>标准平滑</td>
+<td>均匀分配预算到每个时间段</td>
+<td>稳定投放需求</td>
+</tr>
+<tr>
+<td><strong>Accelerated Pacing</strong></td>
+<td>加速消耗</td>
+<td>尽快花完预算，抢占流量</td>
+<td>促销&#x2F;紧急 campaign</td>
+</tr>
+<tr>
+<td><strong>Predictive Pacing</strong></td>
+<td>预测性平滑</td>
+<td>基于历史数据预测最优消耗节奏</td>
+<td>智能投放系统</td>
+</tr>
+<tr>
+<td><strong>Adaptive Pacing</strong></td>
+<td>自适应平滑</td>
+<td>根据实时表现动态调整消耗节奏</td>
+<td>智能优化</td>
+</tr>
+<tr>
+<td><strong>End-of-Day Rush</strong></td>
+<td>日末冲刺</td>
+<td>避免预算在日末未花完的加速策略</td>
+<td>每日预算场景</td>
+</tr>
+<tr>
+<td><strong>Front-Loading</strong></td>
+<td>前置消耗</td>
+<td>在周期前期集中消耗预算</td>
+<td>新品发布</td>
+</tr>
+<tr>
+<td><strong>Back-Loading</strong></td>
+<td>后置消耗</td>
+<td>在周期后期集中消耗预算</td>
+<td>促销收尾</td>
+</tr>
+<tr>
+<td><strong>CBO (Campaign Budget Optimization)</strong></td>
+<td>广告系列预算优化</td>
+<td>在广告组间动态分配预算</td>
+<td>Meta、Google</td>
+</tr>
+<tr>
+<td><strong>ABO (Ad Set Budget Optimization)</strong></td>
+<td>广告组预算优化</td>
+<td>手动分配各广告组预算</td>
+<td>Meta 手动控制</td>
+</tr>
+<tr>
+<td><strong>Daily Budget</strong></td>
+<td>每日预算</td>
+<td>单日预算上限</td>
+<td>常规投放</td>
+</tr>
+<tr>
+<td><strong>Lifetime Budget</strong></td>
+<td>生命周期预算</td>
+<td>整个广告周期总预算</td>
+<td>短期活动</td>
+</tr>
+<tr>
+<td><strong>Shared Budget</strong></td>
+<td>共享预算</td>
+<td>多个广告系列共用预算池</td>
+<td>多计划协同</td>
+</tr>
+<tr>
+<td><strong>Budget Reallocation</strong></td>
+<td>预算重新分配</td>
+<td>根据表现动态转移预算</td>
+<td>优化阶段</td>
+</tr>
+<tr>
+<td><strong>Seasonal Budget Adjustment</strong></td>
+<td>季节性预算调整</td>
+<td>根据促销&#x2F;节日临时调整预算</td>
+<td>电商大促</td>
+</tr>
+<tr>
+<td><strong>Budget Smoothing</strong></td>
+<td>预算平滑</td>
+<td>避免预算消耗波动过大</td>
+<td>稳定投放</td>
+</tr>
+<tr>
+<td><strong>Budget Guardrails</strong></td>
+<td>预算护栏</td>
+<td>设置预算上下限保护</td>
+<td>风险控制</td>
+</tr>
+<tr>
+<td><strong>Spend Cap</strong></td>
+<td>花费上限</td>
+<td>设置总花费绝对上限</td>
+<td>预算保护</td>
+</tr>
+<tr>
+<td><strong>Minimum Spend</strong></td>
+<td>最低花费</td>
+<td>确保预算最低消耗</td>
+<td>合约广告</td>
+</tr>
+<tr>
+<td><strong>Budget Flexibility</strong></td>
+<td>预算灵活性</td>
+<td>允许预算在一定范围内浮动</td>
+<td>智能投放</td>
+</tr>
+<tr>
+<td><strong>Cross-Campaign Budget</strong></td>
+<td>跨系列预算</td>
+<td>多个广告系列共享预算</td>
+<td>整合营销</td>
+</tr>
+<tr>
+<td><strong>Rolling Budget</strong></td>
+<td>滚动预算</td>
+<td>未使用预算可滚入下一周期</td>
+<td>长期投放</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="六、频控与曝光管理-Frequency-Exposure-Management"><a href="#六、频控与曝光管理-Frequency-Exposure-Management" class="headerlink" title="六、频控与曝光管理 (Frequency &amp; Exposure Management)"></a>六、频控与曝光管理 (Frequency &amp; Exposure Management)</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Frequency Capping</strong></td>
+<td>频次控制</td>
+<td>限制用户单位时间内的广告曝光次数</td>
+<td>品牌广告、避免骚扰</td>
+</tr>
+<tr>
+<td><strong>Recency Capping</strong></td>
+<td>近期频控</td>
+<td>限制特定时间窗口内的曝光次数，如”7 天最多 3 次”</td>
+<td>再营销、转化后用户</td>
+</tr>
+<tr>
+<td><strong>Global Frequency Cap</strong></td>
+<td>全局频控</td>
+<td>跨广告系列&#x2F;账户级别的频控</td>
+<td>多计划协同投放</td>
+</tr>
+<tr>
+<td><strong>Per-User Frequency</strong></td>
+<td>单用户频控</td>
+<td>针对单个用户的曝光限制</td>
+<td>精准营销</td>
+</tr>
+<tr>
+<td><strong>Per-Session Frequency</strong></td>
+<td>单次会话频控</td>
+<td>用户单次访问期间的曝光限制</td>
+<td>移动端 APP</td>
+</tr>
+<tr>
+<td><strong>Daily Frequency Cap</strong></td>
+<td>每日频控</td>
+<td>单用户每日曝光上限</td>
+<td>常规控制</td>
+</tr>
+<tr>
+<td><strong>Weekly Frequency Cap</strong></td>
+<td>每周频控</td>
+<td>单用户每周曝光上限</td>
+<td>长期投放</td>
+</tr>
+<tr>
+<td><strong>Monthly Frequency Cap</strong></td>
+<td>每月频控</td>
+<td>单用户每月曝光上限</td>
+<td>长期品牌</td>
+</tr>
+<tr>
+<td><strong>Lifetime Frequency Cap</strong></td>
+<td>生命周期频控</td>
+<td>单用户整个活动周期曝光上限</td>
+<td>短期活动</td>
+</tr>
+<tr>
+<td><strong>Reach vs Frequency Trade-off</strong></td>
+<td>触达与频次权衡</td>
+<td>在覆盖更多用户 vs 重复曝光之间平衡</td>
+<td>预算分配策略</td>
+</tr>
+<tr>
+<td><strong>Effective Frequency</strong></td>
+<td>有效频次</td>
+<td>达成营销目标所需的最小曝光次数</td>
+<td>媒体计划</td>
+</tr>
+<tr>
+<td><strong>Frequency Distribution</strong></td>
+<td>频次分布</td>
+<td>分析不同曝光次数用户的占比</td>
+<td>效果分析</td>
+</tr>
+<tr>
+<td><strong>Optimal Frequency</strong></td>
+<td>最优频次</td>
+<td>通过测试找到的最佳曝光次数</td>
+<td>优化目标</td>
+</tr>
+<tr>
+<td><strong>Frequency Weighting</strong></td>
+<td>频次加权</td>
+<td>不同曝光次数赋予不同权重</td>
+<td>归因分析</td>
+</tr>
+<tr>
+<td><strong>Cross-Platform Frequency</strong></td>
+<td>跨平台频控</td>
+<td>多平台统一频控管理</td>
+<td>全渠道营销</td>
+</tr>
+<tr>
+<td><strong>Sequential Frequency</strong></td>
+<td>序列频控</td>
+<td>按用户旅程阶段设置不同频次</td>
+<td>漏斗营销</td>
+</tr>
+<tr>
+<td><strong>Dynamic Frequency</strong></td>
+<td>动态频控</td>
+<td>根据用户行为动态调整频次</td>
+<td>智能优化</td>
+</tr>
+<tr>
+<td><strong>Negative Frequency</strong></td>
+<td>负向频控</td>
+<td>转化后降低或停止曝光</td>
+<td>效率优化</td>
+</tr>
+<tr>
+<td><strong>Incremental Frequency</strong></td>
+<td>增量频控</td>
+<td>仅计算增量曝光的频次</td>
+<td>增量分析</td>
+</tr>
+<tr>
+<td><strong>View-Through Frequency</strong></td>
+<td>浏览频控</td>
+<td>基于浏览而非点击的频控</td>
+<td>展示广告</td>
+</tr>
+<tr>
+<td><strong>Engagement Frequency</strong></td>
+<td>互动频控</td>
+<td>基于用户互动的频控</td>
+<td>社交广告</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="七、受众与定向策略-Audience-Targeting-Strategies"><a href="#七、受众与定向策略-Audience-Targeting-Strategies" class="headerlink" title="七、受众与定向策略 (Audience &amp; Targeting Strategies)"></a>七、受众与定向策略 (Audience &amp; Targeting Strategies)</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Lookalike Audience</strong></td>
+<td>相似人群扩展</td>
+<td>基于种子用户找相似人群</td>
+<td>拉新、扩量</td>
+</tr>
+<tr>
+<td><strong>Seed Audience Quality</strong></td>
+<td>种子受众质量</td>
+<td>Lookalike 的效果取决于种子用户质量</td>
+<td>人群包优化</td>
+</tr>
+<tr>
+<td><strong>Lookalike Similarity %</strong></td>
+<td>相似度百分比</td>
+<td>1%-10% 可选，越低越精准</td>
+<td>人群精度调节</td>
+</tr>
+<tr>
+<td><strong>1% Lookalike</strong></td>
+<td>1% 相似人群</td>
+<td>最相似的前 1% 用户</td>
+<td>高精度定向</td>
+</tr>
+<tr>
+<td><strong>10% Lookalike</strong></td>
+<td>10% 相似人群</td>
+<td>较广泛的前 10% 用户</td>
+<td>扩量定向</td>
+</tr>
+<tr>
+<td><strong>Retargeting&#x2F;Remarketing</strong></td>
+<td>再营销&#x2F;重定向</td>
+<td>针对已有互动用户再次投放</td>
+<td>转化挽回</td>
+</tr>
+<tr>
+<td><strong>Dynamic Remarketing</strong></td>
+<td>动态再营销</td>
+<td>展示用户浏览过的具体商品</td>
+<td>电商</td>
+</tr>
+<tr>
+<td><strong>Cart Abandonment Remarketing</strong></td>
+<td>购物车放弃再营销</td>
+<td>针对加购未购买用户</td>
+<td>电商挽回</td>
+</tr>
+<tr>
+<td><strong>Browse Abandonment Remarketing</strong></td>
+<td>浏览放弃再营销</td>
+<td>针对浏览未加购用户</td>
+<td>电商挽回</td>
+</tr>
+<tr>
+<td><strong>Post-Purchase Remarketing</strong></td>
+<td>购后再营销</td>
+<td>针对已购买用户交叉销售</td>
+<td>电商复购</td>
+</tr>
+<tr>
+<td><strong>Exclusion Audience</strong></td>
+<td>排除受众</td>
+<td>排除已转化&#x2F;低价值用户</td>
+<td>效率优化</td>
+</tr>
+<tr>
+<td><strong>Customer Match</strong></td>
+<td>客户匹配</td>
+<td>上传自有客户数据进行定向</td>
+<td>第一方数据</td>
+</tr>
+<tr>
+<td><strong>In-Market Audience</strong></td>
+<td>意向受众</td>
+<td>针对有购买意向的用户群体</td>
+<td>高转化意向</td>
+</tr>
+<tr>
+<td><strong>Affinity Audience</strong></td>
+<td>兴趣受众</td>
+<td>基于长期兴趣标签定向</td>
+<td>品牌曝光</td>
+</tr>
+<tr>
+<td><strong>Custom Affinity</strong></td>
+<td>自定义兴趣</td>
+<td>自定义兴趣标签定向</td>
+<td>精细定向</td>
+</tr>
+<tr>
+<td><strong>Predictive Audiences</strong></td>
+<td>预测性受众</td>
+<td>AI 预测高转化概率用户</td>
+<td>智能定向</td>
+</tr>
+<tr>
+<td><strong>Zero-Party Data</strong></td>
+<td>零方数据</td>
+<td>用户主动提供的偏好数据</td>
+<td>隐私合规</td>
+</tr>
+<tr>
+<td><strong>First-Party Data</strong></td>
+<td>第一方数据</td>
+<td>企业自有用户数据</td>
+<td>数据资产</td>
+</tr>
+<tr>
+<td><strong>Second-Party Data</strong></td>
+<td>第二方数据</td>
+<td>合作伙伴共享数据</td>
+<td>数据合作</td>
+</tr>
+<tr>
+<td><strong>Third-Party Data</strong></td>
+<td>第三方数据</td>
+<td>数据供应商提供的数据</td>
+<td>逐渐淘汰</td>
+</tr>
+<tr>
+<td><strong>Contextual Targeting</strong></td>
+<td>上下文定向</td>
+<td>基于页面内容而非用户数据定向</td>
+<td>隐私时代</td>
+</tr>
+<tr>
+<td><strong>Semantic Targeting</strong></td>
+<td>语义定向</td>
+<td>基于内容语义理解定向</td>
+<td>高级上下文</td>
+</tr>
+<tr>
+<td><strong>Geo-Targeting</strong></td>
+<td>地理定向</td>
+<td>基于地理位置精准投放</td>
+<td>本地商家</td>
+</tr>
+<tr>
+<td><strong>Geo-Fencing</strong></td>
+<td>地理围栏</td>
+<td>特定地理区域触发广告投放</td>
+<td>线下引流</td>
+</tr>
+<tr>
+<td><strong>Geo-Conquesting</strong></td>
+<td>地理争夺</td>
+<td>在竞争对手位置附近投放</td>
+<td>竞争策略</td>
+</tr>
+<tr>
+<td><strong>Radius Targeting</strong></td>
+<td>半径定向</td>
+<td>以某点为中心设定半径范围</td>
+<td>本地商家</td>
+</tr>
+<tr>
+<td><strong>Location Groups</strong></td>
+<td>位置组</td>
+<td>批量管理多个地理位置</td>
+<td>连锁店</td>
+</tr>
+<tr>
+<td><strong>Audience Overlap Check</strong></td>
+<td>受众重叠检查</td>
+<td>避免多个人群包互相竞争</td>
+<td>多计划投放</td>
+</tr>
+<tr>
+<td><strong>Audience Exclusion Layer</strong></td>
+<td>受众排除层</td>
+<td>层层排除已转化&#x2F;低价值用户</td>
+<td>效率优化</td>
+</tr>
+<tr>
+<td><strong>Custom Intent Audience</strong></td>
+<td>自定义意向受众</td>
+<td>基于搜索行为自定义人群</td>
+<td>YouTube</td>
+</tr>
+<tr>
+<td><strong>Life Event Targeting</strong></td>
+<td>人生事件定向</td>
+<td>针对结婚、搬家等人生节点</td>
+<td>特定品类</td>
+</tr>
+<tr>
+<td><strong>Household Targeting</strong></td>
+<td>家庭定向</td>
+<td>以家庭为单位定向</td>
+<td>CTV、家庭消费</td>
+</tr>
+<tr>
+<td><strong>Device Targeting</strong></td>
+<td>设备定向</td>
+<td>针对手机&#x2F;平板&#x2F;电脑定向</td>
+<td>多设备</td>
+</tr>
+<tr>
+<td><strong>OS&#x2F;Browser Targeting</strong></td>
+<td>系统&#x2F;浏览器定向</td>
+<td>针对特定操作系统或浏览器</td>
+<td>技术定向</td>
+</tr>
+<tr>
+<td><strong>Connection Type Targeting</strong></td>
+<td>网络类型定向</td>
+<td>WiFi&#x2F;4G&#x2F;5G 等不同网络环境</td>
+<td>移动端</td>
+</tr>
+<tr>
+<td><strong>Carrier Targeting</strong></td>
+<td>运营商定向</td>
+<td>针对特定移动运营商</td>
+<td>移动广告</td>
+</tr>
+<tr>
+<td><strong>Behavioral Targeting</strong></td>
+<td>行为定向</td>
+<td>基于用户行为历史定向</td>
+<td>精准营销</td>
+</tr>
+<tr>
+<td><strong>Psychographic Targeting</strong></td>
+<td>心理定向</td>
+<td>基于心理特征定向</td>
+<td>高端品牌</td>
+</tr>
+<tr>
+<td><strong>Intent Targeting</strong></td>
+<td>意向定向</td>
+<td>基于购买意向信号定向</td>
+<td>高转化</td>
+</tr>
+<tr>
+<td><strong>Moment Targeting</strong></td>
+<td>时刻定向</td>
+<td>基于特定时刻&#x2F;场景定向</td>
+<td>场景营销</td>
+</tr>
+<tr>
+<td><strong>Weather Targeting</strong></td>
+<td>天气定向</td>
+<td>基于天气条件定向</td>
+<td>本地服务</td>
+</tr>
+<tr>
+<td><strong>Event Targeting</strong></td>
+<td>事件定向</td>
+<td>基于特殊事件定向</td>
+<td>营销活动</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="八、创意与内容优化-Creative-Content-Optimization"><a href="#八、创意与内容优化-Creative-Content-Optimization" class="headerlink" title="八、创意与内容优化 (Creative &amp; Content Optimization)"></a>八、创意与内容优化 (Creative &amp; Content Optimization)</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Creative Fatigue</strong></td>
+<td>创意疲劳</td>
+<td>同一创意反复曝光导致 CTR&#x2F;CVR 下降</td>
+<td>所有创意投放</td>
+</tr>
+<tr>
+<td><strong>Fatigue Detection</strong></td>
+<td>疲劳检测</td>
+<td>监控 CTR 下降曲线，识别疲劳点</td>
+<td>创意管理</td>
+</tr>
+<tr>
+<td><strong>Creative Refresh Rate</strong></td>
+<td>创意更新频率</td>
+<td>定期更换创意避免疲劳</td>
+<td>长期投放</td>
+</tr>
+<tr>
+<td><strong>Creative Lifespan</strong></td>
+<td>创意生命周期</td>
+<td>单个创意的有效投放时长</td>
+<td>素材规划</td>
+</tr>
+<tr>
+<td><strong>DCO (Dynamic Creative Optimization)</strong></td>
+<td>动态创意优化</td>
+<td>根据用户特征实时组合创意元素</td>
+<td>程序化创意</td>
+</tr>
+<tr>
+<td><strong>Creative Element Testing</strong></td>
+<td>创意元素测试</td>
+<td>单独测试标题&#x2F;图片&#x2F;CTA 等元素</td>
+<td>A&#x2F;B 测试</td>
+</tr>
+<tr>
+<td><strong>Ad Variation</strong></td>
+<td>广告变体</td>
+<td>同一广告的多版本自动轮播测试</td>
+<td>平台自动测试</td>
+</tr>
+<tr>
+<td><strong>Responsive Ads</strong></td>
+<td>自适应广告</td>
+<td>系统自动组合素材适配不同版位</td>
+<td>Google RSA</td>
+</tr>
+<tr>
+<td><strong>Creative Rotation</strong></td>
+<td>创意轮播</td>
+<td>控制多个创意的展示频率和顺序</td>
+<td>多创意管理</td>
+</tr>
+<tr>
+<td><strong>Optimize for Rotations</strong></td>
+<td>优化轮播</td>
+<td>自动优化创意轮播策略</td>
+<td>智能创意</td>
+</tr>
+<tr>
+<td><strong>Personalization Engine</strong></td>
+<td>个性化引擎</td>
+<td>基于用户行为生成个性化广告内容</td>
+<td>高级定向</td>
+</tr>
+<tr>
+<td><strong>Generative AI Creative</strong></td>
+<td>生成式 AI 创意</td>
+<td>AI 生成文案&#x2F;图片&#x2F;视频素材</td>
+<td>2025-2026 趋势</td>
+</tr>
+<tr>
+<td><strong>Video Ad Optimization</strong></td>
+<td>视频广告优化</td>
+<td>前 5 秒 hook、时长、字幕等优化</td>
+<td>视频平台</td>
+</tr>
+<tr>
+<td><strong>Interactive Ads</strong></td>
+<td>互动广告</td>
+<td>可交互的广告形式提升参与</td>
+<td>社交媒体</td>
+</tr>
+<tr>
+<td><strong>Playable Ads</strong></td>
+<td>试玩广告</td>
+<td>游戏类可互动试玩广告</td>
+<td>游戏推广</td>
+</tr>
+<tr>
+<td><strong>Shoppable Ads</strong></td>
+<td>可购物广告</td>
+<td>直接点击购买的商品广告</td>
+<td>电商</td>
+</tr>
+<tr>
+<td><strong>AR&#x2F;VR Ads</strong></td>
+<td>增强&#x2F;虚拟现实广告</td>
+<td>沉浸式广告体验</td>
+<td>前沿应用</td>
+</tr>
+<tr>
+<td><strong>360 Video Ads</strong></td>
+<td>360 度视频广告</td>
+<td>全景视频广告体验</td>
+<td>沉浸式营销</td>
+</tr>
+<tr>
+<td><strong>Vertical Video</strong></td>
+<td>竖版视频</td>
+<td>适配移动端的竖版视频广告</td>
+<td>短视频平台</td>
+</tr>
+<tr>
+<td><strong>Story Ads</strong></td>
+<td>快拍广告</td>
+<td>24 小时消失的短视频广告</td>
+<td>Instagram&#x2F;Snapchat</td>
+</tr>
+<tr>
+<td><strong>Collection Ads</strong></td>
+<td>合集广告</td>
+<td>展示多个商品的广告形式</td>
+<td>电商</td>
+</tr>
+<tr>
+<td><strong>Carousel Ads</strong></td>
+<td>轮播广告</td>
+<td>可滑动展示多张图的广告</td>
+<td>社交&#x2F;搜索</td>
+</tr>
+<tr>
+<td><strong>Lead Ads</strong></td>
+<td>线索广告</td>
+<td>直接在广告内收集线索</td>
+<td>社交媒体</td>
+</tr>
+<tr>
+<td><strong>Instant Experience</strong></td>
+<td>即时体验</td>
+<td>移动端全屏快速加载页面</td>
+<td>Facebook</td>
+</tr>
+<tr>
+<td><strong>Canvas Ads</strong></td>
+<td>画布广告</td>
+<td>移动端沉浸式广告体验</td>
+<td>Facebook</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="九、关键词与搜索优化-Keyword-Search-Optimization"><a href="#九、关键词与搜索优化-Keyword-Search-Optimization" class="headerlink" title="九、关键词与搜索优化 (Keyword &amp; Search Optimization)"></a>九、关键词与搜索优化 (Keyword &amp; Search Optimization)</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Negative Keywords</strong></td>
+<td>否定关键词</td>
+<td>排除不相关搜索，减少浪费</td>
+<td>搜索广告</td>
+</tr>
+<tr>
+<td><strong>Negative Exact</strong></td>
+<td>否定精确</td>
+<td>精确匹配否定关键词</td>
+<td>搜索广告</td>
+</tr>
+<tr>
+<td><strong>Negative Phrase</strong></td>
+<td>否定词组</td>
+<td>词组匹配否定关键词</td>
+<td>搜索广告</td>
+</tr>
+<tr>
+<td><strong>Long-Tail Keywords</strong></td>
+<td>长尾关键词</td>
+<td>竞争低、转化高的长词</td>
+<td>搜索广告</td>
+</tr>
+<tr>
+<td><strong>Broad Match</strong></td>
+<td>广泛匹配</td>
+<td>匹配相关变体和同义词</td>
+<td>搜索广告</td>
+</tr>
+<tr>
+<td><strong>Broad Match Modifier</strong></td>
+<td>广泛匹配修饰符</td>
+<td>带 + 号的广泛匹配</td>
+<td>Google(已淘汰)</td>
+</tr>
+<tr>
+<td><strong>Phrase Match</strong></td>
+<td>词组匹配</td>
+<td>匹配包含该词组的搜索</td>
+<td>搜索广告</td>
+</tr>
+<tr>
+<td><strong>Exact Match</strong></td>
+<td>精确匹配</td>
+<td>仅匹配完全相同的搜索</td>
+<td>搜索广告</td>
+</tr>
+<tr>
+<td><strong>Close Variant</strong></td>
+<td>近似变体</td>
+<td>允许拼写错误等变体</td>
+<td>精确匹配扩展</td>
+</tr>
+<tr>
+<td><strong>Search Term Report Analysis</strong></td>
+<td>搜索词报告分析</td>
+<td>发现新关键词和否定词机会</td>
+<td>搜索广告优化</td>
+</tr>
+<tr>
+<td><strong>Keyword Expansion</strong></td>
+<td>关键词扩展</td>
+<td>持续发现新的高价值关键词</td>
+<td>持续优化</td>
+</tr>
+<tr>
+<td><strong>Brand Protection Bidding</strong></td>
+<td>品牌保护出价</td>
+<td>竞价品牌词防止竞争对手截流</td>
+<td>品牌保护</td>
+</tr>
+<tr>
+<td><strong>Competitor Keyword Bidding</strong></td>
+<td>竞品词竞价</td>
+<td>竞价竞争对手品牌词</td>
+<td>竞争策略</td>
+</tr>
+<tr>
+<td><strong>Query Intent Matching</strong></td>
+<td>搜索意图匹配</td>
+<td>根据搜索意图分类优化</td>
+<td>搜索广告</td>
+</tr>
+<tr>
+<td><strong>Keyword Clustering</strong></td>
+<td>关键词聚类</td>
+<td>将相似关键词分组管理</td>
+<td>账户结构</td>
+</tr>
+<tr>
+<td><strong>Quality Score Optimization</strong></td>
+<td>质量得分优化</td>
+<td>提升 Google 质量得分降低 CPC</td>
+<td>搜索广告</td>
+</tr>
+<tr>
+<td><strong>Keyword Gap Analysis</strong></td>
+<td>关键词差距分析</td>
+<td>分析竞争对手关键词覆盖</td>
+<td>竞争分析</td>
+</tr>
+<tr>
+<td><strong>Seasonal Keywords</strong></td>
+<td>季节性关键词</td>
+<td>特定季节&#x2F;节日的关键词</td>
+<td>季节性营销</td>
+</tr>
+<tr>
+<td><strong>Local Keywords</strong></td>
+<td>本地关键词</td>
+<td>包含地理位置的关键词</td>
+<td>本地 SEO&#x2F;SEM</td>
+</tr>
+<tr>
+<td><strong>Voice Search Keywords</strong></td>
+<td>语音搜索关键词</td>
+<td>适配语音搜索的长尾词</td>
+<td>语音搜索</td>
+</tr>
+<tr>
+<td><strong>Visual Search Keywords</strong></td>
+<td>视觉搜索关键词</td>
+<td>适配图片搜索的关键词</td>
+<td>视觉搜索</td>
+</tr>
+<tr>
+<td><strong>Zero-Click Keywords</strong></td>
+<td>零点击关键词</td>
+<td>直接在搜索结果页展示答案</td>
+<td>品牌曝光</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十、账户结构与层级优化-Account-Structure-Optimization"><a href="#十、账户结构与层级优化-Account-Structure-Optimization" class="headerlink" title="十、账户结构与层级优化 (Account Structure Optimization)"></a>十、账户结构与层级优化 (Account Structure Optimization)</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>5-Layer Structure</strong></td>
+<td>五层账户体系</td>
+<td>Account→Campaign→Ad Group→Ad→Keyword</td>
+<td>Google Ads</td>
+</tr>
+<tr>
+<td><strong>SKAG (Single Keyword Ad Group)</strong></td>
+<td>单关键词广告组</td>
+<td>每个广告组只含 1 个核心关键词</td>
+<td>精细控制</td>
+</tr>
+<tr>
+<td><strong>STAG (Single Topic Ad Group)</strong></td>
+<td>单主题广告组</td>
+<td>每个广告组围绕 1 个主题</td>
+<td>主题管理</td>
+</tr>
+<tr>
+<td><strong>SLAG (Single Landing Page Ad Group)</strong></td>
+<td>单落地页广告组</td>
+<td>每个广告组对应 1 个落地页</td>
+<td>转化优化</td>
+</tr>
+<tr>
+<td><strong>Campaign Segmentation</strong></td>
+<td>广告系列细分</td>
+<td>按产品&#x2F;地域&#x2F;设备&#x2F;目标拆分</td>
+<td>账户规划</td>
+</tr>
+<tr>
+<td><strong>Ad Group Consolidation</strong></td>
+<td>广告组合并</td>
+<td>减少碎片化，提升机器学习效率</td>
+<td>智能出价</td>
+</tr>
+<tr>
+<td><strong>Account Health Monitoring</strong></td>
+<td>账户健康监控</td>
+<td>定期检查违规、拒审、限流问题</td>
+<td>账户管理</td>
+</tr>
+<tr>
+<td><strong>Policy Compliance Check</strong></td>
+<td>政策合规检查</td>
+<td>确保符合平台广告政策</td>
+<td>风险防控</td>
+</tr>
+<tr>
+<td><strong>Campaign Hierarchy</strong></td>
+<td>广告系列层级</td>
+<td>合理的账户层级结构设计</td>
+<td>账户规划</td>
+</tr>
+<tr>
+<td><strong>Portfolio Structure</strong></td>
+<td>组合结构</td>
+<td>多账户统一管理的结构</td>
+<td>大型企业</td>
+</tr>
+<tr>
+<td><strong>MCC (My Client Center)</strong></td>
+<td>客户管理中心</td>
+<td>Google 多账户管理</td>
+<td>代理商</td>
+</tr>
+<tr>
+<td><strong>Business Manager</strong></td>
+<td>商务管理平台</td>
+<td>Meta 多账户管理</td>
+<td>代理商</td>
+</tr>
+<tr>
+<td><strong>Account Linking</strong></td>
+<td>账户关联</td>
+<td>关联多个广告平台账户</td>
+<td>跨平台管理</td>
+</tr>
+<tr>
+<td><strong>User Permission Management</strong></td>
+<td>用户权限管理</td>
+<td>管理账户访问权限</td>
+<td>团队协作</td>
+</tr>
+<tr>
+<td><strong>Billing Structure</strong></td>
+<td>计费结构</td>
+<td>设置账户计费方式</td>
+<td>财务管理</td>
+</tr>
+<tr>
+<td><strong>Conversion Tracking Setup</strong></td>
+<td>转化追踪设置</td>
+<td>配置转化追踪代码</td>
+<td>效果测量</td>
+</tr>
+<tr>
+<td><strong>Tag Management</strong></td>
+<td>标签管理</td>
+<td>管理网站追踪标签</td>
+<td>数据收集</td>
+</tr>
+<tr>
+<td><strong>URL Parameter Structure</strong></td>
+<td>URL 参数结构</td>
+<td>设置追踪参数规范</td>
+<td>数据分析</td>
+</tr>
+<tr>
+<td><strong>Naming Convention</strong></td>
+<td>命名规范</td>
+<td>统一的账户&#x2F;广告命名规则</td>
+<td>团队管理</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十一、质量得分与相关性-Quality-Score-Relevance"><a href="#十一、质量得分与相关性-Quality-Score-Relevance" class="headerlink" title="十一、质量得分与相关性 (Quality Score &amp; Relevance)"></a>十一、质量得分与相关性 (Quality Score &amp; Relevance)</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Quality Score (QS)</strong></td>
+<td>质量得分</td>
+<td>Google 1-10 分，影响排名和 CPC</td>
+<td>Google 搜索</td>
+</tr>
+<tr>
+<td><strong>Expected CTR</strong></td>
+<td>预估点击率</td>
+<td>QS 三要素之一，基于历史表现预测</td>
+<td>Google Ads</td>
+</tr>
+<tr>
+<td><strong>Ad Relevance</strong></td>
+<td>广告相关性</td>
+<td>QS 三要素之一，关键词与广告匹配度</td>
+<td>Google Ads</td>
+</tr>
+<tr>
+<td><strong>Landing Page Experience</strong></td>
+<td>着陆页体验</td>
+<td>QS 三要素之一，页面加载&#x2F;内容&#x2F;转化</td>
+<td>Google Ads</td>
+</tr>
+<tr>
+<td><strong>Ad Rank</strong></td>
+<td>广告排名</td>
+<td>QS×出价决定最终展示位置</td>
+<td>Google Ads</td>
+</tr>
+<tr>
+<td><strong>Keyword-Ad-Landing Consistency</strong></td>
+<td>关键词 - 广告 - 落地页一致性</td>
+<td>三者主题一致提升 QS</td>
+<td>搜索广告</td>
+</tr>
+<tr>
+<td><strong>Ad Strength</strong></td>
+<td>广告强度</td>
+<td>Google Responsive Search Ads 质量指标</td>
+<td>RSA 广告</td>
+</tr>
+<tr>
+<td><strong>Relevance Score</strong></td>
+<td>相关性得分</td>
+<td>Meta 广告质量指标</td>
+<td>Meta Ads</td>
+</tr>
+<tr>
+<td><strong>Quality Ranking</strong></td>
+<td>质量排名</td>
+<td>广告质量相对于其他广告的排名</td>
+<td>Meta Ads</td>
+</tr>
+<tr>
+<td><strong>Engagement Rate Ranking</strong></td>
+<td>互动率排名</td>
+<td>广告互动率相对于其他广告的排名</td>
+<td>Meta Ads</td>
+</tr>
+<tr>
+<td><strong>Conversion Rate Ranking</strong></td>
+<td>转化率排名</td>
+<td>广告转化率相对于其他广告的排名</td>
+<td>Meta Ads</td>
+</tr>
+<tr>
+<td><strong>Historical Performance</strong></td>
+<td>历史表现</td>
+<td>账户历史表现影响质量得分</td>
+<td>所有平台</td>
+</tr>
+<tr>
+<td><strong>Account Level Quality</strong></td>
+<td>账户级质量</td>
+<td>整体账户质量影响新广告</td>
+<td>所有平台</td>
+</tr>
+<tr>
+<td><strong>Domain Quality</strong></td>
+<td>域名质量</td>
+<td>落地页域名信誉影响质量</td>
+<td>搜索广告</td>
+</tr>
+<tr>
+<td><strong>Page Load Speed</strong></td>
+<td>页面加载速度</td>
+<td>影响着陆页体验得分</td>
+<td>所有平台</td>
+</tr>
+<tr>
+<td><strong>Mobile Optimization</strong></td>
+<td>移动端优化</td>
+<td>移动端体验影响质量得分</td>
+<td>移动广告</td>
+</tr>
+<tr>
+<td><strong>Content Relevance</strong></td>
+<td>内容相关性</td>
+<td>广告内容与用户需求匹配</td>
+<td>所有平台</td>
+</tr>
+<tr>
+<td><strong>User Experience Score</strong></td>
+<td>用户体验得分</td>
+<td>综合评估用户体验</td>
+<td>所有平台</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十二、归因与效果测量-Attribution-Measurement"><a href="#十二、归因与效果测量-Attribution-Measurement" class="headerlink" title="十二、归因与效果测量 (Attribution &amp; Measurement)"></a>十二、归因与效果测量 (Attribution &amp; Measurement)</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Last Click Attribution</strong></td>
+<td>最后点击归因</td>
+<td>转化全部归因于最后一次点击</td>
+<td>电商促销</td>
+</tr>
+<tr>
+<td><strong>First Click Attribution</strong></td>
+<td>首次点击归因</td>
+<td>转化全部归因于首次点击</td>
+<td>拉新分析</td>
+</tr>
+<tr>
+<td><strong>Linear Attribution</strong></td>
+<td>线性归因</td>
+<td>所有触点平均分配贡献</td>
+<td>全渠道分析</td>
+</tr>
+<tr>
+<td><strong>Time Decay Attribution</strong></td>
+<td>时间衰减归因</td>
+<td>越接近转化的触点权重越高</td>
+<td>短周期转化</td>
+</tr>
+<tr>
+<td><strong>Position Based Attribution</strong></td>
+<td>位置归因</td>
+<td>首尾触点权重高 (各 40%)，中间低 (20%)</td>
+<td>全漏斗分析</td>
+</tr>
+<tr>
+<td><strong>U-Shaped Attribution</strong></td>
+<td>U 型归因</td>
+<td>同位置归因</td>
+<td>全漏斗分析</td>
+</tr>
+<tr>
+<td><strong>W-Shaped Attribution</strong></td>
+<td>W 型归因</td>
+<td>首尾 + 商机创建点权重高</td>
+<td>B2B 销售</td>
+</tr>
+<tr>
+<td><strong>Full Path Attribution</strong></td>
+<td>全路径归因</td>
+<td>考虑完整用户路径</td>
+<td>复杂旅程</td>
+</tr>
+<tr>
+<td><strong>Data-Driven Attribution</strong></td>
+<td>数据驱动归因</td>
+<td>基于算法自动分配归因权重</td>
+<td>Google Ads</td>
+</tr>
+<tr>
+<td><strong>Multi-Touch Attribution</strong></td>
+<td>多触点归因</td>
+<td>分配各触点的转化贡献权重</td>
+<td>全渠道营销</td>
+</tr>
+<tr>
+<td><strong>Markov Chain Attribution</strong></td>
+<td>马尔可夫链归因</td>
+<td>基于概率转移模型归因</td>
+<td>高级分析</td>
+</tr>
+<tr>
+<td><strong>Shapley Value Attribution</strong></td>
+<td>沙普利值归因</td>
+<td>基于博弈论的公平归因</td>
+<td>学术研究</td>
+</tr>
+<tr>
+<td><strong>Algorithmic Attribution</strong></td>
+<td>算法归因</td>
+<td>机器学习驱动的归因模型</td>
+<td>大型企业</td>
+</tr>
+<tr>
+<td><strong>Media Mix Modeling (MMM)</strong></td>
+<td>媒体组合模型</td>
+<td>基于统计建模的归因方法</td>
+<td>宏观分析</td>
+</tr>
+<tr>
+<td><strong>Lift Testing</strong></td>
+<td>增量测试</td>
+<td>测量广告带来的真实增量效果</td>
+<td>效果验证</td>
+</tr>
+<tr>
+<td><strong>Brand Lift Study</strong></td>
+<td>品牌提升研究</td>
+<td>衡量品牌认知&#x2F;好感度提升</td>
+<td>品牌广告</td>
+</tr>
+<tr>
+<td><strong>Conversion Lift Study</strong></td>
+<td>转化提升研究</td>
+<td>衡量广告对转化的真实贡献</td>
+<td>效果广告</td>
+</tr>
+<tr>
+<td><strong>Search Lift Study</strong></td>
+<td>搜索提升研究</td>
+<td>衡量广告对品牌搜索的影响</td>
+<td>品牌 + 效果</td>
+</tr>
+<tr>
+<td><strong>Geo Lift Test</strong></td>
+<td>地理增量测试</td>
+<td>通过地理区域对比测试增量</td>
+<td>大范围测试</td>
+</tr>
+<tr>
+<td><strong>Ghost Ads</strong></td>
+<td>幽灵广告</td>
+<td>控制组不展示广告用于增量测试</td>
+<td>增量测量</td>
+</tr>
+<tr>
+<td><strong>Holdout Group</strong></td>
+<td>对照组</td>
+<td>不接收广告的对比组</td>
+<td>增量测试</td>
+</tr>
+<tr>
+<td><strong>Conversion Window</strong></td>
+<td>转化窗口</td>
+<td>定义点击&#x2F;展示后归因的时间范围</td>
+<td>归因设置</td>
+</tr>
+<tr>
+<td><strong>Click-Through Window</strong></td>
+<td>点击转化窗口</td>
+<td>点击后归因的时间范围</td>
+<td>归因设置</td>
+</tr>
+<tr>
+<td><strong>View-Through Window</strong></td>
+<td>浏览转化窗口</td>
+<td>展示后归因的时间范围</td>
+<td>归因设置</td>
+</tr>
+<tr>
+<td><strong>Cross-Device Attribution</strong></td>
+<td>跨设备归因</td>
+<td>追踪用户多设备转化路径</td>
+<td>多设备用户</td>
+</tr>
+<tr>
+<td><strong>Offline Conversion Tracking</strong></td>
+<td>线下转化追踪</td>
+<td>将线下行为关联到线上广告</td>
+<td>O2O 业务</td>
+</tr>
+<tr>
+<td><strong>Server-Side Tracking</strong></td>
+<td>服务器端追踪</td>
+<td>绕过浏览器限制的追踪方式</td>
+<td>隐私时代</td>
+</tr>
+<tr>
+<td><strong>Privacy Sandbox Compliance</strong></td>
+<td>隐私沙盒合规</td>
+<td>适配 Google 隐私沙盒技术</td>
+<td>Chrome 生态</td>
+</tr>
+<tr>
+<td><strong>SKAN (StoreKit Ad Network)</strong></td>
+<td>苹果广告归因</td>
+<td>iOS 隐私框架下的归因方案</td>
+<td>iOS 应用</td>
+</tr>
+<tr>
+<td><strong>SKAN 4.0</strong></td>
+<td>苹果归因 4.0</td>
+<td>SKAN 升级版本，支持多转化值</td>
+<td>iOS 应用</td>
+</tr>
+<tr>
+<td><strong>MMP (Mobile Measurement Partner)</strong></td>
+<td>移动测量合作伙伴</td>
+<td>AppsFlyer&#x2F;Adjust 等归因平台</td>
+<td>应用推广</td>
+</tr>
+<tr>
+<td><strong>Viewability Measurement</strong></td>
+<td>可见度测量</td>
+<td>测量广告实际可见比例</td>
+<td>展示广告</td>
+</tr>
+<tr>
+<td><strong>MRC Standard</strong></td>
+<td>MRC 标准</td>
+<td>媒体评级委员会可见度标准 (50% 像素 1 秒)</td>
+<td>行业标准</td>
+</tr>
+<tr>
+<td><strong>Invalid Traffic (IVT)</strong></td>
+<td>无效流量</td>
+<td>识别并过滤虚假流量</td>
+<td>反作弊</td>
+</tr>
+<tr>
+<td><strong>General IVT</strong></td>
+<td>一般无效流量</td>
+<td>已知的机器人&#x2F;欺诈流量</td>
+<td>反作弊</td>
+</tr>
+<tr>
+<td><strong>Sophisticated IVT</strong></td>
+<td>复杂无效流量</td>
+<td>难以识别的高级欺诈流量</td>
+<td>反作弊</td>
+</tr>
+<tr>
+<td><strong>Ad Verification</strong></td>
+<td>广告验证</td>
+<td>第三方验证广告展示真实性</td>
+<td>品牌安全</td>
+</tr>
+<tr>
+<td><strong>Brand Safety</strong></td>
+<td>品牌安全</td>
+<td>避免广告出现在不当内容旁</td>
+<td>品牌保护</td>
+</tr>
+<tr>
+<td><strong>Suitability</strong></td>
+<td>内容适宜性</td>
+<td>比品牌安全更细粒度的内容控制</td>
+<td>精细控制</td>
+</tr>
+<tr>
+<td><strong>Attention Measurement</strong></td>
+<td>注意力测量</td>
+<td>测量用户实际注意力投入</td>
+<td>效果评估</td>
+</tr>
+<tr>
+<td><strong>Dwell Time</strong></td>
+<td>停留时间</td>
+<td>用户观看广告的时长</td>
+<td>视频广告</td>
+</tr>
+<tr>
+<td><strong>Active View</strong></td>
+<td>主动浏览</td>
+<td>Google 的可见度测量指标</td>
+<td>展示广告</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十三、投放环境与库存优化-Inventory-Supply-Optimization"><a href="#十三、投放环境与库存优化-Inventory-Supply-Optimization" class="headerlink" title="十三、投放环境与库存优化 (Inventory &amp; Supply Optimization)"></a>十三、投放环境与库存优化 (Inventory &amp; Supply Optimization)</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>DSP (Demand-Side Platform)</strong></td>
+<td>需求方平台</td>
+<td>广告主自动化购买广告库存的系统</td>
+<td>程序化广告</td>
+</tr>
+<tr>
+<td><strong>SSP (Supply-Side Platform)</strong></td>
+<td>供应方平台</td>
+<td>媒体方管理、优化和出售广告库存的系统</td>
+<td>媒体变现</td>
+</tr>
+<tr>
+<td><strong>ADX&#x2F;Ad Exchange</strong></td>
+<td>广告交易平台</td>
+<td>连接 SSP 与 DSP 的实时竞价平台</td>
+<td>程序化交易</td>
+</tr>
+<tr>
+<td><strong>Ad Network</strong></td>
+<td>广告网络</td>
+<td>将多个媒体方的库存打包销售</td>
+<td>流量聚合</td>
+</tr>
+<tr>
+<td><strong>Ad Server</strong></td>
+<td>广告服务器</td>
+<td>存储、分发和统计广告创意</td>
+<td>广告投放</td>
+</tr>
+<tr>
+<td><strong>DMP (Data Management Platform)</strong></td>
+<td>数据管理平台</td>
+<td>整合和管理用户数据的平台</td>
+<td>受众定向</td>
+</tr>
+<tr>
+<td><strong>CDP (Customer Data Platform)</strong></td>
+<td>客户数据平台</td>
+<td>整合第一方客户数据的平台</td>
+<td>第一方数据</td>
+</tr>
+<tr>
+<td><strong>CRM (Customer Relationship Management)</strong></td>
+<td>客户关系管理</td>
+<td>管理客户关系的系统</td>
+<td>客户管理</td>
+</tr>
+<tr>
+<td><strong>Supply Path Optimization (SPO)</strong></td>
+<td>供应路径优化</td>
+<td>减少中间环节，提高预算效率</td>
+<td>程序化购买</td>
+</tr>
+<tr>
+<td><strong>Programmatic Guaranteed</strong></td>
+<td>程序化担保</td>
+<td>提前锁定优质广告库存</td>
+<td>品牌广告</td>
+</tr>
+<tr>
+<td><strong>Private Marketplace (PMP)</strong></td>
+<td>私有交易市场</td>
+<td>邀请制的优质流量交易</td>
+<td>优质流量</td>
+</tr>
+<tr>
+<td><strong>Preferred Deals</strong></td>
+<td>优先交易</td>
+<td>PMP 的固定价格版本</td>
+<td>优先购买</td>
+</tr>
+<tr>
+<td><strong>Open Auction</strong></td>
+<td>公开拍卖</td>
+<td>开放的实时竞价市场</td>
+<td>程序化广告</td>
+</tr>
+<tr>
+<td><strong>Placement Exclusion</strong></td>
+<td>版位排除</td>
+<td>排除低质量&#x2F;不相关展示位置</td>
+<td>品牌安全</td>
+</tr>
+<tr>
+<td><strong>Inventory Quality Score</strong></td>
+<td>库存质量评分</td>
+<td>评估流量来源的可信度</td>
+<td>流量筛选</td>
+</tr>
+<tr>
+<td><strong>Brand Safety Controls</strong></td>
+<td>品牌安全控制</td>
+<td>避免广告出现在不当内容旁</td>
+<td>品牌保护</td>
+</tr>
+<tr>
+<td><strong>Suitability Controls</strong></td>
+<td>内容适宜性控制</td>
+<td>比品牌安全更细粒度的内容控制</td>
+<td>精细控制</td>
+</tr>
+<tr>
+<td><strong>Viewability Optimization</strong></td>
+<td>可见度优化</td>
+<td>确保广告在可视区域内展示</td>
+<td>展示效果</td>
+</tr>
+<tr>
+<td><strong>Fraud Prevention</strong></td>
+<td>反作弊</td>
+<td>识别并过滤虚假流量</td>
+<td>预算保护</td>
+</tr>
+<tr>
+<td><strong>Ads.txt</strong></td>
+<td>授权卖家文本</td>
+<td>防止域名欺骗的认证文件</td>
+<td>程序化广告</td>
+</tr>
+<tr>
+<td><strong>App-ads.txt</strong></td>
+<td>应用授权卖家文本</td>
+<td>移动应用的 ads.txt 版本</td>
+<td>移动广告</td>
+</tr>
+<tr>
+<td><strong>Sellers.json</strong></td>
+<td>卖家信息文件</td>
+<td>透明化广告供应链</td>
+<td>程序化透明</td>
+</tr>
+<tr>
+<td><strong>OMID (Open Measurement SDK)</strong></td>
+<td>开放测量 SDK</td>
+<td>跨平台广告可见度测量标准</td>
+<td>测量标准</td>
+</tr>
+<tr>
+<td><strong>Pre-bid</strong></td>
+<td>竞前过滤</td>
+<td>竞价前过滤低质流量</td>
+<td>程序化购买</td>
+</tr>
+<tr>
+<td><strong>Post-bid</strong></td>
+<td>竞后过滤</td>
+<td>竞价后过滤低质流量</td>
+<td>程序化购买</td>
+</tr>
+<tr>
+<td><strong>Blocklist</strong></td>
+<td>黑名单</td>
+<td>排除的网站&#x2F;应用列表</td>
+<td>品牌安全</td>
+</tr>
+<tr>
+<td><strong>Whitelist</strong></td>
+<td>白名单</td>
+<td>允许的网站&#x2F;应用列表</td>
+<td>优质流量</td>
+</tr>
+<tr>
+<td><strong>Graylist</strong></td>
+<td>灰名单</td>
+<td>需要审查的网站&#x2F;应用列表</td>
+<td>风险控制</td>
+</tr>
+<tr>
+<td><strong>Category Exclusion</strong></td>
+<td>类别排除</td>
+<td>排除特定内容类别</td>
+<td>品牌安全</td>
+</tr>
+<tr>
+<td><strong>Keyword Blocking</strong></td>
+<td>关键词屏蔽</td>
+<td>屏蔽包含特定关键词的页面</td>
+<td>品牌安全</td>
+</tr>
+<tr>
+<td><strong>Sentiment Analysis</strong></td>
+<td>情感分析</td>
+<td>分析页面内容情感倾向</td>
+<td>品牌安全</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十四、竞争与市场策略-Competitive-Market-Strategy"><a href="#十四、竞争与市场策略-Competitive-Market-Strategy" class="headerlink" title="十四、竞争与市场策略 (Competitive &amp; Market Strategy)"></a>十四、竞争与市场策略 (Competitive &amp; Market Strategy)</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Share of Voice (SOV)</strong></td>
+<td>声音份额</td>
+<td>你的广告展示占市场总展示的比例</td>
+<td>品牌监测</td>
+</tr>
+<tr>
+<td><strong>Share of Search</strong></td>
+<td>搜索份额</td>
+<td>品牌搜索量占品类总搜索量的比例</td>
+<td>品牌健康</td>
+</tr>
+<tr>
+<td><strong>Share of Wallet</strong></td>
+<td>钱包份额</td>
+<td>品牌支出占用户总支出的比例</td>
+<td>客户价值</td>
+</tr>
+<tr>
+<td><strong>Competitor Bid Monitoring</strong></td>
+<td>竞品出价监控</td>
+<td>追踪竞争对手出价策略</td>
+<td>竞争情报</td>
+</tr>
+<tr>
+<td><strong>Auction Insights</strong></td>
+<td>竞价洞察</td>
+<td>Google 提供的竞争对手对比数据</td>
+<td>Google Ads</td>
+</tr>
+<tr>
+<td><strong>Market Penetration Bidding</strong></td>
+<td>市场渗透出价</td>
+<td>激进出价抢占市场份额</td>
+<td>扩张期</td>
+</tr>
+<tr>
+<td><strong>Defensive Bidding</strong></td>
+<td>防御性出价</td>
+<td>保护现有市场份额</td>
+<td>成熟期</td>
+</tr>
+<tr>
+<td><strong>Category Mindset Monopoly</strong></td>
+<td>品类心智垄断</td>
+<td>通过高频曝光占据用户心智</td>
+<td>品牌领导</td>
+</tr>
+<tr>
+<td><strong>Competitor Targeting</strong></td>
+<td>竞品定向</td>
+<td>定向竞争对手的受众</td>
+<td>竞争策略</td>
+</tr>
+<tr>
+<td><strong>Conquesting Campaign</strong></td>
+<td>争夺 campaign</td>
+<td>主动争夺竞争对手客户</td>
+<td>激进策略</td>
+</tr>
+<tr>
+<td><strong>Price Matching</strong></td>
+<td>价格匹配</td>
+<td>匹配竞争对手价格</td>
+<td>电商竞争</td>
+</tr>
+<tr>
+<td><strong>Bid to Beat</strong></td>
+<td>超越出价</td>
+<td>设置出价以超越特定竞争对手</td>
+<td>竞争策略</td>
+</tr>
+<tr>
+<td><strong>Market Share Goal</strong></td>
+<td>市场份额目标</td>
+<td>以市场份额为优化目标</td>
+<td>扩张策略</td>
+</tr>
+<tr>
+<td><strong>Competitive Intelligence</strong></td>
+<td>竞争情报</td>
+<td>收集分析竞争对手信息</td>
+<td>战略规划</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十五、平台特定策略-Platform-Specific-Strategies"><a href="#十五、平台特定策略-Platform-Specific-Strategies" class="headerlink" title="十五、平台特定策略 (Platform-Specific Strategies)"></a>十五、平台特定策略 (Platform-Specific Strategies)</h2><table>
+<thead>
+<tr>
+<th>平台</th>
+<th>特有策略&#x2F;功能</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Google Ads</strong></td>
+<td>Quality Score、RSA、PMax、DSA、Performance Max</td>
+<td>搜索 + 展示 + 视频 + 购物全渠道</td>
+</tr>
+<tr>
+<td><strong>Meta Ads</strong></td>
+<td>Advantage+、CBO、动态创意、像素、Conversions API</td>
+<td>社交+ins+audience network</td>
+</tr>
+<tr>
+<td><strong>Amazon Ads</strong></td>
+<td>SP&#x2F;SB&#x2F;SD 广告、ACOS 优化、品牌旗舰店、DSP</td>
+<td>电商站内广告</td>
+</tr>
+<tr>
+<td><strong>TikTok Ads</strong></td>
+<td>Spark Ads、TopView、品牌挑战赛、Pangle、Pangle MAX</td>
+<td>短视频原生广告</td>
+</tr>
+<tr>
+<td><strong>微信广告</strong></td>
+<td>朋友圈第五条、小程序广告、企业微信引流、视频号广告</td>
+<td>社交生态内广告</td>
+</tr>
+<tr>
+<td><strong>抖音&#x2F;巨量引擎</strong></td>
+<td>oCPM、DOU+、星图、千川、深度转化出价</td>
+<td>短视频 + 直播电商</td>
+</tr>
+<tr>
+<td><strong>LinkedIn Ads</strong></td>
+<td>职业定向、Lead Gen Forms、Matched Audiences、ABM</td>
+<td>B2B 专业网络广告</td>
+</tr>
+<tr>
+<td><strong>Pinterest Ads</strong></td>
+<td>购物广告、灵感定向、Actalike、Collection Ads</td>
+<td>视觉发现平台广告</td>
+</tr>
+<tr>
+<td><strong>Snapchat Ads</strong></td>
+<td>AR 滤镜广告、Story 广告、Dynamic Ads</td>
+<td>年轻用户社交广告</td>
+</tr>
+<tr>
+<td><strong>Twitter&#x2F;X Ads</strong></td>
+<td>推文推广、趋势话题、Fleet 广告、Conversation Ads</td>
+<td>实时社交广告</td>
+</tr>
+<tr>
+<td><strong>Reddit Ads</strong></td>
+<td>社区定向、兴趣定向、Promoted Posts</td>
+<td>社区讨论平台广告</td>
+</tr>
+<tr>
+<td><strong>Quora Ads</strong></td>
+<td>问题定向、话题定向、Promoted Answers</td>
+<td>问答平台广告</td>
+</tr>
+<tr>
+<td><strong>Bing Ads</strong></td>
+<td>类似 Google 但竞争较低、LinkedIn 定向整合</td>
+<td>微软搜索广告</td>
+</tr>
+<tr>
+<td><strong>Apple Search Ads</strong></td>
+<td>ASA、搜索标签广告、Product Pages</td>
+<td>iOS 应用搜索广告</td>
+</tr>
+<tr>
+<td><strong>快手广告</strong></td>
+<td>磁力引擎、粉条、小店通、生成式强化学习出价</td>
+<td>短视频老铁经济</td>
+</tr>
+<tr>
+<td><strong>B 站广告</strong></td>
+<td>花火平台、信息流、UP 主合作、起飞</td>
+<td>Z 世代视频社区</td>
+</tr>
+<tr>
+<td><strong>小红书广告</strong></td>
+<td>信息流、搜索广告、品牌号、种草指数、聚光平台</td>
+<td>生活方式社区</td>
+</tr>
+<tr>
+<td><strong>YouTube Ads</strong></td>
+<td>TrueView、Bumper、Masthead、Shorts 广告</td>
+<td>视频平台广告</td>
+</tr>
+<tr>
+<td><strong>Connected TV</strong></td>
+<td>程序化 CTV、地址able TV、跨屏归因</td>
+<td>联网电视广告</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十六、电商与应用特有策略-E-commerce-App-Specific"><a href="#十六、电商与应用特有策略-E-commerce-App-Specific" class="headerlink" title="十六、电商与应用特有策略 (E-commerce &amp; App Specific)"></a>十六、电商与应用特有策略 (E-commerce &amp; App Specific)</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>ACOS (Advertising Cost of Sales)</strong></td>
+<td>广告销售成本比</td>
+<td>亚马逊广告核心指标 (广告花费&#x2F;广告销售额)</td>
+<td>Amazon Ads</td>
+</tr>
+<tr>
+<td><strong>TACOS (Total ACOS)</strong></td>
+<td>总广告销售成本比</td>
+<td>广告花费占总销售额比例</td>
+<td>Amazon Ads</td>
+</tr>
+<tr>
+<td><strong>ROAS (Return on Ad Spend)</strong></td>
+<td>广告支出回报率</td>
+<td>广告收入&#x2F;广告花费</td>
+<td>通用电商</td>
+</tr>
+<tr>
+<td><strong>MER (Marketing Efficiency Ratio)</strong></td>
+<td>营销效率比</td>
+<td>总收入&#x2F;总营销花费</td>
+<td>整体营销</td>
+</tr>
+<tr>
+<td><strong>Product Rating Impact</strong></td>
+<td>商品评分影响</td>
+<td>评分影响广告排序和转化</td>
+<td>电商广告</td>
+</tr>
+<tr>
+<td><strong>Return Rate Optimization</strong></td>
+<td>退货率优化</td>
+<td>降低退货提升广告效益</td>
+<td>电商运营</td>
+</tr>
+<tr>
+<td><strong>Cart Abandonment Remarketing</strong></td>
+<td>购物车放弃再营销</td>
+<td>针对加购未购买用户</td>
+<td>电商挽回</td>
+</tr>
+<tr>
+<td><strong>Product Feed Optimization</strong></td>
+<td>商品 feed 优化</td>
+<td>优化商品信息提升购物广告效果</td>
+<td>购物广告</td>
+</tr>
+<tr>
+<td><strong>App Store Optimization (ASO)</strong></td>
+<td>应用商店优化</td>
+<td>与应用广告协同优化</td>
+<td>应用推广</td>
+</tr>
+<tr>
+<td><strong>SKAN (StoreKit Ad Network)</strong></td>
+<td>苹果广告归因</td>
+<td>iOS 隐私框架下的归因方案</td>
+<td>iOS 应用</td>
+</tr>
+<tr>
+<td><strong>ATT (App Tracking Transparency)</strong></td>
+<td>应用追踪透明度</td>
+<td>iOS 用户授权追踪框架</td>
+<td>iOS 隐私</td>
+</tr>
+<tr>
+<td><strong>Deep Linking</strong></td>
+<td>深度链接</td>
+<td>直接跳转到 APP 内特定页面</td>
+<td>应用推广</td>
+</tr>
+<tr>
+<td><strong>Deferred Deep Linking</strong></td>
+<td>延迟深度链接</td>
+<td>安装后跳转到特定页面</td>
+<td>应用推广</td>
+</tr>
+<tr>
+<td><strong>Install Referrer</strong></td>
+<td>安装来源追踪</td>
+<td>Android 应用安装来源追踪</td>
+<td>Android 应用</td>
+</tr>
+<tr>
+<td><strong>App Event Optimization</strong></td>
+<td>应用事件优化</td>
+<td>优化特定应用内事件</td>
+<td>应用广告</td>
+</tr>
+<tr>
+<td><strong>Re-engagement Campaign</strong></td>
+<td>再互动活动</td>
+<td>唤醒沉睡用户</td>
+<td>应用留存</td>
+</tr>
+<tr>
+<td><strong>App Install Campaign</strong></td>
+<td>应用安装活动</td>
+<td>获取新用户安装</td>
+<td>应用拉新</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十七、冷启动与学习期管理-Cold-Start-Learning-Phase"><a href="#十七、冷启动与学习期管理-Cold-Start-Learning-Phase" class="headerlink" title="十七、冷启动与学习期管理 (Cold Start &amp; Learning Phase)"></a>十七、冷启动与学习期管理 (Cold Start &amp; Learning Phase)</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Cold Start Problem</strong></td>
+<td>冷启动问题</td>
+<td>新计划无历史数据，模型无法预估</td>
+<td>新广告&#x2F;新账户</td>
+</tr>
+<tr>
+<td><strong>Learning Phase</strong></td>
+<td>学习期</td>
+<td>新计划需要积累一定转化才能稳定</td>
+<td>Meta&#x2F;Google 等</td>
+</tr>
+<tr>
+<td><strong>Learning Phase Exit</strong></td>
+<td>学习期退出</td>
+<td>积累足够数据后进入稳定期</td>
+<td>通常 50+ 转化</td>
+</tr>
+<tr>
+<td><strong>Learning Limited</strong></td>
+<td>学习受限</td>
+<td>转化量不足导致无法退出学习期</td>
+<td>优化警示</td>
+</tr>
+<tr>
+<td><strong>Learning Reset</strong></td>
+<td>学习重置</td>
+<td>大幅修改导致重新进入学习期</td>
+<td>优化注意</td>
+</tr>
+<tr>
+<td><strong>Warm Start Strategy</strong></td>
+<td>热启动策略</td>
+<td>借用老计划数据加速新计划学习</td>
+<td>扩量场景</td>
+</tr>
+<tr>
+<td><strong>Transfer Learning</strong></td>
+<td>迁移学习</td>
+<td>将已有模型知识迁移到新场景</td>
+<td>AI 进阶应用</td>
+</tr>
+<tr>
+<td><strong>Exploration vs Exploitation</strong></td>
+<td>探索与利用权衡</td>
+<td>在测试新方向 vs 优化已知有效之间平衡</td>
+<td>所有智能系统</td>
+</tr>
+<tr>
+<td><strong>Multi-Armed Bandit</strong></td>
+<td>多臂老虎机</td>
+<td>平衡探索与利用的算法策略</td>
+<td>智能优化</td>
+</tr>
+<tr>
+<td><strong>Thompson Sampling</strong></td>
+<td>汤普森采样</td>
+<td>基于贝叶斯的多臂老虎机算法</td>
+<td>智能优化</td>
+</tr>
+<tr>
+<td><strong>Upper Confidence Bound</strong></td>
+<td>置信上限</td>
+<td>另一种多臂老虎机算法</td>
+<td>智能优化</td>
+</tr>
+<tr>
+<td><strong>A&#x2F;B&#x2F;n Testing</strong></td>
+<td>A&#x2F;B&#x2F;n 测试</td>
+<td>同时测试多个变体</td>
+<td>创意&#x2F;落地页</td>
+</tr>
+<tr>
+<td><strong>Multivariate Testing</strong></td>
+<td>多变量测试</td>
+<td>同时测试多个变量的组合</td>
+<td>高级测试</td>
+</tr>
+<tr>
+<td><strong>Sequential Testing</strong></td>
+<td>序贯测试</td>
+<td>按顺序进行测试</td>
+<td>资源有限</td>
+</tr>
+<tr>
+<td><strong>Bayesian Testing</strong></td>
+<td>贝叶斯测试</td>
+<td>基于贝叶斯统计的测试方法</td>
+<td>高级分析</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十八、时间与空间优化-Time-Space-Optimization"><a href="#十八、时间与空间优化-Time-Space-Optimization" class="headerlink" title="十八、时间与空间优化 (Time &amp; Space Optimization)"></a>十八、时间与空间优化 (Time &amp; Space Optimization)</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Dayparting</strong></td>
+<td>时段优化</td>
+<td>特定时间段投放&#x2F;调整出价</td>
+<td>所有平台</td>
+</tr>
+<tr>
+<td><strong>Ad Scheduling</strong></td>
+<td>广告投放时间表</td>
+<td>设置广告展示的具体时间</td>
+<td>Google Ads</td>
+</tr>
+<tr>
+<td><strong>Time Zone Optimization</strong></td>
+<td>时区优化</td>
+<td>根据目标时区优化投放时间</td>
+<td>跨国投放</td>
+</tr>
+<tr>
+<td><strong>Seasonal Timing</strong></td>
+<td>季节性时机</td>
+<td>根据季节调整投放策略</td>
+<td>季节性产品</td>
+</tr>
+<tr>
+<td><strong>Real-Time Optimization</strong></td>
+<td>实时优化</td>
+<td>基于实时数据调整策略</td>
+<td>程序化广告</td>
+</tr>
+<tr>
+<td><strong>Geo-Targeting</strong></td>
+<td>地理定向</td>
+<td>基于地理位置精准投放</td>
+<td>本地&#x2F;全国</td>
+</tr>
+<tr>
+<td><strong>Geo-Fencing</strong></td>
+<td>地理围栏</td>
+<td>特定地理区域触发广告投放</td>
+<td>线下引流</td>
+</tr>
+<tr>
+<td><strong>Geo-Conquesting</strong></td>
+<td>地理争夺</td>
+<td>在竞争对手位置附近投放</td>
+<td>竞争策略</td>
+</tr>
+<tr>
+<td><strong>Radius Targeting</strong></td>
+<td>半径定向</td>
+<td>以某点为中心设定半径范围</td>
+<td>本地商家</td>
+</tr>
+<tr>
+<td><strong>Location Groups</strong></td>
+<td>位置组</td>
+<td>批量管理多个地理位置</td>
+<td>连锁店</td>
+</tr>
+<tr>
+<td><strong>Device Targeting</strong></td>
+<td>设备定向</td>
+<td>针对手机&#x2F;平板&#x2F;电脑定向</td>
+<td>多设备</td>
+</tr>
+<tr>
+<td><strong>OS&#x2F;Browser Targeting</strong></td>
+<td>系统&#x2F;浏览器定向</td>
+<td>针对特定操作系统或浏览器</td>
+<td>技术定向</td>
+</tr>
+<tr>
+<td><strong>Connection Type Targeting</strong></td>
+<td>网络类型定向</td>
+<td>WiFi&#x2F;4G&#x2F;5G 等不同网络环境</td>
+<td>移动端</td>
+</tr>
+<tr>
+<td><strong>Carrier Targeting</strong></td>
+<td>运营商定向</td>
+<td>针对特定移动运营商</td>
+<td>移动广告</td>
+</tr>
+<tr>
+<td><strong>IP Targeting</strong></td>
+<td>IP 定向</td>
+<td>针对特定 IP 地址定向</td>
+<td>B2B&#x2F;企业</td>
+</tr>
+<tr>
+<td><strong>ZIP Code Targeting</strong></td>
+<td>邮编定向</td>
+<td>针对特定邮编区域定向</td>
+<td>本地营销</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十九、2025-2026-新兴趋势-Emerging-Trends-2025-2026"><a href="#十九、2025-2026-新兴趋势-Emerging-Trends-2025-2026" class="headerlink" title="十九、2025-2026 新兴趋势 (Emerging Trends 2025-2026)"></a>十九、2025-2026 新兴趋势 (Emerging Trends 2025-2026)</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Generative Reinforcement Learning Bidding</strong></td>
+<td>生成式强化学习出价</td>
+<td>结合生成模型和强化学习的出价技术</td>
+<td>快手等前沿平台</td>
+</tr>
+<tr>
+<td><strong>AI Agent Bidding</strong></td>
+<td>AI 代理出价</td>
+<td>自主 AI 代理执行复杂出价决策</td>
+<td>前沿应用</td>
+</tr>
+<tr>
+<td><strong>Generative AI Creative</strong></td>
+<td>生成式 AI 创意</td>
+<td>AI 生成文案&#x2F;图片&#x2F;视频素材</td>
+<td>创意生产</td>
+</tr>
+<tr>
+<td><strong>Privacy-Preserving Tech</strong></td>
+<td>隐私保护技术</td>
+<td>联邦学习、差分隐私等合规技术</td>
+<td>隐私合规</td>
+</tr>
+<tr>
+<td><strong>Federated Learning</strong></td>
+<td>联邦学习</td>
+<td>数据不出本地的分布式学习</td>
+<td>隐私技术</td>
+</tr>
+<tr>
+<td><strong>Differential Privacy</strong></td>
+<td>差分隐私</td>
+<td>添加噪声保护个体隐私</td>
+<td>隐私技术</td>
+</tr>
+<tr>
+<td><strong>First-Party Data Strategy</strong></td>
+<td>第一方数据策略</td>
+<td>构建自有数据资产减少依赖第三方</td>
+<td>数据战略</td>
+</tr>
+<tr>
+<td><strong>Cross-Channel Orchestration</strong></td>
+<td>跨渠道协同</td>
+<td>多渠道预算和策略统一优化</td>
+<td>全渠道营销</td>
+</tr>
+<tr>
+<td><strong>Real-Time Creative Optimization</strong></td>
+<td>实时创意优化</td>
+<td>根据实时反馈动态调整创意</td>
+<td>动态创意</td>
+</tr>
+<tr>
+<td><strong>Cookieless Targeting</strong></td>
+<td>无 Cookie 定向</td>
+<td>适应后 Cookie 时代的定向方案</td>
+<td>隐私时代</td>
+</tr>
+<tr>
+<td><strong>Connected TV (CTV) Optimization</strong></td>
+<td>联网电视广告优化</td>
+<td>OTT&#x2F;CTV 平台广告策略</td>
+<td>电视广告</td>
+</tr>
+<tr>
+<td><strong>Retail Media Network</strong></td>
+<td>零售媒体网络</td>
+<td>电商平台站内广告网络</td>
+<td>电商广告</td>
+</tr>
+<tr>
+<td><strong>Influencer Ads Integration</strong></td>
+<td>网红广告整合</td>
+<td>网红内容与付费广告协同</td>
+<td>社交营销</td>
+</tr>
+<tr>
+<td><strong>Shoppable Video</strong></td>
+<td>可购物视频</td>
+<td>视频中直接购买</td>
+<td>视频电商</td>
+</tr>
+<tr>
+<td><strong>Live Commerce Ads</strong></td>
+<td>直播电商广告</td>
+<td>直播间引流和转化</td>
+<td>直播电商</td>
+</tr>
+<tr>
+<td><strong>Voice Search Ads</strong></td>
+<td>语音搜索广告</td>
+<td>针对语音搜索的广告</td>
+<td>智能音箱</td>
+</tr>
+<tr>
+<td><strong>Metaverse Ads</strong></td>
+<td>元宇宙广告</td>
+<td>虚拟世界中的广告形式</td>
+<td>前沿探索</td>
+</tr>
+<tr>
+<td><strong>Blockchain Ad Verification</strong></td>
+<td>区块链广告验证</td>
+<td>用区块链验证广告展示真实性</td>
+<td>反作弊</td>
+</tr>
+<tr>
+<td><strong>Neural Network Bidding</strong></td>
+<td>神经网络出价</td>
+<td>基于深度学习的出价模型</td>
+<td>AI 优化</td>
+</tr>
+<tr>
+<td><strong>Transformer-Based Bidding</strong></td>
+<td>Transformer 出价</td>
+<td>基于 Transformer 架构的出价模型</td>
+<td>前沿 AI</td>
+</tr>
+<tr>
+<td><strong>Multi-Modal AI</strong></td>
+<td>多模态 AI</td>
+<td>结合文本&#x2F;图像&#x2F;视频的 AI 优化</td>
+<td>创意优化</td>
+</tr>
+<tr>
+<td><strong>Conversational AI Ads</strong></td>
+<td>对话式 AI 广告</td>
+<td>基于对话交互的广告形式</td>
+<td>新兴形式</td>
+</tr>
+<tr>
+<td><strong>Predictive Analytics</strong></td>
+<td>预测分析</td>
+<td>基于 AI 预测未来趋势</td>
+<td>战略规划</td>
+</tr>
+<tr>
+<td><strong>Autonomous Marketing</strong></td>
+<td>自主营销</td>
+<td>AI 自主执行营销策略</td>
+<td>前沿应用</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="二十、B2B-特定策略-B2B-Specific-Strategies"><a href="#二十、B2B-特定策略-B2B-Specific-Strategies" class="headerlink" title="二十、B2B 特定策略 (B2B Specific Strategies)"></a>二十、B2B 特定策略 (B2B Specific Strategies)</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Account-Based Marketing (ABM)</strong></td>
+<td>基于账户的营销</td>
+<td>针对特定企业账户的精准营销</td>
+<td>B2B 大客户</td>
+</tr>
+<tr>
+<td><strong>Account-Based Advertising (ABA)</strong></td>
+<td>基于账户的广告</td>
+<td>针对特定企业账户的广告投放</td>
+<td>B2B 广告</td>
+</tr>
+<tr>
+<td><strong>Lead Scoring</strong></td>
+<td>线索评分</td>
+<td>根据行为和数据给线索打分</td>
+<td>销售线索</td>
+</tr>
+<tr>
+<td><strong>Marketing Qualified Lead (MQL)</strong></td>
+<td>营销合格线索</td>
+<td>营销部门认定的合格线索</td>
+<td>线索管理</td>
+</tr>
+<tr>
+<td><strong>Sales Qualified Lead (SQL)</strong></td>
+<td>销售合格线索</td>
+<td>销售部门认定的合格线索</td>
+<td>线索管理</td>
+</tr>
+<tr>
+<td><strong>Pipeline Attribution</strong></td>
+<td>销售管道归因</td>
+<td>归因到销售管道各阶段</td>
+<td>B2B 销售</td>
+</tr>
+<tr>
+<td><strong>Revenue Attribution</strong></td>
+<td>收入归因</td>
+<td>归因到实际成交收入</td>
+<td>B2B 效果</td>
+</tr>
+<tr>
+<td><strong>Contact Targeting</strong></td>
+<td>联系人定向</td>
+<td>针对特定职位&#x2F;部门人员</td>
+<td>LinkedIn</td>
+</tr>
+<tr>
+<td><strong>Company Targeting</strong></td>
+<td>公司定向</td>
+<td>针对特定公司定向</td>
+<td>LinkedIn</td>
+</tr>
+<tr>
+<td><strong>Intent Data</strong></td>
+<td>意向数据</td>
+<td>基于搜索和行为的企业购买意向</td>
+<td>B2B 定向</td>
+</tr>
+<tr>
+<td><strong>Technographic Targeting</strong></td>
+<td>技术画像定向</td>
+<td>基于企业使用技术定向</td>
+<td>B2B 定向</td>
+</tr>
+<tr>
+<td><strong>Firmographic Targeting</strong></td>
+<td>企业画像定向</td>
+<td>基于企业特征定向</td>
+<td>B2B 定向</td>
+</tr>
+<tr>
+<td><strong>Decision Maker Targeting</strong></td>
+<td>决策者定向</td>
+<td>针对企业决策者定向</td>
+<td>B2B 营销</td>
+</tr>
+<tr>
+<td><strong>Multi-Touch B2B</strong></td>
+<td>B2B 多触点</td>
+<td>B2B 长周期的多触点营销</td>
+<td>B2B 营销</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="二十一、视频与-CTV-策略-Video-CTV-Strategies"><a href="#二十一、视频与-CTV-策略-Video-CTV-Strategies" class="headerlink" title="二十一、视频与 CTV 策略 (Video &amp; CTV Strategies)"></a>二十一、视频与 CTV 策略 (Video &amp; CTV Strategies)</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>TrueView</strong></td>
+<td>TrueView 广告</td>
+<td>YouTube 可跳过视频广告</td>
+<td>YouTube</td>
+</tr>
+<tr>
+<td><strong>Bumper Ads</strong></td>
+<td>Bumper 广告</td>
+<td>6 秒不可跳过短视频广告</td>
+<td>YouTube</td>
+</tr>
+<tr>
+<td><strong>Pre-Roll</strong></td>
+<td>前贴片广告</td>
+<td>视频播放前的广告</td>
+<td>视频平台</td>
+</tr>
+<tr>
+<td><strong>Mid-Roll</strong></td>
+<td>中插广告</td>
+<td>视频播放中的广告</td>
+<td>长视频</td>
+</tr>
+<tr>
+<td><strong>Post-Roll</strong></td>
+<td>后贴片广告</td>
+<td>视频播放后的广告</td>
+<td>视频平台</td>
+</tr>
+<tr>
+<td><strong>Outstream Video</strong></td>
+<td>流外视频广告</td>
+<td>非视频内容中的视频广告</td>
+<td>信息流</td>
+</tr>
+<tr>
+<td><strong>Instream Video</strong></td>
+<td>流内视频广告</td>
+<td>视频内容中的广告</td>
+<td>视频平台</td>
+</tr>
+<tr>
+<td><strong>Completion Rate</strong></td>
+<td>完播率</td>
+<td>视频完整观看的比例</td>
+<td>视频效果</td>
+</tr>
+<tr>
+<td><strong>Quartile Reporting</strong></td>
+<td>四分之一报告</td>
+<td>25%&#x2F;50%&#x2F;75%&#x2F;100% 观看进度报告</td>
+<td>视频分析</td>
+</tr>
+<tr>
+<td><strong>CTV (Connected TV)</strong></td>
+<td>联网电视</td>
+<td>智能电视&#x2F;流媒体设备广告</td>
+<td>家庭场景</td>
+</tr>
+<tr>
+<td><strong>OTT (Over-The-Top)</strong></td>
+<td>网络电视</td>
+<td>通过互联网传输的电视内容</td>
+<td>流媒体</td>
+</tr>
+<tr>
+<td><strong>Addressable TV</strong></td>
+<td>可寻址电视</td>
+<td>针对不同家庭投放不同广告</td>
+<td>精准电视</td>
+</tr>
+<tr>
+<td><strong>Programmatic TV</strong></td>
+<td>程序化电视</td>
+<td>程序化购买的电视广告</td>
+<td>电视广告</td>
+</tr>
+<tr>
+<td><strong>Dynamic Ad Insertion</strong></td>
+<td>动态广告插入</td>
+<td>在视频流中动态插入广告</td>
+<td>流媒体</td>
+</tr>
+<tr>
+<td><strong>Interactive Video Ads</strong></td>
+<td>互动视频广告</td>
+<td>可交互的视频广告</td>
+<td>视频营销</td>
+</tr>
+<tr>
+<td><strong>Vertical Video Ads</strong></td>
+<td>竖版视频广告</td>
+<td>适配移动端的竖版视频</td>
+<td>短视频</td>
+</tr>
+<tr>
+<td><strong>Short-Form Video</strong></td>
+<td>短视频广告</td>
+<td>60 秒以内的短视频广告</td>
+<td>TikTok&#x2F;Shorts</td>
+</tr>
+<tr>
+<td><strong>Long-Form Video</strong></td>
+<td>长视频广告</td>
+<td>60 秒以上的长视频广告</td>
+<td>YouTube&#x2F;CTV</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="二十二、合规与隐私策略-Compliance-Privacy-Strategies"><a href="#二十二、合规与隐私策略-Compliance-Privacy-Strategies" class="headerlink" title="二十二、合规与隐私策略 (Compliance &amp; Privacy Strategies)"></a>二十二、合规与隐私策略 (Compliance &amp; Privacy Strategies)</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>GDPR Compliance</strong></td>
+<td>GDPR 合规</td>
+<td>欧盟通用数据保护条例合规</td>
+<td>欧洲市场</td>
+</tr>
+<tr>
+<td><strong>CCPA Compliance</strong></td>
+<td>CCPA 合规</td>
+<td>加州消费者隐私法合规</td>
+<td>美国市场</td>
+</tr>
+<tr>
+<td><strong>CPRA</strong></td>
+<td>加州隐私权法</td>
+<td>CCPA 的升级版</td>
+<td>美国市场</td>
+</tr>
+<tr>
+<td><strong>PIPL Compliance</strong></td>
+<td>个保法合规</td>
+<td>中国个人信息保护法合规</td>
+<td>中国市场</td>
+</tr>
+<tr>
+<td><strong>LGPD</strong></td>
+<td>巴西通用数据保护法</td>
+<td>巴西隐私法规</td>
+<td>巴西市场</td>
+</tr>
+<tr>
+<td><strong>Consent Management</strong></td>
+<td>同意管理</td>
+<td>管理用户数据使用同意</td>
+<td>隐私合规</td>
+</tr>
+<tr>
+<td><strong>CMP (Consent Management Platform)</strong></td>
+<td>同意管理平台</td>
+<td>管理用户同意的技术平台</td>
+<td>隐私合规</td>
+</tr>
+<tr>
+<td><strong>Data Minimization</strong></td>
+<td>数据最小化</td>
+<td>仅收集必要的数据</td>
+<td>隐私原则</td>
+</tr>
+<tr>
+<td><strong>Purpose Limitation</strong></td>
+<td>目的限制</td>
+<td>数据仅用于声明的目的</td>
+<td>隐私原则</td>
+</tr>
+<tr>
+<td><strong>Right to Be Forgotten</strong></td>
+<td>被遗忘权</td>
+<td>用户要求删除数据的权利</td>
+<td>隐私权利</td>
+</tr>
+<tr>
+<td><strong>Data Portability</strong></td>
+<td>数据可携带权</td>
+<td>用户获取和转移数据的权利</td>
+<td>隐私权利</td>
+</tr>
+<tr>
+<td><strong>Anonymization</strong></td>
+<td>匿名化</td>
+<td>去除个人识别信息</td>
+<td>隐私保护</td>
+</tr>
+<tr>
+<td><strong>Pseudonymization</strong></td>
+<td>假名化</td>
+<td>用假名替代真实身份</td>
+<td>隐私保护</td>
+</tr>
+<tr>
+<td><strong>Federated Learning</strong></td>
+<td>联邦学习</td>
+<td>数据不出本地的分布式学习</td>
+<td>隐私技术</td>
+</tr>
+<tr>
+<td><strong>Differential Privacy</strong></td>
+<td>差分隐私</td>
+<td>添加噪声保护个体隐私</td>
+<td>隐私技术</td>
+</tr>
+<tr>
+<td><strong>Clean Room</strong></td>
+<td>数据清洁室</td>
+<td>安全的数据协作环境</td>
+<td>数据合作</td>
+</tr>
+<tr>
+<td><strong>Privacy Sandbox</strong></td>
+<td>隐私沙盒</td>
+<td>Google 的隐私保护框架</td>
+<td>Chrome&#x2F;Android</td>
+</tr>
+<tr>
+<td><strong>Topics API</strong></td>
+<td>主题 API</td>
+<td>基于兴趣主题的定向 API</td>
+<td>Privacy Sandbox</td>
+</tr>
+<tr>
+<td><strong>Protected Audience</strong></td>
+<td>受保护受众</td>
+<td>再营销的隐私保护 API</td>
+<td>Privacy Sandbox</td>
+</tr>
+<tr>
+<td><strong>Attribution Reporting API</strong></td>
+<td>归因报告 API</td>
+<td>隐私保护的归因 API</td>
+<td>Privacy Sandbox</td>
+</tr>
+<tr>
+<td><strong>Private Aggregation</strong></td>
+<td>私有聚合</td>
+<td>隐私保护的数据聚合</td>
+<td>Privacy Sandbox</td>
+</tr>
+<tr>
+<td><strong>FLEDGE</strong></td>
+<td>首次本地实验</td>
+<td>Protected Audience 的早期名称</td>
+<td>Privacy Sandbox</td>
+</tr>
+<tr>
+<td><strong>IDFA</strong></td>
+<td>广告标识符</td>
+<td>iOS 设备广告标识符</td>
+<td>iOS 追踪</td>
+</tr>
+<tr>
+<td><strong>IDFV</strong></td>
+<td>供应商标识符</td>
+<td>iOS 供应商标识符</td>
+<td>iOS 追踪</td>
+</tr>
+<tr>
+<td><strong>GAID</strong></td>
+<td>谷歌广告 ID</td>
+<td>Android 设备广告标识符</td>
+<td>Android 追踪</td>
+</tr>
+<tr>
+<td><strong>OAID</strong></td>
+<td>开放广告标识符</td>
+<td>中国移动安全联盟标识符</td>
+<td>Android 追踪</td>
+</tr>
+<tr>
+<td><strong>ATT Framework</strong></td>
+<td>应用追踪透明度</td>
+<td>iOS 用户授权追踪框架</td>
+<td>iOS 隐私</td>
+</tr>
+<tr>
+<td><strong>Limited Ad Tracking</strong></td>
+<td>限制广告追踪</td>
+<td>用户选择限制追踪</td>
+<td>iOS 隐私</td>
+</tr>
+<tr>
+<td><strong>Do Not Sell</strong></td>
+<td>禁止出售</td>
+<td>用户选择禁止数据出售</td>
+<td>CCPA</td>
+</tr>
+<tr>
+<td><strong>Opt-In</strong></td>
+<td>选择加入</td>
+<td>用户主动同意</td>
+<td>隐私合规</td>
+</tr>
+<tr>
+<td><strong>Opt-Out</strong></td>
+<td>选择退出</td>
+<td>用户主动拒绝</td>
+<td>隐私合规</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="二十三、高级-AI-与机器学习策略-Advanced-AI-ML-Strategies"><a href="#二十三、高级-AI-与机器学习策略-Advanced-AI-ML-Strategies" class="headerlink" title="二十三、高级 AI 与机器学习策略 (Advanced AI &amp; ML Strategies)"></a>二十三、高级 AI 与机器学习策略 (Advanced AI &amp; ML Strategies)</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>定义</th>
+<th>说明</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Deep Learning Bidding</strong></td>
+<td>深度学习出价</td>
+<td>基于深度神经网络的出价模型</td>
+<td>AI 优化</td>
+</tr>
+<tr>
+<td><strong>Reinforcement Learning Bidding</strong></td>
+<td>强化学习出价</td>
+<td>基于强化学习的出价模型</td>
+<td>AI 优化</td>
+</tr>
+<tr>
+<td><strong>Generative Reinforcement Learning</strong></td>
+<td>生成式强化学习</td>
+<td>结合生成模型和强化学习</td>
+<td>快手等前沿</td>
+</tr>
+<tr>
+<td><strong>Multi-Task Learning</strong></td>
+<td>多任务学习</td>
+<td>同时学习多个相关任务</td>
+<td>AI 优化</td>
+</tr>
+<tr>
+<td><strong>Transfer Learning</strong></td>
+<td>迁移学习</td>
+<td>将知识迁移到新场景</td>
+<td>AI 优化</td>
+</tr>
+<tr>
+<td><strong>Few-Shot Learning</strong></td>
+<td>少样本学习</td>
+<td>少量数据快速学习</td>
+<td>冷启动</td>
+</tr>
+<tr>
+<td><strong>Zero-Shot Learning</strong></td>
+<td>零样本学习</td>
+<td>无需训练数据学习</td>
+<td>前沿 AI</td>
+</tr>
+<tr>
+<td><strong>Online Learning</strong></td>
+<td>在线学习</td>
+<td>实时持续学习更新</td>
+<td>动态优化</td>
+</tr>
+<tr>
+<td><strong>Batch Learning</strong></td>
+<td>批量学习</td>
+<td>定期批量更新模型</td>
+<td>传统 ML</td>
+</tr>
+<tr>
+<td><strong>Ensemble Learning</strong></td>
+<td>集成学习</td>
+<td>多个模型组合优化</td>
+<td>高级优化</td>
+</tr>
+<tr>
+<td><strong>Gradient Boosting</strong></td>
+<td>梯度提升</td>
+<td>一种集成学习方法</td>
+<td>预测模型</td>
+</tr>
+<tr>
+<td><strong>Random Forest</strong></td>
+<td>随机森林</td>
+<td>一种集成学习方法</td>
+<td>预测模型</td>
+</tr>
+<tr>
+<td><strong>Neural Collaborative Filtering</strong></td>
+<td>神经协同过滤</td>
+<td>基于神经网络的推荐</td>
+<td>定向优化</td>
+</tr>
+<tr>
+<td><strong>Attention Mechanism</strong></td>
+<td>注意力机制</td>
+<td>聚焦重要特征的机制</td>
+<td>深度学习</td>
+</tr>
+<tr>
+<td><strong>Transformer Architecture</strong></td>
+<td>Transformer 架构</td>
+<td>基于自注意力的架构</td>
+<td>前沿 AI</td>
+</tr>
+<tr>
+<td><strong>Large Language Model</strong></td>
+<td>大语言模型</td>
+<td>用于创意和定向的 LLM</td>
+<td>生成式 AI</td>
+</tr>
+<tr>
+<td><strong>Computer Vision</strong></td>
+<td>计算机视觉</td>
+<td>用于图像&#x2F;视频分析</td>
+<td>创意优化</td>
+</tr>
+<tr>
+<td><strong>Natural Language Processing</strong></td>
+<td>自然语言处理</td>
+<td>用于文本分析生成</td>
+<td>创意优化</td>
+</tr>
+<tr>
+<td><strong>Predictive Modeling</strong></td>
+<td>预测建模</td>
+<td>预测未来结果</td>
+<td>战略规划</td>
+</tr>
+<tr>
+<td><strong>Causal Inference</strong></td>
+<td>因果推断</td>
+<td>识别因果关系</td>
+<td>增量分析</td>
+</tr>
+<tr>
+<td><strong>Uplift Modeling</strong></td>
+<td>增量建模</td>
+<td>预测广告增量效果</td>
+<td>精准营销</td>
+</tr>
+<tr>
+<td><strong>Propensity Modeling</strong></td>
+<td>倾向建模</td>
+<td>预测用户行为倾向</td>
+<td>定向优化</td>
+</tr>
+<tr>
+<td><strong>Churn Prediction</strong></td>
+<td>流失预测</td>
+<td>预测用户流失风险</td>
+<td>留存优化</td>
+</tr>
+<tr>
+<td><strong>Lifetime Value Prediction</strong></td>
+<td>生命周期价值预测</td>
+<td>预测用户 LTV</td>
+<td>价值出价</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="所有原始覆盖分析"><a href="#所有原始覆盖分析" class="headerlink" title="所有原始覆盖分析"></a>所有原始覆盖分析</h2><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>您原始术语</th>
+<th>覆盖位置</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>CPM &#x2F; CPC &#x2F; CPA</td>
+<td>第二部分 - 基础计费模式</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>2</td>
+<td>oCPM &#x2F; oCPC &#x2F; oCPA</td>
+<td>第三部分 - 智能出价策略</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>3</td>
+<td>oCPX</td>
+<td>第三部分 - 智能出价策略</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>4</td>
+<td>tCPA &#x2F; tROAS</td>
+<td>第三部分 - 智能出价策略</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Bid Shading</td>
+<td>第四部分 - 出价控制技术</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Budget Pacing</td>
+<td>第五部分 - 预算与消耗控制</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Frequency Capping</td>
+<td>第六部分 - 频控与曝光管理</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Recency Capping</td>
+<td>第六部分 - 频控与曝光管理</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Bid Multiplier</td>
+<td>第四部分 - 出价控制技术</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Auto Bidding</td>
+<td>第三部分 - 智能出价策略</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>11</td>
+<td>CBO</td>
+<td>第五部分 - 预算与消耗控制</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Lookalike Audience</td>
+<td>第七部分 - 受众与定向策略</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Creative Fatigue</td>
+<td>第八部分 - 创意与内容优化</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Cold Start Problem</td>
+<td>第十七部分 - 冷启动与学习期管理</td>
+<td>✅</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>上面这些基本上是市面上广告行业可以拥有的所有的优化和出价策略了。</p>
+
+        </div>
+        
+        <!-- 文章导航 - 只在同分类有多篇文章时显示 -->
+        
+        
+        
+        <nav class="post-nav">
+          
+            <a class="prev" href="../../15/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%886%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%BD%92%E5%9B%A0%E5%92%8C%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95%E6%9C%AF%E8%AF%AD/">
+              <i class="fas fa-chevron-left"></i>
+              广告术语（6）-广告归因和评估方法术语
+            </a>
+          
+          
+            <a class="next" href="../../13/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%884%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%8D%8F%E8%AE%AE%E5%92%8C%E6%A0%87%E5%87%86%E6%9C%AF%E8%AF%AD/">
+              广告术语（4）-广告协议和标准术语
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          
+        </nav>
+        
+        
+        <!-- 推荐文章 -->
+        
+
+
+<div class="vs-recommended-posts">
+  <div class="vs-recommended-header">
+    <div class="section-header">
+      <i class="fas fa-lightbulb"></i>
+      <span>RELATED POSTS</span>
+    </div>
+  </div>
+  
+  <div class="vs-recommended-grid">
+    
+      <div class="vs-recommended-item" data-index="0" tabindex="0">
+        <a href="../../13/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%884%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%8D%8F%E8%AE%AE%E5%92%8C%E6%A0%87%E5%87%86%E6%9C%AF%E8%AF%AD/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>广告术语（4）-广告协议和标准术语</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              📋 广告系统协议与标准完整汇总 (全球+中国)一、完整协议与标准总表🔴 核心必备标准 (覆盖率 85%+) 术语 定义 适用范围 覆盖率 发布机构 OpenRTB 2.5&amp;#x2F;3.0 开放实时竞价协议 全球程序化交易 95%+ I...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  广告术语
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Feb 13
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  3 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="1" tabindex="0">
+        <a href="../../15/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%886%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%BD%92%E5%9B%A0%E5%92%8C%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95%E6%9C%AF%E8%AF%AD/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>广告术语（6）-广告归因和评估方法术语</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              广告归因与评估方法终极完整清单一、归因模型类（Attribution Models） 序号 术语 定义 来源&amp;#x2F;应用 1 Last Click 末次点击归因 通用基础 2 First Click 首次点击归因 通用基础 3 Line...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  广告术语
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Feb 15
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  20 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="2" tabindex="0">
+        <a href="../../12/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%883%EF%BC%89-%E5%B9%BF%E5%91%8A%E7%9A%84%E4%BA%A4%E6%98%93%E6%A8%A1%E5%BC%8F%E6%9C%AF%E8%AF%AD/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>广告术语（3）-广告的交易模式术语</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              🎯 广告交易模式2026年 整理1 - 按交易自动化程度 一级 二级 三级 四级 保量 保价 自动化 说明 传统交易 线下直投 合约广告 Direct Deal ✅ ✅ 0% 人工谈判签约 赞助广告 Sponsorship ✅ ✅ 0% ...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  广告术语
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Feb 12
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  10 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="3" tabindex="0">
+        <a href="../../16/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%887%EF%BC%89-%E5%B9%BF%E5%91%8A%E9%9A%90%E7%A7%81%E5%90%88%E8%A7%84%E6%9C%AF%E8%AF%AD/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>广告术语（7）-广告隐私合规术语</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              广告系统隐私与合规完整术语表一、全球隐私法规框架 术语 定义 适用范围&amp;#x2F;说明 GDPR 通用数据保护条例 欧盟&amp;#x2F;欧洲经济区，全球影响最广 CCPA 加州消费者隐私法 美国加州，2020年生效 CPRA 加州隐私权法案 C...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  广告术语
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Feb 16
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  7 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="4" tabindex="0">
+        <a href="../../11/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%882%EF%BC%89-%E5%B9%BF%E5%91%8A%E7%9B%B8%E5%85%B3%E7%9A%84%E8%A7%92%E8%89%B2%E6%9C%AF%E8%AF%AD/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>广告术语（2）-广告相关的角色术语</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              广告系统生态角色列表一、需求侧角色 (Buy-Side) 序号 术语 定义 代表厂商 1.1 Advertiser (广告主) 出钱投放广告的企业或个人 所有品牌方 1.2 DSP (Demand-Side Platform) 需求方平台，...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  广告术语
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Feb 11
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  4 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="5" tabindex="0">
+        <a href="../../17/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%888%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%8F%8D%E4%BD%9C%E5%BC%8A%E5%92%8C%E8%B4%A8%E9%87%8F%E6%9C%AF%E8%AF%AD/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>广告术语（8）-广告反作弊和质量术语</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              广告反作弊与质量术语一、无效流量(IVT)分类体系 术语 定义 说明 IVT (Invalid Traffic) 无效流量 总称，包括所有非人类或非预期流量 GIVT (General IVT) 一般无效流量 已知爬虫、蜘蛛、数据中心IP等...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  广告术语
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Feb 17
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  7 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+  </div>
+  
+  <!-- 查看更多 -->
+  <div class="vs-recommended-footer">
+    <a href="../../../../archives/" class="vs-view-more">
+      <i class="fas fa-folder-open"></i>
+      <span>View More Posts</span>
+      <i class="fas fa-chevron-right"></i>
+    </a>
+  </div>
+</div>
+
+<script>
+// 键盘导航支持
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.vs-recommended-item');
+  let currentIndex = -1;
+  
+  // 键盘事件
+  document.addEventListener('keydown', function(e) {
+    if (!items.length) return;
+    
+    if (e.key === 'Tab') {
+      // Tab键导航由浏览器处理
+      return;
+    }
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      
+      // 移除当前高亮
+      if (currentIndex >= 0) {
+        items[currentIndex].classList.remove('vs-focused');
+      }
+      
+      // 更新索引
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % items.length;
+      } else {
+        currentIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+      }
+      
+      // 添加新高亮
+      items[currentIndex].classList.add('vs-focused');
+      items[currentIndex].focus();
+    }
+    
+    if (e.key === 'Enter' && currentIndex >= 0) {
+      const link = items[currentIndex].querySelector('a');
+      if (link) link.click();
+    }
+  });
+  
+  // 鼠标悬停时更新当前索引
+  items.forEach((item, index) => {
+    item.addEventListener('mouseenter', function() {
+      currentIndex = index;
+      items.forEach(i => i.classList.remove('vs-focused'));
+      item.classList.add('vs-focused');
+    });
+  });
+});
+</script>
+
+        
+        <!-- 评论区 -->
+        
+  <div class="vs-comments-section">
+    <div class="section-header">
+      <i class="fas fa-comments"></i>
+      <span>COMMENTS</span>
+    </div>
+    
+    
+      <!-- Waline 评论系统 -->
+      <div id="waline"></div>
+      <script>
+        // 加载 Waline CSS
+        const walineCSS = document.createElement('link');
+        walineCSS.rel = 'stylesheet';
+        walineCSS.href = 'https://unpkg.com/@waline/client@v3/dist/waline.css';
+        document.head.appendChild(walineCSS);
+        
+        // 加载 Waline JS
+        const walineScript = document.createElement('script');
+        walineScript.type = 'module';
+        walineScript.onload = function() {
+          // 确保 Waline 加载后再初始化
+          import('https://unpkg.com/@waline/client@v3/dist/waline.js').then(({ init }) => {
+            const waline = init({
+              el: '#waline',
+              serverURL: 'https://vsc4tblackcat1337.vercel.app/',
+              lang: 'zh-CN',
+              locale: {},
+              emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus"],
+              requiredMeta: [],
+              login: 'disable',
+              wordLimit: 0,
+              pageSize: 10,
+              imageUploader: false,
+              highlighter: true,
+              texRenderer: false,
+              search: false,
+              pageview: false,
+              comment: true,
+              copyright: false,
+              
+              // 自动适配主题
+              dark: document.documentElement.getAttribute('data-theme') === 'dark' ? 'auto' : false,
+              
+              // 评论框占位符
+              placeholder: 'Feel free to leave a comment, no login required!',
+              
+              // 元数据配置
+              meta: ['nick', 'mail', 'link'],
+              
+              // 表情配置
+              emojiCDN: 'https://unpkg.com/@waline/emojis@1.2.0/',
+            });
+            
+            // 监听主题变化
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                  // Waline 会自动处理主题切换
+                  if (waline) {
+                    waline.update({ dark: isDark ? 'auto' : false });
+                  }
+                }
+              });
+            });
+            
+            observer.observe(document.documentElement, {
+              attributes: true,
+              attributeFilter: ['data-theme']
+            });
+          });
+        };
+        walineScript.src = 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+        document.body.appendChild(walineScript);
+      </script>
+    
+    
+  </div>
+
+      </article>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code-branch"></i>
+      master
+    </div>
+    <div class="status-item">
+      <i class="fas fa-sync"></i>
+      John Doe
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      2026-02-21
+    </div>
+    <div class="status-item">
+      Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
+    </div>
+    <div class="status-item github">
+      <a href="#" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 搜索专用配置 (HEXO_CONFIG 在 scripts.ejs 中统一定义) -->
+    <script>
+      window.VSC4T_SEARCH = {
+        root: "/"
+      };
+    </script>
+
+    <!-- 外部脚本 - 统一使用 cdnjs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
+    <script>if(typeof hljs !== 'undefined') hljs.highlightAll();</script>
+    <!-- 这里可以放置自定义脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Apply smooth scroll to non-TOC anchor links
+  document.querySelectorAll('a[href^="#"]:not(.toc-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Check if querySelector is valid before using it
+      try {
+        const targetSelector = this.getAttribute('href');
+        // Basic check for potentially invalid selectors (though not exhaustive)
+        if (targetSelector && targetSelector.length > 1) { 
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            console.warn('Smooth scroll target not found:', targetSelector);
+          }
+        } else {
+           console.warn('Invalid href for smooth scroll:', targetSelector);
+        }
+      } catch (error) {
+        console.error('Error during smooth scroll:', error, 'Selector:', this.getAttribute('href'));
+        // Fallback or alternative behavior if needed
+        // For example, try getElementById if it's just an ID
+        const targetId = this.getAttribute('href').slice(1);
+        try {
+            const targetElementById = document.getElementById(decodeURIComponent(targetId));
+            if (targetElementById) {
+                targetElementById.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (idError) {
+             console.error('Fallback getElementById also failed:', idError);
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Scripts -->
+<script>
+  // 全局配置 - 包含 i18n 字符串和主题配置
+  window.HEXO_CONFIG = {
+    language: "en",
+    root: "/",
+    
+    theme_switch: {
+      enabled: false,
+      light_start: "06:00",
+      light_end: "18:00"
+    },
+    
+    // Search i18n strings
+    search_placeholder: "Type to search...",
+    search_no_results: "No results found",
+    search_result: "result",
+    search_results: "results",
+    search_results_found: "Found undefined results",
+    search_in: "Search in",
+    search_in_title: "Title",
+    search_in_content: "Content",
+    search_in_tags: "Tags",
+    search_in_categories: "Categories",
+    search_filters: "Search Filters",
+    search_recent: "Recent Searches",
+    search_clear: "Clear",
+    search_loading: "Loading...",
+    search_error: "Error loading search data",
+    // Encryption i18n strings
+    encrypt_badge: "Protected",
+    encrypt_title: "Protected Content",
+    encrypt_description: "Enter the password to unlock this article. The password will be saved locally until you choose to re-encrypt.",
+    encrypt_label: "Password",
+    encrypt_placeholder: "Enter password to unlock",
+    encrypt_button: "Unlock",
+    encrypt_button_loading: "Unlocking...",
+    encrypt_hint: "Press Enter to submit. Password will be remembered on this device.",
+    encrypt_success: "Content unlocked successfully!",
+    encrypt_unlocked_note: "Content unlocked. You can re-encrypt at any time.",
+    encrypt_again: "Re-encrypt",
+    encrypt_wrong_password: "Incorrect password. Please try again.",
+    encrypt_show_password: "Show password",
+    encrypt_hide_password: "Hide password",
+    // Sidebar i18n strings
+    sidebar_about: "About",
+    sidebar_categories: "Categories",
+    sidebar_tags: "Tags",
+    // Post page i18n strings
+    post_toc: "TABLE OF CONTENTS",
+    post_category_posts: "CATEGORY POSTS",
+    post_article_tags: "ARTICLE TAGS"
+  };
+</script>
+
+
+
+<!-- 添加所有需要的脚本 -->
+<script src="../../../../js/search.js"></script>
+<script src="../../../../js/theme-switch.js"></script>
+
+<script src="../../../../js/password-protect.js?v=1771605205011"></script>
+
+    <script>
+      // 移动端菜单切换
+      $(document).ready(function() {
+        var $body = $('body');
+        var $sidebar = $('.sidebar-explorer');
+        var $overlay = $('.sidebar-overlay');
+        var $toggle = $('.mobile-menu-toggle');
+
+        function openSidebar() {
+          $sidebar.addClass('show');
+          $overlay.addClass('show');
+          $toggle.addClass('active');
+          $body.addClass('sidebar-open');
+        }
+
+        function closeSidebar() {
+          $sidebar.removeClass('show');
+          $overlay.removeClass('show');
+          $toggle.removeClass('active');
+          $body.removeClass('sidebar-open');
+        }
+
+        // 汉堡按钮点击切换
+        $toggle.on('click', function(e) {
+          e.stopPropagation();
+          if ($sidebar.hasClass('show')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+
+        // 点击遮罩层关闭
+        $overlay.on('click', function() {
+          closeSidebar();
+        });
+
+        // ESC 键关闭
+        $(document).on('keydown', function(e) {
+          if (e.key === 'Escape' && $sidebar.hasClass('show')) {
+            closeSidebar();
+          }
+        });
+
+        // 点击侧边栏内的链接时自动关闭侧边栏，确保锚点跳转正常
+        $sidebar.on('click', 'a', function() {
+          closeSidebar();
+        });
+      });
+    </script>
+  </body>
+</html>

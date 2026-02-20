@@ -173,7 +173,7 @@ dubbo 所有的标签和作用
 
 > 从上到下优先级递减
 
-![](/images/blogimg//blogimg/dubbo/n2.png)
+![](/images/blogimg/dubbo/n2.png)
 
 #### 属性配置
 
@@ -198,7 +198,7 @@ dubbo.registry.address=10.20.153.10:9090
 
 > 覆盖策略（从上到下优先级递减）
 
-![](/images/blogimg//blogimg/dubbo/n3.png)
+![](/images/blogimg/dubbo/n3.png)
 
 - 如果 classpath 根目录下存在多个 dubbo.properties，比如多个 jar 包中有 dubbo.properties，Dubbo 会任意加载，并打印 Error 日志，后续可能改为抛异常。
 

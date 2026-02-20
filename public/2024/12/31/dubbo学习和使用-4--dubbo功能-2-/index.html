@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192121">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205027">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -266,7 +266,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -339,7 +339,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">XxxServiceImpl</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">XxxService</span> &#123;<br> <br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">xxx</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-comment">// 本端是否为提供端，这里会返回true</span><br>        <span class="hljs-type">boolean</span> <span class="hljs-variable">isProviderSide</span> <span class="hljs-operator">=</span> RpcContext.getContext().isProviderSide();<br>        <span class="hljs-comment">// 获取调用方IP地址</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">clientIP</span> <span class="hljs-operator">=</span> RpcContext.getContext().getRemoteHost();<br>        <span class="hljs-comment">// 获取当前服务配置信息，所有配置信息都将转换为URL的参数</span><br>        <span class="hljs-type">String</span> <span class="hljs-variable">application</span> <span class="hljs-operator">=</span> RpcContext.getContext().getUrl().getParameter(<span class="hljs-string">&quot;application&quot;</span>);<br>        <span class="hljs-comment">// 注意：每发起RPC调用，上下文状态会变化</span><br>        yyyService.yyy();<br>        <span class="hljs-comment">// 此时本端变成消费端，这里会返回false</span><br>        <span class="hljs-type">boolean</span> <span class="hljs-variable">isProviderSide</span> <span class="hljs-operator">=</span> RpcContext.getContext().isProviderSide();<br>    &#125; <br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h2 id="隐式参数"><a href="#隐式参数" class="headerlink" title="隐式参数"></a>隐式参数</h2><p>可以通过 RpcContext 上的 setAttachment 和 getAttachment 在服务消费方和提供方之间进行参数的隐式传递。 [1]</p>
-<p><img src="/images/blogimg//blogimg/dubbo/n7.png"></p>
+<p><img src="/images/blogimg/dubbo/n7.png"></p>
 <p>在服务消费方端设置隐式参数<br>setAttachment 设置的 KV 对，在完成下面一次远程调用会被清空，即多次远程调用要多次设置。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java">RpcContext.getContext().setAttachment(<span class="hljs-string">&quot;index&quot;</span>, <span class="hljs-string">&quot;1&quot;</span>); <span class="hljs-comment">// 隐式传参，后面的远程调用都会隐式将这些参数发送到服务器端，类似cookie，用于框架集成，不建议常规业务使用</span><br>xxxService.xxx(); <span class="hljs-comment">// 远程调用</span><br><span class="hljs-comment">// ...</span><br></code></pre></td></tr></table></figure>
 
@@ -351,7 +351,7 @@
 </code></pre>
 <p>}</p>
 <h2 id="异步调用"><a href="#异步调用" class="headerlink" title="异步调用"></a>异步调用</h2><p>基于 NIO 的非阻塞实现并行调用，客户端不需要启动多线程即可完成并行调用多个远程服务，相对多线程开销较小。 [1]</p>
-<p><img src="/images/blogimg//blogimg/dubbo/n8.png"></p>
+<p><img src="/images/blogimg/dubbo/n8.png"></p>
 <p>在 consumer.xml 中配置：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dubbo:reference</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;fooService&quot;</span> <span class="hljs-attr">interface</span>=<span class="hljs-string">&quot;com.alibaba.foo.FooService&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">dubbo:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;findFoo&quot;</span> <span class="hljs-attr">async</span>=<span class="hljs-string">&quot;true&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dubbo:reference</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">dubbo:reference</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;barService&quot;</span> <span class="hljs-attr">interface</span>=<span class="hljs-string">&quot;com.alibaba.bar.BarService&quot;</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">dubbo:method</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;findBar&quot;</span> <span class="hljs-attr">async</span>=<span class="hljs-string">&quot;true&quot;</span> /&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dubbo:reference</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
@@ -831,7 +831,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -960,7 +960,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192121"></script>
+<script src="../../../../js/password-protect.js?v=1771605205027"></script>
 
     <script>
       // 移动端菜单切换

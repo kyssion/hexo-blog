@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192173">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205074">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -266,7 +266,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -288,7 +288,7 @@
         </div>
         
         <div class="post-body vscode-markdown">
-          <h2 id="netty-0-netty-demo-和netty的基本组建"><a href="#netty-0-netty-demo-和netty的基本组建" class="headerlink" title="netty(0)-netty demo 和netty的基本组建"></a>netty(0)-netty demo 和netty的基本组建</h2><h3 id="一-首先展示这个demo的目录结构"><a href="#一-首先展示这个demo的目录结构" class="headerlink" title="一.首先展示这个demo的目录结构"></a>一.首先展示这个demo的目录结构</h3><p><img src="/images/blogimg//blogimg/netty/4.png"><br>EchoClient 和 EchoServer 分别表示 客户端和服务端的运行程序，对应的Handler 数据调用的时候相关的操作方法</p>
+          <h2 id="netty-0-netty-demo-和netty的基本组建"><a href="#netty-0-netty-demo-和netty的基本组建" class="headerlink" title="netty(0)-netty demo 和netty的基本组建"></a>netty(0)-netty demo 和netty的基本组建</h2><h3 id="一-首先展示这个demo的目录结构"><a href="#一-首先展示这个demo的目录结构" class="headerlink" title="一.首先展示这个demo的目录结构"></a>一.首先展示这个demo的目录结构</h3><p><img src="/images/blogimg/netty/4.png"><br>EchoClient 和 EchoServer 分别表示 客户端和服务端的运行程序，对应的Handler 数据调用的时候相关的操作方法</p>
 <h3 id="二-代码"><a href="#二-代码" class="headerlink" title="二.代码"></a>二.代码</h3><ul>
 <li>choClient.class</li>
 </ul>
@@ -311,7 +311,7 @@
 
 <h2 id="介绍一下netty的基本组成有那些"><a href="#介绍一下netty的基本组成有那些" class="headerlink" title="介绍一下netty的基本组成有那些"></a>介绍一下netty的基本组成有那些</h2><h3 id="Bootstrap"><a href="#Bootstrap" class="headerlink" title="Bootstrap"></a>Bootstrap</h3><p>这个基本类是一个便利的基本工厂用来实现netty 快速配置的方法类</p>
 <p>bootstrap实现netty快速配置的过程是这样的</p>
-<p><img src="/images/blogimg//blogimg/netty/16.png"></p>
+<p><img src="/images/blogimg/netty/16.png"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">try</span> &#123;   <span class="hljs-comment">//1 设置reactor 线程</span><br>    b.group(bossLoopGroup, workerLoopGroup);<br>    <span class="hljs-comment">//2 设置nio类型的channel</span><br>    b.channel(NioServerSocketChannel.class);<br>    <span class="hljs-comment">//3 设置监听端口</span><br>    b.localAddress(<span class="hljs-keyword">new</span> <span class="hljs-title class_">InetSocketAddress</span>(port));<br>    <span class="hljs-comment">//4 设置通道选项</span><br>    b.option(ChannelOption.SO_KEEPALIVE, <span class="hljs-literal">true</span>);<br>    b.option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT);<br><br>    <span class="hljs-comment">//5 装配流水线</span><br>    b.childHandler(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ChannelInitializer</span>&lt;SocketChannel&gt;()<br>    &#123;<br>        <span class="hljs-comment">//有连接到达时会创建一个channel</span><br>        <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">initChannel</span><span class="hljs-params">(SocketChannel ch)</span> <span class="hljs-keyword">throws</span> Exception<br>        &#123;<br>            ch.pipeline().addLast(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ProtobufDecoder</span>());<br>            ch.pipeline().addLast(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ProtobufEncoder</span>());<br>            <span class="hljs-comment">// pipeline管理channel中的Handler</span><br>            <span class="hljs-comment">// 在channel队列中添加一个handler来处理业务</span><br>            ch.pipeline().addLast(<span class="hljs-string">&quot;serverHandler&quot;</span>, serverHandler);<br>        &#125;<br>    &#125;);<br>    <span class="hljs-comment">// 6 开始绑定server</span><br>    <span class="hljs-comment">// 通过调用sync同步方法阻塞直到绑定成功</span><br><br>    <span class="hljs-type">ChannelFuture</span> <span class="hljs-variable">channelFuture</span> <span class="hljs-operator">=</span> b.bind().sync();<br>    LOGGER.info(ChatServer.class.getName() +<br>            <span class="hljs-string">&quot; started and listen on &quot;</span> + <br>            channelFuture.channel().localAddress());<br><br>    <span class="hljs-comment">// 7 监听通道关闭事件</span><br>    <span class="hljs-comment">// 应用程序会一直等待，直到channel关闭</span><br>    ChannelFuture closeFuture=  channelFuture.channel().closeFuture();<br>    closeFuture.sync();<br>&#125; <span class="hljs-keyword">catch</span> (Exception e)&#123;<br>    e.printStackTrace();<br>&#125; <span class="hljs-keyword">finally</span>&#123;<br>    <span class="hljs-comment">// 8 优雅关闭EventLoopGroup，</span><br>    <span class="hljs-comment">// 释放掉所有资源包括创建的线程</span><br>    workerLoopGroup.shutdownGracefully();<br>    bossLoopGroup.shutdownGracefully();<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <blockquote>
@@ -476,10 +476,10 @@
 </blockquote>
 <h4 id="3-ChannelPipeline"><a href="#3-ChannelPipeline" class="headerlink" title="3. ChannelPipeline"></a>3. ChannelPipeline</h4><p>这个就是一个channelhandlecontext处理节点的一个集合， 一个channel（数据源）对应一个channelPopeline，一个channelPipeline对应一组channelhandleContext.</p>
 <p>channelPipeline &gt; 其实就是eventloop处理队列的一个抽象，修改channelPipeline中的数据将会影响整个netty对应这个channel的处理方式</p>
-<h4 id="4-整体总结"><a href="#4-整体总结" class="headerlink" title="4 .整体总结"></a>4 .整体总结</h4><p><img src="/images/blogimg//blogimg/netty/18.png"></p>
-<p><img src="/images/blogimg//blogimg/netty/19.webp"></p>
-<p><img src="/images/blogimg//blogimg/netty/20.webp"></p>
-<p><img src="/images/blogimg//blogimg/netty/21.jpg"></p>
+<h4 id="4-整体总结"><a href="#4-整体总结" class="headerlink" title="4 .整体总结"></a>4 .整体总结</h4><p><img src="/images/blogimg/netty/18.png"></p>
+<p><img src="/images/blogimg/netty/19.webp"></p>
+<p><img src="/images/blogimg/netty/20.webp"></p>
+<p><img src="/images/blogimg/netty/21.jpg"></p>
 <ol>
 <li><p>一个channel对应一个channelPopeline 一个channelPipeline 对应一组 channelContext 一个channelContext承载一个channelhandle</p>
 </li>
@@ -940,7 +940,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -1069,7 +1069,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192173"></script>
+<script src="../../../../js/password-protect.js?v=1771605205074"></script>
 
     <script>
       // 移动端菜单切换

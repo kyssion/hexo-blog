@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192245">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605206208">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -266,7 +266,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -292,7 +292,7 @@
 <blockquote>
 <p>引申: 其实在director中指定相关的函数并不是一个很好的方法，其实可以实现一个模板接口，通过这个接口动态的实现相关的策略，以后再想想。</p>
 </blockquote>
-<h3 id="建造者模式类图"><a href="#建造者模式类图" class="headerlink" title="建造者模式类图"></a>建造者模式类图</h3><p><img src="/images/blogimg//blogimg/GAF/8.png"></p>
+<h3 id="建造者模式类图"><a href="#建造者模式类图" class="headerlink" title="建造者模式类图"></a>建造者模式类图</h3><p><img src="/images/blogimg/GAF/8.png"></p>
 <h3 id="建造者模式实例"><a href="#建造者模式实例" class="headerlink" title="建造者模式实例"></a>建造者模式实例</h3><h4 id="Director"><a href="#Director" class="headerlink" title="Director"></a>Director</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> org.kys.Gaf.builder;<br><br><span class="hljs-keyword">import</span> java.util.HashMap;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Director</span> &#123;<br>    <span class="hljs-keyword">private</span> HashMap&lt;String,Builer&gt; map = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Director</span><span class="hljs-params">(String name,Builer builer)</span>&#123;<br>        map.put(name,builer);<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">Director</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-built_in">super</span>();<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">setBuiler</span><span class="hljs-params">(String name,Builer builer)</span>&#123;<br>        <span class="hljs-keyword">if</span>(builer==<span class="hljs-literal">null</span>)&#123;<br>            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>        &#125;<br>        map.put(name,builer);<br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">construction</span><span class="hljs-params">(String name)</span>&#123;<br>        <span class="hljs-type">Builer</span> <span class="hljs-variable">builer</span> <span class="hljs-operator">=</span> map.get(name);<br>        <span class="hljs-comment">//build 只能按照输入进行运作，无法窥视到内部实现</span><br>        builer.makeTitile(<span class="hljs-string">&quot;----------&quot;</span>);<br>        builer.makeItem(<span class="hljs-string">&quot;builer item&quot;</span>);<br>        builer.makeEndoFText(<span class="hljs-string">&quot;----------&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h4 id="builer接口"><a href="#builer接口" class="headerlink" title="builer接口"></a>builer接口</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> org.kys.Gaf.builder;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Builer</span>&lt;T&gt; &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">makeTitile</span><span class="hljs-params">(String title)</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">makeItem</span><span class="hljs-params">(String item)</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">makeEndoFText</span><span class="hljs-params">(String end)</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> T <span class="hljs-title function_">getResult</span><span class="hljs-params">()</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -736,7 +736,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -865,7 +865,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192245"></script>
+<script src="../../../../js/password-protect.js?v=1771605206208"></script>
 
     <script>
       // 移动端菜单切换

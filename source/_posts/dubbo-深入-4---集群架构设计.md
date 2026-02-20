@@ -45,16 +45,16 @@ public class InvokerInvocationHandler implements InvocationHandler {
 
 3. 上一步的return方法中我们需要进一步分析invoke（xxx）方法的过程
 
-![](/images/blogimg//blogimg/dubbo/1.png)
+![](/images/blogimg/dubbo/1.png)
 
 4. 来到了第一个关键的类中 AbstractClusterInvoker 通过 下图中的两个方法我们找到了 下一个关键directory
 
-![](/images/blogimg//blogimg/dubbo/2.png)
+![](/images/blogimg/dubbo/2.png)
 
-![](/images/blogimg//blogimg/dubbo/3.png)
+![](/images/blogimg/dubbo/3.png)
 
 5. 来到了directory类中 list方法是返回一个所需要的invoke结果集合 中间使用directory 返回所有集合和使用router对结果集进行筛选
 
-![](/images/blogimg//blogimg/dubbo/4.png)
+![](/images/blogimg/dubbo/4.png)
 
-![](/images/blogimg//blogimg/dubbo/5.png)
+![](/images/blogimg/dubbo/5.png)

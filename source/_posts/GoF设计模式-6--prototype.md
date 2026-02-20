@@ -15,7 +15,7 @@ tags: [设计模式]
 
 ### 原型模式类图
 
-![](/images/blogimg//blogimg/GAF/6.png)
+![](/images/blogimg/GAF/6.png)
 
 根据上面所说的我的理解可以这么类比
 
@@ -28,7 +28,7 @@ tags: [设计模式]
 
 方便理解；下面是程序的类图
 
-![](/images/blogimg//blogimg/GAF/7.png)
+![](/images/blogimg/GAF/7.png)
 
 ### 原型模式例子
 

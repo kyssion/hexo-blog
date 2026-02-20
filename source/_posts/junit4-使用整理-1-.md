@@ -52,9 +52,9 @@ public class ItemDemo {
 
 > 过程：指定一个测试用的工具包右键>>new>>other>>搜索junit>>选择 Junit Test Case
 
-![](/images/blogimg//blogimg/junit/1.png)
+![](/images/blogimg/junit/1.png)
 
-![](/images/blogimg//blogimg/junit/2.png)
+![](/images/blogimg/junit/2.png)
 
 创建后的类
 
@@ -70,7 +70,7 @@ public class ItemTest { <span> </span>@Test <span> </span>public void testSum() 
 
 > 右键>>run as Test
 
-![](/images/blogimg//blogimg/junit/3.png)
+![](/images/blogimg/junit/3.png)
 
 
 

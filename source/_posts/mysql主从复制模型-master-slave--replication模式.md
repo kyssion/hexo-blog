@@ -9,9 +9,9 @@ tags: []
 
 ## mysql集群方案有replication和PXC
 
-![](/images/blogimg//blogimg/mysql/1.webp)
+![](/images/blogimg/mysql/1.webp)
 
-![](/images/blogimg//blogimg/mysql/2.jpg )
+![](/images/blogimg/mysql/2.jpg )
 
 
 replication和PXC两种方案写入数据同步比较：
@@ -36,7 +36,7 @@ MySQL主从复制的优点包括：
 
 ### mysql Replication原理
 
-![](/images/blogimg//blogimg/mysql/2.webp)
+![](/images/blogimg/mysql/2.webp)
 
 > 前提是作为主服务器角色的数据库服务器必须开启二进制日志
 
@@ -58,7 +58,7 @@ MySQL主从复制的优点包括：
 
 如果一主多从的话，这时主库既要负责写又要负责为几个从库提供二进制日志。此时可以稍做调整，将二进制日志只给某一从，这一从再开启二进制日志并将自己的二进制日志再发给其它从。或者是干脆这个从不记录只负责将二进制日志转发给其它从，这样架构起来性能可能要好得多，而且数据之间的延时应该也稍微要好一些。工作原理图如下：
 
-![](/images/blogimg//blogimg/mysql/3.webp)
+![](/images/blogimg/mysql/3.webp)
 
 ## 关于二进制日志
 

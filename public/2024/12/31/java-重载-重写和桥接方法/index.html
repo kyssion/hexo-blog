@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192152">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205053">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -250,7 +250,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -329,7 +329,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="重载和重写的对比"><a href="#重载和重写的对比" class="headerlink" title="重载和重写的对比"></a>重载和重写的对比</h2><p><img src="/images/blogimg//blogimg/java/12.png"></p>
+<h2 id="重载和重写的对比"><a href="#重载和重写的对比" class="headerlink" title="重载和重写的对比"></a>重载和重写的对比</h2><p><img src="/images/blogimg/java/12.png"></p>
 <h2 id="重载中产生的桥接方法"><a href="#重载中产生的桥接方法" class="headerlink" title="重载中产生的桥接方法"></a>重载中产生的桥接方法</h2><p>重载中可能有这样一种情况:重写方法的返回类型是其父类返回类型的子类型</p>
 <p>在这种情况下jvm将会自动的生成桥接方法来作为子类和父类调用之间的桥梁</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Merchant</span> &#123;<br>    <span class="hljs-keyword">public</span> Number <span class="hljs-title function_">actionPrice</span><span class="hljs-params">(<span class="hljs-type">double</span> price)</span> &#123;<br>        <span class="hljs-keyword">return</span> price * <span class="hljs-number">0.8</span>;<br>    &#125;<br>&#125;<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">NaiveMerchant</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">Merchant</span> &#123;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Double <span class="hljs-title function_">actionPrice</span><span class="hljs-params">(<span class="hljs-type">double</span> price)</span> &#123;<br>        <span class="hljs-keyword">return</span> <span class="hljs-number">0.9</span> * price;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">Merchant</span> <span class="hljs-variable">merchant</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NaiveMerchant</span>();<br>        <span class="hljs-comment">// price 必须定义成 Number 类型 </span><br>        <span class="hljs-type">Number</span> <span class="hljs-variable">price</span> <span class="hljs-operator">=</span> merchant.actionPrice(<span class="hljs-number">40</span>);<br>        System.out.println(price);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -753,7 +753,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -882,7 +882,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192153"></script>
+<script src="../../../../js/password-protect.js?v=1771605205053"></script>
 
     <script>
       // 移动端菜单切换

@@ -163,7 +163,7 @@ BUILD SUCCESSFUL in 1s
 
 然后可以登入命令行打出的一个网址,在其中的form表单中填写邮箱地址,然后就会将构建的信息发送到邮箱中了
 
-![](/images/blogimg//blogimg/gradle/1.jpg)
+![](/images/blogimg/gradle/1.jpg)
 
 > 注意:这个功能是收费的
 

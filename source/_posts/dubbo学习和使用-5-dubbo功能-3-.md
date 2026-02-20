@@ -208,7 +208,7 @@ Assert.assertEquals(requestId, notify.ret.get(requestId).getId());
 
 > 远程服务后，客户端通常只剩下接口，而实现全在服务器端，但提供方有些时候想在客户端也执行部分逻辑，比如：做 ThreadLocal 缓存，提前验证参数，调用失败后伪造容错数据等等，此时就需要在 API 中带上 Stub，客户端生成 Proxy 实例，会把 Proxy 通过构造函数传给 Stub，然后把 Stub 暴露给用户，Stub 可以决定要不要去调 Proxy。
 
-![](/images/blogimg//blogimg/dubbo/n9.png)
+![](/images/blogimg/dubbo/n9.png)
 
 在 spring 配置文件中按以下方式配置：
 
@@ -422,7 +422,7 @@ try {
 
 通过令牌验证在注册中心控制权限，以决定要不要下发令牌给消费者，可以防止消费者绕过注册中心访问提供者，另外通过注册中心可灵活改变授权方式，而不需修改或升级提供者
 
-![](/images/blogimg//blogimg/dubbo/n10.png)
+![](/images/blogimg/dubbo/n10.png)
 
 可以全局设置开启令牌验证：
 

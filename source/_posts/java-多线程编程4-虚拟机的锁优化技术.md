@@ -64,11 +64,11 @@ public String concatString(String s1, String s2, String s3) {
 
 - 锁是存在Java对象头里的。如果对象是数组类型,则虚拟机用3个字宽(Word)存储对象头,如果对象是非数组类型,则用2字宽存储对象头。在32位虚拟机中,1字宽等于4字节,即32bit,如表
 
-![](/images/blogimg//blogimg/java/5.png)
+![](/images/blogimg/java/5.png)
 
 - Java对象头里的Mark Word里默认存储对象的HashCode、分代年龄和锁标记位。32位JVM的Mark Word的默认存储结构如表
 
-![](/images/blogimg//blogimg/java/6.png)
+![](/images/blogimg/java/6.png)
 
 java中锁一共有4种状态,级别从低到高依次是:无锁状态、偏向锁状态、轻量级锁状态和重量级锁状态,这几个状态会随着竞争情况逐渐升级。锁可以升级但不能降级,意味着偏向锁升级成轻量级锁后不能降级成偏向锁。这种锁升级却不能降级的策略,目的是为了提高获得锁和释放锁的效率
 
@@ -78,7 +78,7 @@ java中锁一共有4种状态,级别从低到高依次是:无锁状态、偏向�
 
 过程：一个线程访问同步块并获取锁时,会在对象头和栈帧中的锁记录里存储锁偏向的线程ID,以后该线程在进入和退出同步块时不需要进行CAS操作来加锁和解锁,只需简单地测试一下对象头的Mark Word里是否存储着指向当前线程的偏向锁。如果测试成功,表示线程已经获得了锁。如果测试失败,则需要再测试一下Mark Word中偏向锁的标识是否设置成1(表示当前是偏向锁):如果没有设置,则使用CAS竞争锁;如果设置了,则尝试使用CAS将对象头的偏向锁指向当前线程。
 
-![](/images/blogimg//blogimg/java/7.png)
+![](/images/blogimg/java/7.png)
 
 #### 轻量级锁
 
@@ -90,11 +90,11 @@ java中锁一共有4种状态,级别从低到高依次是:无锁状态、偏向�
 
 轻量级解锁时,会使用原子的CAS操作将Displaced Mark Word替换回到对象头,如果成功,则表示没有竞争发生。如果失败,表示当前锁存在竞争,锁就会膨胀成重量级锁。
 
-![](/images/blogimg//blogimg/java/8.png)
+![](/images/blogimg/java/8.png)
 
 因为自旋会消耗CPU,为了避免无用的自旋(比如获得锁的线程被阻塞住了),一旦锁升级成重量级锁,就不会再恢复到轻量级锁状态。当锁处于这个状态下,其他线程试图获取锁时,都会被阻塞住,当持有锁的线程释放锁之后会唤醒这些线程,被唤醒的线程就会进行新一轮的夺锁之争
 
-![](/images/blogimg//blogimg/java/9.png)
+![](/images/blogimg/java/9.png)
 
 
 

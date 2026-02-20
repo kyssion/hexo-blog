@@ -33,11 +33,11 @@ tags: []
 
 ### http协议首部字段的书写格式
 
-![](/images/blogimg//blogimg/http2/1.png)
+![](/images/blogimg/http2/1.png)
 
 ### http协议通用首部字段
 
-![](/images/blogimg//blogimg/http2/2.png)
+![](/images/blogimg/http2/2.png)
 
 #### cache-Control
 
@@ -51,13 +51,13 @@ Cache-Control: private,max-age=0,no-cache
 
 > 缓存请求指令
 
-![](/images/blogimg//blogimg/http2/3.png)
+![](/images/blogimg/http2/3.png)
 
-![](/images/blogimg//blogimg/http2/4.png)
+![](/images/blogimg/http2/4.png)
 
 > 缓存响应指令
 
-![](/images/blogimg//blogimg/http2/5.png)
+![](/images/blogimg/http2/5.png)
 
 ####  connection
 
@@ -120,17 +120,17 @@ Expires：Thu，15 Apr  2010  20：00：00  GMT;
 
 表明是否支持更加高级的协议
 
-![](/images/blogimg//blogimg/http2/6.png)
+![](/images/blogimg/http2/6.png)
 
 #### via
 
 > 一般和trace连用用来追踪服务器信息
 
-![](/images/blogimg//blogimg/http2/7.png)
+![](/images/blogimg/http2/7.png)
 
 ### http协议请求首部字段
 
-![](/images/blogimg//blogimg/http2/8.png)
+![](/images/blogimg/http2/8.png)
 
 #### Accept等
 
@@ -157,20 +157,20 @@ form: 1409915687@qq.com
 
 if-match：比对match参数和文件的ETag值 相同返回200 否则412
 
-![](/images/blogimg//blogimg/http2/9.png)
+![](/images/blogimg/http2/9.png)
 
 if-Modified-Since:表示返回文件的最后更新底线，如果文件的实际更新时间在字段时间之前则失败反之成功  （if-unmodifed-since 和这个作用相反）
-![](/images/blogimg//blogimg/http2/10.png)
+![](/images/blogimg/http2/10.png)
 if-no-match:和if-mathch 作用相反，不匹配的时候返回成功
-![](/images/blogimg//blogimg/http2/11.png)
+![](/images/blogimg/http2/11.png)
 if-Range：如果该字段的ETag值或者时间相同就允许做范围资源请求
-![](/images/blogimg//blogimg/http2/12.png)
+![](/images/blogimg/http2/12.png)
 
 #### Max-forwards
 
 指定转发的次数
 
-![](/images/blogimg//blogimg/http2/13.png)
+![](/images/blogimg/http2/13.png)
 
 #### Range
 
@@ -198,15 +198,15 @@ User-Agent:Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko
 
 ### http协议响应首部字段
 
-![](/images/blogimg//blogimg/http2/14.png)
+![](/images/blogimg/http2/14.png)
 
-![](/images/blogimg//blogimg/http2/15.png)
+![](/images/blogimg/http2/15.png)
 
 #### ETag
 
 资源的唯一标识符，当使用不同的语言环境的时候可能会出现相同的uri地址但是指向的却是不同的资源，这就使用ETag进一步标识所要使用的资源
 
-![](/images/blogimg//blogimg/http2/16.png)
+![](/images/blogimg/http2/16.png)
 
 #### location
 
@@ -226,11 +226,11 @@ server：nginx/1.12.0
 
 #### Vary
 
-![](/images/blogimg//blogimg/http2/17.png)
+![](/images/blogimg/http2/17.png)
 
 ### http协议实体首部字段
 
-![](/images/blogimg//blogimg/http2/18.png)
+![](/images/blogimg/http2/18.png)
 
 #### allow
 
@@ -282,9 +282,9 @@ Set-Cookie:sid=123[;name=value....];status=enable;expires=Thu ' 15 Apr 2019 20:0
 
 相关字段属性
 
-![](/images/blogimg//blogimg/http2/19.png)
+![](/images/blogimg/http2/19.png)
 
-![](/images/blogimg//blogimg/http2/20.png)
+![](/images/blogimg/http2/20.png)
 
 - Domain：域，表示当前cookie所属于哪个域或子域下面。
 - Path：表示cookie的所属路径。

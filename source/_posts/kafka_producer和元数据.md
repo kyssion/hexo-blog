@@ -21,7 +21,7 @@ tags: []
 
 ## kafka基本架构系统架构
 
-![](/images/blogimg//blogimg/kafka/kafka副本架构.png)
+![](/images/blogimg/kafka/kafka副本架构.png)
 
 > 名词概念
 
@@ -36,7 +36,7 @@ leader副本负责维护和跟踪ISR和OSR集合的follower副本的滞后状态
 4. LEO ： LEO是Log End Offset的缩写，它标识当前日志文件中下一条待写入消息的offset
 5. HW ： HW是High Watermark的缩写，俗称高水位，它标识了一个特定的消息偏移量（offset），消费者只能拉取到这个offset之前的消息。
 
-![](/images/blogimg//blogimg/kafka/leo和hw关系.png)
+![](/images/blogimg/kafka/leo和hw关系.png)
 
 注意： LEO和HW 都描述的是下一个能插入或者能读入的位置，而不是当前位置
 
@@ -166,7 +166,7 @@ public interface ProducerInterceptor<K, V> extends Configurable {
 
 ## kafka producer架构图
 
-![](/images/blogimg//blogimg/kafka/kafka客户端架构图.png)
+![](/images/blogimg/kafka/kafka客户端架构图.png)
 
 整个生产者客户端由两个线程协调运行，这两个线程分别为主线程和Sender线程（发送线程）。
 

@@ -13,7 +13,7 @@ tags: [spring]
 
 springBoot的自动配置一般配置的源码包是放置在springboot-Autoconfig.jar包下面的
 
-![](/images/blogimg//blogimg/springboot/1.png)
+![](/images/blogimg/springboot/1.png)
 
 在springboot进行运行的时候，@SpringBoot注解提供了自动导入配置的@EableAutoConfiguration 注解  查看一下这个注解的源代码
 
@@ -34,7 +34,7 @@ public @interface EnableAutoConfiguration {
 
 分析源代码我们可以知道，注解中使用了Import注解将EnableAutoConfigurationImportSelector.class这个类进行运行，这个类将会自动的检测META/spring.factories文件，这个文件中声明了相关的各种配置
 
-![](/images/blogimg//blogimg/springboot/2.png)
+![](/images/blogimg/springboot/2.png)
 
 上面文件中的各配置类中都会发现在springboot中声明的各种配置注解 （在autoconfigure.config包下面）如@ConditionalOnProperty  @ConditionalOnMissingBean
 
@@ -68,7 +68,7 @@ public class SpringApplicationAdminJmxAutoConfiguration {
 }
 ```
 
-![](/images/blogimg//blogimg/springboot/3.png)
+![](/images/blogimg/springboot/3.png)
 
 分析一下最后一个注解
 
@@ -178,7 +178,7 @@ public class MyconfigProperties {
 
 其他类尽心引用：通过上面的分析我们已经知道类，spring boot 进行相关的配置的时候其实是通过一个spring.factories 配置文件进行相关的配置的，所以，当我们进行自定一配置的时候需在resouce文件夹下新建METE-INF/spring.factories 文件，导入自己尽心的相关配置
 
-![](/images/blogimg//blogimg/springboot/4.png)
+![](/images/blogimg/springboot/4.png)
 
 ```properties
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\

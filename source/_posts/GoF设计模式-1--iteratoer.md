@@ -16,7 +16,7 @@ tags: [设计模式]
 
 ### 迭代器模式类图
 
-![](/images/blogimg//blogimg/GAF/1.png)
+![](/images/blogimg/GAF/1.png)
 
 - aggregate：这个接口的作用是生成迭代器，也就是说数据的集成类需要集成和实现这个接口，从而可以产生自己的迭代器
 

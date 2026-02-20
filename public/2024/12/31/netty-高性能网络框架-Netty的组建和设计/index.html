@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192176">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205077">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -266,7 +266,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -307,14 +307,14 @@
 </ul>
 <h3 id="二-EventLoop接口"><a href="#二-EventLoop接口" class="headerlink" title="二.EventLoop接口"></a>二.EventLoop接口</h3><p>这个接口相当于一个人容器，控制链接生命周期所发生的相关所有的事件。</p>
 <p>Channel、EventLoop、Thread、EventLoopGroup之间的关系如下图：</p>
-<p><img src="/images/blogimg//blogimg/netty/1.png"></p>
+<p><img src="/images/blogimg/netty/1.png"></p>
 <h3 id="三-ChannelFuure接口"><a href="#三-ChannelFuure接口" class="headerlink" title="三.ChannelFuure接口"></a>三.ChannelFuure接口</h3><p>在netty中处理I&#x2F;O操作异步返回值的方法就是ChannelFutrue接口，这个接口的addListener方法可以注册一个ChannelFutureListener方法，方便在某个操作完成的时候得到通知</p>
 <h3 id="四-ChannelHandler接口"><a href="#四-ChannelHandler接口" class="headerlink" title="四.ChannelHandler接口"></a>四.ChannelHandler接口</h3><p>管理数据流和执行应用程序逻辑的重要组件，ChannelHandler充当了所有处理入站和出站相关应用的逻辑处理的容器</p>
 <p>有两个非常常用的子接口</p>
 <p>ChannelInBoundHandler和ChannelOutboundHandler分别代表出站和入站的相关处理逻辑</p>
 <h3 id="五-ChannelPipeline接口"><a href="#五-ChannelPipeline接口" class="headerlink" title="五.ChannelPipeline接口"></a>五.ChannelPipeline接口</h3><p>chanelPpeline接口为ChannelHandler链提供了容器，并定义了用在该链上传播入站和出站时间流的api，当channl被创建的时候将自动的分配到他专属的ChannelPipeline中被相关的channlhandle处理</p>
 <p>ChnanelPipeline中流动的是事件（事件中可能附加数据）。Netty定义了两种事件类型：入站（inbound）事件和出站（outbound）事件。ChannelPipeline使用拦截过滤器模式使用户可以掌控ChannelHandler处理事件的流程。注意：事件在ChannelPipeline中不自动流动而需要调用ChannelHandlerContext中诸如fileXXX()或者read()类似的方法将事件从一个ChannelHandler传播到下一个ChannelHandler</p>
-<p><img src="/images/blogimg//blogimg/netty/2.png"></p>
+<p><img src="/images/blogimg/netty/2.png"></p>
 <blockquote>
 <p>特殊东西ChannelHandlerContext</p>
 </blockquote>
@@ -343,7 +343,7 @@
 </tbody></table>
 <p><strong>注意</strong>:这里服务端的LoopGroup需要两个，,默认有两个eventloop分别是bossGroup和</p>
 <p>workGroup，其中boss用来监控tcp链接,worker用来处理io事件。</p>
-<p><img src="/images/blogimg//blogimg/netty/3.png"></p>
+<p><img src="/images/blogimg/netty/3.png"></p>
 
         </div>
         
@@ -779,7 +779,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -908,7 +908,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192177"></script>
+<script src="../../../../js/password-protect.js?v=1771605205077"></script>
 
     <script>
       // 移动端菜单切换

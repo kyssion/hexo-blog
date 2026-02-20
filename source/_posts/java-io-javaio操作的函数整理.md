@@ -9,7 +9,7 @@ java io 操作是一个非常重要的工具包,同样也是网络编程和各�
 
 ## java io的层次结构
 
-![](/images/blogimg//blogimg/java/javaIO.png)
+![](/images/blogimg/java/javaIO.png)
 
 这里就先整理一下我最长用的吧
 

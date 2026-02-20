@@ -47,7 +47,7 @@ finalize方法可能会带来性能问题。因为JVM通常在单独的低优先
 
 > 状态变迁图：
 
-![](/images/blogimg//blogimg/java/10.png)
+![](/images/blogimg/java/10.png)
 
 > 变迁说明： 
 

@@ -99,7 +99,7 @@ Function f1 = (String write,Integer one) -> {//多参数
 
 ### lamble 表达式常用的一些接口
 
-  ![](/images/blogimg//blogimg/java/stream_lamble/3.png)
+  ![](/images/blogimg/java/stream_lamble/3.png)
 
 ### lamble表达式的作用域
 

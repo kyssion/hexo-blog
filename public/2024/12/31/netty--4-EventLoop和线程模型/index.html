@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192174">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205076">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -266,7 +266,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -289,7 +289,7 @@
         
         <div class="post-body vscode-markdown">
           <h3 id="线程池模型概述"><a href="#线程池模型概述" class="headerlink" title="线程池模型概述"></a>线程池模型概述</h3><p>基本的线程池化模式可以描述为：</p>
-<p>从池的空闲线程列表中选择一个Thread，并且指派它去运行一个已提交的任务（一个Runnable的实现）；<br>当任务完成时，将该Thread返回给该列表，使其可被重用。<br><img src="/images/blogimg//blogimg/netty/11.png"></p>
+<p>从池的空闲线程列表中选择一个Thread，并且指派它去运行一个已提交的任务（一个Runnable的实现）；<br>当任务完成时，将该Thread返回给该列表，使其可被重用。<br><img src="/images/blogimg/netty/11.png"></p>
 <h3 id="netty中线程模型-eventLoop-使用"><a href="#netty中线程模型-eventLoop-使用" class="headerlink" title="netty中线程模型(eventLoop)使用"></a>netty中线程模型(eventLoop)使用</h3><ol>
 <li>EventLoop接口</li>
 </ol>
@@ -301,7 +301,7 @@
 <p>netty 中EventLoop和channel之间的交互状态的合并方式</p>
 </blockquote>
 <p>Netty的EventLoop是协同设计的一部分，它采用了两个基本的API：并发和网络编程。首先，io.netty.util.concurrent包构建在JDK的java.util.concurrent包上，用来提供线程执行器。其次，io.netty.channel包中的类，为了与Channel的事件进行交互，扩展了这些接口&#x2F;类。</p>
-<p><img src="/images/blogimg//blogimg/netty/12.png"></p>
+<p><img src="/images/blogimg/netty/12.png"></p>
 <p>在这个模型中，一个EventLoop将由一个永远都不会改变的Thread驱动，同时任务（Runnable或者Callable）可以直接提交给EventLoop实现，以立即执行或者调度执行。</p>
 <p>根据配置和可用核心的不同，可能会创建多个EventLoop实例用以优化资源的使用，并且单个EventLoop可能会被指派用于服务多个Channel。</p>
 <p>在Netty 4中，所有的I&#x2F;O操作和事件都由已经被分配给了EventLoop的那个Thread来处理</p>
@@ -755,7 +755,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -884,7 +884,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192175"></script>
+<script src="../../../../js/password-protect.js?v=1771605205076"></script>
 
     <script>
       // 移动端菜单切换

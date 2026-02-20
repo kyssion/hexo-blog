@@ -1,0 +1,5208 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>广告术语（6）-广告归因和评估方法术语 | Hexo</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A simple dark Hexo theme inspired by code.">
+  <meta name="keywords" content="广告术语">
+  <meta name="author" content="John Doe">
+  <link rel="canonical" href="http://example.com">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="广告术语（6）-广告归因和评估方法术语 | Hexo">
+  <meta property="og:description" content="A simple dark Hexo theme inspired by code.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="http://example.com">
+  <meta property="og:site_name" content="Hexo">
+  <meta property="article:published_time" content="2026-02-14T16:25:30.000Z">
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="广告术语（6）-广告归因和评估方法术语 | Hexo">
+  <meta name="twitter:description" content="A simple dark Hexo theme inspired by code.">
+
+  <!-- Favicon 配置 -->
+  
+
+  <!-- 外部样式 - 统一使用 jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- 代码高亮样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+  <!-- Mermaid.js 库 (defer加载) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <!-- 主题样式 -->
+  <link rel="stylesheet" href="../../../../css/theme-colors.css">
+  <link rel="stylesheet" href="../../../../css/main.css">
+  <link rel="stylesheet" href="../../../../css/code.css">
+  <link rel="stylesheet" href="../../../../css/code-custom.css">
+  <link rel="stylesheet" href="../../../../css/code-languages.css">
+  <link rel="stylesheet" href="../../../../css/mermaid.css">
+
+  <link rel="stylesheet" href="../../../../css/vs-code.css">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205008">
+  <link rel="stylesheet" href="../../../../css/tag.css">
+  <link rel="stylesheet" href="../../../../css/categories.css">
+  <link rel="stylesheet" href="../../../../css/archive.css">
+  <link rel="stylesheet" href="../../../../css/search.css">
+  <link rel="stylesheet" href="../../../../css/mobile.css">  <link rel="stylesheet" href="../../../../css/responsive.css">
+  <link rel="stylesheet" href="../../../../css/elements.css">
+
+  <!-- 添加 JetBrains Mono 字体 -->  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Add any custom head content here -->
+
+  <script defer src="../../../../js/explorer.js"></script>
+  <script defer src="../../../../js/code-enhance.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+      <div class="mobile-menu-toggle" aria-label="Toggle sidebar menu" role="button" tabindex="0">
+        <i class="fas fa-bars"></i>
+      </div>
+      <!-- 移动端侧边栏遮罩层 -->
+      <div class="sidebar-overlay" aria-hidden="true"></div>
+      <header class="vs-header">
+  <nav class="vs-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-brand">
+        <i class="fas fa-terminal"></i>
+        Hexo
+      </a>
+    </div>
+    
+    <div class="nav-right">
+      <a href="/" class="nav-item ">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="/archives/" class="nav-item ">
+        <i class="fas fa-archive"></i>
+        <span>Archives</span>
+      </a>
+      <a href="/categories/" class="nav-item ">
+        <i class="fas fa-folder"></i>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" class="nav-item ">
+        <i class="fas fa-tags"></i>
+        <span>Tags</span>
+      </a>
+      <a href="/search/" class="nav-item ">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="/about/" class="nav-item ">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function smoothScroll(event, target) {
+    event.preventDefault();
+    const targetId = target.substring(target.indexOf('#') + 1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 50, // 调整偏移量
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = target;
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.vs-header');
+    const nav = document.querySelector('.vs-nav');
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    
+    nav.style.setProperty('--scroll-percent', `${scrollPercent}%`);
+    
+    if (window.scrollY > 0) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // 添加标签页切换动画
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('nav-ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+</script>
+
+
+<div class="vscode-container">
+  <!-- 左侧资源管理器 -->
+  <div class="sidebar-explorer">
+    <!-- TOC导航 -->
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-list"></i>
+        <span>TABLE OF CONTENTS</span>
+      </div>
+      <div class="section-content">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B9%BF%E5%91%8A%E5%BD%92%E5%9B%A0%E4%B8%8E%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95%E7%BB%88%E6%9E%81%E5%AE%8C%E6%95%B4%E6%B8%85%E5%8D%95"><span class="toc-text">广告归因与评估方法终极完整清单</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%BD%92%E5%9B%A0%E6%A8%A1%E5%9E%8B%E7%B1%BB%EF%BC%88Attribution-Models%EF%BC%89"><span class="toc-text">一、归因模型类（Attribution Models）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%95%88%E6%9E%9C%E8%AF%84%E4%BC%B0%E6%8C%87%E6%A0%87%E7%B1%BB%EF%BC%88Performance-Metrics%EF%BC%89"><span class="toc-text">二、效果评估指标类（Performance Metrics）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E8%BD%AC%E5%8C%96%E8%BF%BD%E8%B8%AA%E7%B1%BB%EF%BC%88Conversion-Tracking%EF%BC%89"><span class="toc-text">三、转化追踪类（Conversion Tracking）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%A2%9E%E9%87%8F%E4%B8%8E%E5%AE%9E%E9%AA%8C%E7%B1%BB%EF%BC%88Incrementality-Testing%EF%BC%89"><span class="toc-text">四、增量与实验类（Incrementality &amp; Testing）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E8%90%A5%E9%94%80%E7%BB%84%E5%90%88%E5%BB%BA%E6%A8%A1%E7%B1%BB%EF%BC%88MMM-Modeling%EF%BC%89"><span class="toc-text">五、营销组合建模类（MMM &amp; Modeling）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E5%93%81%E7%89%8C%E4%B8%8E%E8%AE%A4%E7%9F%A5%E8%AF%84%E4%BC%B0%E7%B1%BB%EF%BC%88Brand-Awareness%EF%BC%89"><span class="toc-text">六、品牌与认知评估类（Brand &amp; Awareness）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E6%B3%A8%E6%84%8F%E5%8A%9B%E4%B8%8E%E8%B4%A8%E9%87%8F%E7%B1%BB%EF%BC%88Attention-Quality%EF%BC%89"><span class="toc-text">七、注意力与质量类（Attention &amp; Quality）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81%E9%9A%90%E7%A7%81%E4%B8%8E%E5%90%88%E8%A7%84%E7%B1%BB%EF%BC%88Privacy-Compliance%EF%BC%89"><span class="toc-text">八、隐私与合规类（Privacy &amp; Compliance）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B9%9D%E3%80%81%E5%B9%B3%E5%8F%B0%E4%B8%93%E6%9C%89%E6%8A%80%E6%9C%AF%E7%B1%BB%EF%BC%88Platform-Specific%EF%BC%89"><span class="toc-text">九、平台专有技术类（Platform-Specific）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E3%80%81%E6%96%B0%E5%85%B4%E6%8A%80%E6%9C%AF%E4%B8%8E%E8%B6%8B%E5%8A%BF%E7%B1%BB%EF%BC%88Emerging-Trends%EF%BC%89"><span class="toc-text">十、新兴技术与趋势类（Emerging &amp; Trends）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%B8%80%E3%80%81%E8%A1%8C%E4%B8%9A%E7%89%B9%E5%AE%9A%E6%96%B9%E6%B3%95%E7%B1%BB%EF%BC%88Industry-Specific%EF%BC%89"><span class="toc-text">十一、行业特定方法类（Industry-Specific）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%BA%8C%E3%80%81%E6%95%B0%E6%8D%AE%E4%B8%8E%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7%E7%B1%BB%EF%BC%88Data-Analytics%EF%BC%89"><span class="toc-text">十二、数据与分析工具类（Data &amp; Analytics）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%B8%89%E3%80%81%E5%AD%A6%E6%9C%AF%E7%A0%94%E7%A9%B6%E6%96%B9%E6%B3%95%E7%B1%BB%EF%BC%88Academic-Research%EF%BC%89"><span class="toc-text">十三、学术研究方法类（Academic Research）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E5%9B%9B%E3%80%81%E5%92%A8%E8%AF%A2%E5%85%AC%E5%8F%B8%E4%B8%93%E6%9C%89%E6%96%B9%E6%B3%95%E7%B1%BB%EF%BC%88Consulting-Proprietary%EF%BC%89"><span class="toc-text">十四、咨询公司专有方法类（Consulting Proprietary）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E4%BA%94%E3%80%81%E5%8C%BA%E5%9F%9F%E7%89%B9%E5%AE%9A%E5%AE%9E%E8%B7%B5%E7%B1%BB%EF%BC%88Regional-Specific%EF%BC%89"><span class="toc-text">十五、区域特定实践类（Regional Specific）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%81%E5%85%AD%E3%80%81%E8%A1%8C%E4%B8%9A%E5%8D%8F%E4%BC%9A%E6%A0%87%E5%87%86%E7%B1%BB%EF%BC%88Industry-Standards%EF%BC%89"><span class="toc-text">十六、行业协会标准类（Industry Standards）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%F0%9F%92%A1-%E4%BD%BF%E7%94%A8%E5%BB%BA%E8%AE%AE"><span class="toc-text">💡 使用建议</span></a></li></ol>
+      </div>
+    </div>
+
+    <!-- 同分类文章 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-folder"></i>
+        <span>CATEGORY POSTS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../21/%E5%B9%BF%E5%91%8A%EF%BC%881%EF%BC%89%E5%85%A8%E5%B1%80%E8%A7%86%E8%A7%92%E7%9C%8B%E6%95%B4%E4%B8%AA%E5%B9%BF%E5%91%8A%E8%A1%8C%E4%B8%9A%E8%A7%92%E8%89%B2%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB%E5%92%8C%E4%BD%9C%E7%94%A8/">广告（1）全局视角看整个广告行业角色之间的关系和作用</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../20/%E5%B9%BF%E5%91%8A%EF%BC%882%EF%BC%89-%E7%A9%BF%E5%B1%B1%E7%94%B2%E5%B9%BF%E5%91%8A%E8%A7%92%E8%89%B2%E5%92%8C%E6%8A%80%E6%9C%AF/">广告（2）-穿山甲广告角色和技术</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../19/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%8810%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%9B%BD%E5%86%85%E8%A1%8C%E4%B8%9A%E6%9C%AF%E8%AF%AD/">广告术语（10）-广告国内行业术语</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../18/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%889%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%B7%A5%E7%A8%8B%E5%92%8C%E8%BF%90%E7%BB%B4%E7%9B%B8%E5%85%B3%E6%9C%AF%E8%AF%AD/">广告术语（9）-广告工程和运维相关术语</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../17/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%888%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%8F%8D%E4%BD%9C%E5%BC%8A%E5%92%8C%E8%B4%A8%E9%87%8F%E6%9C%AF%E8%AF%AD/">广告术语（8）-广告反作弊和质量术语</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../16/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%887%EF%BC%89-%E5%B9%BF%E5%91%8A%E9%9A%90%E7%A7%81%E5%90%88%E8%A7%84%E6%9C%AF%E8%AF%AD/">广告术语（7）-广告隐私合规术语</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../14/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%885%EF%BC%89-%E5%B9%BF%E5%91%8A%E4%BC%98%E5%8C%96%E5%92%8C%E5%87%BA%E4%BB%B7%E7%AD%96%E7%95%A5%E6%9C%AF%E8%AF%AD/">广告术语（5）-广告优化和出价策略术语</a>
+          </div>
+        
+          <div class="file">
+            <i class="fas fa-file-code"></i>
+            <a href="../../13/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%884%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%8D%8F%E8%AE%AE%E5%92%8C%E6%A0%87%E5%87%86%E6%9C%AF%E8%AF%AD/">广告术语（4）-广告协议和标准术语</a>
+          </div>
+        
+      </div>
+    </div>
+    
+    
+    <!-- 标签列表 -->
+    
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-tags"></i>
+        <span>ARTICLE TAGS</span>
+      </div>
+      <div class="section-content">
+        
+          <div class="tag-item">
+            <i class="fas fa-tag"></i>
+            <a href="../../../../tags/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD/">广告术语</a>
+            <span class="count">(10)</span>
+          </div>
+        
+      </div>
+    </div>
+    
+  </div>
+
+  <!-- 主要内容区域 -->
+  <div class="editor-content">
+    <div class="tab-bar">
+      <div class="tab active">
+        <i class="fas fa-file-alt"></i>
+        <span>广告术语（6）-广告归因和评估方法术语.md</span>
+      </div>
+    </div>
+    
+    <div class="content-area">
+      <article class="post-content">
+        <div class="post-header">
+          <h1>广告术语（6）-广告归因和评估方法术语</h1>
+          <div class="post-meta">
+            <span class="date">
+              <i class="fas fa-calendar-alt"></i>
+              2026-02-15
+            </span>
+            
+            <span class="updated-date">
+              <i class="fas fa-sync-alt"></i>
+              Updated 2026-02-21
+            </span>
+                        
+              <span class="categories">
+                <i class="fas fa-folder"></i>
+                <div class="categories-list">
+                  <ul class="category-item-post-list"><li class="category-item-post-list-item"><a class="category-item-post-list-link" href="../../../../categories/%E5%B9%BF%E5%91%8A/">广告</a></li></ul>
+                </div>
+              </span>
+            
+            
+              <span class="tags">
+                <i class="fas fa-tags"></i>
+                <div class="tags-list">
+                  <ul class="tag-item-post-list" itemprop="keywords"><li class="tag-item-post-list-item"><a class="tag-item-post-list-link" href="../../../../tags/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD/" rel="tag">广告术语</a></li></ul>
+                </div>
+              </span>
+            
+          </div>
+        </div>
+        
+        <div class="post-body vscode-markdown">
+          <h1 id="广告归因与评估方法终极完整清单"><a href="#广告归因与评估方法终极完整清单" class="headerlink" title="广告归因与评估方法终极完整清单"></a>广告归因与评估方法终极完整清单</h1><h2 id="一、归因模型类（Attribution-Models）"><a href="#一、归因模型类（Attribution-Models）" class="headerlink" title="一、归因模型类（Attribution Models）"></a>一、归因模型类（Attribution Models）</h2><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>术语</th>
+<th>定义</th>
+<th>来源&#x2F;应用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>Last Click</td>
+<td>末次点击归因</td>
+<td>通用基础</td>
+</tr>
+<tr>
+<td>2</td>
+<td>First Click</td>
+<td>首次点击归因</td>
+<td>通用基础</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Linear</td>
+<td>线性归因</td>
+<td>通用基础</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Time Decay</td>
+<td>时间衰减归因</td>
+<td>通用基础</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Position-Based (U-Shaped)</td>
+<td>位置&#x2F;U型归因</td>
+<td>Google Ads</td>
+</tr>
+<tr>
+<td>6</td>
+<td>W-Shaped</td>
+<td>W型归因</td>
+<td>HubSpot</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Full Path</td>
+<td>全路径归因</td>
+<td>HubSpot</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Z-Shaped</td>
+<td>Z型归因</td>
+<td>咨询定制</td>
+</tr>
+<tr>
+<td>9</td>
+<td>J-Shaped</td>
+<td>J型归因</td>
+<td>咨询定制</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Custom Weighted</td>
+<td>自定义权重归因</td>
+<td>企业自建</td>
+</tr>
+<tr>
+<td>11</td>
+<td>MTA (Multi-Touch Attribution)</td>
+<td>多触点归因</td>
+<td>行业标准</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Data-Driven Attribution</td>
+<td>数据驱动归因</td>
+<td>Google&#x2F;Meta</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Markov Chain Attribution</td>
+<td>马尔可夫链归因</td>
+<td>学术研究</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Shapley Value Attribution</td>
+<td>沙普利值归因</td>
+<td>博弈论</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Removal Effect Attribution</td>
+<td>移除效应归因</td>
+<td>学术研究</td>
+</tr>
+<tr>
+<td>16</td>
+<td>LSTM Attribution</td>
+<td>深度学习归因</td>
+<td>AI研究</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Transformer Attribution</td>
+<td>注意力机制归因</td>
+<td>AI研究</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Survival Analysis Attribution</td>
+<td>生存分析归因</td>
+<td>学术研究</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Bayesian Attribution</td>
+<td>贝叶斯归因</td>
+<td>统计研究</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Game Theory Attribution</td>
+<td>博弈论归因</td>
+<td>学术研究</td>
+</tr>
+<tr>
+<td>21</td>
+<td>Attention-Weighted Attribution</td>
+<td>注意力加权归因</td>
+<td>新兴技术</td>
+</tr>
+<tr>
+<td>22</td>
+<td>Cross-Channel Attribution</td>
+<td>跨渠道归因</td>
+<td>行业标准</td>
+</tr>
+<tr>
+<td>23</td>
+<td>Cross-Device Attribution</td>
+<td>跨设备归因</td>
+<td>行业标准</td>
+</tr>
+<tr>
+<td>24</td>
+<td>Probabilistic Attribution</td>
+<td>概率归因</td>
+<td>隐私保护</td>
+</tr>
+<tr>
+<td>25</td>
+<td>Deterministic Attribution</td>
+<td>确定性归因</td>
+<td>传统方法</td>
+</tr>
+<tr>
+<td>26</td>
+<td>Fingerprinting Attribution</td>
+<td>设备指纹归因</td>
+<td>替代方案</td>
+</tr>
+<tr>
+<td>27</td>
+<td>Cookieless Attribution</td>
+<td>无Cookie归因</td>
+<td>新兴趋势</td>
+</tr>
+<tr>
+<td>28</td>
+<td>Server-Side Attribution</td>
+<td>服务器端归因</td>
+<td>技术趋势</td>
+</tr>
+<tr>
+<td>29</td>
+<td>Self-Attribution</td>
+<td>自归因</td>
+<td>应用商店</td>
+</tr>
+<tr>
+<td>30</td>
+<td>Exposure Attribution</td>
+<td>曝光归因</td>
+<td>品牌广告</td>
+</tr>
+<tr>
+<td>31</td>
+<td>Click Attribution</td>
+<td>点击归因</td>
+<td>效果广告</td>
+</tr>
+<tr>
+<td>32</td>
+<td>View-Through Attribution</td>
+<td>浏览归因</td>
+<td>展示广告</td>
+</tr>
+<tr>
+<td>33</td>
+<td>Engagement Attribution</td>
+<td>互动归因</td>
+<td>社交广告</td>
+</tr>
+<tr>
+<td>34</td>
+<td>Video Completion Attribution</td>
+<td>视频完成归因</td>
+<td>视频广告</td>
+</tr>
+<tr>
+<td>35</td>
+<td>Audio Attribution</td>
+<td>音频归因</td>
+<td>播客&#x2F;音乐</td>
+</tr>
+<tr>
+<td>36</td>
+<td>CTV Attribution</td>
+<td>联网电视归因</td>
+<td>新兴渠道</td>
+</tr>
+<tr>
+<td>37</td>
+<td>DOOH Attribution</td>
+<td>数字户外归因</td>
+<td>户外广告</td>
+</tr>
+<tr>
+<td>38</td>
+<td>In-Store Attribution</td>
+<td>店内归因</td>
+<td>零售</td>
+</tr>
+<tr>
+<td>39</td>
+<td>O2O Attribution</td>
+<td>线上到线下归因</td>
+<td>全渠道</td>
+</tr>
+<tr>
+<td>40</td>
+<td>Phygital Attribution</td>
+<td>物理数字融合归因</td>
+<td>新兴概念</td>
+</tr>
+<tr>
+<td>41</td>
+<td>Blockchain Attribution</td>
+<td>区块链归因</td>
+<td>实验性</td>
+</tr>
+<tr>
+<td>42</td>
+<td>Web3 Attribution</td>
+<td>Web3归因</td>
+<td>实验性</td>
+</tr>
+<tr>
+<td>43</td>
+<td>NFT Campaign Attribution</td>
+<td>NFT活动归因</td>
+<td>实验性</td>
+</tr>
+<tr>
+<td>44</td>
+<td>Metaverse Attribution</td>
+<td>元宇宙归因</td>
+<td>实验性</td>
+</tr>
+<tr>
+<td>45</td>
+<td>Voice Search Attribution</td>
+<td>语音搜索归因</td>
+<td>新兴渠道</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="二、效果评估指标类（Performance-Metrics）"><a href="#二、效果评估指标类（Performance-Metrics）" class="headerlink" title="二、效果评估指标类（Performance Metrics）"></a>二、效果评估指标类（Performance Metrics）</h2><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>术语</th>
+<th>定义</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>46</td>
+<td>Impression (Imp)</td>
+<td>曝光</td>
+<td>基础指标</td>
+</tr>
+<tr>
+<td>47</td>
+<td>Click</td>
+<td>点击</td>
+<td>基础指标</td>
+</tr>
+<tr>
+<td>48</td>
+<td>CTR (Click-Through Rate)</td>
+<td>点击率</td>
+<td>基础指标</td>
+</tr>
+<tr>
+<td>49</td>
+<td>CPC (Cost Per Click)</td>
+<td>单次点击成本</td>
+<td>基础指标</td>
+</tr>
+<tr>
+<td>50</td>
+<td>CPM (Cost Per Mille)</td>
+<td>千次曝光成本</td>
+<td>基础指标</td>
+</tr>
+<tr>
+<td>51</td>
+<td>CPV (Cost Per View)</td>
+<td>单次观看成本</td>
+<td>视频广告</td>
+</tr>
+<tr>
+<td>52</td>
+<td>CPA (Cost Per Action)</td>
+<td>单次行动成本</td>
+<td>效果广告</td>
+</tr>
+<tr>
+<td>53</td>
+<td>CPL (Cost Per Lead)</td>
+<td>单条线索成本</td>
+<td>B2B</td>
+</tr>
+<tr>
+<td>54</td>
+<td>CPS (Cost Per Sale)</td>
+<td>单次销售成本</td>
+<td>电商</td>
+</tr>
+<tr>
+<td>55</td>
+<td>CPI (Cost Per Install)</td>
+<td>单次安装成本</td>
+<td>应用推广</td>
+</tr>
+<tr>
+<td>56</td>
+<td>CPE (Cost Per Engagement)</td>
+<td>单次互动成本</td>
+<td>社交广告</td>
+</tr>
+<tr>
+<td>57</td>
+<td>CPD (Cost Per Download)</td>
+<td>单次下载成本</td>
+<td>应用推广</td>
+</tr>
+<tr>
+<td>58</td>
+<td>CPR (Cost Per Registration)</td>
+<td>单次注册成本</td>
+<td>用户获取</td>
+</tr>
+<tr>
+<td>59</td>
+<td>CPSale (Cost Per Sale)</td>
+<td>单次销售成本</td>
+<td>电商</td>
+</tr>
+<tr>
+<td>60</td>
+<td>CPOrder (Cost Per Order)</td>
+<td>单次订单成本</td>
+<td>电商</td>
+</tr>
+<tr>
+<td>61</td>
+<td>ROAS (Return on Ad Spend)</td>
+<td>广告支出回报率</td>
+<td>核心指标</td>
+</tr>
+<tr>
+<td>62</td>
+<td>ROI (Return on Investment)</td>
+<td>投资回报率</td>
+<td>核心指标</td>
+</tr>
+<tr>
+<td>63</td>
+<td>ACOS (Advertising Cost of Sales)</td>
+<td>广告销售成本比</td>
+<td>亚马逊</td>
+</tr>
+<tr>
+<td>64</td>
+<td>TACOS (Total ACOS)</td>
+<td>总广告销售成本比</td>
+<td>亚马逊</td>
+</tr>
+<tr>
+<td>65</td>
+<td>LTV (Lifetime Value)</td>
+<td>用户生命周期价值</td>
+<td>长期评估</td>
+</tr>
+<tr>
+<td>66</td>
+<td>CAC (Customer Acquisition Cost)</td>
+<td>获客成本</td>
+<td>核心指标</td>
+</tr>
+<tr>
+<td>67</td>
+<td>LTV:CAC Ratio</td>
+<td>生命周期获客成本比</td>
+<td>健康度</td>
+</tr>
+<tr>
+<td>68</td>
+<td>Payback Period</td>
+<td>回本周期</td>
+<td>财务评估</td>
+</tr>
+<tr>
+<td>69</td>
+<td>Conversion Rate (CVR)</td>
+<td>转化率</td>
+<td>核心指标</td>
+</tr>
+<tr>
+<td>70</td>
+<td>Revenue Per User (RPU)</td>
+<td>每用户收入</td>
+<td>收入分析</td>
+</tr>
+<tr>
+<td>71</td>
+<td>ARPU (Average Revenue Per User)</td>
+<td>平均每用户收入</td>
+<td>收入分析</td>
+</tr>
+<tr>
+<td>72</td>
+<td>ARPPU (Average Revenue Per Paying User)</td>
+<td>平均每付费用户收入</td>
+<td>收入分析</td>
+</tr>
+<tr>
+<td>73</td>
+<td>AOV (Average Order Value)</td>
+<td>平均订单价值</td>
+<td>电商</td>
+</tr>
+<tr>
+<td>74</td>
+<td>Cart Abandonment Rate</td>
+<td>购物车放弃率</td>
+<td>电商</td>
+</tr>
+<tr>
+<td>75</td>
+<td>Bounce Rate</td>
+<td>跳出率</td>
+<td>网站分析</td>
+</tr>
+<tr>
+<td>76</td>
+<td>Exit Rate</td>
+<td>退出率</td>
+<td>网站分析</td>
+</tr>
+<tr>
+<td>77</td>
+<td>Session Duration</td>
+<td>会话时长</td>
+<td>网站分析</td>
+</tr>
+<tr>
+<td>78</td>
+<td>Pages Per Session</td>
+<td>每会话页数</td>
+<td>网站分析</td>
+</tr>
+<tr>
+<td>79</td>
+<td>Return Visitor Rate</td>
+<td>回访率</td>
+<td>忠诚度</td>
+</tr>
+<tr>
+<td>80</td>
+<td>Churn Rate</td>
+<td>流失率</td>
+<td>订阅服务</td>
+</tr>
+<tr>
+<td>81</td>
+<td>Retention Rate</td>
+<td>留存率</td>
+<td>用户运营</td>
+</tr>
+<tr>
+<td>82</td>
+<td>D1&#x2F;D7&#x2F;D30 Retention</td>
+<td>1&#x2F;7&#x2F;30日留存率</td>
+<td>应用运营</td>
+</tr>
+<tr>
+<td>83</td>
+<td>Engagement Rate</td>
+<td>互动率</td>
+<td>社交广告</td>
+</tr>
+<tr>
+<td>84</td>
+<td>Completion Rate</td>
+<td>完播率</td>
+<td>视频广告</td>
+</tr>
+<tr>
+<td>85</td>
+<td>Viewability Rate</td>
+<td>可见曝光率</td>
+<td>广告质量</td>
+</tr>
+<tr>
+<td>86</td>
+<td>Quality Score</td>
+<td>质量得分</td>
+<td>Google Ads</td>
+</tr>
+<tr>
+<td>87</td>
+<td>Relevance Score</td>
+<td>相关度得分</td>
+<td>Meta Ads</td>
+</tr>
+<tr>
+<td>88</td>
+<td>Frequency</td>
+<td>频次</td>
+<td>频次管理</td>
+</tr>
+<tr>
+<td>89</td>
+<td>Reach</td>
+<td>触达人数</td>
+<td>覆盖范围</td>
+</tr>
+<tr>
+<td>90</td>
+<td>Impression Share</td>
+<td>曝光份额</td>
+<td>竞争分析</td>
+</tr>
+<tr>
+<td>91</td>
+<td>Share of Voice (SOV)</td>
+<td>声量份额</td>
+<td>品牌分析</td>
+</tr>
+<tr>
+<td>92</td>
+<td>Share of Search</td>
+<td>搜索份额</td>
+<td>品牌分析</td>
+</tr>
+<tr>
+<td>93</td>
+<td>Brand Search Volume</td>
+<td>品牌搜索量</td>
+<td>品牌分析</td>
+</tr>
+<tr>
+<td>94</td>
+<td>Direct Traffic</td>
+<td>直接流量</td>
+<td>网站分析</td>
+</tr>
+<tr>
+<td>95</td>
+<td>Organic Traffic</td>
+<td>自然流量</td>
+<td>SEO</td>
+</tr>
+<tr>
+<td>96</td>
+<td>Paid Traffic</td>
+<td>付费流量</td>
+<td>付费广告</td>
+</tr>
+<tr>
+<td>97</td>
+<td>Referral Traffic</td>
+<td>引荐流量</td>
+<td>渠道分析</td>
+</tr>
+<tr>
+<td>98</td>
+<td>Social Traffic</td>
+<td>社交流量</td>
+<td>社交分析</td>
+</tr>
+<tr>
+<td>99</td>
+<td>Email Traffic</td>
+<td>邮件流量</td>
+<td>邮件营销</td>
+</tr>
+<tr>
+<td>100</td>
+<td>Display Traffic</td>
+<td>展示流量</td>
+<td>展示广告</td>
+</tr>
+<tr>
+<td>101</td>
+<td>Video Traffic</td>
+<td>视频流量</td>
+<td>视频广告</td>
+</tr>
+<tr>
+<td>102</td>
+<td>Mobile Traffic</td>
+<td>移动流量</td>
+<td>设备分析</td>
+</tr>
+<tr>
+<td>103</td>
+<td>Desktop Traffic</td>
+<td>桌面流量</td>
+<td>设备分析</td>
+</tr>
+<tr>
+<td>104</td>
+<td>Tablet Traffic</td>
+<td>平板流量</td>
+<td>设备分析</td>
+</tr>
+<tr>
+<td>105</td>
+<td>CTV Traffic</td>
+<td>联网电视流量</td>
+<td>新兴渠道</td>
+</tr>
+<tr>
+<td>106</td>
+<td>New User Rate</td>
+<td>新用户率</td>
+<td>用户获取</td>
+</tr>
+<tr>
+<td>107</td>
+<td>Returning User Rate</td>
+<td>回访用户率</td>
+<td>用户留存</td>
+</tr>
+<tr>
+<td>108</td>
+<td>Active User Rate</td>
+<td>活跃用户率</td>
+<td>用户活跃</td>
+</tr>
+<tr>
+<td>109</td>
+<td>DAU (Daily Active Users)</td>
+<td>日活跃用户</td>
+<td>用户活跃</td>
+</tr>
+<tr>
+<td>110</td>
+<td>MAU (Monthly Active Users)</td>
+<td>月活跃用户</td>
+<td>用户活跃</td>
+</tr>
+<tr>
+<td>111</td>
+<td>WAU (Weekly Active Users)</td>
+<td>周活跃用户</td>
+<td>用户活跃</td>
+</tr>
+<tr>
+<td>112</td>
+<td>DAU&#x2F;MAU Ratio</td>
+<td>日活月活比</td>
+<td>用户粘性</td>
+</tr>
+<tr>
+<td>113</td>
+<td>Stickiness</td>
+<td>粘性指标</td>
+<td>用户粘性</td>
+</tr>
+<tr>
+<td>114</td>
+<td>Viral Coefficient</td>
+<td>病毒系数</td>
+<td>病毒传播</td>
+</tr>
+<tr>
+<td>115</td>
+<td>K-Factor</td>
+<td>K因子</td>
+<td>病毒传播</td>
+</tr>
+<tr>
+<td>116</td>
+<td>Referral Rate</td>
+<td>推荐率</td>
+<td>推荐营销</td>
+</tr>
+<tr>
+<td>117</td>
+<td>NPS (Net Promoter Score)</td>
+<td>净推荐值</td>
+<td>用户满意度</td>
+</tr>
+<tr>
+<td>118</td>
+<td>CSAT (Customer Satisfaction)</td>
+<td>客户满意度</td>
+<td>用户满意度</td>
+</tr>
+<tr>
+<td>119</td>
+<td>CES (Customer Effort Score)</td>
+<td>客户费力程度</td>
+<td>用户体验</td>
+</tr>
+<tr>
+<td>120</td>
+<td>CLV (Customer Lifetime Value)</td>
+<td>客户生命周期价值</td>
+<td>长期价值</td>
+</tr>
+<tr>
+<td>121</td>
+<td>MRR (Monthly Recurring Revenue)</td>
+<td>月度经常性收入</td>
+<td>订阅服务</td>
+</tr>
+<tr>
+<td>122</td>
+<td>ARR (Annual Recurring Revenue)</td>
+<td>年度经常性收入</td>
+<td>订阅服务</td>
+</tr>
+<tr>
+<td>123</td>
+<td>Churn Cost</td>
+<td>流失成本</td>
+<td>财务分析</td>
+</tr>
+<tr>
+<td>124</td>
+<td>Expansion Revenue</td>
+<td>扩张收入</td>
+<td>订阅服务</td>
+</tr>
+<tr>
+<td>125</td>
+<td>Contraction Revenue</td>
+<td>收缩收入</td>
+<td>订阅服务</td>
+</tr>
+<tr>
+<td>126</td>
+<td>Net Revenue Retention</td>
+<td>净收入留存率</td>
+<td>订阅服务</td>
+</tr>
+<tr>
+<td>127</td>
+<td>Gross Revenue Retention</td>
+<td>总收入留存率</td>
+<td>订阅服务</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="三、转化追踪类（Conversion-Tracking）"><a href="#三、转化追踪类（Conversion-Tracking）" class="headerlink" title="三、转化追踪类（Conversion Tracking）"></a>三、转化追踪类（Conversion Tracking）</h2><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>术语</th>
+<th>定义</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>128</td>
+<td>Click-Through Conversion (CTC)</td>
+<td>点击后转化</td>
+<td>基础追踪</td>
+</tr>
+<tr>
+<td>129</td>
+<td>View-Through Conversion (VTC)</td>
+<td>曝光后转化</td>
+<td>展示广告</td>
+</tr>
+<tr>
+<td>130</td>
+<td>Attribution Window</td>
+<td>归因窗口</td>
+<td>时间设定</td>
+</tr>
+<tr>
+<td>131</td>
+<td>Conversion API (CAPI)</td>
+<td>转化回传API</td>
+<td>服务器端</td>
+</tr>
+<tr>
+<td>132</td>
+<td>Pixel Tracking</td>
+<td>Pixel追踪</td>
+<td>客户端</td>
+</tr>
+<tr>
+<td>133</td>
+<td>Offline Conversion</td>
+<td>离线转化</td>
+<td>线下场景</td>
+</tr>
+<tr>
+<td>134</td>
+<td>Store Visit Attribution</td>
+<td>到店归因</td>
+<td>零售</td>
+</tr>
+<tr>
+<td>135</td>
+<td>Call Tracking</td>
+<td>电话追踪</td>
+<td>电话销售</td>
+</tr>
+<tr>
+<td>136</td>
+<td>QR Code Attribution</td>
+<td>二维码归因</td>
+<td>线下扫码</td>
+</tr>
+<tr>
+<td>137</td>
+<td>Coupon Code Attribution</td>
+<td>优惠码归因</td>
+<td>促销追踪</td>
+</tr>
+<tr>
+<td>138</td>
+<td>UTM Parameter Tracking</td>
+<td>UTM参数追踪</td>
+<td>URL标记</td>
+</tr>
+<tr>
+<td>139</td>
+<td>Deep Link Attribution</td>
+<td>深度链接归因</td>
+<td>App跳转</td>
+</tr>
+<tr>
+<td>140</td>
+<td>Universal Link Attribution</td>
+<td>通用链接归因</td>
+<td>iOS深度链接</td>
+</tr>
+<tr>
+<td>141</td>
+<td>App Install Attribution</td>
+<td>应用安装归因</td>
+<td>应用推广</td>
+</tr>
+<tr>
+<td>142</td>
+<td>In-App Event Attribution</td>
+<td>应用内事件归因</td>
+<td>App内行为</td>
+</tr>
+<tr>
+<td>143</td>
+<td>SKAN (StoreKit Ad Network)</td>
+<td>苹果广告归因框架</td>
+<td>iOS隐私</td>
+</tr>
+<tr>
+<td>144</td>
+<td>SKAN 4.0&#x2F;5.0</td>
+<td>苹果归因新版</td>
+<td>iOS隐私</td>
+</tr>
+<tr>
+<td>145</td>
+<td>AdAttributionKit</td>
+<td>苹果归因工具包</td>
+<td>iOS 2025+</td>
+</tr>
+<tr>
+<td>146</td>
+<td>AEM (Advanced Event Measurement)</td>
+<td>高级事件衡量</td>
+<td>Meta iOS</td>
+</tr>
+<tr>
+<td>147</td>
+<td>Enhanced Conversions</td>
+<td>增强转化</td>
+<td>Google</td>
+</tr>
+<tr>
+<td>148</td>
+<td>Consent Mode</td>
+<td>同意模式</td>
+<td>Google隐私</td>
+</tr>
+<tr>
+<td>149</td>
+<td>Server-Side Tagging</td>
+<td>服务器端标记</td>
+<td>数据收集</td>
+</tr>
+<tr>
+<td>150</td>
+<td>Google Ads Conversion Tracking</td>
+<td>Google转化追踪</td>
+<td>Google Ads</td>
+</tr>
+<tr>
+<td>151</td>
+<td>Meta Conversions API</td>
+<td>Meta转化API</td>
+<td>Meta广告</td>
+</tr>
+<tr>
+<td>152</td>
+<td>TikTok Pixel</td>
+<td>TikTok像素</td>
+<td>TikTok广告</td>
+</tr>
+<tr>
+<td>153</td>
+<td>TikTok Events API</td>
+<td>TikTok事件API</td>
+<td>TikTok服务器端</td>
+</tr>
+<tr>
+<td>154</td>
+<td>LinkedIn Insight Tag</td>
+<td>LinkedIn洞察标签</td>
+<td>LinkedIn广告</td>
+</tr>
+<tr>
+<td>155</td>
+<td>Pinterest Tag</td>
+<td>Pinterest标签</td>
+<td>Pinterest广告</td>
+</tr>
+<tr>
+<td>156</td>
+<td>Snap Pixel</td>
+<td>Snap像素</td>
+<td>Snapchat广告</td>
+</tr>
+<tr>
+<td>157</td>
+<td>Twitter&#x2F;X Conversion API</td>
+<td>Twitter转化API</td>
+<td>X平台</td>
+</tr>
+<tr>
+<td>158</td>
+<td>Amazon Attribution</td>
+<td>亚马逊归因</td>
+<td>亚马逊站外</td>
+</tr>
+<tr>
+<td>159</td>
+<td>Apple Search Ads Attribution</td>
+<td>苹果搜索广告归因</td>
+<td>App Store</td>
+</tr>
+<tr>
+<td>160</td>
+<td>Microsoft Advertising UET</td>
+<td>微软广告UET</td>
+<td>Microsoft Ads</td>
+</tr>
+<tr>
+<td>161</td>
+<td>AppsFlyer Attribution</td>
+<td>AppsFlyer归因</td>
+<td>MMP平台</td>
+</tr>
+<tr>
+<td>162</td>
+<td>Adjust Attribution</td>
+<td>Adjust归因</td>
+<td>MMP平台</td>
+</tr>
+<tr>
+<td>163</td>
+<td>Branch Attribution</td>
+<td>Branch归因</td>
+<td>深度链接</td>
+</tr>
+<tr>
+<td>164</td>
+<td>Kochava Attribution</td>
+<td>Kochava归因</td>
+<td>MMP平台</td>
+</tr>
+<tr>
+<td>165</td>
+<td>Singular Attribution</td>
+<td>Singular归因</td>
+<td>MMP平台</td>
+</tr>
+<tr>
+<td>166</td>
+<td>Airbridge Attribution</td>
+<td>Airbridge归因</td>
+<td>MMP平台</td>
+</tr>
+<tr>
+<td>167</td>
+<td>Tenjin Attribution</td>
+<td>Tenjin归因</td>
+<td>游戏归因</td>
+</tr>
+<tr>
+<td>168</td>
+<td>GameAnalytics Attribution</td>
+<td>游戏分析归因</td>
+<td>游戏行业</td>
+</tr>
+<tr>
+<td>169</td>
+<td>Firebase Attribution</td>
+<td>Firebase归因</td>
+<td>Google移动</td>
+</tr>
+<tr>
+<td>170</td>
+<td>OneLink Attribution</td>
+<td>OneLink归因</td>
+<td>Branch</td>
+</tr>
+<tr>
+<td>171</td>
+<td>Deferred Deep Linking</td>
+<td>延迟深度链接</td>
+<td>App安装后</td>
+</tr>
+<tr>
+<td>172</td>
+<td>Re-engagement Attribution</td>
+<td>再互动归因</td>
+<td>老用户激活</td>
+</tr>
+<tr>
+<td>173</td>
+<td>Web-to-App Attribution</td>
+<td>网页到App归因</td>
+<td>跨平台</td>
+</tr>
+<tr>
+<td>174</td>
+<td>App-to-Web Attribution</td>
+<td>App到网页归因</td>
+<td>跨平台</td>
+</tr>
+<tr>
+<td>175</td>
+<td>Cross-Platform Attribution</td>
+<td>跨平台归因</td>
+<td>全渠道</td>
+</tr>
+<tr>
+<td>176</td>
+<td>Identity Graph Attribution</td>
+<td>身份图谱归因</td>
+<td>身份解析</td>
+</tr>
+<tr>
+<td>177</td>
+<td>Device Graph Attribution</td>
+<td>设备图谱归因</td>
+<td>设备匹配</td>
+</tr>
+<tr>
+<td>178</td>
+<td>Probabilistic Matching</td>
+<td>概率匹配</td>
+<td>隐私保护</td>
+</tr>
+<tr>
+<td>179</td>
+<td>Deterministic Matching</td>
+<td>确定性匹配</td>
+<td>精确匹配</td>
+</tr>
+<tr>
+<td>180</td>
+<td>Hashed Email Matching</td>
+<td>哈希邮箱匹配</td>
+<td>隐私匹配</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="四、增量与实验类（Incrementality-Testing）"><a href="#四、增量与实验类（Incrementality-Testing）" class="headerlink" title="四、增量与实验类（Incrementality &amp; Testing）"></a>四、增量与实验类（Incrementality &amp; Testing）</h2><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>术语</th>
+<th>定义</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>181</td>
+<td>Incrementality</td>
+<td>增量效果</td>
+<td>核心评估</td>
+</tr>
+<tr>
+<td>182</td>
+<td>Ghost Ads</td>
+<td>幽灵广告</td>
+<td>增量测试</td>
+</tr>
+<tr>
+<td>183</td>
+<td>Holdout Group Testing</td>
+<td>对照组测试</td>
+<td>实验设计</td>
+</tr>
+<tr>
+<td>184</td>
+<td>Geo Experiments</td>
+<td>地理区域实验</td>
+<td>区域测试</td>
+</tr>
+<tr>
+<td>185</td>
+<td>Conversion Lift</td>
+<td>转化提升测试</td>
+<td>Meta&#x2F;Google</td>
+</tr>
+<tr>
+<td>186</td>
+<td>Search Lift</td>
+<td>搜索提升研究</td>
+<td>品牌搜索</td>
+</tr>
+<tr>
+<td>187</td>
+<td>Brand Lift Study</td>
+<td>品牌提升研究</td>
+<td>品牌评估</td>
+</tr>
+<tr>
+<td>188</td>
+<td>A&#x2F;B Testing</td>
+<td>A&#x2F;B测试</td>
+<td>基础实验</td>
+</tr>
+<tr>
+<td>189</td>
+<td>A&#x2F;B&#x2F;n Testing</td>
+<td>多变量测试</td>
+<td>多版本对比</td>
+</tr>
+<tr>
+<td>190</td>
+<td>Multivariate Testing</td>
+<td>多变量测试</td>
+<td>因素组合</td>
+</tr>
+<tr>
+<td>191</td>
+<td>Split Testing</td>
+<td>分流测试</td>
+<td>流量分割</td>
+</tr>
+<tr>
+<td>192</td>
+<td>Randomized Controlled Trial (RCT)</td>
+<td>随机对照试验</td>
+<td>科学实验</td>
+</tr>
+<tr>
+<td>193</td>
+<td>Causal Impact Analysis</td>
+<td>因果影响分析</td>
+<td>因果推断</td>
+</tr>
+<tr>
+<td>194</td>
+<td>Synthetic Control Method</td>
+<td>合成控制法</td>
+<td>虚拟对照</td>
+</tr>
+<tr>
+<td>195</td>
+<td>Difference-in-Differences (DiD)</td>
+<td>双重差分法</td>
+<td>因果推断</td>
+</tr>
+<tr>
+<td>196</td>
+<td>Regression Discontinuity</td>
+<td>回归断点设计</td>
+<td>阈值分析</td>
+</tr>
+<tr>
+<td>197</td>
+<td>Instrumental Variables</td>
+<td>工具变量法</td>
+<td>内生性处理</td>
+</tr>
+<tr>
+<td>198</td>
+<td>Propensity Score Matching</td>
+<td>倾向得分匹配</td>
+<td>样本匹配</td>
+</tr>
+<tr>
+<td>199</td>
+<td>CUPED</td>
+<td>方差减少技术</td>
+<td>实验优化</td>
+</tr>
+<tr>
+<td>200</td>
+<td>Sequential Testing</td>
+<td>序贯测试</td>
+<td>持续监测</td>
+</tr>
+<tr>
+<td>201</td>
+<td>Bayesian Testing</td>
+<td>贝叶斯测试</td>
+<td>概率推断</td>
+</tr>
+<tr>
+<td>202</td>
+<td>Multi-Armed Bandit</td>
+<td>多臂老虎机</td>
+<td>动态分配</td>
+</tr>
+<tr>
+<td>203</td>
+<td>Thompson Sampling</td>
+<td>汤普森采样</td>
+<td>动态分配</td>
+</tr>
+<tr>
+<td>204</td>
+<td>Epsilon-Greedy</td>
+<td>ε-贪婪算法</td>
+<td>动态分配</td>
+</tr>
+<tr>
+<td>205</td>
+<td>Interference Testing</td>
+<td>干扰测试</td>
+<td>网络效应</td>
+</tr>
+<tr>
+<td>206</td>
+<td>Cluster Randomization</td>
+<td>聚类随机化</td>
+<td>群体实验</td>
+</tr>
+<tr>
+<td>207</td>
+<td>Switchback Testing</td>
+<td>切换测试</td>
+<td>时间序列</td>
+</tr>
+<tr>
+<td>208</td>
+<td>Factorial Design</td>
+<td>因子设计</td>
+<td>多因素实验</td>
+</tr>
+<tr>
+<td>209</td>
+<td>Latin Square Design</td>
+<td>拉丁方设计</td>
+<td>平衡实验</td>
+</tr>
+<tr>
+<td>210</td>
+<td>Crossover Design</td>
+<td>交叉设计</td>
+<td>前后对比</td>
+</tr>
+<tr>
+<td>211</td>
+<td>Stepped Wedge Design</td>
+<td>阶梯楔形设计</td>
+<td>逐步推广</td>
+</tr>
+<tr>
+<td>212</td>
+<td>Interrupted Time Series</td>
+<td>中断时间序列</td>
+<td>政策评估</td>
+</tr>
+<tr>
+<td>213</td>
+<td>Natural Experiment</td>
+<td>自然实验</td>
+<td>外生冲击</td>
+</tr>
+<tr>
+<td>214</td>
+<td>Quasi-Experiment</td>
+<td>准实验</td>
+<td>非随机实验</td>
+</tr>
+<tr>
+<td>215</td>
+<td>Shadow Bidding</td>
+<td>影子出价</td>
+<td>出价测试</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="五、营销组合建模类（MMM-Modeling）"><a href="#五、营销组合建模类（MMM-Modeling）" class="headerlink" title="五、营销组合建模类（MMM &amp; Modeling）"></a>五、营销组合建模类（MMM &amp; Modeling）</h2><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>术语</th>
+<th>定义</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>216</td>
+<td>MMM (Marketing Mix Modeling)</td>
+<td>营销组合建模</td>
+<td>宏观评估</td>
+</tr>
+<tr>
+<td>217</td>
+<td>Bayesian MMM</td>
+<td>贝叶斯MMM</td>
+<td>概率建模</td>
+</tr>
+<tr>
+<td>218</td>
+<td>Time Series MMM</td>
+<td>时间序列MMM</td>
+<td>时间分析</td>
+</tr>
+<tr>
+<td>219</td>
+<td>Geo-MMM</td>
+<td>地理MMM</td>
+<td>区域建模</td>
+</tr>
+<tr>
+<td>220</td>
+<td>Channel Contribution Model</td>
+<td>渠道贡献模型</td>
+<td>渠道分析</td>
+</tr>
+<tr>
+<td>221</td>
+<td>Media Efficiency Model</td>
+<td>媒体效率模型</td>
+<td>媒体评估</td>
+</tr>
+<tr>
+<td>222</td>
+<td>Budget Optimization Model</td>
+<td>预算优化模型</td>
+<td>预算分配</td>
+</tr>
+<tr>
+<td>223</td>
+<td>Response Curve Modeling</td>
+<td>响应曲线建模</td>
+<td>投入产出</td>
+</tr>
+<tr>
+<td>224</td>
+<td>Adstock Modeling</td>
+<td>广告衰减建模</td>
+<td>效果延迟</td>
+</tr>
+<tr>
+<td>225</td>
+<td>Saturation Curve Modeling</td>
+<td>饱和曲线建模</td>
+<td>边际效应</td>
+</tr>
+<tr>
+<td>226</td>
+<td>Halo Effect Modeling</td>
+<td>光环效应建模</td>
+<td>品牌协同</td>
+</tr>
+<tr>
+<td>227</td>
+<td>Cross-Media Modeling</td>
+<td>跨媒体建模</td>
+<td>媒体协同</td>
+</tr>
+<tr>
+<td>228</td>
+<td>Unified MMM+MTA</td>
+<td>统一MMM+MTA</td>
+<td>宏微结合</td>
+</tr>
+<tr>
+<td>229</td>
+<td>AI-Powered MMM</td>
+<td>AI驱动MMM</td>
+<td>机器学习</td>
+</tr>
+<tr>
+<td>230</td>
+<td>LightweightMMM</td>
+<td>轻量级MMM</td>
+<td>Google开源</td>
+</tr>
+<tr>
+<td>231</td>
+<td>Robyn MMM</td>
+<td>Robyn建模</td>
+<td>Meta开源</td>
+</tr>
+<tr>
+<td>232</td>
+<td>Meridian MMM</td>
+<td>Meridian建模</td>
+<td>Google新一代</td>
+</tr>
+<tr>
+<td>233</td>
+<td>Prophet MMM</td>
+<td>Prophet建模</td>
+<td>Facebook开源</td>
+</tr>
+<tr>
+<td>234</td>
+<td>ARIMA Modeling</td>
+<td>ARIMA建模</td>
+<td>时间序列</td>
+</tr>
+<tr>
+<td>235</td>
+<td>VAR Modeling</td>
+<td>VAR建模</td>
+<td>向量自回归</td>
+</tr>
+<tr>
+<td>236</td>
+<td>State Space Modeling</td>
+<td>状态空间建模</td>
+<td>动态系统</td>
+</tr>
+<tr>
+<td>237</td>
+<td>Kalman Filter</td>
+<td>卡尔曼滤波</td>
+<td>状态估计</td>
+</tr>
+<tr>
+<td>238</td>
+<td>Hierarchical Modeling</td>
+<td>层次建模</td>
+<td>多层结构</td>
+</tr>
+<tr>
+<td>239</td>
+<td>Multilevel Modeling</td>
+<td>多级建模</td>
+<td>嵌套数据</td>
+</tr>
+<tr>
+<td>240</td>
+<td>Panel Data Modeling</td>
+<td>面板数据建模</td>
+<td>横纵数据</td>
+</tr>
+<tr>
+<td>241</td>
+<td>Structural Equation Modeling</td>
+<td>结构方程建模</td>
+<td>因果路径</td>
+</tr>
+<tr>
+<td>242</td>
+<td>Path Analysis</td>
+<td>路径分析</td>
+<td>变量关系</td>
+</tr>
+<tr>
+<td>243</td>
+<td>Mediation Analysis</td>
+<td>中介分析</td>
+<td>间接效应</td>
+</tr>
+<tr>
+<td>244</td>
+<td>Moderation Analysis</td>
+<td>调节分析</td>
+<td>交互效应</td>
+</tr>
+<tr>
+<td>245</td>
+<td>Elasticity Modeling</td>
+<td>弹性建模</td>
+<td>价格敏感度</td>
+</tr>
+<tr>
+<td>246</td>
+<td>Price Optimization Modeling</td>
+<td>价格优化建模</td>
+<td>定价策略</td>
+</tr>
+<tr>
+<td>247</td>
+<td>Promotion Modeling</td>
+<td>促销建模</td>
+<td>促销效果</td>
+</tr>
+<tr>
+<td>248</td>
+<td>Seasonality Modeling</td>
+<td>季节性建模</td>
+<td>季节因素</td>
+</tr>
+<tr>
+<td>249</td>
+<td>Trend Modeling</td>
+<td>趋势建模</td>
+<td>长期趋势</td>
+</tr>
+<tr>
+<td>250</td>
+<td>Event Modeling</td>
+<td>事件建模</td>
+<td>特殊事件</td>
+</tr>
+<tr>
+<td>251</td>
+<td>Competitor Response Modeling</td>
+<td>竞争响应建模</td>
+<td>竞争分析</td>
+</tr>
+<tr>
+<td>252</td>
+<td>Market Share Modeling</td>
+<td>市场份额建模</td>
+<td>竞争格局</td>
+</tr>
+<tr>
+<td>253</td>
+<td>Demand Forecasting</td>
+<td>需求预测</td>
+<td>销量预测</td>
+</tr>
+<tr>
+<td>254</td>
+<td>Supply Chain Modeling</td>
+<td>供应链建模</td>
+<td>供应链优化</td>
+</tr>
+<tr>
+<td>255</td>
+<td>Customer Journey Modeling</td>
+<td>用户旅程建模</td>
+<td>路径分析</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="六、品牌与认知评估类（Brand-Awareness）"><a href="#六、品牌与认知评估类（Brand-Awareness）" class="headerlink" title="六、品牌与认知评估类（Brand &amp; Awareness）"></a>六、品牌与认知评估类（Brand &amp; Awareness）</h2><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>术语</th>
+<th>定义</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>256</td>
+<td>Ad Recall Lift</td>
+<td>广告回想提升</td>
+<td>品牌记忆</td>
+</tr>
+<tr>
+<td>257</td>
+<td>Awareness Lift</td>
+<td>认知度提升</td>
+<td>品牌认知</td>
+</tr>
+<tr>
+<td>258</td>
+<td>Consideration Lift</td>
+<td>考虑度提升</td>
+<td>购买考虑</td>
+</tr>
+<tr>
+<td>259</td>
+<td>Purchase Intent Lift</td>
+<td>购买意向提升</td>
+<td>购买意愿</td>
+</tr>
+<tr>
+<td>260</td>
+<td>Brand Favorability Lift</td>
+<td>品牌好感度提升</td>
+<td>品牌态度</td>
+</tr>
+<tr>
+<td>261</td>
+<td>Share of Voice (SOV)</td>
+<td>声量份额</td>
+<td>品牌声量</td>
+</tr>
+<tr>
+<td>262</td>
+<td>Share of Search</td>
+<td>搜索份额</td>
+<td>搜索热度</td>
+</tr>
+<tr>
+<td>263</td>
+<td>Net Promoter Score (NPS)</td>
+<td>净推荐值</td>
+<td>用户忠诚</td>
+</tr>
+<tr>
+<td>264</td>
+<td>Brand Equity</td>
+<td>品牌资产</td>
+<td>品牌价值</td>
+</tr>
+<tr>
+<td>265</td>
+<td>Brand Health Tracking</td>
+<td>品牌健康追踪</td>
+<td>持续监测</td>
+</tr>
+<tr>
+<td>266</td>
+<td>Sentiment Analysis</td>
+<td>情感分析</td>
+<td>舆情分析</td>
+</tr>
+<tr>
+<td>267</td>
+<td>Social Listening</td>
+<td>社交聆听</td>
+<td>社交监测</td>
+</tr>
+<tr>
+<td>268</td>
+<td>Brand Mention Tracking</td>
+<td>品牌提及追踪</td>
+<td>品牌曝光</td>
+</tr>
+<tr>
+<td>269</td>
+<td>Earned Media Value</td>
+<td>免费媒体价值</td>
+<td>自然传播</td>
+</tr>
+<tr>
+<td>270</td>
+<td>PR Impact Measurement</td>
+<td>公关影响测量</td>
+<td>公关效果</td>
+</tr>
+<tr>
+<td>271</td>
+<td>Message Resonance</td>
+<td>信息共鸣度</td>
+<td>信息效果</td>
+</tr>
+<tr>
+<td>272</td>
+<td>Brand Association</td>
+<td>品牌联想</td>
+<td>品牌认知</td>
+</tr>
+<tr>
+<td>273</td>
+<td>Brand Personality</td>
+<td>品牌个性</td>
+<td>品牌定位</td>
+</tr>
+<tr>
+<td>274</td>
+<td>Brand Loyalty</td>
+<td>品牌忠诚度</td>
+<td>用户忠诚</td>
+</tr>
+<tr>
+<td>275</td>
+<td>Brand Switching</td>
+<td>品牌转换</td>
+<td>竞争分析</td>
+</tr>
+<tr>
+<td>276</td>
+<td>Top of Mind Awareness</td>
+<td>第一提及认知</td>
+<td>品牌记忆</td>
+</tr>
+<tr>
+<td>277</td>
+<td>Unaided Awareness</td>
+<td>无提示认知</td>
+<td>自然认知</td>
+</tr>
+<tr>
+<td>278</td>
+<td>Aided Awareness</td>
+<td>有提示认知</td>
+<td>提示认知</td>
+</tr>
+<tr>
+<td>279</td>
+<td>Brand Preference</td>
+<td>品牌偏好</td>
+<td>购买偏好</td>
+</tr>
+<tr>
+<td>280</td>
+<td>Brand Trust</td>
+<td>品牌信任</td>
+<td>信任度</td>
+</tr>
+<tr>
+<td>281</td>
+<td>Brand Reputation</td>
+<td>品牌声誉</td>
+<td>声誉管理</td>
+</tr>
+<tr>
+<td>282</td>
+<td>Brand Crisis Monitoring</td>
+<td>品牌危机监测</td>
+<td>危机管理</td>
+</tr>
+<tr>
+<td>283</td>
+<td>Influencer Impact</td>
+<td>网红影响力</td>
+<td>KOL效果</td>
+</tr>
+<tr>
+<td>284</td>
+<td>Word of Mouth Tracking</td>
+<td>口碑追踪</td>
+<td>自然传播</td>
+</tr>
+<tr>
+<td>285</td>
+<td>Dark Social Attribution</td>
+<td>暗社交归因</td>
+<td>私域分享</td>
+</tr>
+<tr>
+<td>286</td>
+<td>Brand Community Engagement</td>
+<td>品牌社区互动</td>
+<td>社区运营</td>
+</tr>
+<tr>
+<td>287</td>
+<td>Brand Advocacy</td>
+<td>品牌倡导</td>
+<td>用户倡导</td>
+</tr>
+<tr>
+<td>288</td>
+<td>Customer Lifetime Brand Value</td>
+<td>客户终身品牌价值</td>
+<td>长期价值</td>
+</tr>
+<tr>
+<td>289</td>
+<td>Brand Premium</td>
+<td>品牌溢价</td>
+<td>价格溢价</td>
+</tr>
+<tr>
+<td>290</td>
+<td>Brand Dilution</td>
+<td>品牌稀释</td>
+<td>品牌风险</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="七、注意力与质量类（Attention-Quality）"><a href="#七、注意力与质量类（Attention-Quality）" class="headerlink" title="七、注意力与质量类（Attention &amp; Quality）"></a>七、注意力与质量类（Attention &amp; Quality）</h2><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>术语</th>
+<th>定义</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>291</td>
+<td>Viewability</td>
+<td>可见曝光率</td>
+<td>广告质量</td>
+</tr>
+<tr>
+<td>292</td>
+<td>Active View</td>
+<td>主动观看</td>
+<td>Google标准</td>
+</tr>
+<tr>
+<td>293</td>
+<td>Attention Time</td>
+<td>注意力时长</td>
+<td>注意力指标</td>
+</tr>
+<tr>
+<td>294</td>
+<td>Attention Score</td>
+<td>注意力得分</td>
+<td>注意力指标</td>
+</tr>
+<tr>
+<td>295</td>
+<td>Dwell Time</td>
+<td>停留时间</td>
+<td>页面质量</td>
+</tr>
+<tr>
+<td>296</td>
+<td>Scroll Depth</td>
+<td>滚动深度</td>
+<td>页面参与</td>
+</tr>
+<tr>
+<td>297</td>
+<td>Video Completion Rate</td>
+<td>视频完播率</td>
+<td>视频质量</td>
+</tr>
+<tr>
+<td>298</td>
+<td>Quartile Completion</td>
+<td>四分之一完成度</td>
+<td>视频进度</td>
+</tr>
+<tr>
+<td>299</td>
+<td>Skip Rate</td>
+<td>跳过率</td>
+<td>可跳过广告</td>
+</tr>
+<tr>
+<td>300</td>
+<td>Mute Rate</td>
+<td>静音率</td>
+<td>视频声音</td>
+</tr>
+<tr>
+<td>301</td>
+<td>Interaction Rate</td>
+<td>互动率</td>
+<td>可互动广告</td>
+</tr>
+<tr>
+<td>302</td>
+<td>Hover Rate</td>
+<td>悬停率</td>
+<td>鼠标交互</td>
+</tr>
+<tr>
+<td>303</td>
+<td>Eye Tracking Metrics</td>
+<td>眼动追踪指标</td>
+<td>注意力研究</td>
+</tr>
+<tr>
+<td>304</td>
+<td>Heatmap Analysis</td>
+<td>热力图分析</td>
+<td>用户行为</td>
+</tr>
+<tr>
+<td>305</td>
+<td>In-View Time</td>
+<td>可视时长</td>
+<td>可见时间</td>
+</tr>
+<tr>
+<td>306</td>
+<td>Audible &amp; Viewable</td>
+<td>可听可见</td>
+<td>视频标准</td>
+</tr>
+<tr>
+<td>307</td>
+<td>MRC Standard</td>
+<td>MRC标准</td>
+<td>行业标准</td>
+</tr>
+<tr>
+<td>308</td>
+<td>IAB Standard</td>
+<td>IAB标准</td>
+<td>行业标准</td>
+</tr>
+<tr>
+<td>309</td>
+<td>Ads.txt</td>
+<td>授权卖家</td>
+<td>广告透明</td>
+</tr>
+<tr>
+<td>310</td>
+<td>App-ads.txt</td>
+<td>应用授权卖家</td>
+<td>应用广告</td>
+</tr>
+<tr>
+<td>311</td>
+<td>Sellers.json</td>
+<td>卖家信息</td>
+<td>广告透明</td>
+</tr>
+<tr>
+<td>312</td>
+<td>Supply Chain Object</td>
+<td>供应链对象</td>
+<td>广告透明</td>
+</tr>
+<tr>
+<td>313</td>
+<td>Brand Safety Score</td>
+<td>品牌安全评分</td>
+<td>品牌安全</td>
+</tr>
+<tr>
+<td>314</td>
+<td>Content Suitability</td>
+<td>内容适宜性</td>
+<td>内容匹配</td>
+</tr>
+<tr>
+<td>315</td>
+<td>Fraud Detection Rate</td>
+<td>欺诈检测率</td>
+<td>反欺诈</td>
+</tr>
+<tr>
+<td>316</td>
+<td>Invalid Traffic Rate</td>
+<td>无效流量率</td>
+<td>流量质量</td>
+</tr>
+<tr>
+<td>317</td>
+<td>Bot Traffic Rate</td>
+<td>机器人流量率</td>
+<td>反机器人</td>
+</tr>
+<tr>
+<td>318</td>
+<td>Click Fraud Rate</td>
+<td>点击欺诈率</td>
+<td>反欺诈</td>
+</tr>
+<tr>
+<td>319</td>
+<td>Impression Fraud Rate</td>
+<td>曝光欺诈率</td>
+<td>反欺诈</td>
+</tr>
+<tr>
+<td>320</td>
+<td>Domain Quality Score</td>
+<td>域名质量得分</td>
+<td>网站质量</td>
+</tr>
+<tr>
+<td>321</td>
+<td>Page Load Time</td>
+<td>页面加载时间</td>
+<td>用户体验</td>
+</tr>
+<tr>
+<td>322</td>
+<td>Core Web Vitals</td>
+<td>核心网页指标</td>
+<td>用户体验</td>
+</tr>
+<tr>
+<td>323</td>
+<td>Mobile Usability</td>
+<td>移动可用性</td>
+<td>移动体验</td>
+</tr>
+<tr>
+<td>324</td>
+<td>Accessibility Score</td>
+<td>可访问性得分</td>
+<td>无障碍</td>
+</tr>
+<tr>
+<td>325</td>
+<td>SEO Score</td>
+<td>SEO得分</td>
+<td>搜索优化</td>
+</tr>
+<tr>
+<td>326</td>
+<td>Content Quality Score</td>
+<td>内容质量得分</td>
+<td>内容评估</td>
+</tr>
+<tr>
+<td>327</td>
+<td>Creative Effectiveness</td>
+<td>创意效果</td>
+<td>创意评估</td>
+</tr>
+<tr>
+<td>328</td>
+<td>Ad Fatigue Rate</td>
+<td>广告疲劳率</td>
+<td>频次管理</td>
+</tr>
+<tr>
+<td>329</td>
+<td>Creative Refresh Rate</td>
+<td>创意更新率</td>
+<td>创意管理</td>
+</tr>
+<tr>
+<td>330</td>
+<td>Ad Placement Quality</td>
+<td>广告位质量</td>
+<td>位置评估</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="八、隐私与合规类（Privacy-Compliance）"><a href="#八、隐私与合规类（Privacy-Compliance）" class="headerlink" title="八、隐私与合规类（Privacy &amp; Compliance）"></a>八、隐私与合规类（Privacy &amp; Compliance）</h2><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>术语</th>
+<th>定义</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>331</td>
+<td>GDPR Compliance</td>
+<td>GDPR合规</td>
+<td>欧盟</td>
+</tr>
+<tr>
+<td>332</td>
+<td>CCPA Compliance</td>
+<td>CCPA合规</td>
+<td>加州</td>
+</tr>
+<tr>
+<td>333</td>
+<td>CPRA Compliance</td>
+<td>CPRA合规</td>
+<td>加州新版</td>
+</tr>
+<tr>
+<td>334</td>
+<td>PIPL Compliance</td>
+<td>PIPL合规</td>
+<td>中国</td>
+</tr>
+<tr>
+<td>335</td>
+<td>LGPD Compliance</td>
+<td>LGPD合规</td>
+<td>巴西</td>
+</tr>
+<tr>
+<td>336</td>
+<td>PIPEDA Compliance</td>
+<td>PIPEDA合规</td>
+<td>加拿大</td>
+</tr>
+<tr>
+<td>337</td>
+<td>APPI Compliance</td>
+<td>APPI合规</td>
+<td>日本</td>
+</tr>
+<tr>
+<td>338</td>
+<td>PDPA Compliance</td>
+<td>PDPA合规</td>
+<td>新加坡&#x2F;泰国</td>
+</tr>
+<tr>
+<td>339</td>
+<td>Privacy-Safe Attribution</td>
+<td>隐私安全归因</td>
+<td>隐私保护</td>
+</tr>
+<tr>
+<td>340</td>
+<td>Clean Room Attribution</td>
+<td>数据洁净室归因</td>
+<td>安全匹配</td>
+</tr>
+<tr>
+<td>341</td>
+<td>Differential Privacy</td>
+<td>差分隐私</td>
+<td>隐私保护</td>
+</tr>
+<tr>
+<td>342</td>
+<td>Federated Learning</td>
+<td>联邦学习</td>
+<td>分布式训练</td>
+</tr>
+<tr>
+<td>343</td>
+<td>Aggregated Attribution</td>
+<td>聚合归因</td>
+<td>汇总数据</td>
+</tr>
+<tr>
+<td>344</td>
+<td>Identity Resolution</td>
+<td>身份解析</td>
+<td>用户识别</td>
+</tr>
+<tr>
+<td>345</td>
+<td>Unified ID 2.0</td>
+<td>统一ID 2.0</td>
+<td>The Trade Desk</td>
+</tr>
+<tr>
+<td>346</td>
+<td>Retail Media Network ID</td>
+<td>零售媒体网络ID</td>
+<td>零售商</td>
+</tr>
+<tr>
+<td>347</td>
+<td>Contextual Targeting</td>
+<td>上下文定向</td>
+<td>内容匹配</td>
+</tr>
+<tr>
+<td>348</td>
+<td>Cohort Targeting</td>
+<td>群体定向</td>
+<td>群体分析</td>
+</tr>
+<tr>
+<td>349</td>
+<td>FLoC (Federated Learning of Cohorts)</td>
+<td>联邦学习群体</td>
+<td>Google沙盒</td>
+</tr>
+<tr>
+<td>350</td>
+<td>Topics API</td>
+<td>主题API</td>
+<td>Google沙盒</td>
+</tr>
+<tr>
+<td>351</td>
+<td>Protected Audience API</td>
+<td>保护受众API</td>
+<td>Google沙盒</td>
+</tr>
+<tr>
+<td>352</td>
+<td>Attribution Reporting API</td>
+<td>归因报告API</td>
+<td>Google沙盒</td>
+</tr>
+<tr>
+<td>353</td>
+<td>First-Party Data Strategy</td>
+<td>第一方数据策略</td>
+<td>数据资产</td>
+</tr>
+<tr>
+<td>354</td>
+<td>Zero-Party Data</td>
+<td>零方数据</td>
+<td>用户主动提供</td>
+</tr>
+<tr>
+<td>355</td>
+<td>Consent Management</td>
+<td>同意管理</td>
+<td>合规管理</td>
+</tr>
+<tr>
+<td>356</td>
+<td>Cookie Consent</td>
+<td>Cookie同意</td>
+<td>网站合规</td>
+</tr>
+<tr>
+<td>357</td>
+<td>Do Not Track</td>
+<td>不追踪</td>
+<td>用户选择</td>
+</tr>
+<tr>
+<td>358</td>
+<td>Do Not Sell</td>
+<td>不出售</td>
+<td>用户选择</td>
+</tr>
+<tr>
+<td>359</td>
+<td>Data Minimization</td>
+<td>数据最小化</td>
+<td>隐私原则</td>
+</tr>
+<tr>
+<td>360</td>
+<td>Purpose Limitation</td>
+<td>目的限制</td>
+<td>隐私原则</td>
+</tr>
+<tr>
+<td>361</td>
+<td>Storage Limitation</td>
+<td>存储限制</td>
+<td>隐私原则</td>
+</tr>
+<tr>
+<td>362</td>
+<td>Data Subject Rights</td>
+<td>数据主体权利</td>
+<td>用户权利</td>
+</tr>
+<tr>
+<td>363</td>
+<td>Right to Access</td>
+<td>访问权</td>
+<td>用户权利</td>
+</tr>
+<tr>
+<td>364</td>
+<td>Right to Erasure</td>
+<td>删除权</td>
+<td>用户权利</td>
+</tr>
+<tr>
+<td>365</td>
+<td>Right to Portability</td>
+<td>可携带权</td>
+<td>用户权利</td>
+</tr>
+<tr>
+<td>366</td>
+<td>Right to Rectification</td>
+<td>更正权</td>
+<td>用户权利</td>
+</tr>
+<tr>
+<td>367</td>
+<td>Data Processing Agreement</td>
+<td>数据处理协议</td>
+<td>法律文件</td>
+</tr>
+<tr>
+<td>368</td>
+<td>Privacy Impact Assessment</td>
+<td>隐私影响评估</td>
+<td>风险评估</td>
+</tr>
+<tr>
+<td>369</td>
+<td>Data Protection Officer</td>
+<td>数据保护官</td>
+<td>组织角色</td>
+</tr>
+<tr>
+<td>370</td>
+<td>Cross-Border Data Transfer</td>
+<td>跨境数据传输</td>
+<td>数据流动</td>
+</tr>
+<tr>
+<td>371</td>
+<td>Standard Contractual Clauses</td>
+<td>标准合同条款</td>
+<td>跨境合规</td>
+</tr>
+<tr>
+<td>372</td>
+<td>Binding Corporate Rules</td>
+<td>约束性企业规则</td>
+<td>跨境合规</td>
+</tr>
+<tr>
+<td>373</td>
+<td>Privacy Shield</td>
+<td>隐私盾</td>
+<td>美欧传输</td>
+</tr>
+<tr>
+<td>374</td>
+<td>Data Localization</td>
+<td>数据本地化</td>
+<td>数据存储</td>
+</tr>
+<tr>
+<td>375</td>
+<td>Anonymization</td>
+<td>匿名化</td>
+<td>隐私保护</td>
+</tr>
+<tr>
+<td>376</td>
+<td>Pseudonymization</td>
+<td>假名化</td>
+<td>隐私保护</td>
+</tr>
+<tr>
+<td>377</td>
+<td>Encryption</td>
+<td>加密</td>
+<td>数据安全</td>
+</tr>
+<tr>
+<td>378</td>
+<td>Tokenization</td>
+<td>令牌化</td>
+<td>数据安全</td>
+</tr>
+<tr>
+<td>379</td>
+<td>Secure Multi-Party Computation</td>
+<td>安全多方计算</td>
+<td>隐私计算</td>
+</tr>
+<tr>
+<td>380</td>
+<td>Homomorphic Encryption</td>
+<td>同态加密</td>
+<td>隐私计算</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="九、平台专有技术类（Platform-Specific）"><a href="#九、平台专有技术类（Platform-Specific）" class="headerlink" title="九、平台专有技术类（Platform-Specific）"></a>九、平台专有技术类（Platform-Specific）</h2><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>术语</th>
+<th>定义</th>
+<th>平台</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>381</td>
+<td>Google Ads Attribution</td>
+<td>Google广告归因</td>
+<td>Google</td>
+</tr>
+<tr>
+<td>382</td>
+<td>Google Analytics 4</td>
+<td>GA4分析</td>
+<td>Google</td>
+</tr>
+<tr>
+<td>383</td>
+<td>Google Marketing Platform</td>
+<td>Google营销平台</td>
+<td>Google</td>
+</tr>
+<tr>
+<td>384</td>
+<td>DV360 Attribution</td>
+<td>DV360归因</td>
+<td>Google DSP</td>
+</tr>
+<tr>
+<td>385</td>
+<td>CM360 Attribution</td>
+<td>CM360归因</td>
+<td>Google CM</td>
+</tr>
+<tr>
+<td>386</td>
+<td>SA360 Attribution</td>
+<td>SA360归因</td>
+<td>Google搜索</td>
+</tr>
+<tr>
+<td>387</td>
+<td>Meta Conversions API</td>
+<td>Meta转化API</td>
+<td>Meta</td>
+</tr>
+<tr>
+<td>388</td>
+<td>Meta Pixel</td>
+<td>Meta像素</td>
+<td>Meta</td>
+</tr>
+<tr>
+<td>389</td>
+<td>Meta Advanced Matching</td>
+<td>Meta高级匹配</td>
+<td>Meta</td>
+</tr>
+<tr>
+<td>390</td>
+<td>Meta Aggregated Event Measurement</td>
+<td>Meta聚合事件衡量</td>
+<td>Meta</td>
+</tr>
+<tr>
+<td>391</td>
+<td>Amazon Attribution</td>
+<td>亚马逊归因</td>
+<td>Amazon</td>
+</tr>
+<tr>
+<td>392</td>
+<td>Amazon Marketing Cloud</td>
+<td>亚马逊营销云</td>
+<td>Amazon</td>
+</tr>
+<tr>
+<td>393</td>
+<td>Amazon DSP Attribution</td>
+<td>亚马逊DSP归因</td>
+<td>Amazon</td>
+</tr>
+<tr>
+<td>394</td>
+<td>Amazon Advertising Console</td>
+<td>亚马逊广告控制台</td>
+<td>Amazon</td>
+</tr>
+<tr>
+<td>395</td>
+<td>TikTok Pixel</td>
+<td>TikTok像素</td>
+<td>TikTok</td>
+</tr>
+<tr>
+<td>396</td>
+<td>TikTok Events API</td>
+<td>TikTok事件API</td>
+<td>TikTok</td>
+</tr>
+<tr>
+<td>397</td>
+<td>TikTok Marketing API</td>
+<td>TikTok营销API</td>
+<td>TikTok</td>
+</tr>
+<tr>
+<td>398</td>
+<td>LinkedIn Insight Tag</td>
+<td>LinkedIn洞察标签</td>
+<td>LinkedIn</td>
+</tr>
+<tr>
+<td>399</td>
+<td>LinkedIn Conversion API</td>
+<td>LinkedIn转化API</td>
+<td>LinkedIn</td>
+</tr>
+<tr>
+<td>400</td>
+<td>LinkedIn Marketing API</td>
+<td>LinkedIn营销API</td>
+<td>LinkedIn</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Pinterest Tag</td>
+<td>Pinterest标签</td>
+<td>Pinterest</td>
+</tr>
+<tr>
+<td>402</td>
+<td>Pinterest Conversion API</td>
+<td>Pinterest转化API</td>
+<td>Pinterest</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Snap Pixel</td>
+<td>Snap像素</td>
+<td>Snapchat</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Snap Conversion API</td>
+<td>Snap转化API</td>
+<td>Snapchat</td>
+</tr>
+<tr>
+<td>405</td>
+<td>Twitter&#x2F;X Conversion API</td>
+<td>Twitter转化API</td>
+<td>X</td>
+</tr>
+<tr>
+<td>406</td>
+<td>Twitter&#x2F;X Pixel</td>
+<td>Twitter像素</td>
+<td>X</td>
+</tr>
+<tr>
+<td>407</td>
+<td>Apple Search Ads Attribution</td>
+<td>苹果搜索广告归因</td>
+<td>Apple</td>
+</tr>
+<tr>
+<td>408</td>
+<td>Apple AdAttributionKit</td>
+<td>苹果归因工具包</td>
+<td>Apple</td>
+</tr>
+<tr>
+<td>409</td>
+<td>Apple SKAdNetwork</td>
+<td>苹果广告网络</td>
+<td>Apple</td>
+</tr>
+<tr>
+<td>410</td>
+<td>Apple Private Click Measurement</td>
+<td>苹果私密点击衡量</td>
+<td>Apple</td>
+</tr>
+<tr>
+<td>411</td>
+<td>Microsoft Advertising UET</td>
+<td>微软广告UET</td>
+<td>Microsoft</td>
+</tr>
+<tr>
+<td>412</td>
+<td>Microsoft Clarity</td>
+<td>微软清晰度</td>
+<td>Microsoft</td>
+</tr>
+<tr>
+<td>413</td>
+<td>Bing Ads Attribution</td>
+<td>Bing广告归因</td>
+<td>Microsoft</td>
+</tr>
+<tr>
+<td>414</td>
+<td>Trade Desk Unified ID</td>
+<td>Trade Desk统一ID</td>
+<td>The Trade Desk</td>
+</tr>
+<tr>
+<td>415</td>
+<td>Trade Desk Koa</td>
+<td>Trade Desk AI</td>
+<td>The Trade Desk</td>
+</tr>
+<tr>
+<td>416</td>
+<td>LiveRamp IdentityLink</td>
+<td>LiveRamp身份链接</td>
+<td>LiveRamp</td>
+</tr>
+<tr>
+<td>417</td>
+<td>LiveRamp Safe Haven</td>
+<td>LiveRamp安全港</td>
+<td>LiveRamp</td>
+</tr>
+<tr>
+<td>418</td>
+<td>Adobe Analytics</td>
+<td>Adobe分析</td>
+<td>Adobe</td>
+</tr>
+<tr>
+<td>419</td>
+<td>Adobe Experience Platform</td>
+<td>Adobe体验平台</td>
+<td>Adobe</td>
+</tr>
+<tr>
+<td>420</td>
+<td>Adobe Audience Manager</td>
+<td>Adobe受众管理</td>
+<td>Adobe</td>
+</tr>
+<tr>
+<td>421</td>
+<td>Salesforce Marketing Cloud</td>
+<td>Salesforce营销云</td>
+<td>Salesforce</td>
+</tr>
+<tr>
+<td>422</td>
+<td>Salesforce DMP</td>
+<td>Salesforce DMP</td>
+<td>Salesforce</td>
+</tr>
+<tr>
+<td>423</td>
+<td>Oracle Advertising</td>
+<td>Oracle广告</td>
+<td>Oracle</td>
+</tr>
+<tr>
+<td>424</td>
+<td>Oracle Data Cloud</td>
+<td>Oracle数据云</td>
+<td>Oracle</td>
+</tr>
+<tr>
+<td>425</td>
+<td>Yahoo Ads Attribution</td>
+<td>Yahoo广告归因</td>
+<td>Yahoo</td>
+</tr>
+<tr>
+<td>426</td>
+<td>Yahoo DSP Attribution</td>
+<td>Yahoo DSP归因</td>
+<td>Yahoo</td>
+</tr>
+<tr>
+<td>427</td>
+<td>Roku Advertising</td>
+<td>Roku广告</td>
+<td>Roku</td>
+</tr>
+<tr>
+<td>428</td>
+<td>Roku Attribution</td>
+<td>Roku归因</td>
+<td>Roku</td>
+</tr>
+<tr>
+<td>429</td>
+<td>Samsung Ads Attribution</td>
+<td>三星广告归因</td>
+<td>Samsung</td>
+</tr>
+<tr>
+<td>430</td>
+<td>LG Ads Attribution</td>
+<td>LG广告归因</td>
+<td>LG</td>
+</tr>
+<tr>
+<td>431</td>
+<td>Hulu Ads Attribution</td>
+<td>Hulu广告归因</td>
+<td>Hulu</td>
+</tr>
+<tr>
+<td>432</td>
+<td>Spotify Ads Attribution</td>
+<td>Spotify广告归因</td>
+<td>Spotify</td>
+</tr>
+<tr>
+<td>433</td>
+<td>Pandora Ads Attribution</td>
+<td>Pandora广告归因</td>
+<td>Pandora</td>
+</tr>
+<tr>
+<td>434</td>
+<td>YouTube Ads Attribution</td>
+<td>YouTube广告归因</td>
+<td>YouTube</td>
+</tr>
+<tr>
+<td>435</td>
+<td>Connected TV Attribution</td>
+<td>联网电视归因</td>
+<td>CTV平台</td>
+</tr>
+<tr>
+<td>436</td>
+<td>Programmatic Attribution</td>
+<td>程序化归因</td>
+<td>程序化平台</td>
+</tr>
+<tr>
+<td>437</td>
+<td>SSP Attribution</td>
+<td>SSP归因</td>
+<td>供应方平台</td>
+</tr>
+<tr>
+<td>438</td>
+<td>DSP Attribution</td>
+<td>DSP归因</td>
+<td>需求方平台</td>
+</tr>
+<tr>
+<td>439</td>
+<td>Ad Exchange Attribution</td>
+<td>广告交易归因</td>
+<td>广告交易所</td>
+</tr>
+<tr>
+<td>440</td>
+<td>Ad Network Attribution</td>
+<td>广告网络归因</td>
+<td>广告网络</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十、新兴技术与趋势类（Emerging-Trends）"><a href="#十、新兴技术与趋势类（Emerging-Trends）" class="headerlink" title="十、新兴技术与趋势类（Emerging &amp; Trends）"></a>十、新兴技术与趋势类（Emerging &amp; Trends）</h2><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>术语</th>
+<th>定义</th>
+<th>成熟度</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>441</td>
+<td>AI-Powered Attribution</td>
+<td>AI驱动归因</td>
+<td>发展中</td>
+</tr>
+<tr>
+<td>442</td>
+<td>Predictive Attribution</td>
+<td>预测归因</td>
+<td>发展中</td>
+</tr>
+<tr>
+<td>443</td>
+<td>Real-Time Attribution</td>
+<td>实时归因</td>
+<td>发展中</td>
+</tr>
+<tr>
+<td>444</td>
+<td>Blockchain Attribution</td>
+<td>区块链归因</td>
+<td>实验性</td>
+</tr>
+<tr>
+<td>445</td>
+<td>Web3 Attribution</td>
+<td>Web3归因</td>
+<td>实验性</td>
+</tr>
+<tr>
+<td>446</td>
+<td>NFT Campaign Tracking</td>
+<td>NFT活动追踪</td>
+<td>实验性</td>
+</tr>
+<tr>
+<td>447</td>
+<td>Metaverse Attribution</td>
+<td>元宇宙归因</td>
+<td>实验性</td>
+</tr>
+<tr>
+<td>448</td>
+<td>CTV Attribution</td>
+<td>联网电视归因</td>
+<td>发展中</td>
+</tr>
+<tr>
+<td>449</td>
+<td>DOOH Attribution</td>
+<td>数字户外归因</td>
+<td>发展中</td>
+</tr>
+<tr>
+<td>450</td>
+<td>Audio Attribution</td>
+<td>音频广告归因</td>
+<td>发展中</td>
+</tr>
+<tr>
+<td>451</td>
+<td>Voice Search Attribution</td>
+<td>语音搜索归因</td>
+<td>发展中</td>
+</tr>
+<tr>
+<td>452</td>
+<td>Influencer Attribution</td>
+<td>网红归因</td>
+<td>发展中</td>
+</tr>
+<tr>
+<td>453</td>
+<td>Affiliate Attribution</td>
+<td>联盟归因</td>
+<td>成熟</td>
+</tr>
+<tr>
+<td>454</td>
+<td>Referral Attribution</td>
+<td>推荐归因</td>
+<td>成熟</td>
+</tr>
+<tr>
+<td>455</td>
+<td>Word-of-Mouth Tracking</td>
+<td>口碑追踪</td>
+<td>发展中</td>
+</tr>
+<tr>
+<td>456</td>
+<td>Dark Social Attribution</td>
+<td>暗社交归因</td>
+<td>发展中</td>
+</tr>
+<tr>
+<td>457</td>
+<td>Generative AI Attribution</td>
+<td>生成式AI归因</td>
+<td>新兴</td>
+</tr>
+<tr>
+<td>458</td>
+<td>Large Language Model Attribution</td>
+<td>大语言模型归因</td>
+<td>新兴</td>
+</tr>
+<tr>
+<td>459</td>
+<td>Multi-Modal Attribution</td>
+<td>多模态归因</td>
+<td>新兴</td>
+</tr>
+<tr>
+<td>460</td>
+<td>Edge Computing Attribution</td>
+<td>边缘计算归因</td>
+<td>新兴</td>
+</tr>
+<tr>
+<td>461</td>
+<td>5G Attribution</td>
+<td>5G归因</td>
+<td>新兴</td>
+</tr>
+<tr>
+<td>462</td>
+<td>IoT Attribution</td>
+<td>物联网归因</td>
+<td>新兴</td>
+</tr>
+<tr>
+<td>463</td>
+<td>Smart Home Attribution</td>
+<td>智能家居归因</td>
+<td>新兴</td>
+</tr>
+<tr>
+<td>464</td>
+<td>Wearable Attribution</td>
+<td>可穿戴设备归因</td>
+<td>新兴</td>
+</tr>
+<tr>
+<td>465</td>
+<td>AR&#x2F;VR Attribution</td>
+<td>增强&#x2F;虚拟现实归因</td>
+<td>新兴</td>
+</tr>
+<tr>
+<td>466</td>
+<td>Gaming Attribution</td>
+<td>游戏归因</td>
+<td>发展中</td>
+</tr>
+<tr>
+<td>467</td>
+<td>Esports Attribution</td>
+<td>电竞归因</td>
+<td>发展中</td>
+</tr>
+<tr>
+<td>468</td>
+<td>Live Streaming Attribution</td>
+<td>直播归因</td>
+<td>发展中</td>
+</tr>
+<tr>
+<td>469</td>
+<td>Social Commerce Attribution</td>
+<td>社交电商归因</td>
+<td>发展中</td>
+</tr>
+<tr>
+<td>470</td>
+<td>Shoppable Content Attribution</td>
+<td>可购物内容归因</td>
+<td>发展中</td>
+</tr>
+<tr>
+<td>471</td>
+<td>Interactive Video Attribution</td>
+<td>互动视频归因</td>
+<td>发展中</td>
+</tr>
+<tr>
+<td>472</td>
+<td>Personalized Attribution</td>
+<td>个性化归因</td>
+<td>发展中</td>
+</tr>
+<tr>
+<td>473</td>
+<td>Dynamic Attribution</td>
+<td>动态归因</td>
+<td>发展中</td>
+</tr>
+<tr>
+<td>474</td>
+<td>Adaptive Attribution</td>
+<td>自适应归因</td>
+<td>发展中</td>
+</tr>
+<tr>
+<td>475</td>
+<td>Self-Learning Attribution</td>
+<td>自学习归因</td>
+<td>新兴</td>
+</tr>
+<tr>
+<td>476</td>
+<td>Autonomous Attribution</td>
+<td>自主归因</td>
+<td>新兴</td>
+</tr>
+<tr>
+<td>477</td>
+<td>Quantum Attribution</td>
+<td>量子归因</td>
+<td>理论性</td>
+</tr>
+<tr>
+<td>478</td>
+<td>Neuromarketing Attribution</td>
+<td>神经营销归因</td>
+<td>实验性</td>
+</tr>
+<tr>
+<td>479</td>
+<td>Biometric Attribution</td>
+<td>生物识别归因</td>
+<td>实验性</td>
+</tr>
+<tr>
+<td>480</td>
+<td>Emotion AI Attribution</td>
+<td>情感AI归因</td>
+<td>新兴</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十一、行业特定方法类（Industry-Specific）"><a href="#十一、行业特定方法类（Industry-Specific）" class="headerlink" title="十一、行业特定方法类（Industry-Specific）"></a>十一、行业特定方法类（Industry-Specific）</h2><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>术语</th>
+<th>定义</th>
+<th>行业</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>481</td>
+<td>E-commerce Attribution</td>
+<td>电商归因</td>
+<td>电商</td>
+</tr>
+<tr>
+<td>482</td>
+<td>Gaming Attribution</td>
+<td>游戏归因</td>
+<td>游戏</td>
+</tr>
+<tr>
+<td>483</td>
+<td>Finance Attribution</td>
+<td>金融归因</td>
+<td>金融</td>
+</tr>
+<tr>
+<td>484</td>
+<td>Travel Attribution</td>
+<td>旅游归因</td>
+<td>旅游</td>
+</tr>
+<tr>
+<td>485</td>
+<td>B2B Attribution</td>
+<td>B2B归因</td>
+<td>B2B</td>
+</tr>
+<tr>
+<td>486</td>
+<td>Healthcare Attribution</td>
+<td>医疗归因</td>
+<td>医疗</td>
+</tr>
+<tr>
+<td>487</td>
+<td>Automotive Attribution</td>
+<td>汽车归因</td>
+<td>汽车</td>
+</tr>
+<tr>
+<td>488</td>
+<td>Real Estate Attribution</td>
+<td>房产归因</td>
+<td>房产</td>
+</tr>
+<tr>
+<td>489</td>
+<td>Education Attribution</td>
+<td>教育归因</td>
+<td>教育</td>
+</tr>
+<tr>
+<td>490</td>
+<td>Retail Attribution</td>
+<td>零售归因</td>
+<td>零售</td>
+</tr>
+<tr>
+<td>491</td>
+<td>SaaS Attribution</td>
+<td>SaaS归因</td>
+<td>SaaS</td>
+</tr>
+<tr>
+<td>492</td>
+<td>Subscription Attribution</td>
+<td>订阅归因</td>
+<td>订阅</td>
+</tr>
+<tr>
+<td>493</td>
+<td>Marketplace Attribution</td>
+<td>平台归因</td>
+<td>平台</td>
+</tr>
+<tr>
+<td>494</td>
+<td>O2O Attribution</td>
+<td>O2O归因</td>
+<td>全渠道</td>
+</tr>
+<tr>
+<td>495</td>
+<td>Phygital Attribution</td>
+<td>物理数字融合归因</td>
+<td>全渠道</td>
+</tr>
+<tr>
+<td>496</td>
+<td>D2C Attribution</td>
+<td>D2C归因</td>
+<td>直销</td>
+</tr>
+<tr>
+<td>497</td>
+<td>CPG Attribution</td>
+<td>CPG归因</td>
+<td>快消品</td>
+</tr>
+<tr>
+<td>498</td>
+<td>Luxury Attribution</td>
+<td>奢侈品归因</td>
+<td>奢侈品</td>
+</tr>
+<tr>
+<td>499</td>
+<td>FMCG Attribution</td>
+<td>FMCG归因</td>
+<td>快消</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Pharmaceutical Attribution</td>
+<td>药品归因</td>
+<td>制药</td>
+</tr>
+<tr>
+<td>501</td>
+<td>Insurance Attribution</td>
+<td>保险归因</td>
+<td>保险</td>
+</tr>
+<tr>
+<td>502</td>
+<td>Banking Attribution</td>
+<td>银行归因</td>
+<td>银行</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Telecommunications Attribution</td>
+<td>电信归因</td>
+<td>电信</td>
+</tr>
+<tr>
+<td>504</td>
+<td>Energy Attribution</td>
+<td>能源归因</td>
+<td>能源</td>
+</tr>
+<tr>
+<td>505</td>
+<td>Utilities Attribution</td>
+<td>公用事业归因</td>
+<td>公用事业</td>
+</tr>
+<tr>
+<td>506</td>
+<td>Government Attribution</td>
+<td>政府归因</td>
+<td>政府</td>
+</tr>
+<tr>
+<td>507</td>
+<td>Non-Profit Attribution</td>
+<td>非营利归因</td>
+<td>非营利</td>
+</tr>
+<tr>
+<td>508</td>
+<td>Political Attribution</td>
+<td>政治归因</td>
+<td>政治</td>
+</tr>
+<tr>
+<td>509</td>
+<td>Entertainment Attribution</td>
+<td>娱乐归因</td>
+<td>娱乐</td>
+</tr>
+<tr>
+<td>510</td>
+<td>Media Attribution</td>
+<td>媒体归因</td>
+<td>媒体</td>
+</tr>
+<tr>
+<td>511</td>
+<td>Publishing Attribution</td>
+<td>出版归因</td>
+<td>出版</td>
+</tr>
+<tr>
+<td>512</td>
+<td>Sports Attribution</td>
+<td>体育归因</td>
+<td>体育</td>
+</tr>
+<tr>
+<td>513</td>
+<td>Fitness Attribution</td>
+<td>健身归因</td>
+<td>健身</td>
+</tr>
+<tr>
+<td>514</td>
+<td>Food &amp; Beverage Attribution</td>
+<td>餐饮归因</td>
+<td>餐饮</td>
+</tr>
+<tr>
+<td>515</td>
+<td>Hospitality Attribution</td>
+<td>酒店归因</td>
+<td>酒店</td>
+</tr>
+<tr>
+<td>516</td>
+<td>Airlines Attribution</td>
+<td>航空归因</td>
+<td>航空</td>
+</tr>
+<tr>
+<td>517</td>
+<td>Cruise Attribution</td>
+<td>邮轮归因</td>
+<td>邮轮</td>
+</tr>
+<tr>
+<td>518</td>
+<td>Events Attribution</td>
+<td>活动归因</td>
+<td>活动</td>
+</tr>
+<tr>
+<td>519</td>
+<td>Wedding Attribution</td>
+<td>婚礼归因</td>
+<td>婚礼</td>
+</tr>
+<tr>
+<td>520</td>
+<td>Pet Industry Attribution</td>
+<td>宠物行业归因</td>
+<td>宠物</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十二、数据与分析工具类（Data-Analytics）"><a href="#十二、数据与分析工具类（Data-Analytics）" class="headerlink" title="十二、数据与分析工具类（Data &amp; Analytics）"></a>十二、数据与分析工具类（Data &amp; Analytics）</h2><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>术语</th>
+<th>定义</th>
+<th>类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>521</td>
+<td>Google Analytics 4</td>
+<td>GA4分析</td>
+<td>网站分析</td>
+</tr>
+<tr>
+<td>522</td>
+<td>Adobe Analytics</td>
+<td>Adobe分析</td>
+<td>网站分析</td>
+</tr>
+<tr>
+<td>523</td>
+<td>Mixpanel</td>
+<td>Mixpanel</td>
+<td>用户行为</td>
+</tr>
+<tr>
+<td>524</td>
+<td>Amplitude</td>
+<td>Amplitude</td>
+<td>产品分析</td>
+</tr>
+<tr>
+<td>525</td>
+<td>Segment</td>
+<td>Segment</td>
+<td>CDP</td>
+</tr>
+<tr>
+<td>526</td>
+<td>mParticle</td>
+<td>mParticle</td>
+<td>CDP</td>
+</tr>
+<tr>
+<td>527</td>
+<td>Tealium</td>
+<td>Tealium</td>
+<td>标签管理</td>
+</tr>
+<tr>
+<td>528</td>
+<td>Google Tag Manager</td>
+<td>GTM</td>
+<td>标签管理</td>
+</tr>
+<tr>
+<td>529</td>
+<td>Looker Studio</td>
+<td>Looker Studio</td>
+<td>数据可视化</td>
+</tr>
+<tr>
+<td>530</td>
+<td>Tableau</td>
+<td>Tableau</td>
+<td>数据可视化</td>
+</tr>
+<tr>
+<td>531</td>
+<td>Power BI</td>
+<td>Power BI</td>
+<td>数据可视化</td>
+</tr>
+<tr>
+<td>532</td>
+<td>Data Warehouse</td>
+<td>数据仓库</td>
+<td>数据存储</td>
+</tr>
+<tr>
+<td>533</td>
+<td>CDP (Customer Data Platform)</td>
+<td>客户数据平台</td>
+<td>数据管理</td>
+</tr>
+<tr>
+<td>534</td>
+<td>DMP (Data Management Platform)</td>
+<td>数据管理平台</td>
+<td>数据管理</td>
+</tr>
+<tr>
+<td>535</td>
+<td>BI Dashboard</td>
+<td>BI仪表板</td>
+<td>数据可视化</td>
+</tr>
+<tr>
+<td>536</td>
+<td>Snowflake</td>
+<td>Snowflake</td>
+<td>数据仓库</td>
+</tr>
+<tr>
+<td>537</td>
+<td>BigQuery</td>
+<td>BigQuery</td>
+<td>数据仓库</td>
+</tr>
+<tr>
+<td>538</td>
+<td>Redshift</td>
+<td>Redshift</td>
+<td>数据仓库</td>
+</tr>
+<tr>
+<td>539</td>
+<td>Databricks</td>
+<td>Databricks</td>
+<td>数据湖</td>
+</tr>
+<tr>
+<td>540</td>
+<td>Apache Spark</td>
+<td>Apache Spark</td>
+<td>数据处理</td>
+</tr>
+<tr>
+<td>541</td>
+<td>Apache Kafka</td>
+<td>Apache Kafka</td>
+<td>数据流</td>
+</tr>
+<tr>
+<td>542</td>
+<td>Apache Airflow</td>
+<td>Apache Airflow</td>
+<td>数据编排</td>
+</tr>
+<tr>
+<td>543</td>
+<td>dbt</td>
+<td>dbt</td>
+<td>数据转换</td>
+</tr>
+<tr>
+<td>544</td>
+<td>Fivetran</td>
+<td>Fivetran</td>
+<td>数据集成</td>
+</tr>
+<tr>
+<td>545</td>
+<td>Stitch</td>
+<td>Stitch</td>
+<td>数据集成</td>
+</tr>
+<tr>
+<td>546</td>
+<td>Airbyte</td>
+<td>Airbyte</td>
+<td>数据集成</td>
+</tr>
+<tr>
+<td>547</td>
+<td>Supermetrics</td>
+<td>Supermetrics</td>
+<td>数据提取</td>
+</tr>
+<tr>
+<td>548</td>
+<td>Funnel</td>
+<td>Funnel</td>
+<td>数据提取</td>
+</tr>
+<tr>
+<td>549</td>
+<td>Porter Metrics</td>
+<td>Porter Metrics</td>
+<td>数据提取</td>
+</tr>
+<tr>
+<td>550</td>
+<td>Windsor.ai</td>
+<td>Windsor.ai</td>
+<td>数据提取</td>
+</tr>
+<tr>
+<td>551</td>
+<td>Metabase</td>
+<td>Metabase</td>
+<td>BI工具</td>
+</tr>
+<tr>
+<td>552</td>
+<td>Redash</td>
+<td>Redash</td>
+<td>BI工具</td>
+</tr>
+<tr>
+<td>553</td>
+<td>Superset</td>
+<td>Superset</td>
+<td>BI工具</td>
+</tr>
+<tr>
+<td>554</td>
+<td>Mode Analytics</td>
+<td>Mode Analytics</td>
+<td>BI工具</td>
+</tr>
+<tr>
+<td>555</td>
+<td>Domo</td>
+<td>Domo</td>
+<td>BI平台</td>
+</tr>
+<tr>
+<td>556</td>
+<td>Sisense</td>
+<td>Sisense</td>
+<td>BI平台</td>
+</tr>
+<tr>
+<td>557</td>
+<td>Qlik</td>
+<td>Qlik</td>
+<td>BI平台</td>
+</tr>
+<tr>
+<td>558</td>
+<td>SAS</td>
+<td>SAS</td>
+<td>统计分析</td>
+</tr>
+<tr>
+<td>559</td>
+<td>SPSS</td>
+<td>SPSS</td>
+<td>统计分析</td>
+</tr>
+<tr>
+<td>560</td>
+<td>R</td>
+<td>R语言</td>
+<td>统计分析</td>
+</tr>
+<tr>
+<td>561</td>
+<td>Python</td>
+<td>Python</td>
+<td>数据分析</td>
+</tr>
+<tr>
+<td>562</td>
+<td>Jupyter</td>
+<td>Jupyter</td>
+<td>数据科学</td>
+</tr>
+<tr>
+<td>563</td>
+<td>Colab</td>
+<td>Colab</td>
+<td>数据科学</td>
+</tr>
+<tr>
+<td>564</td>
+<td>DataRobot</td>
+<td>DataRobot</td>
+<td>AutoML</td>
+</tr>
+<tr>
+<td>565</td>
+<td>H2O.ai</td>
+<td>H2O.ai</td>
+<td>AutoML</td>
+</tr>
+<tr>
+<td>566</td>
+<td>Dataiku</td>
+<td>Dataiku</td>
+<td>数据科学</td>
+</tr>
+<tr>
+<td>567</td>
+<td>Alteryx</td>
+<td>Alteryx</td>
+<td>数据分析</td>
+</tr>
+<tr>
+<td>568</td>
+<td>Knime</td>
+<td>Knime</td>
+<td>数据分析</td>
+</tr>
+<tr>
+<td>569</td>
+<td>RapidMiner</td>
+<td>RapidMiner</td>
+<td>数据分析</td>
+</tr>
+<tr>
+<td>570</td>
+<td>MATLAB</td>
+<td>MATLAB</td>
+<td>科学计算</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十三、学术研究方法类（Academic-Research）"><a href="#十三、学术研究方法类（Academic-Research）" class="headerlink" title="十三、学术研究方法类（Academic Research）"></a>十三、学术研究方法类（Academic Research）</h2><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>术语</th>
+<th>定义</th>
+<th>来源</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>571</td>
+<td>Structural Equation Modeling</td>
+<td>结构方程模型</td>
+<td>学术研究</td>
+</tr>
+<tr>
+<td>572</td>
+<td>Latent Class Analysis</td>
+<td>潜在类别分析</td>
+<td>学术研究</td>
+</tr>
+<tr>
+<td>573</td>
+<td>Conjoint Analysis</td>
+<td>联合分析</td>
+<td>市场研究</td>
+</tr>
+<tr>
+<td>574</td>
+<td>Discrete Choice Modeling</td>
+<td>离散选择模型</td>
+<td>学术研究</td>
+</tr>
+<tr>
+<td>575</td>
+<td>Hierarchical Bayes</td>
+<td>层次贝叶斯</td>
+<td>学术研究</td>
+</tr>
+<tr>
+<td>576</td>
+<td>Machine Learning Attribution</td>
+<td>机器学习归因</td>
+<td>AI研究</td>
+</tr>
+<tr>
+<td>577</td>
+<td>Deep Learning Attribution</td>
+<td>深度学习归因</td>
+<td>AI研究</td>
+</tr>
+<tr>
+<td>578</td>
+<td>Reinforcement Learning Attribution</td>
+<td>强化学习归因</td>
+<td>AI研究</td>
+</tr>
+<tr>
+<td>579</td>
+<td>Graph Neural Network Attribution</td>
+<td>图神经网络归因</td>
+<td>AI研究</td>
+</tr>
+<tr>
+<td>580</td>
+<td>Attention Mechanism Attribution</td>
+<td>注意力机制归因</td>
+<td>AI研究</td>
+</tr>
+<tr>
+<td>581</td>
+<td>Counterfactual Attribution</td>
+<td>反事实归因</td>
+<td>因果推断</td>
+</tr>
+<tr>
+<td>582</td>
+<td>Causal Forest</td>
+<td>因果森林</td>
+<td>因果推断</td>
+</tr>
+<tr>
+<td>583</td>
+<td>Double Machine Learning</td>
+<td>双重机器学习</td>
+<td>因果推断</td>
+</tr>
+<tr>
+<td>584</td>
+<td>Meta-Learning Attribution</td>
+<td>元学习归因</td>
+<td>AI研究</td>
+</tr>
+<tr>
+<td>585</td>
+<td>Transfer Learning Attribution</td>
+<td>迁移学习归因</td>
+<td>AI研究</td>
+</tr>
+<tr>
+<td>586</td>
+<td>Multi-Task Learning Attribution</td>
+<td>多任务学习归因</td>
+<td>AI研究</td>
+</tr>
+<tr>
+<td>587</td>
+<td>Federated Attribution</td>
+<td>联邦归因</td>
+<td>隐私研究</td>
+</tr>
+<tr>
+<td>588</td>
+<td>Privacy-Preserving Attribution</td>
+<td>隐私保护归因</td>
+<td>隐私研究</td>
+</tr>
+<tr>
+<td>589</td>
+<td>Secure Attribution</td>
+<td>安全归因</td>
+<td>安全研究</td>
+</tr>
+<tr>
+<td>590</td>
+<td>Verifiable Attribution</td>
+<td>可验证归因</td>
+<td>区块链研究</td>
+</tr>
+<tr>
+<td>591</td>
+<td>Explainable AI Attribution</td>
+<td>可解释AI归因</td>
+<td>AI研究</td>
+</tr>
+<tr>
+<td>592</td>
+<td>Fair Attribution</td>
+<td>公平归因</td>
+<td>伦理研究</td>
+</tr>
+<tr>
+<td>593</td>
+<td>Robust Attribution</td>
+<td>鲁棒归因</td>
+<td>统计研究</td>
+</tr>
+<tr>
+<td>594</td>
+<td>Uncertainty Quantification</td>
+<td>不确定性量化</td>
+<td>统计研究</td>
+</tr>
+<tr>
+<td>595</td>
+<td>Bayesian Optimization</td>
+<td>贝叶斯优化</td>
+<td>优化研究</td>
+</tr>
+<tr>
+<td>596</td>
+<td>Multi-Objective Optimization</td>
+<td>多目标优化</td>
+<td>优化研究</td>
+</tr>
+<tr>
+<td>597</td>
+<td>Game Theoretic Attribution</td>
+<td>博弈论归因</td>
+<td>博弈研究</td>
+</tr>
+<tr>
+<td>598</td>
+<td>Mechanism Design Attribution</td>
+<td>机制设计归因</td>
+<td>经济研究</td>
+</tr>
+<tr>
+<td>599</td>
+<td>Auction Theory Attribution</td>
+<td>拍卖理论归因</td>
+<td>经济研究</td>
+</tr>
+<tr>
+<td>600</td>
+<td>Behavioral Economics Attribution</td>
+<td>行为经济学归因</td>
+<td>行为研究</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十四、咨询公司专有方法类（Consulting-Proprietary）"><a href="#十四、咨询公司专有方法类（Consulting-Proprietary）" class="headerlink" title="十四、咨询公司专有方法类（Consulting Proprietary）"></a>十四、咨询公司专有方法类（Consulting Proprietary）</h2><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>术语</th>
+<th>定义</th>
+<th>公司</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>601</td>
+<td>McKinsey Marketing Analytics</td>
+<td>麦肯锡营销分析</td>
+<td>McKinsey</td>
+</tr>
+<tr>
+<td>602</td>
+<td>McKinsey Customer Journey Analytics</td>
+<td>麦肯锡客户旅程分析</td>
+<td>McKinsey</td>
+</tr>
+<tr>
+<td>603</td>
+<td>BCG Marketing Mix Optimization</td>
+<td>BCG营销组合优化</td>
+<td>BCG</td>
+</tr>
+<tr>
+<td>604</td>
+<td>BCG Customer Analytics</td>
+<td>BCG客户分析</td>
+<td>BCG</td>
+</tr>
+<tr>
+<td>605</td>
+<td>Bain Marketing Effectiveness</td>
+<td>贝恩营销效果</td>
+<td>Bain</td>
+</tr>
+<tr>
+<td>606</td>
+<td>Bain Customer Loyalty Analytics</td>
+<td>贝恩客户忠诚分析</td>
+<td>Bain</td>
+</tr>
+<tr>
+<td>607</td>
+<td>Deloitte Marketing Analytics</td>
+<td>德勤营销分析</td>
+<td>Deloitte</td>
+</tr>
+<tr>
+<td>608</td>
+<td>Deloitte Customer Experience Analytics</td>
+<td>德勤客户体验分析</td>
+<td>Deloitte</td>
+</tr>
+<tr>
+<td>609</td>
+<td>PwC Marketing ROI</td>
+<td>PwC营销ROI</td>
+<td>PwC</td>
+</tr>
+<tr>
+<td>610</td>
+<td>PwC Customer Analytics</td>
+<td>PwC客户分析</td>
+<td>PwC</td>
+</tr>
+<tr>
+<td>611</td>
+<td>EY Marketing Analytics</td>
+<td>安永营销分析</td>
+<td>EY</td>
+</tr>
+<tr>
+<td>612</td>
+<td>EY Customer Insights</td>
+<td>安永客户洞察</td>
+<td>EY</td>
+</tr>
+<tr>
+<td>613</td>
+<td>KPMG Marketing Effectiveness</td>
+<td>毕马威营销效果</td>
+<td>KPMG</td>
+</tr>
+<tr>
+<td>614</td>
+<td>KPMG Customer Analytics</td>
+<td>毕马威客户分析</td>
+<td>KPMG</td>
+</tr>
+<tr>
+<td>615</td>
+<td>Accenture Marketing Analytics</td>
+<td>埃森哲营销分析</td>
+<td>Accenture</td>
+</tr>
+<tr>
+<td>616</td>
+<td>Accenture Customer Experience</td>
+<td>埃森哲客户体验</td>
+<td>Accenture</td>
+</tr>
+<tr>
+<td>617</td>
+<td>Oliver Wyman Marketing Analytics</td>
+<td>奥纬营销分析</td>
+<td>Oliver Wyman</td>
+</tr>
+<tr>
+<td>618</td>
+<td>Kearney Marketing Effectiveness</td>
+<td>科尔尼营销效果</td>
+<td>Kearney</td>
+</tr>
+<tr>
+<td>619</td>
+<td>L.E.K. Marketing Analytics</td>
+<td>L.E.K.营销分析</td>
+<td>L.E.K.</td>
+</tr>
+<tr>
+<td>620</td>
+<td>Roland Berger Marketing Analytics</td>
+<td>罗兰贝格营销分析</td>
+<td>Roland Berger</td>
+</tr>
+<tr>
+<td>621</td>
+<td>A.T. Kearney Marketing Analytics</td>
+<td>A.T.科尔尼营销分析</td>
+<td>A.T. Kearney</td>
+</tr>
+<tr>
+<td>622</td>
+<td>Strategy&amp; Marketing Analytics</td>
+<td>Strategy&amp;营销分析</td>
+<td>Strategy&amp;</td>
+</tr>
+<tr>
+<td>623</td>
+<td>Monitor Deloitte Marketing Analytics</td>
+<td>Monitor德勤营销分析</td>
+<td>Monitor Deloitte</td>
+</tr>
+<tr>
+<td>624</td>
+<td>Parthenon Marketing Analytics</td>
+<td>Parthenon营销分析</td>
+<td>Parthenon</td>
+</tr>
+<tr>
+<td>625</td>
+<td>LEK Customer Analytics</td>
+<td>LEK客户分析</td>
+<td>LEK</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十五、区域特定实践类（Regional-Specific）"><a href="#十五、区域特定实践类（Regional-Specific）" class="headerlink" title="十五、区域特定实践类（Regional Specific）"></a>十五、区域特定实践类（Regional Specific）</h2><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>术语</th>
+<th>定义</th>
+<th>区域</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>626</td>
+<td>China PIPL Attribution</td>
+<td>中国PIPL归因</td>
+<td>中国</td>
+</tr>
+<tr>
+<td>627</td>
+<td>China ICP Attribution</td>
+<td>中国ICP归因</td>
+<td>中国</td>
+</tr>
+<tr>
+<td>628</td>
+<td>China Great Firewall Attribution</td>
+<td>中国防火墙归因</td>
+<td>中国</td>
+</tr>
+<tr>
+<td>629</td>
+<td>WeChat Attribution</td>
+<td>微信归因</td>
+<td>中国</td>
+</tr>
+<tr>
+<td>630</td>
+<td>Alipay Attribution</td>
+<td>支付宝归因</td>
+<td>中国</td>
+</tr>
+<tr>
+<td>631</td>
+<td>Douyin Attribution</td>
+<td>抖音归因</td>
+<td>中国</td>
+</tr>
+<tr>
+<td>632</td>
+<td>Kuaishou Attribution</td>
+<td>快手归因</td>
+<td>中国</td>
+</tr>
+<tr>
+<td>633</td>
+<td>Baidu Attribution</td>
+<td>百度归因</td>
+<td>中国</td>
+</tr>
+<tr>
+<td>634</td>
+<td>EU GDPR Attribution</td>
+<td>欧盟GDPR归因</td>
+<td>欧盟</td>
+</tr>
+<tr>
+<td>635</td>
+<td>EU ePrivacy Attribution</td>
+<td>欧盟电子隐私归因</td>
+<td>欧盟</td>
+</tr>
+<tr>
+<td>636</td>
+<td>EU DSA Attribution</td>
+<td>欧盟数字服务法归因</td>
+<td>欧盟</td>
+</tr>
+<tr>
+<td>637</td>
+<td>EU DMA Attribution</td>
+<td>欧盟数字市场法归因</td>
+<td>欧盟</td>
+</tr>
+<tr>
+<td>638</td>
+<td>US CCPA Attribution</td>
+<td>美国CCPA归因</td>
+<td>美国</td>
+</tr>
+<tr>
+<td>639</td>
+<td>US CPRA Attribution</td>
+<td>美国CPRA归因</td>
+<td>美国</td>
+</tr>
+<tr>
+<td>640</td>
+<td>US COPPA Attribution</td>
+<td>美国COPPA归因</td>
+<td>美国</td>
+</tr>
+<tr>
+<td>641</td>
+<td>US HIPAA Attribution</td>
+<td>美国HIPAA归因</td>
+<td>美国</td>
+</tr>
+<tr>
+<td>642</td>
+<td>Brazil LGPD Attribution</td>
+<td>巴西LGPD归因</td>
+<td>巴西</td>
+</tr>
+<tr>
+<td>643</td>
+<td>Canada PIPEDA Attribution</td>
+<td>加拿大PIPEDA归因</td>
+<td>加拿大</td>
+</tr>
+<tr>
+<td>644</td>
+<td>Japan APPI Attribution</td>
+<td>日本APPI归因</td>
+<td>日本</td>
+</tr>
+<tr>
+<td>645</td>
+<td>Singapore PDPA Attribution</td>
+<td>新加坡PDPA归因</td>
+<td>新加坡</td>
+</tr>
+<tr>
+<td>646</td>
+<td>Thailand PDPA Attribution</td>
+<td>泰国PDPA归因</td>
+<td>泰国</td>
+</tr>
+<tr>
+<td>647</td>
+<td>India PDPB Attribution</td>
+<td>印度PDPB归因</td>
+<td>印度</td>
+</tr>
+<tr>
+<td>648</td>
+<td>Australia Privacy Act Attribution</td>
+<td>澳大利亚隐私法归因</td>
+<td>澳大利亚</td>
+</tr>
+<tr>
+<td>649</td>
+<td>South Korea PIPA Attribution</td>
+<td>韩国PIPA归因</td>
+<td>韩国</td>
+</tr>
+<tr>
+<td>650</td>
+<td>Russia Data Localization Attribution</td>
+<td>俄罗斯数据本地化归因</td>
+<td>俄罗斯</td>
+</tr>
+<tr>
+<td>651</td>
+<td>Middle East Data Protection Attribution</td>
+<td>中东数据保护归因</td>
+<td>中东</td>
+</tr>
+<tr>
+<td>652</td>
+<td>Africa Data Protection Attribution</td>
+<td>非洲数据保护归因</td>
+<td>非洲</td>
+</tr>
+<tr>
+<td>653</td>
+<td>LATAM Data Protection Attribution</td>
+<td>拉美数据保护归因</td>
+<td>拉美</td>
+</tr>
+<tr>
+<td>654</td>
+<td>ASEAN Data Protection Attribution</td>
+<td>东盟数据保护归因</td>
+<td>东盟</td>
+</tr>
+<tr>
+<td>655</td>
+<td>Global Cross-Border Attribution</td>
+<td>全球跨境归因</td>
+<td>全球</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="十六、行业协会标准类（Industry-Standards）"><a href="#十六、行业协会标准类（Industry-Standards）" class="headerlink" title="十六、行业协会标准类（Industry Standards）"></a>十六、行业协会标准类（Industry Standards）</h2><table>
+<thead>
+<tr>
+<th>序号</th>
+<th>术语</th>
+<th>定义</th>
+<th>组织</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>656</td>
+<td>IAB Attribution Standards</td>
+<td>IAB归因标准</td>
+<td>IAB</td>
+</tr>
+<tr>
+<td>657</td>
+<td>IAB Tech Lab Attribution</td>
+<td>IAB技术实验室归因</td>
+<td>IAB Tech Lab</td>
+</tr>
+<tr>
+<td>658</td>
+<td>IAB OpenRTB Attribution</td>
+<td>IAB OpenRTB归因</td>
+<td>IAB Tech Lab</td>
+</tr>
+<tr>
+<td>659</td>
+<td>IAB VAST Attribution</td>
+<td>IAB VAST归因</td>
+<td>IAB Tech Lab</td>
+</tr>
+<tr>
+<td>660</td>
+<td>IAB VPAID Attribution</td>
+<td>IAB VPAID归因</td>
+<td>IAB Tech Lab</td>
+</tr>
+<tr>
+<td>661</td>
+<td>IAB OM Attribution</td>
+<td>IAB Open Measurement归因</td>
+<td>IAB Tech Lab</td>
+</tr>
+<tr>
+<td>662</td>
+<td>MRC Attribution Standards</td>
+<td>MRC归因标准</td>
+<td>MRC</td>
+</tr>
+<tr>
+<td>663</td>
+<td>MRC Viewability Standards</td>
+<td>MRC可见性标准</td>
+<td>MRC</td>
+</tr>
+<tr>
+<td>664</td>
+<td>MRC Invalid Traffic Standards</td>
+<td>MRC无效流量标准</td>
+<td>MRC</td>
+</tr>
+<tr>
+<td>665</td>
+<td>TAG Certification</td>
+<td>TAG认证</td>
+<td>TAG</td>
+</tr>
+<tr>
+<td>666</td>
+<td>ESOMAR Attribution Guidelines</td>
+<td>ESOMAR归因指南</td>
+<td>ESOMAR</td>
+</tr>
+<tr>
+<td>667</td>
+<td>ICC Advertising Codes</td>
+<td>ICC广告准则</td>
+<td>ICC</td>
+</tr>
+<tr>
+<td>668</td>
+<td>ANA Attribution Standards</td>
+<td>ANA归因标准</td>
+<td>ANA</td>
+</tr>
+<tr>
+<td>669</td>
+<td>4A’s Attribution Guidelines</td>
+<td>4A’s归因指南</td>
+<td>4A’s</td>
+</tr>
+<tr>
+<td>670</td>
+<td>WFA Attribution Standards</td>
+<td>WFA归因标准</td>
+<td>WFA</td>
+</tr>
+<tr>
+<td>671</td>
+<td>DMA Attribution Guidelines</td>
+<td>DMA归因指南</td>
+<td>DMA</td>
+</tr>
+<tr>
+<td>672</td>
+<td>DAA Attribution Standards</td>
+<td>DAA归因标准</td>
+<td>DAA</td>
+</tr>
+<tr>
+<td>673</td>
+<td>NAI Attribution Standards</td>
+<td>NAI归因标准</td>
+<td>NAI</td>
+</tr>
+<tr>
+<td>674</td>
+<td>IAB China Attribution</td>
+<td>中国IAB归因</td>
+<td>IAB China</td>
+</tr>
+<tr>
+<td>675</td>
+<td>MMA Attribution Standards</td>
+<td>MMA归因标准</td>
+<td>MMA</td>
+</tr>
+<tr>
+<td>676</td>
+<td>Mobile Marketing Attribution</td>
+<td>移动营销归因</td>
+<td>MMA</td>
+</tr>
+<tr>
+<td>677</td>
+<td>Programmatic Attribution Standards</td>
+<td>程序化归因标准</td>
+<td>程序化联盟</td>
+</tr>
+<tr>
+<td>678</td>
+<td>CTV Attribution Standards</td>
+<td>CTV归因标准</td>
+<td>CTV联盟</td>
+</tr>
+<tr>
+<td>679</td>
+<td>Retail Media Attribution Standards</td>
+<td>零售媒体归因标准</td>
+<td>零售媒体联盟</td>
+</tr>
+<tr>
+<td>680</td>
+<td>Cross-Media Attribution Standards</td>
+<td>跨媒体归因标准</td>
+<td>跨媒体联盟</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="💡-使用建议"><a href="#💡-使用建议" class="headerlink" title="💡 使用建议"></a>💡 使用建议</h1><table>
+<thead>
+<tr>
+<th>业务场景</th>
+<th>推荐方法组合</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>电商短期转化</strong></td>
+<td>MTA + ROAS + Last Click + CAPI + GA4</td>
+</tr>
+<tr>
+<td><strong>品牌长期建设</strong></td>
+<td>MMM + Brand Lift + SOV + NPS + Meridian</td>
+</tr>
+<tr>
+<td><strong>隐私合规环境</strong></td>
+<td>Clean Room + Probabilistic + Aggregated + SKAN 5.0</td>
+</tr>
+<tr>
+<td><strong>应用推广</strong></td>
+<td>SKAN + MMP (AppsFlyer&#x2F;Adjust) + LTV + AEM</td>
+</tr>
+<tr>
+<td><strong>B2B长周期</strong></td>
+<td>Multi-Touch + Lead Scoring + Attribution Window延长 + Salesforce</td>
+</tr>
+<tr>
+<td><strong>全渠道零售</strong></td>
+<td>O2O + Store Visit + MMM+MTA统一 + CDP</td>
+</tr>
+<tr>
+<td><strong>内容营销</strong></td>
+<td>Engagement + Dwell Time + Social Listening + Dark Social</td>
+</tr>
+<tr>
+<td><strong>视频广告</strong></td>
+<td>Viewability + Completion Rate + VTC + CTV Attribution</td>
+</tr>
+<tr>
+<td><strong>出海业务</strong></td>
+<td>区域合规 (GDPR&#x2F;PIPL&#x2F;CCPA) + Cross-Border + Local MMP</td>
+</tr>
+</tbody></table>
+
+        </div>
+        
+        <!-- 文章导航 - 只在同分类有多篇文章时显示 -->
+        
+        
+        
+        <nav class="post-nav">
+          
+            <a class="prev" href="../../16/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%887%EF%BC%89-%E5%B9%BF%E5%91%8A%E9%9A%90%E7%A7%81%E5%90%88%E8%A7%84%E6%9C%AF%E8%AF%AD/">
+              <i class="fas fa-chevron-left"></i>
+              广告术语（7）-广告隐私合规术语
+            </a>
+          
+          
+            <a class="next" href="../../14/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%885%EF%BC%89-%E5%B9%BF%E5%91%8A%E4%BC%98%E5%8C%96%E5%92%8C%E5%87%BA%E4%BB%B7%E7%AD%96%E7%95%A5%E6%9C%AF%E8%AF%AD/">
+              广告术语（5）-广告优化和出价策略术语
+              <i class="fas fa-chevron-right"></i>
+            </a>
+          
+        </nav>
+        
+        
+        <!-- 推荐文章 -->
+        
+
+
+<div class="vs-recommended-posts">
+  <div class="vs-recommended-header">
+    <div class="section-header">
+      <i class="fas fa-lightbulb"></i>
+      <span>RELATED POSTS</span>
+    </div>
+  </div>
+  
+  <div class="vs-recommended-grid">
+    
+      <div class="vs-recommended-item" data-index="0" tabindex="0">
+        <a href="../../16/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%887%EF%BC%89-%E5%B9%BF%E5%91%8A%E9%9A%90%E7%A7%81%E5%90%88%E8%A7%84%E6%9C%AF%E8%AF%AD/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>广告术语（7）-广告隐私合规术语</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              广告系统隐私与合规完整术语表一、全球隐私法规框架 术语 定义 适用范围&amp;#x2F;说明 GDPR 通用数据保护条例 欧盟&amp;#x2F;欧洲经济区，全球影响最广 CCPA 加州消费者隐私法 美国加州，2020年生效 CPRA 加州隐私权法案 C...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  广告术语
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Feb 16
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  7 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="1" tabindex="0">
+        <a href="../../14/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%885%EF%BC%89-%E5%B9%BF%E5%91%8A%E4%BC%98%E5%8C%96%E5%92%8C%E5%87%BA%E4%BB%B7%E7%AD%96%E7%95%A5%E6%9C%AF%E8%AF%AD/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>广告术语（5）-广告优化和出价策略术语</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              📋 广告出价与优化策略完整全景图 (2026 版)一、竞价机制与拍卖类型 (Auction Mechanisms &amp;amp; Types) 术语 定义 说明 应用场景 First Price Auction (GFP) 第一价格拍卖 最高...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  广告术语
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Feb 14
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  18 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="2" tabindex="0">
+        <a href="../../13/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%884%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%8D%8F%E8%AE%AE%E5%92%8C%E6%A0%87%E5%87%86%E6%9C%AF%E8%AF%AD/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>广告术语（4）-广告协议和标准术语</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              📋 广告系统协议与标准完整汇总 (全球+中国)一、完整协议与标准总表🔴 核心必备标准 (覆盖率 85%+) 术语 定义 适用范围 覆盖率 发布机构 OpenRTB 2.5&amp;#x2F;3.0 开放实时竞价协议 全球程序化交易 95%+ I...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  广告术语
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Feb 13
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  3 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="3" tabindex="0">
+        <a href="../../17/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%888%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%8F%8D%E4%BD%9C%E5%BC%8A%E5%92%8C%E8%B4%A8%E9%87%8F%E6%9C%AF%E8%AF%AD/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>广告术语（8）-广告反作弊和质量术语</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              广告反作弊与质量术语一、无效流量(IVT)分类体系 术语 定义 说明 IVT (Invalid Traffic) 无效流量 总称，包括所有非人类或非预期流量 GIVT (General IVT) 一般无效流量 已知爬虫、蜘蛛、数据中心IP等...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  广告术语
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Feb 17
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  7 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="4" tabindex="0">
+        <a href="../../12/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%883%EF%BC%89-%E5%B9%BF%E5%91%8A%E7%9A%84%E4%BA%A4%E6%98%93%E6%A8%A1%E5%BC%8F%E6%9C%AF%E8%AF%AD/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>广告术语（3）-广告的交易模式术语</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              🎯 广告交易模式2026年 整理1 - 按交易自动化程度 一级 二级 三级 四级 保量 保价 自动化 说明 传统交易 线下直投 合约广告 Direct Deal ✅ ✅ 0% 人工谈判签约 赞助广告 Sponsorship ✅ ✅ 0% ...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  广告术语
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Feb 12
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  10 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+      <div class="vs-recommended-item" data-index="5" tabindex="0">
+        <a href="../../18/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%889%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%B7%A5%E7%A8%8B%E5%92%8C%E8%BF%90%E7%BB%B4%E7%9B%B8%E5%85%B3%E6%9C%AF%E8%AF%AD/" class="vs-recommended-link">
+          <!-- 文章信息 -->
+          <div class="vs-recommended-content">
+            <div class="vs-recommended-title">
+              <i class="fas fa-file-code"></i>
+              <span>广告术语（9）-广告工程和运维相关术语</span>
+            </div>
+            
+            <div class="vs-recommended-excerpt">
+              广告系统工程与运维术语全景一、竞价交易层（Bid &amp;amp; Transaction Layer） 术语 定义 说明 Bid Request 竞价请求 ADX向DSP发送的竞价邀请 Bid Response 竞价响应 DSP返回的出价信息 ...
+            </div>
+            
+            <div class="vs-recommended-meta">
+              
+              
+              
+                <span class="vs-tags-preview">
+                  <i class="fas fa-tags"></i>
+                  广告术语
+                  
+                </span>
+              
+              
+              <span class="vs-meta-info">
+                <span class="vs-date">
+                  <i class="fas fa-calendar-alt"></i>
+                  Feb 18
+                </span>
+                <span class="vs-reading-time">
+                  <i class="fas fa-clock"></i>
+                  12 min
+                </span>
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    
+  </div>
+  
+  <!-- 查看更多 -->
+  <div class="vs-recommended-footer">
+    <a href="../../../../archives/" class="vs-view-more">
+      <i class="fas fa-folder-open"></i>
+      <span>View More Posts</span>
+      <i class="fas fa-chevron-right"></i>
+    </a>
+  </div>
+</div>
+
+<script>
+// 键盘导航支持
+document.addEventListener('DOMContentLoaded', function() {
+  const items = document.querySelectorAll('.vs-recommended-item');
+  let currentIndex = -1;
+  
+  // 键盘事件
+  document.addEventListener('keydown', function(e) {
+    if (!items.length) return;
+    
+    if (e.key === 'Tab') {
+      // Tab键导航由浏览器处理
+      return;
+    }
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      
+      // 移除当前高亮
+      if (currentIndex >= 0) {
+        items[currentIndex].classList.remove('vs-focused');
+      }
+      
+      // 更新索引
+      if (e.key === 'ArrowRight') {
+        currentIndex = (currentIndex + 1) % items.length;
+      } else {
+        currentIndex = currentIndex <= 0 ? items.length - 1 : currentIndex - 1;
+      }
+      
+      // 添加新高亮
+      items[currentIndex].classList.add('vs-focused');
+      items[currentIndex].focus();
+    }
+    
+    if (e.key === 'Enter' && currentIndex >= 0) {
+      const link = items[currentIndex].querySelector('a');
+      if (link) link.click();
+    }
+  });
+  
+  // 鼠标悬停时更新当前索引
+  items.forEach((item, index) => {
+    item.addEventListener('mouseenter', function() {
+      currentIndex = index;
+      items.forEach(i => i.classList.remove('vs-focused'));
+      item.classList.add('vs-focused');
+    });
+  });
+});
+</script>
+
+        
+        <!-- 评论区 -->
+        
+  <div class="vs-comments-section">
+    <div class="section-header">
+      <i class="fas fa-comments"></i>
+      <span>COMMENTS</span>
+    </div>
+    
+    
+      <!-- Waline 评论系统 -->
+      <div id="waline"></div>
+      <script>
+        // 加载 Waline CSS
+        const walineCSS = document.createElement('link');
+        walineCSS.rel = 'stylesheet';
+        walineCSS.href = 'https://unpkg.com/@waline/client@v3/dist/waline.css';
+        document.head.appendChild(walineCSS);
+        
+        // 加载 Waline JS
+        const walineScript = document.createElement('script');
+        walineScript.type = 'module';
+        walineScript.onload = function() {
+          // 确保 Waline 加载后再初始化
+          import('https://unpkg.com/@waline/client@v3/dist/waline.js').then(({ init }) => {
+            const waline = init({
+              el: '#waline',
+              serverURL: 'https://vsc4tblackcat1337.vercel.app/',
+              lang: 'zh-CN',
+              locale: {},
+              emoji: ["https://unpkg.com/@waline/emojis@1.2.0/weibo","https://unpkg.com/@waline/emojis@1.2.0/alus"],
+              requiredMeta: [],
+              login: 'disable',
+              wordLimit: 0,
+              pageSize: 10,
+              imageUploader: false,
+              highlighter: true,
+              texRenderer: false,
+              search: false,
+              pageview: false,
+              comment: true,
+              copyright: false,
+              
+              // 自动适配主题
+              dark: document.documentElement.getAttribute('data-theme') === 'dark' ? 'auto' : false,
+              
+              // 评论框占位符
+              placeholder: 'Feel free to leave a comment, no login required!',
+              
+              // 元数据配置
+              meta: ['nick', 'mail', 'link'],
+              
+              // 表情配置
+              emojiCDN: 'https://unpkg.com/@waline/emojis@1.2.0/',
+            });
+            
+            // 监听主题变化
+            const observer = new MutationObserver((mutations) => {
+              mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                  // Waline 会自动处理主题切换
+                  if (waline) {
+                    waline.update({ dark: isDark ? 'auto' : false });
+                  }
+                }
+              });
+            });
+            
+            observer.observe(document.documentElement, {
+              attributes: true,
+              attributeFilter: ['data-theme']
+            });
+          });
+        };
+        walineScript.src = 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+        document.body.appendChild(walineScript);
+      </script>
+    
+    
+  </div>
+
+      </article>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code-branch"></i>
+      master
+    </div>
+    <div class="status-item">
+      <i class="fas fa-sync"></i>
+      John Doe
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      2026-02-21
+    </div>
+    <div class="status-item">
+      Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
+    </div>
+    <div class="status-item github">
+      <a href="#" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 搜索专用配置 (HEXO_CONFIG 在 scripts.ejs 中统一定义) -->
+    <script>
+      window.VSC4T_SEARCH = {
+        root: "/"
+      };
+    </script>
+
+    <!-- 外部脚本 - 统一使用 cdnjs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
+    <script>if(typeof hljs !== 'undefined') hljs.highlightAll();</script>
+    <!-- 这里可以放置自定义脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Apply smooth scroll to non-TOC anchor links
+  document.querySelectorAll('a[href^="#"]:not(.toc-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Check if querySelector is valid before using it
+      try {
+        const targetSelector = this.getAttribute('href');
+        // Basic check for potentially invalid selectors (though not exhaustive)
+        if (targetSelector && targetSelector.length > 1) { 
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            console.warn('Smooth scroll target not found:', targetSelector);
+          }
+        } else {
+           console.warn('Invalid href for smooth scroll:', targetSelector);
+        }
+      } catch (error) {
+        console.error('Error during smooth scroll:', error, 'Selector:', this.getAttribute('href'));
+        // Fallback or alternative behavior if needed
+        // For example, try getElementById if it's just an ID
+        const targetId = this.getAttribute('href').slice(1);
+        try {
+            const targetElementById = document.getElementById(decodeURIComponent(targetId));
+            if (targetElementById) {
+                targetElementById.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (idError) {
+             console.error('Fallback getElementById also failed:', idError);
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Scripts -->
+<script>
+  // 全局配置 - 包含 i18n 字符串和主题配置
+  window.HEXO_CONFIG = {
+    language: "en",
+    root: "/",
+    
+    theme_switch: {
+      enabled: false,
+      light_start: "06:00",
+      light_end: "18:00"
+    },
+    
+    // Search i18n strings
+    search_placeholder: "Type to search...",
+    search_no_results: "No results found",
+    search_result: "result",
+    search_results: "results",
+    search_results_found: "Found undefined results",
+    search_in: "Search in",
+    search_in_title: "Title",
+    search_in_content: "Content",
+    search_in_tags: "Tags",
+    search_in_categories: "Categories",
+    search_filters: "Search Filters",
+    search_recent: "Recent Searches",
+    search_clear: "Clear",
+    search_loading: "Loading...",
+    search_error: "Error loading search data",
+    // Encryption i18n strings
+    encrypt_badge: "Protected",
+    encrypt_title: "Protected Content",
+    encrypt_description: "Enter the password to unlock this article. The password will be saved locally until you choose to re-encrypt.",
+    encrypt_label: "Password",
+    encrypt_placeholder: "Enter password to unlock",
+    encrypt_button: "Unlock",
+    encrypt_button_loading: "Unlocking...",
+    encrypt_hint: "Press Enter to submit. Password will be remembered on this device.",
+    encrypt_success: "Content unlocked successfully!",
+    encrypt_unlocked_note: "Content unlocked. You can re-encrypt at any time.",
+    encrypt_again: "Re-encrypt",
+    encrypt_wrong_password: "Incorrect password. Please try again.",
+    encrypt_show_password: "Show password",
+    encrypt_hide_password: "Hide password",
+    // Sidebar i18n strings
+    sidebar_about: "About",
+    sidebar_categories: "Categories",
+    sidebar_tags: "Tags",
+    // Post page i18n strings
+    post_toc: "TABLE OF CONTENTS",
+    post_category_posts: "CATEGORY POSTS",
+    post_article_tags: "ARTICLE TAGS"
+  };
+</script>
+
+
+
+<!-- 添加所有需要的脚本 -->
+<script src="../../../../js/search.js"></script>
+<script src="../../../../js/theme-switch.js"></script>
+
+<script src="../../../../js/password-protect.js?v=1771605205008"></script>
+
+    <script>
+      // 移动端菜单切换
+      $(document).ready(function() {
+        var $body = $('body');
+        var $sidebar = $('.sidebar-explorer');
+        var $overlay = $('.sidebar-overlay');
+        var $toggle = $('.mobile-menu-toggle');
+
+        function openSidebar() {
+          $sidebar.addClass('show');
+          $overlay.addClass('show');
+          $toggle.addClass('active');
+          $body.addClass('sidebar-open');
+        }
+
+        function closeSidebar() {
+          $sidebar.removeClass('show');
+          $overlay.removeClass('show');
+          $toggle.removeClass('active');
+          $body.removeClass('sidebar-open');
+        }
+
+        // 汉堡按钮点击切换
+        $toggle.on('click', function(e) {
+          e.stopPropagation();
+          if ($sidebar.hasClass('show')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+
+        // 点击遮罩层关闭
+        $overlay.on('click', function() {
+          closeSidebar();
+        });
+
+        // ESC 键关闭
+        $(document).on('keydown', function(e) {
+          if (e.key === 'Escape' && $sidebar.hasClass('show')) {
+            closeSidebar();
+          }
+        });
+
+        // 点击侧边栏内的链接时自动关闭侧边栏，确保锚点跳转正常
+        $sidebar.on('click', 'a', function() {
+          closeSidebar();
+        });
+      });
+    </script>
+  </body>
+</html>

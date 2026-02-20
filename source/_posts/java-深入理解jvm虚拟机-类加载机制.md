@@ -55,7 +55,7 @@ public class ClassLoadTest {
 
 #### （2）类加载器
 
-![](/images/blogimg//blogimg/jvm/10.png)
+![](/images/blogimg/jvm/10.png)
 
 bootstrapClassLoader：加载核心jar
 

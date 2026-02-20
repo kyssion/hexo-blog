@@ -13,7 +13,7 @@ tags: [dubbo]
 
 Multicast 注册中心不需要启动任何中心节点，只要广播地址一样，就可以互相发现。
 
-![](/images/blogimg//blogimg/dubbo/3.jpg)
+![](/images/blogimg/dubbo/3.jpg)
 
 1. 提供方启动时广播自己的地址
 2. 消费方启动时广播订阅请求
@@ -42,7 +42,7 @@ Multicast 注册中心不需要启动任何中心节点，只要广播地址一�
 
 注册依赖于zookeeper底层树实现
 
-![](/images/blogimg//blogimg/dubbo/4.jpg)
+![](/images/blogimg/dubbo/4.jpg)
 
 **流程说明：**
 
@@ -84,7 +84,7 @@ Multicast 注册中心不需要启动任何中心节点，只要广播地址一�
 
 ### 使用redis作为配置中心
 
-![](/images/blogimg//blogimg/dubbo/5.jpg)
+![](/images/blogimg/dubbo/5.jpg)
 
 使用 Redis 的 Key/Map 结构存储数据结构：主 Key 为服务名和类型，Map 中的 Key 为 URL 地址，Map 中的 Value 为过期时间，用于判断脏数据，脏数据由监控中心删除     
 

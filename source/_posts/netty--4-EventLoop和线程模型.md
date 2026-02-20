@@ -11,7 +11,7 @@ tags: [netty]
 
 从池的空闲线程列表中选择一个Thread，并且指派它去运行一个已提交的任务（一个Runnable的实现）；
 当任务完成时，将该Thread返回给该列表，使其可被重用。
-![](/images/blogimg//blogimg/netty/11.png)
+![](/images/blogimg/netty/11.png)
 
 ### netty中线程模型(eventLoop)使用
 
@@ -35,7 +35,7 @@ while (!terminated) {
 Netty的EventLoop是协同设计的一部分，它采用了两个基本的API：并发和网络编程。首先，io.netty.util.concurrent包构建在JDK的java.util.concurrent包上，用来提供线程执行器。其次，io.netty.channel包中的类，为了与Channel的事件进行交互，扩展了这些接口/类。
 
 
-![](/images/blogimg//blogimg/netty/12.png)
+![](/images/blogimg/netty/12.png)
 
 
 在这个模型中，一个EventLoop将由一个永远都不会改变的Thread驱动，同时任务（Runnable或者Callable）可以直接提交给EventLoop实现，以立即执行或者调度执行。

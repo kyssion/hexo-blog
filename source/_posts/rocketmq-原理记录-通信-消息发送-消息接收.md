@@ -7,7 +7,7 @@ tags: []
 
 # 一.rocketmq模块架构
 
-![](/images/blogimg//blogimg/rocket/1.webp)
+![](/images/blogimg/rocket/1.webp)
 
 rocketMQ中的几个重要的角色
 
@@ -68,7 +68,7 @@ serializeTypeCurrentRPC=JSON
 
 下面来看下RocketMQ通信协议的格式
 
-![](/images/blogimg//blogimg/rocketmq/2.png)
+![](/images/blogimg/rocketmq/2.png)
 
  可见传输内容主要可以分为以下4部分:
  (1)消息长度:总长度，四个字节存储，占用一个int类型；
@@ -85,7 +85,7 @@ serializeTypeCurrentRPC=JSON
  (3)单向(oneway)
  其中“同步”通信模式相对简单，一般用在发送心跳包场景下，无需关注其Response。本文将主要介绍RocketMQ的异步通信流程(限于篇幅，读者可以按照同样的模式进行分析同步通信流程)
 
- ![](/images/blogimg//blogimg/rocketmq/3.png)
+ ![](/images/blogimg/rocketmq/3.png)
 
 # 五. rocketMq消息发送
 

@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192204">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205105">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -215,7 +215,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -230,7 +230,7 @@
         </div>
         
         <div class="post-body vscode-markdown">
-          <h1 id="一-rocketmq模块架构"><a href="#一-rocketmq模块架构" class="headerlink" title="一.rocketmq模块架构"></a>一.rocketmq模块架构</h1><p><img src="/images/blogimg//blogimg/rocket/1.webp"></p>
+          <h1 id="一-rocketmq模块架构"><a href="#一-rocketmq模块架构" class="headerlink" title="一.rocketmq模块架构"></a>一.rocketmq模块架构</h1><p><img src="/images/blogimg/rocket/1.webp"></p>
 <p>rocketMQ中的几个重要的角色</p>
 <p>(1)NameServer:在MQ集群中做的是做命名服务，更新和路由发现 broker服务；<br>(2)Broker-Master:broker 消息主机服务器；<br>(3)Broker-Slave:broker 消息从机服务器；<br>(4)Producer:消息生产者；<br>(5)Consumer:消息消费者；</p>
 <h1 id="二-rocketmq-通信的过程和方法"><a href="#二-rocketmq-通信的过程和方法" class="headerlink" title="二. rocketmq 通信的过程和方法"></a>二. rocketmq 通信的过程和方法</h1><p>RocketMQ集群的一部分通信如下:<br> (1)Broker启动后需要完成一次将自己注册至NameServer的操作；随后每隔30s时间定期向NameServer上报Topic路由信息；<br> (2)消息生产者Producer作为客户端发送消息时候，需要根据Msg的Topic从本地缓存的TopicPublishInfoTable获取路由信息。如果没有则更新路由信息会从NameServer上重新拉取；<br> (3)消息生产者Producer根据(2)中获取的路由信息选择一个队列(MessageQueue)进行消息发送；Broker作为消息的接收者收消息并落盘存储；</p>
@@ -295,10 +295,10 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">[<br>code=103,//这里的103对应的code就是broker向nameserver注册自己的消息<br>language=JAVA,<br>version=137,<br>opaque=58,//这个就是requestId<br>flag(B)=0,<br>remark=null,<br>extFields=&#123;<br>    brokerId=0,<br>    clusterName=DefaultCluster,<br>    brokerAddr=ip1: 10911,<br>    haServerAddr=ip1: 10912,<br>    brokerName=LAPTOP-SMF2CKDN<br>&#125;,<br>serializeTypeCurrentRPC=JSON<br></code></pre></td></tr></table></figure>
 
 <p>下面来看下RocketMQ通信协议的格式</p>
-<p><img src="/images/blogimg//blogimg/rocketmq/2.png"></p>
+<p><img src="/images/blogimg/rocketmq/2.png"></p>
 <p> 可见传输内容主要可以分为以下4部分:<br> (1)消息长度:总长度，四个字节存储，占用一个int类型；<br> (2)序列化类型&amp;消息头长度:同样占用一个int类型，第一个字节表示序列化类型，后面三个字节表示消息头长度；<br> (3)消息头数据:经过序列化后的消息头数据；<br> (4)消息主体数据:消息主体的二进制字节数据内容；<br> 消息的编码和解码分别在RemotingCommand类的encode和decode方法中完成.</p>
 <h1 id="四-消息通信方式和通信流程"><a href="#四-消息通信方式和通信流程" class="headerlink" title="四. 消息通信方式和通信流程"></a>四. 消息通信方式和通信流程</h1><p>在RocketMQ消息队列中支持通信的方式主要有以下三种:<br> (1)同步(sync)<br> (2)异步(async)<br> (3)单向(oneway)<br> 其中“同步”通信模式相对简单，一般用在发送心跳包场景下，无需关注其Response。本文将主要介绍RocketMQ的异步通信流程(限于篇幅，读者可以按照同样的模式进行分析同步通信流程)</p>
-<p> <img src="/images/blogimg//blogimg/rocketmq/3.png"></p>
+<p> <img src="/images/blogimg/rocketmq/3.png"></p>
 <h1 id="五-rocketMq消息发送"><a href="#五-rocketMq消息发送" class="headerlink" title="五. rocketMq消息发送"></a>五. rocketMq消息发送</h1><p><img src="blogimg/rocket/4.png" alt="rocketMq 网络通信架构图"></p>
 <p>对于上图中几个角色的说明:</p>
 <ul>
@@ -719,7 +719,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -848,7 +848,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192204"></script>
+<script src="../../../../js/password-protect.js?v=1771605205105"></script>
 
     <script>
       // 移动端菜单切换

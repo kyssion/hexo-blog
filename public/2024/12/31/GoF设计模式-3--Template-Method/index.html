@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192243">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605206205">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -266,7 +266,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -289,7 +289,7 @@
         
         <div class="post-body vscode-markdown">
           <h3 id="模板方法模式"><a href="#模板方法模式" class="headerlink" title="模板方法模式"></a>模板方法模式</h3><p>这个设计模式个人的感觉，其实实现了一个标准化的流程，实现类是实现标准的类，而流程由一开始的抽先类或者接口定义了，是标准的继承用法</p>
-<h3 id="模板方法模式类图"><a href="#模板方法模式类图" class="headerlink" title="模板方法模式类图"></a>模板方法模式类图</h3><p><img src="/images/blogimg//blogimg/GAF/4.png"></p>
+<h3 id="模板方法模式类图"><a href="#模板方法模式类图" class="headerlink" title="模板方法模式类图"></a>模板方法模式类图</h3><p><img src="/images/blogimg/GAF/4.png"></p>
 <h3 id="模板方法例子"><a href="#模板方法例子" class="headerlink" title="模板方法例子"></a>模板方法例子</h3><h4 id="使用抽象类的模板"><a href="#使用抽象类的模板" class="headerlink" title="使用抽象类的模板"></a>使用抽象类的模板</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> org.kys.Gaf.templateMethod;<br><br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 模板</span><br><span class="hljs-comment"> */</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AbstractDisplay</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> speed=<span class="hljs-number">5</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">start</span><span class="hljs-params">()</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">stop</span><span class="hljs-params">()</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">print</span><span class="hljs-params">()</span>;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">getSpeed</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> speed;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setSpeed</span><span class="hljs-params">(<span class="hljs-type">int</span> speed)</span> &#123;<br>        <span class="hljs-built_in">this</span>.speed = speed;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">display</span><span class="hljs-params">()</span>&#123;<br>        start();<br>        <span class="hljs-keyword">for</span>(<span class="hljs-type">int</span> a=<span class="hljs-number">0</span>;a&lt;<span class="hljs-built_in">this</span>.speed;a++)&#123;<br>            <span class="hljs-built_in">this</span>.print();<br>        &#125;<br>        <span class="hljs-built_in">this</span>.stop();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h4 id="抽象类的实现类"><a href="#抽象类的实现类" class="headerlink" title="抽象类的实现类"></a>抽象类的实现类</h4><ol>
@@ -740,7 +740,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -869,7 +869,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192243"></script>
+<script src="../../../../js/password-protect.js?v=1771605206206"></script>
 
     <script>
       // 移动端菜单切换

@@ -15,11 +15,11 @@ tags: [设计模式]
 
 1. 使用引用的方式进行构建
 
-![](/images/blogimg//blogimg/GAF/2.png)
+![](/images/blogimg/GAF/2.png)
 
 2. 使用继承的方式进行构建
 
-![](/images/blogimg//blogimg/GAF/3.png)
+![](/images/blogimg/GAF/3.png)
 
 > 注意： 使用接口和使用抽象类的原因是因为java只能支持单继承，如果业务数据和逻辑操作之间的数据交互使用的集成方法而不是使用引用的方式的时候，将有局限性
 

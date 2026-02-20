@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192193">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205093">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -266,7 +266,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -290,16 +290,16 @@
         <div class="post-body vscode-markdown">
           <h2 id="深入springBoot-自动配置原理和手动实现"><a href="#深入springBoot-自动配置原理和手动实现" class="headerlink" title="深入springBoot-自动配置原理和手动实现"></a>深入springBoot-自动配置原理和手动实现</h2><p>这里深入的分析一下为什么spring boot 可以进行 简单化配置, 如何进行手动配置</p>
 <h3 id="spring如何进行相关的配置"><a href="#spring如何进行相关的配置" class="headerlink" title="spring如何进行相关的配置"></a>spring如何进行相关的配置</h3><p>springBoot的自动配置一般配置的源码包是放置在springboot-Autoconfig.jar包下面的</p>
-<p><img src="/images/blogimg//blogimg/springboot/1.png"></p>
+<p><img src="/images/blogimg/springboot/1.png"></p>
 <p>在springboot进行运行的时候，@SpringBoot注解提供了自动导入配置的@EableAutoConfiguration 注解  查看一下这个注解的源代码</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@SuppressWarnings(&quot;deprecation&quot;)</span><br><span class="hljs-meta">@Target(ElementType.TYPE)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-meta">@Inherited</span><br><span class="hljs-meta">@AutoConfigurationPackage</span><br><span class="hljs-meta">@Import(EnableAutoConfigurationImportSelector.class)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> EnableAutoConfiguration &#123;<br>    <span class="hljs-type">String</span> <span class="hljs-variable">ENABLED_OVERRIDE_PROPERTY</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;spring.boot.enableautoconfiguration&quot;</span>;<br>    Class&lt;?&gt;[] exclude() <span class="hljs-keyword">default</span> &#123;&#125;;<br>    String[] excludeName() <span class="hljs-keyword">default</span> &#123;&#125;;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>分析源代码我们可以知道，注解中使用了Import注解将EnableAutoConfigurationImportSelector.class这个类进行运行，这个类将会自动的检测META&#x2F;spring.factories文件，这个文件中声明了相关的各种配置</p>
-<p><img src="/images/blogimg//blogimg/springboot/2.png"></p>
+<p><img src="/images/blogimg/springboot/2.png"></p>
 <p>上面文件中的各配置类中都会发现在springboot中声明的各种配置注解 （在autoconfigure.config包下面）如@ConditionalOnProperty  @ConditionalOnMissingBean</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Configuration</span><br><span class="hljs-meta">@AutoConfigureAfter(JmxAutoConfiguration.class)</span><br><span class="hljs-meta">@ConditionalOnProperty(prefix = &quot;spring.application.admin&quot;, value = &quot;enabled&quot;, havingValue = &quot;true&quot;, matchIfMissing = false)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SpringApplicationAdminJmxAutoConfiguration</span> &#123;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">JMX_NAME_PROPERTY</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;spring.application.admin.jmx-name&quot;</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">DEFAULT_JMX_NAME</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;org.springframework.boot:type=Admin,name=SpringApplication&quot;</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> List&lt;MBeanExporter&gt; mbeanExporters;<br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Environment environment;<br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">SpringApplicationAdminJmxAutoConfiguration</span><span class="hljs-params">(</span><br><span class="hljs-params">            ObjectProvider&lt;List&lt;MBeanExporter&gt;&gt; mbeanExporters, Environment environment)</span> &#123;<br>        <span class="hljs-built_in">this</span>.mbeanExporters = mbeanExporters.getIfAvailable();<br>        <span class="hljs-built_in">this</span>.environment = environment;<br>    &#125;<br>    <span class="hljs-meta">@Bean</span><br>    <span class="hljs-meta">@ConditionalOnMissingBean</span><br>    <span class="hljs-keyword">public</span> SpringApplicationAdminMXBeanRegistrar <span class="hljs-title function_">springApplicationAdminRegistrar</span><span class="hljs-params">()</span><br>            <span class="hljs-keyword">throws</span> MalformedObjectNameException &#123;<br>        <span class="hljs-type">String</span> <span class="hljs-variable">jmxName</span> <span class="hljs-operator">=</span> <span class="hljs-built_in">this</span>.environment.getProperty(JMX_NAME_PROPERTY,<br>                DEFAULT_JMX_NAME);<br>        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>.mbeanExporters != <span class="hljs-literal">null</span>) &#123; <span class="hljs-comment">// Make sure to not register that MBean twice</span><br>            <span class="hljs-keyword">for</span> (MBeanExporter mbeanExporter : <span class="hljs-built_in">this</span>.mbeanExporters) &#123;<br>                mbeanExporter.addExcludedBean(jmxName);<br>            &#125;<br>        &#125;<br>        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">SpringApplicationAdminMXBeanRegistrar</span>(jmxName);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p><img src="/images/blogimg//blogimg/springboot/3.png"></p>
+<p><img src="/images/blogimg/springboot/3.png"></p>
 <p>分析一下最后一个注解</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Target(&#123; ElementType.TYPE, ElementType.METHOD &#125;)</span><br><span class="hljs-meta">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="hljs-meta">@Documented</span><br><span class="hljs-meta">@Conditional(OnWebApplicationCondition.class)</span><br><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> ConditionalOnWebApplication &#123;&#125;<br></code></pre></td></tr></table></figure>
 
@@ -318,7 +318,7 @@
 
 <p>接下来就可以在使用maven打包成jar包，进行发布，注意坑点，必须打成jar包，其次要关闭spring boot的maven插件，因为这个插件会强制将 必有要存在main方法否则将会导致相关的mvn install失败</p>
 <p>其他类尽心引用：通过上面的分析我们已经知道类，spring boot 进行相关的配置的时候其实是通过一个spring.factories 配置文件进行相关的配置的，所以，当我们进行自定一配置的时候需在resouce文件夹下新建METE-INF&#x2F;spring.factories 文件，导入自己尽心的相关配置</p>
-<p><img src="/images/blogimg//blogimg/springboot/4.png"></p>
+<p><img src="/images/blogimg/springboot/4.png"></p>
 <figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">org.springframework.boot.autoconfigure.EnableAutoConfiguration</span>=<span class="hljs-string">\</span><br><span class="hljs-string">  com.example.springbootstartmystart.MyconfigAutoConfig</span><br></code></pre></td></tr></table></figure>
 
 <blockquote>
@@ -761,7 +761,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -890,7 +890,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192193"></script>
+<script src="../../../../js/password-protect.js?v=1771605205093"></script>
 
     <script>
       // 移动端菜单切换

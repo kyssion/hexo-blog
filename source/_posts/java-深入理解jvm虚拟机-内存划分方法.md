@@ -7,7 +7,7 @@ tags: [jvm虚拟机]
 
 ### 一.运行时的数据区域
 
-![](/images/blogimg//blogimg/jvm/1.png)
+![](/images/blogimg/jvm/1.png)
 
 #### （1）程序计数器
 

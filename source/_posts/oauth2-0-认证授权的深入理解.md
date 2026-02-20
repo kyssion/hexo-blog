@@ -18,7 +18,7 @@ oAuth2.0 是一个广泛应用的认证授权方法
 
 oAuth2.0的官方流程是这样的
 
-![](/images/blogimg//blogimg/oauth2/oauth1.png)
+![](/images/blogimg/oauth2/oauth1.png)
 
 - (A)用户打开客户端以后,客户端要求用户给予授权.
 - (B)用户同意给予客户端授权.
@@ -29,7 +29,7 @@ oAuth2.0的官方流程是这样的
 
 其实这个登入流程的核心就是如何获取这个accessToken,这里列一个比较详细的授权流程,做一个整理
 
-![](/images/blogimg//blogimg/oauth2/oauth2.jpg)
+![](/images/blogimg/oauth2/oauth2.jpg)
 
 这里说明一些关键步骤
 

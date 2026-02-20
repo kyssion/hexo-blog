@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192158">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205058">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -266,7 +266,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -311,7 +311,7 @@
 </ol>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">Function</span> <span class="hljs-variable">f1</span> <span class="hljs-operator">=</span> ()-&gt;&#123;<span class="hljs-comment">//多行代码解释</span><br>    String a= <span class="hljs-string">&quot; !&quot;</span>;<br>    System.out.println(<span class="hljs-string">&quot;hello world&quot;</span>+a);<br>&#125;<br><span class="hljs-type">Function</span> <span class="hljs-variable">f1</span> <span class="hljs-operator">=</span> (write)-&gt;&#123;<span class="hljs-comment">//java 编译器会自动的识别write的类型</span><br>    System.out.println(write);<br>&#125;<br><span class="hljs-type">Function</span> <span class="hljs-variable">f1</span> <span class="hljs-operator">=</span> (String write) -&gt; &#123;<span class="hljs-comment">//指定参数</span><br>     System.out.println(write);<br>&#125;<br><span class="hljs-type">Function</span> <span class="hljs-variable">f1</span> <span class="hljs-operator">=</span> (write,one)-&gt;&#123;<span class="hljs-comment">//多参数</span><br>    System.out.println(write);<br>&#125;<br><span class="hljs-type">Function</span> <span class="hljs-variable">f1</span> <span class="hljs-operator">=</span> (String write,Integer one) -&gt; &#123;<span class="hljs-comment">//多参数</span><br>     System.out.println(write);<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<h3 id="lamble-表达式常用的一些接口"><a href="#lamble-表达式常用的一些接口" class="headerlink" title="lamble 表达式常用的一些接口"></a>lamble 表达式常用的一些接口</h3><p>  <img src="/images/blogimg//blogimg/java/stream_lamble/3.png"></p>
+<h3 id="lamble-表达式常用的一些接口"><a href="#lamble-表达式常用的一些接口" class="headerlink" title="lamble 表达式常用的一些接口"></a>lamble 表达式常用的一些接口</h3><p>  <img src="/images/blogimg/java/stream_lamble/3.png"></p>
 <h3 id="lamble表达式的作用域"><a href="#lamble表达式的作用域" class="headerlink" title="lamble表达式的作用域"></a>lamble表达式的作用域</h3><p>lamble表达式将会使用作用域的引用,比如下面的例子</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">JavaLamble</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">Function</span> <span class="hljs-variable">function</span> <span class="hljs-operator">=</span> <span class="hljs-literal">null</span>;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">run</span><span class="hljs-params">(Function function)</span>&#123;<br>        <span class="hljs-built_in">this</span>.function=function;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-keyword">final</span> <span class="hljs-type">String</span> <span class="hljs-variable">item</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;hello world&quot;</span>;<span class="hljs-comment">//注意内部引用的各种变量必须为final 不可修改的变量否则会报错</span><br>        <span class="hljs-type">JavaLamble</span> <span class="hljs-variable">javaLamble</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">JavaLamble</span>();<br>        javaLamble.run((write) -&gt;&#123;<br>            System.out.println(<span class="hljs-string">&quot;&quot;</span>+item);<br>        &#125;);<br>        javaLamble.function.showWrite(<span class="hljs-string">&quot;item&quot;</span>);<br>    &#125;<br>&#125;<br><span class="hljs-keyword">interface</span> <span class="hljs-title class_">Function</span>&#123;<br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">showWrite</span><span class="hljs-params">(String write)</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
 <p>java的实际输出结果是 item对应的值</p>
@@ -790,7 +790,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -919,7 +919,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192158"></script>
+<script src="../../../../js/password-protect.js?v=1771605205058"></script>
 
     <script>
       // 移动端菜单切换

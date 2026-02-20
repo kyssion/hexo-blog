@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192151">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205052">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -250,7 +250,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -281,7 +281,7 @@
 <p>通道的工作模式有两种：阻塞或非阻塞。在非阻塞模式下，调用的线程不会休眠，请求的操作会立刻返回结果；在阻塞模式下，调用的线程会产生休眠。<strong>另外除FileChannel不能运行在非阻塞模式下，其余的通道都可阻塞运行也可以以非阻塞的方式运行。</strong></p>
 <p>另外从SelectableChannel引申出的类可以和支持有条件选择的Selector结合使用，进而充分利用多路复用的I&#x2F;O（multiplexed I&#x2F;O）来提高性能.对于Socket通道类来说，通常与Selector共同使用以提高性能。需要<strong>注意的是通道不能被重复使用，一个打开的通道代表着与一个特定I&#x2F;O服务进行连接并封装了该连接的状态，通道一旦关闭，该连接便会断开。</strong>通道的close（）比较特殊，无论在通道时在阻塞模式下还是非阻塞模式下，由于close（）方法的调用而导致底层I&#x2F;O的关闭都可能会造成线程的暂时阻塞。在一个已关闭的通道上调用close（）并没有任何意义，只会立即返回。</p>
 <h3 id="现在进入正题，讨论一下ServerSocketChannel"><a href="#现在进入正题，讨论一下ServerSocketChannel" class="headerlink" title="现在进入正题，讨论一下ServerSocketChannel"></a>现在进入正题，讨论一下ServerSocketChannel</h3><p>Java NIO中的 ServerSocketChannel 是一个可以监听新进来的TCP连接的通道, 类似ServerSocket一样。要注意的是和DatagramChannel和SocketChannel不同，ServerSocketChannel本身不具备传输数据的能力，而只是负责监听传入的连接和创建新的SocketChannel。</p>
-<p><img src="/images/blogimg//blogimg/nio/1.png"></p>
+<p><img src="/images/blogimg/nio/1.png"></p>
 <h4 id="创建一个ServerSocket很简单，代码如下"><a href="#创建一个ServerSocket很简单，代码如下" class="headerlink" title="创建一个ServerSocket很简单，代码如下"></a>创建一个ServerSocket很简单，代码如下</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs java">ServerSocketChannel channel= ServerSocketChannel.open();<br></code></pre></td></tr></table></figure>
 
 
@@ -710,7 +710,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -839,7 +839,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192151"></script>
+<script src="../../../../js/password-protect.js?v=1771605205052"></script>
 
     <script>
       // 移动端菜单切换

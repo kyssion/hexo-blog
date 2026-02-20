@@ -11,7 +11,7 @@ tags: [设计模式]
 
 ### 模板方法模式类图
 
-![](/images/blogimg//blogimg/GAF/4.png)
+![](/images/blogimg/GAF/4.png)
 
 ### 模板方法例子
 

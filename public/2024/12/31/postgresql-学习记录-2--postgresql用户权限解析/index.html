@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192212">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205112">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -215,7 +215,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -234,10 +234,10 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">trust<br>md5<br>password<br>GSSAPI<br>SSPI <br>Ident<br>Peer<br>LDAP<br>RADIUS <br>PAM<br>Certificate <br>BSD<br></code></pre></td></tr></table></figure>
 
 <p>详见 <a target="_blank" rel="noopener" href="https://www.postgresql.org/docs/9.6/static/auth-methods.html">https://www.postgresql.org/docs/9.6/static/auth-methods.html</a><br>这里主要介绍一下ident和peer相关的坑<br>ident 认证，客户端和数据库建立TCP会话后（假设会话的连接信息是client_ip:12345 &lt;-&gt; db_ip:5432），数据库通过ident协议询问客户端所在IP地址的ident server (默认是113监听端口)，询问内容：使用client_ip:12345端口连接db_ip:5432的操作系统用户是谁？</p>
-<p><img src="/images/blogimg//blogimg/postgresql/1.png"></p>
-<p>如图:<br><img src="/images/blogimg//blogimg/postgresql/2.png"></p>
+<p><img src="/images/blogimg/postgresql/1.png"></p>
+<p>如图:<br><img src="/images/blogimg/postgresql/2.png"></p>
 <p>在获取到客户端的OS用户名之后，PostgreSQL会通过pg_hba.conf中配置的map名与pg_ident.conf中配置的映射关系，以及客户端提供的数据库用户名，判断是否允许登陆数据库。<br>如图</p>
-<p><img src="/images/blogimg//blogimg/postgresql/3.png"></p>
+<p><img src="/images/blogimg/postgresql/3.png"></p>
 <p>这里的peer相关的东西解释了为什么在上一篇中说使用linux的同名用户可以登入postgresql数据库</p>
 
         </div>
@@ -638,7 +638,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -767,7 +767,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192213"></script>
+<script src="../../../../js/password-protect.js?v=1771605205113"></script>
 
     <script>
       // 移动端菜单切换

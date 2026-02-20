@@ -22,7 +22,7 @@ tags: [dubbo]
 
 #### 一个基础的dubbo项目结构
 
-![](/images/blogimg//blogimg/dubbo/n1.png)
+![](/images/blogimg/dubbo/n1.png)
 
 - dubbo_information: 表示公共的接口类（rpc调用过程中的模板）
 - dubbo_client : 表示公共接口的客户端
@@ -36,7 +36,7 @@ tags: [dubbo]
 
 ### dubbo的基本架构
 
-![](/images/blogimg//blogimg/dubbo/2.jpg)
+![](/images/blogimg/dubbo/2.jpg)
 
 节点|角色说明
 ---|---
@@ -88,7 +88,7 @@ Dubbo 架构具有以下几个特点，分别是连通性、健壮性、伸缩�
 
 当服务集群规模进一步扩大，带动IT治理结构进一步升级，需要实现动态部署，进行流动计算，现有分布式服务架构不会带来阻力。下图是未来可能的一种架构：
 
-![](/images/blogimg//blogimg/dubbo/n1.jpg)
+![](/images/blogimg/dubbo/n1.jpg)
 
 节点角色说明
 节点|角色说明
@@ -102,7 +102,7 @@ Monitor|统计服务的调用次数和调用时间的监控中心
 
 ### dubbo 的需求
 
-![](/images/blogimg//blogimg/dubbo/n2.jpg)
+![](/images/blogimg/dubbo/n2.jpg)
 
 在大规模服务化之前，应用可能只是通过 RMI 或 Hessian 等工具，简单的暴露和引用远程服务，通过配置服务的URL地址进行调用，通过 F5 等硬件进行负载均衡。
 

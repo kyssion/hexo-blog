@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192120">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205024">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -266,7 +266,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -290,7 +290,7 @@
         <div class="post-body vscode-markdown">
           <h2 id="深入dubbo（二）注册中心"><a href="#深入dubbo（二）注册中心" class="headerlink" title="深入dubbo（二）注册中心"></a>深入dubbo（二）注册中心</h2><p>注册中心只要解决的问题就是，服务端和消费端的相互发现的问题，断开重链接的问题</p>
 <h3 id="基于广播实现注册的Multicast-注册中心"><a href="#基于广播实现注册的Multicast-注册中心" class="headerlink" title="基于广播实现注册的Multicast 注册中心"></a>基于广播实现注册的Multicast 注册中心</h3><p>Multicast 注册中心不需要启动任何中心节点，只要广播地址一样，就可以互相发现。</p>
-<p><img src="/images/blogimg//blogimg/dubbo/3.jpg"></p>
+<p><img src="/images/blogimg/dubbo/3.jpg"></p>
 <ol>
 <li>提供方启动时广播自己的地址</li>
 <li>消费方启动时广播订阅请求</li>
@@ -305,7 +305,7 @@
 
 <p><strong>注意问题</strong>,hostname需要为本地的ip地址（不能是127.0.0.1），ubuntu系统需要修改hosts文件</p>
 <h3 id="使用基于zookeeper的注册中心"><a href="#使用基于zookeeper的注册中心" class="headerlink" title="使用基于zookeeper的注册中心"></a>使用基于zookeeper的注册中心</h3><p>注册依赖于zookeeper底层树实现</p>
-<p><img src="/images/blogimg//blogimg/dubbo/4.jpg"></p>
+<p><img src="/images/blogimg/dubbo/4.jpg"></p>
 <p><strong>流程说明：</strong></p>
 <ol>
 <li>服务提供者启动时: 向 &#x2F;dubbo&#x2F;com.foo.BarService&#x2F;providers 目录下写入自己的 URL 地址</li>
@@ -339,7 +339,7 @@
 </blockquote>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">dubbo:registry</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;chinaRegistry&quot;</span> <span class="hljs-attr">protocol</span>=<span class="hljs-string">&quot;zookeeper&quot;</span> <span class="hljs-attr">address</span>=<span class="hljs-string">&quot;10.20.153.10:2181&quot;</span> <span class="hljs-attr">group</span>=<span class="hljs-string">&quot;china&quot;</span> /&gt;</span> <br><span class="hljs-tag">&lt;<span class="hljs-name">dubbo:registry</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;intlRegistry&quot;</span> <span class="hljs-attr">protocol</span>=<span class="hljs-string">&quot;zookeeper&quot;</span> <span class="hljs-attr">address</span>=<span class="hljs-string">&quot;10.20.153.10:2181&quot;</span> <span class="hljs-attr">group</span>=<span class="hljs-string">&quot;intl&quot;</span> /&gt;</span><br></code></pre></td></tr></table></figure>
 
-<h3 id="使用redis作为配置中心"><a href="#使用redis作为配置中心" class="headerlink" title="使用redis作为配置中心"></a>使用redis作为配置中心</h3><p><img src="/images/blogimg//blogimg/dubbo/5.jpg"></p>
+<h3 id="使用redis作为配置中心"><a href="#使用redis作为配置中心" class="headerlink" title="使用redis作为配置中心"></a>使用redis作为配置中心</h3><p><img src="/images/blogimg/dubbo/5.jpg"></p>
 <p>使用 Redis 的 Key&#x2F;Map 结构存储数据结构：主 Key 为服务名和类型，Map 中的 Key 为 URL 地址，Map 中的 Value 为过期时间，用于判断脏数据，脏数据由监控中心删除     </p>
 <p>具体流程将上图，因为使用很少，暂时不做讨论</p>
 
@@ -777,7 +777,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -906,7 +906,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192120"></script>
+<script src="../../../../js/password-protect.js?v=1771605205024"></script>
 
     <script>
       // 移动端菜单切换

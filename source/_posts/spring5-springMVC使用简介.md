@@ -236,8 +236,8 @@ public class MyspringFilter implements HandlerInterceptor{
 
 ### 相关流程简介
 
-![](/images/blogimg//blogimg/springMVC/1.png)
+![](/images/blogimg/springMVC/1.png)
 
-![](/images/blogimg//blogimg/springMVC/2.png)
+![](/images/blogimg/springMVC/2.png)
 
-![](/images/blogimg//blogimg/springMVC/3.png)
+![](/images/blogimg/springMVC/3.png)

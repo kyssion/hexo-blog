@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192185">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205085">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -266,7 +266,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -289,10 +289,10 @@
         
         <div class="post-body vscode-markdown">
           <p>说道spring的web支持首先就可以想到了spring MVC 的技术(其他的技术还有spring的webflux 以后讨论),从这片博客开始要进行相关知识点的整理.</p>
-<h3 id="spring-MVC-整体的架构设计"><a href="#spring-MVC-整体的架构设计" class="headerlink" title="spring MVC 整体的架构设计"></a>spring MVC 整体的架构设计</h3><p><img src="/images/blogimg//blogimg/springMVC/1.jpg"></p>
-<p><img src="/images/blogimg//blogimg/springMVC/1.png"></p>
-<p><img src="/images/blogimg//blogimg/springMVC/2.png"></p>
-<p><img src="/images/blogimg//blogimg/springMVC/3.png"></p>
+<h3 id="spring-MVC-整体的架构设计"><a href="#spring-MVC-整体的架构设计" class="headerlink" title="spring MVC 整体的架构设计"></a>spring MVC 整体的架构设计</h3><p><img src="/images/blogimg/springMVC/1.jpg"></p>
+<p><img src="/images/blogimg/springMVC/1.png"></p>
+<p><img src="/images/blogimg/springMVC/2.png"></p>
+<p><img src="/images/blogimg/springMVC/3.png"></p>
 <p>spring 自己的webapplication支持嵌套作用域,通过这个方法可以实现spring applicationcongtext的继承特性(继承特性,子作用域可以访问夫作用域的中的属性,但是父作用域中的属性无法访问子作用域中的属性,具体的使用看HierarchicalBeanFactory)</p>
 <h4 id="web容器的初始化设置"><a href="#web容器的初始化设置" class="headerlink" title="web容器的初始化设置"></a>web容器的初始化设置</h4><p>springMVC 支持使用xml进行配置</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">web-app</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">listener</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">listener-class</span>&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="hljs-tag">&lt;/<span class="hljs-name">listener-class</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">listener</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">context-param</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>contextConfigLocation<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span>/WEB-INF/app-context.xml<span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">context-param</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">servlet</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>app<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-class</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">init-param</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">param-name</span>&gt;</span>contextConfigLocation<span class="hljs-tag">&lt;/<span class="hljs-name">param-name</span>&gt;</span><br>            <span class="hljs-tag">&lt;<span class="hljs-name">param-value</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">param-value</span>&gt;</span><br>        <span class="hljs-tag">&lt;/<span class="hljs-name">init-param</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">load-on-startup</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">load-on-startup</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">servlet</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-mapping</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>app<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/app/*<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">servlet-mapping</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">web-app</span>&gt;</span><br></code></pre></td></tr></table></figure>
@@ -318,7 +318,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@HandlesTypes(WebApplicationInitializer.class)</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SpringServletContainerInitializer</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">ServletContainerInitializer</span> &#123;<br>	<span class="hljs-meta">@Override</span><br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">onStartup</span><span class="hljs-params">(<span class="hljs-meta">@Nullable</span> Set&lt;Class&lt;?&gt;&gt; webAppInitializerClasses, ServletContext servletContext)</span><br>			<span class="hljs-keyword">throws</span> ServletException &#123;<br>		List&lt;WebApplicationInitializer&gt; initializers = <span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedList</span>&lt;&gt;()<br>		<span class="hljs-keyword">if</span> (webAppInitializerClasses != <span class="hljs-literal">null</span>) &#123;<br>			<span class="hljs-keyword">for</span> (Class&lt;?&gt; waiClass : webAppInitializerClasses) &#123;<br>				<span class="hljs-keyword">if</span> (!waiClass.isInterface() &amp;&amp; !Modifier.isAbstract(waiClass.getModifiers()) &amp;&amp;<br>						WebApplicationInitializer.class.isAssignableFrom(waiClass)) &#123;<br>					<span class="hljs-keyword">try</span> &#123;<br>						initializers.add((WebApplicationInitializer)<br>								ReflectionUtils.accessibleConstructor(waiClass).newInstance());<br>					&#125;<br>					<span class="hljs-keyword">catch</span> (Throwable ex) &#123;<br>						<span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ServletException</span>(<span class="hljs-string">&quot;Failed to instantiate WebApplicationInitializer class&quot;</span>, ex);<br>					&#125;<br>				&#125;<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (initializers.isEmpty()) &#123;<br>			servletContext.log(<span class="hljs-string">&quot;No Spring WebApplicationInitializer types detected on classpath&quot;</span>);<br>			<span class="hljs-keyword">return</span>;<br>		&#125;<br>		servletContext.log(initializers.size() + <span class="hljs-string">&quot; Spring WebApplicationInitializers detected on classpath&quot;</span>);<br>		AnnotationAwareOrderComparator.sort(initializers);<br>		<span class="hljs-keyword">for</span> (WebApplicationInitializer initializer : initializers) &#123;<br>			initializer.onStartup(servletContext);<br>		&#125;<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <h3 id="spring-mvc最核心类-DispatcherServlet"><a href="#spring-mvc最核心类-DispatcherServlet" class="headerlink" title="spring mvc最核心类 DispatcherServlet"></a>spring mvc最核心类 DispatcherServlet</h3><p>如果要说这个类就需要看一下springmvc的流程图</p>
-<p><img src="/images/blogimg//blogimg/1.png">;</p>
+<p><img src="/images/blogimg/1.png">;</p>
 <hr>
 <p>ps：暂时不知到这个地方有什么用</p>
 <p>在这里之前 DispathcerServlet 将会webapplicationcontext的字符串引用放入java中 </p>
@@ -1079,7 +1079,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -1208,7 +1208,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192185"></script>
+<script src="../../../../js/password-protect.js?v=1771605205086"></script>
 
     <script>
       // 移动端菜单切换

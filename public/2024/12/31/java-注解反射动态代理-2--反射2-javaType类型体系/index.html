@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192162">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205063">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -266,7 +266,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -304,52 +304,52 @@
 <li>getActualTypeArguments()</li>
 </ol>
 <p>获取泛型中的实际类型，可能会存在多个泛型，例如Map&lt;K,V&gt;,所以会返回Type[]数组</p>
-<p><img src="/images/blogimg//blogimg/java/t/1.png"></p>
+<p><img src="/images/blogimg/java/t/1.png"></p>
 <p>值得注意的是，无论&lt;&gt;中有几层嵌套(List&lt;Map&lt;String,Integer&gt;)，getActualTypeArguments()方法永远都是脱去最外层的&lt;&gt;(也就是List&lt;&gt;)，将口号内的内容（Map&lt;String,Integer&gt;）返回；我们经常遇到的List<T>，通过getActualTypeArguments()方法，得到的返回值是TypeVariableImpl对象，也就是TypeVariable类型(后面介绍);</p>
 <ol start="2">
 <li>getRawType()</li>
 </ol>
 <p>获取声明泛型的类或者接口，也就是泛型中&lt;&gt;前面的那个值；</p>
-<p><img src="/images/blogimg//blogimg/java/t/2.png"></p>
+<p><img src="/images/blogimg/java/t/2.png"></p>
 <ol start="3">
 <li>getOwnerType()</li>
 </ol>
 <p>通过方法的名称，我们大概了解到，此方法是获取泛型的拥有者，那么拥有者是个什么意思？Returns a {@code Type} object representing the type that this type     * is a member of.  For example, if this type is {@code O.I},     * return a representation of {@code O}.  （摘自JDK注释）通过注解，我们得知，“拥有者”表示的含义–内部类的“父类”，通过getOwnerType()方法可以获取到内部类的“拥有者”；例如： Map  就是 Map.Entry&lt;String,String&gt;的拥有者；</p>
-<p><img src="/images/blogimg//blogimg/java/t/3.png"></p>
+<p><img src="/images/blogimg/java/t/3.png"></p>
 <h2 id="2-GenericArrayType"><a href="#2-GenericArrayType" class="headerlink" title="2. GenericArrayType"></a>2. GenericArrayType</h2><p>泛型数组类型，例如List<String>[] 、T[]等；</p>
-<p><img src="/images/blogimg//blogimg/java/t/4.png"></p>
+<p><img src="/images/blogimg/java/t/4.png"></p>
 <p>在GenericArrayType接口中，仅有1个方法，就是getGenericComponentType()；</p>
-<p><img src="/images/blogimg//blogimg/java/t/5.png"></p>
+<p><img src="/images/blogimg/java/t/5.png"></p>
 <ol>
 <li>getGenericComponentType()</li>
 </ol>
 <p>返回泛型数组中元素的Type类型，即List<String>[] 中的 List<String>（ParameterizedTypeImpl）、T[] 中的T（TypeVariableImpl）；</p>
-<p><img src="/images/blogimg//blogimg/java/t/6.png"></p>
+<p><img src="/images/blogimg/java/t/6.png"></p>
 <p>值得注意的是，无论是几维数组，getGenericComponentType()方法都只会脱去最右边的[]，返回剩下的值</p>
 <h2 id="3-TypeVariable"><a href="#3-TypeVariable" class="headerlink" title="3. TypeVariable"></a>3. TypeVariable</h2><p>泛型的类型变量，指的是List<T>、Map&lt;K,V&gt;中的T，K，V等值，实际的Java类型是TypeVariableImpl（TypeVariable的子类）；此外，还可以对类型变量加上extend限定，这样会有类型变量对应的上限</p>
-<p><img src="/images/blogimg//blogimg/java/t/7.png"></p>
+<p><img src="/images/blogimg/java/t/7.png"></p>
 <p>在TypeVariable接口中，有3个方法，分别为getBounds()、getGenericDeclaration()、getName()</p>
 <ol>
 <li>getBounds()</li>
 </ol>
 <p>获得该类型变量的上限，也就是泛型中extend右边的值；例如 List<T extends Number> ，Number就是类型变量T的上限；如果我们只是简单的声明了List<T>（无显式定义extends），那么默认为Object；</p>
-<p><img src="/images/blogimg//blogimg/java/t/8.png"></p>
+<p><img src="/images/blogimg/java/t/8.png"></p>
 <p>无显式定义extends：</p>
-<p><img src="/images/blogimg//blogimg/java/t/9.png"></p>
+<p><img src="/images/blogimg/java/t/9.png"></p>
 <p>值得注意的是，类型变量的上限可以为多个，必须使用&amp;符号相连接，例如 List&lt;T extends Number &amp; Serializable&gt;；其中，&amp; 后必须为接口；</p>
 <ol start="2">
 <li>getGenericDeclaration()</li>
 </ol>
 <p>获取声明该类型变量实体，也就是TypeVariableTest<T>中的TypeVariableTest</p>
-<p><img src="/images/blogimg//blogimg/java/t/10.png"></p>
+<p><img src="/images/blogimg/java/t/10.png"></p>
 <ol start="3">
 <li>getName()</li>
 </ol>
 <p>获取类型变量在源码中定义的名称</p>
-<p><img src="/images/blogimg//blogimg/java/t/11.png"></p>
+<p><img src="/images/blogimg/java/t/11.png"></p>
 <p>说到TypeVariable类，就不得不提及Java-Type体系中另一个比较重要的接口—GenericDeclaration；含义为：声明类型变量的所有实体的公共接口；也就是说该接口定义了哪些地方可以定义类型变量（泛型）；</p>
 <p>通过查看源码发现，GenericDeclaration下有三个子类，分别为Class、Method、Constructor；也就是说，我们定义泛型只能在一个类中这3个地方自定义泛型；</p>
-<p><img src="/images/blogimg//blogimg/java/t/12.png"></p>
+<p><img src="/images/blogimg/java/t/12.png"></p>
 <p>此时，我们不禁要问，我们不是经常在类中的属性声明泛型吗，怎么Field没有实现 GenericDeclaration接口呢？</p>
 <p>其实，我们在Field中并没有声明泛型，而是在使用泛型而已</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Item</span>&lt;T&gt;&#123;<br>    T item;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -357,17 +357,17 @@
 <p>正因为是使用泛型，所以Field并没有实现GenericDeclaration接口</p>
 <h2 id="4-WildcardType"><a href="#4-WildcardType" class="headerlink" title="4. WildcardType"></a>4. WildcardType</h2><p>？—通配符表达式，表示通配符泛型，但是WildcardType并不属于Java-Type中的一钟；例如：List&lt;? extends Number&gt; 和 List&lt;? super Integer&gt;</p>
 <p>在WildcardType接口中，有2个方法，分别为getUpperBounds()、getLowerBounds();</p>
-<p><img src="/images/blogimg//blogimg/java/t/13.png"></p>
+<p><img src="/images/blogimg/java/t/13.png"></p>
 <ol>
 <li>getUpperBounds()</li>
 </ol>
 <p>获取泛型变量的上边界（extends）</p>
-<p><img src="/images/blogimg//blogimg/java/t/14.png"></p>
+<p><img src="/images/blogimg/java/t/14.png"></p>
 <ol start="2">
 <li>getLowerBounds</li>
 </ol>
 <p>获取泛型变量的下边界（super）</p>
-<p><img src="/images/blogimg//blogimg/java/t/15.png"></p>
+<p><img src="/images/blogimg/java/t/15.png"></p>
 
         </div>
         
@@ -803,7 +803,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -932,7 +932,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192162"></script>
+<script src="../../../../js/password-protect.js?v=1771605205063"></script>
 
     <script>
       // 移动端菜单切换

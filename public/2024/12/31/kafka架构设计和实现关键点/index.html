@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192202">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205103">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -220,7 +220,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -248,7 +248,7 @@
 <li>kafka消费者使用pull模式拉取 ？长轮询？</li>
 <li></li>
 </ol>
-<h2 id="kafka基本架构系统架构"><a href="#kafka基本架构系统架构" class="headerlink" title="kafka基本架构系统架构"></a>kafka基本架构系统架构</h2><p><img src="/images/blogimg//blogimg/kafka/kafka%E5%89%AF%E6%9C%AC%E6%9E%B6%E6%9E%84.png"></p>
+<h2 id="kafka基本架构系统架构"><a href="#kafka基本架构系统架构" class="headerlink" title="kafka基本架构系统架构"></a>kafka基本架构系统架构</h2><p><img src="/images/blogimg/kafka/kafka%E5%89%AF%E6%9C%AC%E6%9E%B6%E6%9E%84.png"></p>
 <blockquote>
 <p>名词概念</p>
 </blockquote>
@@ -263,7 +263,7 @@
 <li>LEO ： LEO是Log End Offset的缩写，它标识当前日志文件中下一条待写入消息的offset</li>
 <li>HW ： HW是High Watermark的缩写，俗称高水位，它标识了一个特定的消息偏移量（offset），消费者只能拉取到这个offset之前的消息。</li>
 </ol>
-<p><img src="/images/blogimg//blogimg/kafka/leo%E5%92%8Chw%E5%85%B3%E7%B3%BB.png"></p>
+<p><img src="/images/blogimg/kafka/leo%E5%92%8Chw%E5%85%B3%E7%B3%BB.png"></p>
 <p>注意： LEO和HW 都描述的是下一个能插入或者能读入的位置，而不是当前位置</p>
 <p>LEO位置的确定方法是每一个副本当前能插入的下一个问题，HW的位置是leader通过同步当前所有副本中最小的LEO来决定HW</p>
 <h1 id="kafka-producer"><a href="#kafka-producer" class="headerlink" title="kafka producer"></a>kafka producer</h1><h2 id="KafkaProducer"><a href="#KafkaProducer" class="headerlink" title="KafkaProducer"></a>KafkaProducer</h2><h2 id="创建发送消息对象ProducerRecord"><a href="#创建发送消息对象ProducerRecord" class="headerlink" title="创建发送消息对象ProducerRecord"></a>创建发送消息对象ProducerRecord</h2><blockquote>
@@ -326,7 +326,7 @@
 <blockquote>
 <p>注意： KafkaProducer中不仅可以指定一个拦截器，还可以指定多个拦截器以形成拦截链</p>
 </blockquote>
-<h2 id="kafka-producer架构图"><a href="#kafka-producer架构图" class="headerlink" title="kafka producer架构图"></a>kafka producer架构图</h2><p><img src="/images/blogimg//blogimg/kafka/kafka%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%9E%B6%E6%9E%84%E5%9B%BE.png"></p>
+<h2 id="kafka-producer架构图"><a href="#kafka-producer架构图" class="headerlink" title="kafka producer架构图"></a>kafka producer架构图</h2><p><img src="/images/blogimg/kafka/kafka%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%9E%B6%E6%9E%84%E5%9B%BE.png"></p>
 <p>整个生产者客户端由两个线程协调运行，这两个线程分别为主线程和Sender线程（发送线程）。</p>
 <ul>
 <li>在主线程中由KafkaProducer创建消息，然后通过可能的拦截器、序列化器和分区器的作用之后缓存到消息累加器（RecordAccumulator，也称为消息收集器）中。</li>
@@ -755,7 +755,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -884,7 +884,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192203"></script>
+<script src="../../../../js/password-protect.js?v=1771605205103"></script>
 
     <script>
       // 移动端菜单切换

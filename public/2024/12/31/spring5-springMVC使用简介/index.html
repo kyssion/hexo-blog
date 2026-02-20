@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192184">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205084">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -266,7 +266,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -300,9 +300,9 @@
 
 <h3 id="springMVC过滤器"><a href="#springMVC过滤器" class="headerlink" title="springMVC过滤器"></a>springMVC过滤器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> q_springMVC.过滤器;<br><br><span class="hljs-keyword">import</span> javax.servlet.http.HttpServletRequest;<br><span class="hljs-keyword">import</span> javax.servlet.http.HttpServletResponse;<br><br><span class="hljs-keyword">import</span> org.springframework.web.servlet.HandlerInterceptor;<br><span class="hljs-keyword">import</span> org.springframework.web.servlet.ModelAndView;<br><span class="hljs-comment">//实现自定义spring拦截器必须继承的接口HandlerINterceptor  但是如果要使用这个拦截器需要将这个拦截器注册到相应的springmvc的配置文件(不是web.xml)中去</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MyspringFilter</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">HandlerInterceptor</span>&#123;<br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">afterCompletion</span><span class="hljs-params">(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, Exception arg3)</span><br>            <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-comment">// TODO Auto-generated method stub</span><br>        <span class="hljs-comment">//请求结束的时候调用的方法 object类的效果和上面的的相同 Exception表示抛出的异常</span><br>        <span class="hljs-comment">//试图完成后执行的各种参数</span><br><br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><span class="hljs-comment">//在业务处理器处理请求执行完成后,生成视图之前执行</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">postHandle</span><span class="hljs-params">(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, ModelAndView arg3)</span><br>            <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-comment">// TODO Auto-generated method stub</span><br><br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><span class="hljs-comment">//这个方法表示是否见当前的请求拦截下来 true表示不false 拦截  参数中有一个object 的类i表示将要进行拦截对象的实例</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-type">boolean</span> <span class="hljs-title function_">preHandle</span><span class="hljs-params">(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>        <span class="hljs-comment">// TODO Auto-generated method stub</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>    &#125;<br><br>&#125;<br></code></pre></td></tr></table></figure>
 
-<h3 id="相关流程简介"><a href="#相关流程简介" class="headerlink" title="相关流程简介"></a>相关流程简介</h3><p><img src="/images/blogimg//blogimg/springMVC/1.png"></p>
-<p><img src="/images/blogimg//blogimg/springMVC/2.png"></p>
-<p><img src="/images/blogimg//blogimg/springMVC/3.png"></p>
+<h3 id="相关流程简介"><a href="#相关流程简介" class="headerlink" title="相关流程简介"></a>相关流程简介</h3><p><img src="/images/blogimg/springMVC/1.png"></p>
+<p><img src="/images/blogimg/springMVC/2.png"></p>
+<p><img src="/images/blogimg/springMVC/3.png"></p>
 
         </div>
         
@@ -738,7 +738,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -867,7 +867,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192184"></script>
+<script src="../../../../js/password-protect.js?v=1771605205085"></script>
 
     <script>
       // 移动端菜单切换

@@ -44,7 +44,7 @@ dubbo.registry.check=false
 
 ## 集群容错
 
-![](/images/blogimg//blogimg/dubbo/n4.png)
+![](/images/blogimg/dubbo/n4.png)
 
 各节点关系：
 
@@ -168,7 +168,7 @@ dubbo.registry.check=false
 
 如果用 IO 线程处理事件，又在事件处理过程中发起新的 IO 请求，比如在连接事件中发起登录请求，会报“可能引发死锁”异常，但不会真死锁。
 
-![](/images/blogimg//blogimg/dubbo/n5.png)
+![](/images/blogimg/dubbo/n5.png)
 
 因此，需要通过不同的派发策略和不同的线程池配置的组合来应对不同的场景:
 
@@ -224,7 +224,7 @@ com.alibaba.xxx.XxxService=dubbo://localhost:20890
 
 就是指服务方可以拉取配置中心的信息当时并不在配置中心进行注册
 
-![](/images/blogimg//blogimg/dubbo/n6.png)
+![](/images/blogimg/dubbo/n6.png)
 
 禁用注册配置
 ```xml

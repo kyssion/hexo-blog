@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192177">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205077">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -266,7 +266,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -290,18 +290,18 @@
         <div class="post-body vscode-markdown">
           <p>其实对于任何框架来说,都会有一个公共的入口,在netty中这个入口被叫做 bootstrap 引导</p>
 <p>引导类的层次结构包括一个抽象的父类和两个具体的引导子类</p>
-<p><img src="/images/blogimg//blogimg/netty/13.png"></p>
+<p><img src="/images/blogimg/netty/13.png"></p>
 <p>针对上图我们能看出来,特定于客户端或者服务器的引导步骤则分别由Bootstrap或ServerBootstrap处理</p>
 <blockquote>
 <p>注意: 你有时可能会需要创建多个具有类似配置或者完全相同配置的Channel。为了支持这种模式而又不需要为每个Channel都创建并配置一个新的引导类实例，AbstractBootstrap被标记为了Cloneable[5]。在一个已经配置完成的引导类实例上调用clone()方法将返回另一个可以立即使用的引导类实例。</p>
 </blockquote>
 <p>注意:这种方式只会创建引导类实例的EventLoopGroup的一个浅拷贝，所以，后者[6]将在所有克隆的Channel实例之间共享。这是可以接受的，因为通常这些克隆的Channel的生命周期都很短暂，一个典型的场景是——创建一个Channel以进行一次HTTP请求。</p>
 <h3 id="客户端引导程序"><a href="#客户端引导程序" class="headerlink" title="客户端引导程序"></a>客户端引导程序</h3><p>Bootstrap类负责为客户端和使用无连接协议的应用程序创建Channel</p>
-<p><img src="/images/blogimg//blogimg/netty/14.png"></p>
+<p><img src="/images/blogimg/netty/14.png"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">EventLoopGroup</span> <span class="hljs-variable">group</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NioEventLoopGroup</span>();<br> <span class="hljs-type">Bootstrap</span> <span class="hljs-variable">bootstrap</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Bootstrap</span>();   <span class="hljs-comment">//  创建一个Bootstrap类的实例以创建和连接新的客户端Channel</span><br> bootstrap.group(group)　 <span class="hljs-comment">// 设置EventLoopGroup，提供用于处理Channel事件的EventLoop</span><br>　　 .channel(NioSocketChannel.class)　  <span class="hljs-comment">//   指定要使用的Channel 实现</span><br>　　 .handler(<span class="hljs-keyword">new</span> <span class="hljs-title class_">SimpleChannelInboundHandler</span>&lt;ByteBuf&gt;() &#123;  <span class="hljs-comment">//  设置用于Channel 事件和数据的ChannelInboundHandler</span><br>　　　　　<span class="hljs-meta">@Override</span><br>　　　　 <span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">channeRead0</span><span class="hljs-params">(</span><br><span class="hljs-params">　　　　　　 ChannelHandlerContext channelHandlerContext,</span><br><span class="hljs-params">　　　　　　 ByteBuf byteBuf)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>　　　　　　 System.out.println(<span class="hljs-string">&quot;Received data&quot;</span>);<br>　　　　　&#125;<br>　　 &#125; );<br><span class="hljs-type">ChannelFuture</span> <span class="hljs-variable">future</span> <span class="hljs-operator">=</span> bootstrap.connect(<br>　　<span class="hljs-keyword">new</span> <span class="hljs-title class_">InetSocketAddress</span>(<span class="hljs-string">&quot;www.manning.com&quot;</span>, <span class="hljs-number">80</span>));  <span class="hljs-comment">//   连接到远程主机</span><br>future.addListener(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ChannelFutureListener</span>() &#123;<br>　　<span class="hljs-meta">@Override</span><br>　　<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">operationComplete</span><span class="hljs-params">(ChannelFuture channelFuture)</span><br>　　　　<span class="hljs-keyword">throws</span> Exception &#123;<br>　　　　<span class="hljs-keyword">if</span> (channelFuture.isSuccess()) &#123;<br>　　　　　 System.out.println(<span class="hljs-string">&quot;Connection established&quot;</span>);<br>　　　　&#125; <span class="hljs-keyword">else</span> &#123;<br>　　　　　 System.err.println(<span class="hljs-string">&quot;Connection attempt failed&quot;</span>);<br>　　　　　 channelFuture.cause().printStackTrace();<br>　　　　&#125;<br>　　 &#125;<br>&#125; );<br></code></pre></td></tr></table></figure>
 
 <h3 id="服务端引导程序"><a href="#服务端引导程序" class="headerlink" title="服务端引导程序"></a>服务端引导程序</h3><p>下图展示了ServerBootstrap在bind()方法被调用时创建了一个ServerChannel，并且该ServerChannel管理了多个子Channel。</p>
-<p><img src="/images/blogimg//blogimg/netty/15.png"></p>
+<p><img src="/images/blogimg/netty/15.png"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-type">NioEventLoopGroup</span> <span class="hljs-variable">group</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NioEventLoopGroup</span>();<br><span class="hljs-type">ServerBootstrap</span> <span class="hljs-variable">bootstrap</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ServerBootstrap</span>();   <span class="hljs-comment">//  创建ServerBootstrap</span><br>bootstrap.group(group)　 <span class="hljs-comment">//  设置EventLoopGroup，其提供了用于处理Channel 事件的EventLoop</span><br>　　.channel(NioServerSocketChannel.class)　 <span class="hljs-comment">//  指定要使用的Channel 实现 </span><br>　　.childHandler(<span class="hljs-keyword">new</span> <span class="hljs-title class_">SimpleChannelInboundHandler</span>&lt;ByteBuf&gt;() &#123;   <span class="hljs-comment">//  设 置用于处理已被接受的子Channel的I/O及数据的ChannelInbound-Handler</span><br>　　　　<span class="hljs-meta">@Override</span><br>　　　　<span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">channelRead0</span><span class="hljs-params">(ChannelHandlerContext ctx,</span><br><span class="hljs-params">　　　　　　ByteBuf byteBuf)</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>　　　　　　System.out.println(<span class="hljs-string">&quot;Received data&quot;</span>);<br>　　　　&#125;<br>　　&#125; );<br><span class="hljs-type">ChannelFuture</span> <span class="hljs-variable">future</span> <span class="hljs-operator">=</span> bootstrap.bind(<span class="hljs-keyword">new</span> <span class="hljs-title class_">InetSocketAddress</span>(<span class="hljs-number">8080</span>));    <span class="hljs-comment">// 通过配置好的ServerBootstrap的实例绑定该Channel</span><br>future.addListener(<span class="hljs-keyword">new</span> <span class="hljs-title class_">ChannelFutureListener</span>() &#123;<br>　　<span class="hljs-meta">@Override</span><br>　　<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">operationComplete</span><span class="hljs-params">(ChannelFuture channelFuture)</span><br>　　　　<span class="hljs-keyword">throws</span> Exception &#123;<br>　　　　<span class="hljs-keyword">if</span> (channelFuture.isSuccess()) &#123;<br>　　　　　　System.out.println(<span class="hljs-string">&quot;Server bound&quot;</span>);<br>　　　　&#125; <span class="hljs-keyword">else</span> &#123;<br>　　　　　　System.err.println(<span class="hljs-string">&quot;Bound attempt failed&quot;</span>);<br>　　　　　　channelFuture.cause().printStackTrace();<br>　　　　&#125;<br>　　&#125;<br>&#125; );<br></code></pre></td></tr></table></figure>
 
 <h3 id="当从channel中生成引导使用新的EventLoop"><a href="#当从channel中生成引导使用新的EventLoop" class="headerlink" title="当从channel中生成引导使用新的EventLoop"></a>当从channel中生成引导使用新的EventLoop</h3><p>在netty中一个EventLoop对应一个线程,为了降低系统的性能损耗,在netty中使用了Bootstrap的group方法来重用EventLoop</p>
@@ -759,7 +759,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -888,7 +888,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192177"></script>
+<script src="../../../../js/password-protect.js?v=1771605205077"></script>
 
     <script>
       // 移动端菜单切换

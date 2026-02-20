@@ -9,7 +9,7 @@ tags: [netty]
 
 ### 一.首先展示这个demo的目录结构
 
-![](/images/blogimg//blogimg/netty/4.png)
+![](/images/blogimg/netty/4.png)
 EchoClient 和 EchoServer 分别表示 客户端和服务端的运行程序，对应的Handler 数据调用的时候相关的操作方法
 
 ### 二.代码
@@ -132,7 +132,7 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter{
 
 bootstrap实现netty快速配置的过程是这样的
 
-![](/images/blogimg//blogimg/netty/16.png)
+![](/images/blogimg/netty/16.png)
 
 ```java
 try {   //1 设置reactor 线程
@@ -280,13 +280,13 @@ channelPipeline > 其实就是eventloop处理队列的一个抽象，修改chann
 
 #### 4 .整体总结
 
-![](/images/blogimg//blogimg/netty/18.png)
+![](/images/blogimg/netty/18.png)
 
-![](/images/blogimg//blogimg/netty/19.webp)
+![](/images/blogimg/netty/19.webp)
 
-![](/images/blogimg//blogimg/netty/20.webp)
+![](/images/blogimg/netty/20.webp)
 
-![](/images/blogimg//blogimg/netty/21.jpg)
+![](/images/blogimg/netty/21.jpg)
 
 1. 一个channel对应一个channelPopeline 一个channelPipeline 对应一组 channelContext 一个channelContext承载一个channelhandle
 

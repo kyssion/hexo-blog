@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title> | Hexo</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="A simple dark Hexo theme inspired by code.">
+  <meta name="keywords" content="">
+  <meta name="author" content="John Doe">
+  <link rel="canonical" href="http://example.com">
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content=" | Hexo">
+  <meta property="og:description" content="A simple dark Hexo theme inspired by code.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://example.com">
+  <meta property="og:site_name" content="Hexo">
+  
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content=" | Hexo">
+  <meta name="twitter:description" content="A simple dark Hexo theme inspired by code.">
+
+  <!-- Favicon 配置 -->
+  
+
+  <!-- 外部样式 - 统一使用 jsdelivr CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css" crossorigin="anonymous">
+
+  <!-- 代码高亮样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-dark.min.css" crossorigin="anonymous">
+
+  <!-- Mermaid.js 库 (defer加载) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js" crossorigin="anonymous"></script>
+
+  <!-- 主题样式 -->
+  <link rel="stylesheet" href="../../css/theme-colors.css">
+  <link rel="stylesheet" href="../../css/main.css">
+  <link rel="stylesheet" href="../../css/code.css">
+  <link rel="stylesheet" href="../../css/code-custom.css">
+  <link rel="stylesheet" href="../../css/code-languages.css">
+  <link rel="stylesheet" href="../../css/mermaid.css">
+
+  <link rel="stylesheet" href="../../css/vs-code.css">
+  <link rel="stylesheet" href="../../css/post.css?v=1771605206278">
+  <link rel="stylesheet" href="../../css/tag.css">
+  <link rel="stylesheet" href="../../css/categories.css">
+  <link rel="stylesheet" href="../../css/archive.css">
+  <link rel="stylesheet" href="../../css/search.css">
+  <link rel="stylesheet" href="../../css/mobile.css">  <link rel="stylesheet" href="../../css/responsive.css">
+  <link rel="stylesheet" href="../../css/elements.css">
+
+  <!-- 添加 JetBrains Mono 字体 -->  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Add any custom head content here -->
+
+  <script defer src="../../js/explorer.js"></script>
+  <script defer src="../../js/code-enhance.js"></script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    <div class="wrapper">
+      <div class="mobile-menu-toggle" aria-label="Toggle sidebar menu" role="button" tabindex="0">
+        <i class="fas fa-bars"></i>
+      </div>
+      <!-- 移动端侧边栏遮罩层 -->
+      <div class="sidebar-overlay" aria-hidden="true"></div>
+      <header class="vs-header">
+  <nav class="vs-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-brand">
+        <i class="fas fa-terminal"></i>
+        Hexo
+      </a>
+    </div>
+    
+    <div class="nav-right">
+      <a href="/" class="nav-item ">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="/archives/" class="nav-item ">
+        <i class="fas fa-archive"></i>
+        <span>Archives</span>
+      </a>
+      <a href="/categories/" class="nav-item active">
+        <i class="fas fa-folder"></i>
+        <span>Categories</span>
+      </a>
+      <a href="/tags/" class="nav-item ">
+        <i class="fas fa-tags"></i>
+        <span>Tags</span>
+      </a>
+      <a href="/search/" class="nav-item ">
+        <i class="fas fa-search"></i>
+        <span>Search</span>
+      </a>
+      <a href="/about/" class="nav-item ">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  function smoothScroll(event, target) {
+    event.preventDefault();
+    const targetId = target.substring(target.indexOf('#') + 1);
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 50, // 调整偏移量
+        behavior: 'smooth'
+      });
+    } else {
+      window.location.href = target;
+    }
+  }
+
+  window.addEventListener('scroll', function() {
+    const header = document.querySelector('.vs-header');
+    const nav = document.querySelector('.vs-nav');
+    const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    
+    nav.style.setProperty('--scroll-percent', `${scrollPercent}%`);
+    
+    if (window.scrollY > 0) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // 添加标签页切换动画
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', function(e) {
+      const ripple = document.createElement('span');
+      ripple.classList.add('nav-ripple');
+      this.appendChild(ripple);
+      
+      const rect = this.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      ripple.style.left = `${x}px`;
+      ripple.style.top = `${y}px`;
+      
+      setTimeout(() => ripple.remove(), 1000);
+    });
+  });
+</script>
+
+
+<div class="vscode-container">
+  <!-- 左侧资源管理器 -->
+  <div class="sidebar-explorer">
+    <div class="explorer-section">
+      <div class="section-header">
+        <i class="fas fa-folder-open"></i>
+        <span>CATEGORIES</span>
+      </div>
+      <div class="section-content">
+        
+          <a class="category-item " href="../docker/">
+            <i class="fas fa-folder"></i>
+            <span>docker</span>
+            <span class="count">(4)</span>
+          </a>
+        
+          <a class="category-item " href="../git/">
+            <i class="fas fa-folder"></i>
+            <span>git</span>
+            <span class="count">(2)</span>
+          </a>
+        
+          <a class="category-item " href="../golang/">
+            <i class="fas fa-folder"></i>
+            <span>golang</span>
+            <span class="count">(5)</span>
+          </a>
+        
+          <a class="category-item " href="../go%E8%AF%AD%E8%A8%80/">
+            <i class="fas fa-folder"></i>
+            <span>go语言</span>
+            <span class="count">(13)</span>
+          </a>
+        
+          <a class="category-item " href="../java/">
+            <i class="fas fa-folder"></i>
+            <span>java</span>
+            <span class="count">(155)</span>
+          </a>
+        
+          <a class="category-item " href="../kafka/">
+            <i class="fas fa-folder"></i>
+            <span>kafka</span>
+            <span class="count">(3)</span>
+          </a>
+        
+          <a class="category-item " href="../linux/">
+            <i class="fas fa-folder"></i>
+            <span>linux</span>
+            <span class="count">(3)</span>
+          </a>
+        
+          <a class="category-item " href="../mq/">
+            <i class="fas fa-folder"></i>
+            <span>mq</span>
+            <span class="count">(2)</span>
+          </a>
+        
+          <a class="category-item " href="../mysql/">
+            <i class="fas fa-folder"></i>
+            <span>mysql</span>
+            <span class="count">(12)</span>
+          </a>
+        
+          <a class="category-item " href="../nginx/">
+            <i class="fas fa-folder"></i>
+            <span>nginx</span>
+            <span class="count">(1)</span>
+          </a>
+        
+          <a class="category-item " href="../postgresql/">
+            <i class="fas fa-folder"></i>
+            <span>postgresql</span>
+            <span class="count">(2)</span>
+          </a>
+        
+          <a class="category-item " href="../redis/">
+            <i class="fas fa-folder"></i>
+            <span>redis</span>
+            <span class="count">(4)</span>
+          </a>
+        
+          <a class="category-item " href="../rust/">
+            <i class="fas fa-folder"></i>
+            <span>rust</span>
+            <span class="count">(7)</span>
+          </a>
+        
+          <a class="category-item " href="../%E5%89%8D%E7%AB%AF/">
+            <i class="fas fa-folder"></i>
+            <span>前端</span>
+            <span class="count">(11)</span>
+          </a>
+        
+          <a class="category-item " href="../%E5%9B%A2%E9%98%9F%E5%BC%80%E5%8F%91%E5%B7%A5%E4%BD%9C%E7%AD%89%E5%85%B6%E4%BB%96%E8%BD%AF%E6%8A%80%E8%83%BD/">
+            <i class="fas fa-folder"></i>
+            <span>团队开发工作等其他软技能</span>
+            <span class="count">(1)</span>
+          </a>
+        
+          <a class="category-item active" href="">
+            <i class="fas fa-folder"></i>
+            <span>广告</span>
+            <span class="count">(12)</span>
+          </a>
+        
+          <a class="category-item " href="../%E6%96%B0%E5%8D%9A%E5%AE%A2/">
+            <i class="fas fa-folder"></i>
+            <span>新博客</span>
+            <span class="count">(21)</span>
+          </a>
+        
+          <a class="category-item " href="../%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1/">
+            <i class="fas fa-folder"></i>
+            <span>架构设计</span>
+            <span class="count">(6)</span>
+          </a>
+        
+          <a class="category-item " href="../%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/">
+            <i class="fas fa-folder"></i>
+            <span>系统设计</span>
+            <span class="count">(1)</span>
+          </a>
+        
+          <a class="category-item " href="../%E8%8B%B1%E8%AF%AD/">
+            <i class="fas fa-folder"></i>
+            <span>英语</span>
+            <span class="count">(1)</span>
+          </a>
+        
+          <a class="category-item " href="../%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+            <i class="fas fa-folder"></i>
+            <span>计算机网络</span>
+            <span class="count">(3)</span>
+          </a>
+        
+          <a class="category-item " href="../%E8%BD%AF%E4%BB%B6%E5%BC%80%E5%8F%91/">
+            <i class="fas fa-folder"></i>
+            <span>软件开发</span>
+            <span class="count">(13)</span>
+          </a>
+        
+          <a class="category-item " href="../%E8%BF%90%E7%BB%B4%E7%B3%BB%E7%BB%9F/">
+            <i class="fas fa-folder"></i>
+            <span>运维系统</span>
+            <span class="count">(1)</span>
+          </a>
+        
+          <a class="category-item " href="../%E9%80%9A%E8%AF%86/">
+            <i class="fas fa-folder"></i>
+            <span>通识</span>
+            <span class="count">(1)</span>
+          </a>
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- 主要内容区域 -->
+  <div class="editor-content">
+    <div class="tab-bar">
+      <div class="tab active">
+        <i class="fas fa-folder-open"></i>
+        <span>广告.md</span>
+      </div>
+    </div>
+    
+    <div class="content-area">
+      
+
+      <!-- 分类 Hero 横幅 -->
+      <div class="category-detail-hero has-cover">
+        
+          <img class="category-detail-hero-img" src="/images/blogimg/%E5%B9%BF%E5%91%8A/%E5%B9%BF%E5%91%8A%E9%9C%80%E6%B1%82%E4%BE%A7%E6%B5%81%E7%A8%8B%E5%9B%BE.png" alt="广告" loading="lazy">
+        
+        <div class="category-detail-hero-overlay"></div>
+        <div class="category-detail-hero-content">
+          <div class="category-detail-hero-icon">
+            <i class="fas fa-folder-open"></i>
+          </div>
+          <h1 class="category-detail-hero-title">广告</h1>
+          
+          <div class="category-detail-hero-meta">
+            <span class="category-detail-hero-count">
+              <i class="fas fa-file-alt"></i>
+              10 posts
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 文章列表 -->
+      <div class="category-detail-posts">
+        
+          
+          <a href="../../2026/02/21/%E5%B9%BF%E5%91%8A%EF%BC%881%EF%BC%89%E5%85%A8%E5%B1%80%E8%A7%86%E8%A7%92%E7%9C%8B%E6%95%B4%E4%B8%AA%E5%B9%BF%E5%91%8A%E8%A1%8C%E4%B8%9A%E8%A7%92%E8%89%B2%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB%E5%92%8C%E4%BD%9C%E7%94%A8/" class="category-detail-card">
+            <div class="category-detail-card-body">
+              <div class="category-detail-card-header">
+                <i class="fas fa-file-alt"></i>
+                <span class="category-detail-card-title">广告（1）全局视角看整个广告行业角色之间的关系和作用</span>
+                
+              </div>
+              <div class="category-detail-card-meta">
+                <span><i class="fas fa-calendar-alt"></i> 2026-02-21</span>
+                
+                  <span class="category-detail-card-tags">
+                    
+                      <span class="category-detail-tag"><i class="fas fa-tag"></i> 广告</span>
+                    
+                  </span>
+                
+              </div>
+              <p class="category-detail-card-excerpt">
+                全局视角解析 广告行业中各个角色处于的位置和作用需求侧
+广告系统中需求侧主要是负责出资和指定广告决策的层级
+
+
+
+
+序号
+术语
+定义
+代表厂商
+
+
+
+1
+Advertiser (广告主)
+出钱投放广告的企业或个人
+所有品牌方
+
+
+2
+DSP...
+              </p>
+            </div>
+            
+              <div class="category-detail-card-thumb">
+                <img src="/images/blogimg/%E5%B9%BF%E5%91%8A/%E5%B9%BF%E5%91%8A%E9%9C%80%E6%B1%82%E4%BE%A7%E6%B5%81%E7%A8%8B%E5%9B%BE.png" alt="广告（1）全局视角看整个广告行业角色之间的关系和作用" loading="lazy">
+              </div>
+            
+          </a>
+        
+          
+          <a href="../../2026/02/20/%E5%B9%BF%E5%91%8A%EF%BC%882%EF%BC%89-%E7%A9%BF%E5%B1%B1%E7%94%B2%E5%B9%BF%E5%91%8A%E8%A7%92%E8%89%B2%E5%92%8C%E6%8A%80%E6%9C%AF/" class="category-detail-card">
+            <div class="category-detail-card-body">
+              <div class="category-detail-card-header">
+                <i class="fas fa-file-alt"></i>
+                <span class="category-detail-card-title">广告（2）-穿山甲广告角色和技术</span>
+                
+              </div>
+              <div class="category-detail-card-meta">
+                <span><i class="fas fa-calendar-alt"></i> 2026-02-20</span>
+                
+                  <span class="category-detail-card-tags">
+                    
+                      <span class="category-detail-tag"><i class="fas fa-tag"></i> 广告</span>
+                    
+                  </span>
+                
+              </div>
+              <p class="category-detail-card-excerpt">
+                字节跳动的「穿山甲联盟（Pangolin）」（2018 年推出）   → 是广告变现平台，面向 App 开发者提供广告 SDK 接入、流量聚合、程序化变现能力，属于广告技术（AdTech）领域。
+
+该广告平台的技术架构
+
+一、穿山甲（Pan...
+              </p>
+            </div>
+            
+          </a>
+        
+          
+          <a href="../../2026/02/19/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%8810%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%9B%BD%E5%86%85%E8%A1%8C%E4%B8%9A%E6%9C%AF%E8%AF%AD/" class="category-detail-card">
+            <div class="category-detail-card-body">
+              <div class="category-detail-card-header">
+                <i class="fas fa-file-alt"></i>
+                <span class="category-detail-card-title">广告术语（10）-广告国内行业术语</span>
+                
+              </div>
+              <div class="category-detail-card-meta">
+                <span><i class="fas fa-calendar-alt"></i> 2026-02-19</span>
+                
+                  <span class="category-detail-card-tags">
+                    
+                      <span class="category-detail-tag"><i class="fas fa-tag"></i> 广告术语</span>
+                    
+                  </span>
+                
+              </div>
+              <p class="category-detail-card-excerpt">
+                国内广告行业特色术语终极大全一、平台专有术语🔴 字节系（巨量引擎）
+
+
+术语
+含义
+
+
+
+巨量引擎
+字节跳动旗下广告投放平台总称
+
+
+巨量AD
+巨量引擎非电商类广告投放平台
+
+
+巨量千川
+巨量引擎电商类广告投放平台
+
+
+穿山甲
+字节旗下移...
+              </p>
+            </div>
+            
+          </a>
+        
+          
+          <a href="../../2026/02/18/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%889%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%B7%A5%E7%A8%8B%E5%92%8C%E8%BF%90%E7%BB%B4%E7%9B%B8%E5%85%B3%E6%9C%AF%E8%AF%AD/" class="category-detail-card">
+            <div class="category-detail-card-body">
+              <div class="category-detail-card-header">
+                <i class="fas fa-file-alt"></i>
+                <span class="category-detail-card-title">广告术语（9）-广告工程和运维相关术语</span>
+                
+              </div>
+              <div class="category-detail-card-meta">
+                <span><i class="fas fa-calendar-alt"></i> 2026-02-18</span>
+                
+                  <span class="category-detail-card-tags">
+                    
+                      <span class="category-detail-tag"><i class="fas fa-tag"></i> 广告术语</span>
+                    
+                  </span>
+                
+              </div>
+              <p class="category-detail-card-excerpt">
+                广告系统工程与运维术语全景一、竞价交易层（Bid &amp; Transaction Layer）
+
+
+术语
+定义
+说明
+
+
+
+Bid Request
+竞价请求
+ADX向DSP发送的竞价邀请
+
+
+Bid Response
+竞价响应
+DSP返...
+              </p>
+            </div>
+            
+          </a>
+        
+          
+          <a href="../../2026/02/17/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%888%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%8F%8D%E4%BD%9C%E5%BC%8A%E5%92%8C%E8%B4%A8%E9%87%8F%E6%9C%AF%E8%AF%AD/" class="category-detail-card">
+            <div class="category-detail-card-body">
+              <div class="category-detail-card-header">
+                <i class="fas fa-file-alt"></i>
+                <span class="category-detail-card-title">广告术语（8）-广告反作弊和质量术语</span>
+                
+              </div>
+              <div class="category-detail-card-meta">
+                <span><i class="fas fa-calendar-alt"></i> 2026-02-17</span>
+                
+                  <span class="category-detail-card-tags">
+                    
+                      <span class="category-detail-tag"><i class="fas fa-tag"></i> 广告术语</span>
+                    
+                  </span>
+                
+              </div>
+              <p class="category-detail-card-excerpt">
+                广告反作弊与质量术语一、无效流量(IVT)分类体系
+
+
+术语
+定义
+说明
+
+
+
+IVT (Invalid Traffic)
+无效流量
+总称，包括所有非人类或非预期流量
+
+
+GIVT (General IVT)
+一般无效流量
+已知爬虫、蜘蛛、...
+              </p>
+            </div>
+            
+          </a>
+        
+          
+          <a href="../../2026/02/16/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%887%EF%BC%89-%E5%B9%BF%E5%91%8A%E9%9A%90%E7%A7%81%E5%90%88%E8%A7%84%E6%9C%AF%E8%AF%AD/" class="category-detail-card">
+            <div class="category-detail-card-body">
+              <div class="category-detail-card-header">
+                <i class="fas fa-file-alt"></i>
+                <span class="category-detail-card-title">广告术语（7）-广告隐私合规术语</span>
+                
+              </div>
+              <div class="category-detail-card-meta">
+                <span><i class="fas fa-calendar-alt"></i> 2026-02-16</span>
+                
+                  <span class="category-detail-card-tags">
+                    
+                      <span class="category-detail-tag"><i class="fas fa-tag"></i> 广告术语</span>
+                    
+                  </span>
+                
+              </div>
+              <p class="category-detail-card-excerpt">
+                广告系统隐私与合规完整术语表一、全球隐私法规框架
+
+
+术语
+定义
+适用范围&#x2F;说明
+
+
+
+GDPR
+通用数据保护条例
+欧盟&#x2F;欧洲经济区，全球影响最广
+
+
+CCPA
+加州消费者隐私法
+美国加州，2020年生效
+
+
+CPRA
+...
+              </p>
+            </div>
+            
+          </a>
+        
+          
+          <a href="../../2026/02/15/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%886%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%BD%92%E5%9B%A0%E5%92%8C%E8%AF%84%E4%BC%B0%E6%96%B9%E6%B3%95%E6%9C%AF%E8%AF%AD/" class="category-detail-card">
+            <div class="category-detail-card-body">
+              <div class="category-detail-card-header">
+                <i class="fas fa-file-alt"></i>
+                <span class="category-detail-card-title">广告术语（6）-广告归因和评估方法术语</span>
+                
+              </div>
+              <div class="category-detail-card-meta">
+                <span><i class="fas fa-calendar-alt"></i> 2026-02-15</span>
+                
+                  <span class="category-detail-card-tags">
+                    
+                      <span class="category-detail-tag"><i class="fas fa-tag"></i> 广告术语</span>
+                    
+                  </span>
+                
+              </div>
+              <p class="category-detail-card-excerpt">
+                广告归因与评估方法终极完整清单一、归因模型类（Attribution Models）
+
+
+序号
+术语
+定义
+来源&#x2F;应用
+
+
+
+1
+Last Click
+末次点击归因
+通用基础
+
+
+2
+First Click
+首次点击归因
+通用基础...
+              </p>
+            </div>
+            
+          </a>
+        
+          
+          <a href="../../2026/02/14/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%885%EF%BC%89-%E5%B9%BF%E5%91%8A%E4%BC%98%E5%8C%96%E5%92%8C%E5%87%BA%E4%BB%B7%E7%AD%96%E7%95%A5%E6%9C%AF%E8%AF%AD/" class="category-detail-card">
+            <div class="category-detail-card-body">
+              <div class="category-detail-card-header">
+                <i class="fas fa-file-alt"></i>
+                <span class="category-detail-card-title">广告术语（5）-广告优化和出价策略术语</span>
+                
+              </div>
+              <div class="category-detail-card-meta">
+                <span><i class="fas fa-calendar-alt"></i> 2026-02-14</span>
+                
+                  <span class="category-detail-card-tags">
+                    
+                      <span class="category-detail-tag"><i class="fas fa-tag"></i> 广告术语</span>
+                    
+                  </span>
+                
+              </div>
+              <p class="category-detail-card-excerpt">
+                📋 广告出价与优化策略完整全景图 (2026 版)一、竞价机制与拍卖类型 (Auction Mechanisms &amp; Types)
+
+
+术语
+定义
+说明
+应用场景
+
+
+
+First Price Auction (GFP)
+第一价格...
+              </p>
+            </div>
+            
+          </a>
+        
+          
+          <a href="../../2026/02/13/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%884%EF%BC%89-%E5%B9%BF%E5%91%8A%E5%8D%8F%E8%AE%AE%E5%92%8C%E6%A0%87%E5%87%86%E6%9C%AF%E8%AF%AD/" class="category-detail-card">
+            <div class="category-detail-card-body">
+              <div class="category-detail-card-header">
+                <i class="fas fa-file-alt"></i>
+                <span class="category-detail-card-title">广告术语（4）-广告协议和标准术语</span>
+                
+              </div>
+              <div class="category-detail-card-meta">
+                <span><i class="fas fa-calendar-alt"></i> 2026-02-13</span>
+                
+                  <span class="category-detail-card-tags">
+                    
+                      <span class="category-detail-tag"><i class="fas fa-tag"></i> 广告术语</span>
+                    
+                  </span>
+                
+              </div>
+              <p class="category-detail-card-excerpt">
+                📋 广告系统协议与标准完整汇总 (全球+中国)一、完整协议与标准总表🔴 核心必备标准 (覆盖率 85%+)
+
+
+术语
+定义
+适用范围
+覆盖率
+发布机构
+
+
+
+OpenRTB 2.5&#x2F;3.0
+开放实时竞价协议
+全球程序化交易
+9...
+              </p>
+            </div>
+            
+          </a>
+        
+          
+          <a href="../../2026/02/12/%E5%B9%BF%E5%91%8A%E6%9C%AF%E8%AF%AD%EF%BC%883%EF%BC%89-%E5%B9%BF%E5%91%8A%E7%9A%84%E4%BA%A4%E6%98%93%E6%A8%A1%E5%BC%8F%E6%9C%AF%E8%AF%AD/" class="category-detail-card">
+            <div class="category-detail-card-body">
+              <div class="category-detail-card-header">
+                <i class="fas fa-file-alt"></i>
+                <span class="category-detail-card-title">广告术语（3）-广告的交易模式术语</span>
+                
+              </div>
+              <div class="category-detail-card-meta">
+                <span><i class="fas fa-calendar-alt"></i> 2026-02-12</span>
+                
+                  <span class="category-detail-card-tags">
+                    
+                      <span class="category-detail-tag"><i class="fas fa-tag"></i> 广告术语</span>
+                    
+                  </span>
+                
+              </div>
+              <p class="category-detail-card-excerpt">
+                🎯 广告交易模式2026年 整理1 - 按交易自动化程度
+
+
+一级
+二级
+三级
+四级
+保量
+保价
+自动化
+说明
+
+
+
+传统交易
+线下直投
+合约广告
+Direct Deal
+✅
+✅
+0%
+人工谈判签约
+
+
+
+
+赞助广告
+Sponsorshi...
+              </p>
+            </div>
+            
+          </a>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+    </div>
+    <footer class="footer">
+  <div class="status-bar">
+    <div class="status-item">
+      <i class="fas fa-code-branch"></i>
+      master
+    </div>
+    <div class="status-item">
+      <i class="fas fa-sync"></i>
+      John Doe
+    </div>
+    <div class="status-item">
+      <i class="fas fa-clock"></i>
+      2026-02-21
+    </div>
+    <div class="status-item">
+      Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
+    </div>
+    <div class="status-item github">
+      <a href="#" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- 搜索专用配置 (HEXO_CONFIG 在 scripts.ejs 中统一定义) -->
+    <script>
+      window.VSC4T_SEARCH = {
+        root: "/"
+      };
+    </script>
+
+    <!-- 外部脚本 - 统一使用 cdnjs CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" crossorigin="anonymous"></script>
+    <script>if(typeof hljs !== 'undefined') hljs.highlightAll();</script>
+    <!-- 这里可以放置自定义脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  // Apply smooth scroll to non-TOC anchor links
+  document.querySelectorAll('a[href^="#"]:not(.toc-link)').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      // Check if querySelector is valid before using it
+      try {
+        const targetSelector = this.getAttribute('href');
+        // Basic check for potentially invalid selectors (though not exhaustive)
+        if (targetSelector && targetSelector.length > 1) { 
+          const targetElement = document.querySelector(targetSelector);
+          if (targetElement) {
+            targetElement.scrollIntoView({
+              behavior: 'smooth'
+            });
+          } else {
+            console.warn('Smooth scroll target not found:', targetSelector);
+          }
+        } else {
+           console.warn('Invalid href for smooth scroll:', targetSelector);
+        }
+      } catch (error) {
+        console.error('Error during smooth scroll:', error, 'Selector:', this.getAttribute('href'));
+        // Fallback or alternative behavior if needed
+        // For example, try getElementById if it's just an ID
+        const targetId = this.getAttribute('href').slice(1);
+        try {
+            const targetElementById = document.getElementById(decodeURIComponent(targetId));
+            if (targetElementById) {
+                targetElementById.scrollIntoView({ behavior: 'smooth' });
+            }
+        } catch (idError) {
+             console.error('Fallback getElementById also failed:', idError);
+        }
+      }
+    });
+  });
+});
+</script>
+
+<!-- Scripts -->
+<script>
+  // 全局配置 - 包含 i18n 字符串和主题配置
+  window.HEXO_CONFIG = {
+    language: "en",
+    root: "/",
+    
+    theme_switch: {
+      enabled: false,
+      light_start: "06:00",
+      light_end: "18:00"
+    },
+    
+    // Search i18n strings
+    search_placeholder: "Type to search...",
+    search_no_results: "No results found",
+    search_result: "result",
+    search_results: "results",
+    search_results_found: "Found undefined results",
+    search_in: "Search in",
+    search_in_title: "Title",
+    search_in_content: "Content",
+    search_in_tags: "Tags",
+    search_in_categories: "Categories",
+    search_filters: "Search Filters",
+    search_recent: "Recent Searches",
+    search_clear: "Clear",
+    search_loading: "Loading...",
+    search_error: "Error loading search data",
+    // Encryption i18n strings
+    encrypt_badge: "Protected",
+    encrypt_title: "Protected Content",
+    encrypt_description: "Enter the password to unlock this article. The password will be saved locally until you choose to re-encrypt.",
+    encrypt_label: "Password",
+    encrypt_placeholder: "Enter password to unlock",
+    encrypt_button: "Unlock",
+    encrypt_button_loading: "Unlocking...",
+    encrypt_hint: "Press Enter to submit. Password will be remembered on this device.",
+    encrypt_success: "Content unlocked successfully!",
+    encrypt_unlocked_note: "Content unlocked. You can re-encrypt at any time.",
+    encrypt_again: "Re-encrypt",
+    encrypt_wrong_password: "Incorrect password. Please try again.",
+    encrypt_show_password: "Show password",
+    encrypt_hide_password: "Hide password",
+    // Sidebar i18n strings
+    sidebar_about: "About",
+    sidebar_categories: "Categories",
+    sidebar_tags: "Tags",
+    // Post page i18n strings
+    post_toc: "TABLE OF CONTENTS",
+    post_category_posts: "CATEGORY POSTS",
+    post_article_tags: "ARTICLE TAGS"
+  };
+</script>
+
+
+
+<!-- 添加所有需要的脚本 -->
+<script src="../../js/search.js"></script>
+<script src="../../js/theme-switch.js"></script>
+
+<script src="../../js/password-protect.js?v=1771605206278"></script>
+
+    <script>
+      // 移动端菜单切换
+      $(document).ready(function() {
+        var $body = $('body');
+        var $sidebar = $('.sidebar-explorer');
+        var $overlay = $('.sidebar-overlay');
+        var $toggle = $('.mobile-menu-toggle');
+
+        function openSidebar() {
+          $sidebar.addClass('show');
+          $overlay.addClass('show');
+          $toggle.addClass('active');
+          $body.addClass('sidebar-open');
+        }
+
+        function closeSidebar() {
+          $sidebar.removeClass('show');
+          $overlay.removeClass('show');
+          $toggle.removeClass('active');
+          $body.removeClass('sidebar-open');
+        }
+
+        // 汉堡按钮点击切换
+        $toggle.on('click', function(e) {
+          e.stopPropagation();
+          if ($sidebar.hasClass('show')) {
+            closeSidebar();
+          } else {
+            openSidebar();
+          }
+        });
+
+        // 点击遮罩层关闭
+        $overlay.on('click', function() {
+          closeSidebar();
+        });
+
+        // ESC 键关闭
+        $(document).on('keydown', function(e) {
+          if (e.key === 'Escape' && $sidebar.hasClass('show')) {
+            closeSidebar();
+          }
+        });
+
+        // 点击侧边栏内的链接时自动关闭侧边栏，确保锚点跳转正常
+        $sidebar.on('click', 'a', function() {
+          closeSidebar();
+        });
+      });
+    </script>
+  </body>
+</html>

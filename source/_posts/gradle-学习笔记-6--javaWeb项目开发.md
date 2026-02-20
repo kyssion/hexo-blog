@@ -11,7 +11,7 @@ gradle 通过自带的war插件可以编程生成web包项目,并且社区提供
 
 其实本质上gradle 的web 项目相比较war 项目的一个本质上的区别就是在main 目录下多了一个webapp 文件夹,这个是默认存放javaweb 相关信息的文件夹
 
-![](/images/blogimg//blogimg/gradle/6.png)
+![](/images/blogimg/gradle/6.png)
 
 # 一个简单的web项目
 
@@ -177,7 +177,7 @@ public class HelloServletTest {
 
 5. 项目的整体结构
 
-![](/images/blogimg//blogimg/gradle/7.jpg)
+![](/images/blogimg/gradle/7.jpg)
 
 # 项目的运行方法
 

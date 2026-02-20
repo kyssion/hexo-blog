@@ -27,7 +27,7 @@ while(integerIterator.hasNext()){
 
 > 本质上来讲就是迭代的流程在外部用户可见
 
-![](/images/blogimg//blogimg/java/stream_lamble/1.png)
+![](/images/blogimg/java/stream_lamble/1.png)
 
 
 2. 内部迭代
@@ -47,7 +47,7 @@ List<Integer> list1 = list.stream().filter((item)->{
 
 > 本质上是内部实现数据的迭代更新,而外部只是实现内部的迭代逻辑罢了
 
-![](/images/blogimg//blogimg/java/stream_lamble/2.png)
+![](/images/blogimg/java/stream_lamble/2.png)
 
 内部迭代本质上可以是一种函数调用,上面这个例子干了两件事请
 

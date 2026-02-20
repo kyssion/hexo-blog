@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192166">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205067">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -266,7 +266,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -307,7 +307,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> test;<br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 被动使用类字段演示一: 通过子类引用父类的静态字段,不会导致子类初始化</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">SuperClass</span> &#123;<br>	<span class="hljs-keyword">static</span> &#123;<br>		System.out.println(<span class="hljs-string">&quot;SuperClass init!&quot;</span>);<br>	&#125;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-variable">value</span> <span class="hljs-operator">=</span> <span class="hljs-number">123</span>;<br>&#125;<br><span class="hljs-keyword">class</span> <span class="hljs-title class_">SubClass</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">SuperClass</span> &#123;<br>	<span class="hljs-keyword">static</span> &#123;<br>		System.out.println(<span class="hljs-string">&quot;SubClass init!&quot;</span>);<br>	&#125;<br>&#125;<br><span class="hljs-comment">/**</span><br><span class="hljs-comment"> * 非主动使用类字段演示</span><br><span class="hljs-comment"> **/</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ClassLoadTest</span> &#123;<br>	<span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>		System.out.println(SubClass.value);<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>对应上面的触发条件（1），调用了谁的static 触发谁</p>
-<h4 id="（2）类加载器"><a href="#（2）类加载器" class="headerlink" title="（2）类加载器"></a>（2）类加载器</h4><p><img src="/images/blogimg//blogimg/jvm/10.png"></p>
+<h4 id="（2）类加载器"><a href="#（2）类加载器" class="headerlink" title="（2）类加载器"></a>（2）类加载器</h4><p><img src="/images/blogimg/jvm/10.png"></p>
 <p>bootstrapClassLoader：加载核心jar</p>
 <p>Extension ClassLoader：加载lib&#x2F;ext中的jar</p>
 <p>Application ClassLoader：加载path中的jar</p>
@@ -762,7 +762,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -891,7 +891,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192166"></script>
+<script src="../../../../js/password-protect.js?v=1771605205067"></script>
 
     <script>
       // 移动端菜单切换

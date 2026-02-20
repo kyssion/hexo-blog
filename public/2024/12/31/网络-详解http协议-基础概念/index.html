@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192239">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205139">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -220,7 +220,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -235,38 +235,38 @@
         </div>
         
         <div class="post-body vscode-markdown">
-          <h3 id="http协议的基本流程"><a href="#http协议的基本流程" class="headerlink" title="http协议的基本流程"></a>http协议的基本流程</h3><p><img src="/images/blogimg//blogimg/http/1.png"></p>
+          <h3 id="http协议的基本流程"><a href="#http协议的基本流程" class="headerlink" title="http协议的基本流程"></a>http协议的基本流程</h3><p><img src="/images/blogimg/http/1.png"></p>
 <h3 id="url和uri"><a href="#url和uri" class="headerlink" title="url和uri"></a>url和uri</h3><ol>
 <li>url：统一资源标识符-表示一个网络地址</li>
 <li>uri：统一资源定位符，表示互联网上的一个资源，使用的url是uri的一部分（http），其他相关的比如ftp等</li>
 </ol>
 <h3 id="http协议的特点"><a href="#http协议的特点" class="headerlink" title="http协议的特点"></a>http协议的特点</h3><p><strong>基于请求和响应一次请求必定跟随一次相应,无状态，可以使用cookie和session技术让状态有响应</strong></p>
-<h3 id="http协议支持的请求头"><a href="#http协议支持的请求头" class="headerlink" title="http协议支持的请求头"></a>http协议支持的请求头</h3><p><img src="/images/blogimg//blogimg/http/2.png"></p>
+<h3 id="http协议支持的请求头"><a href="#http协议支持的请求头" class="headerlink" title="http协议支持的请求头"></a>http协议支持的请求头</h3><p><img src="/images/blogimg/http/2.png"></p>
 <h3 id="http1-1性能提升"><a href="#http1-1性能提升" class="headerlink" title="http1.1性能提升"></a>http1.1性能提升</h3><blockquote>
 <p>持久链接：之前的http协议都是一次请求创建一次tcp链接，1.1升级为创建一次多次tcp请求</p>
 </blockquote>
-<p><img src="/images/blogimg//blogimg/http/3.png"></p>
+<p><img src="/images/blogimg/http/3.png"></p>
 <blockquote>
 <p>管线化：让http请求可以进行异步操作</p>
 </blockquote>
-<h3 id="http协议报文结构"><a href="#http协议报文结构" class="headerlink" title="http协议报文结构"></a>http协议报文结构</h3><p><img src="/images/blogimg//blogimg/http/4.png"></p>
+<h3 id="http协议报文结构"><a href="#http协议报文结构" class="headerlink" title="http协议报文结构"></a>http协议报文结构</h3><p><img src="/images/blogimg/http/4.png"></p>
 <ol>
 <li>压缩传输内容：将传输的的报文实体使用gzip的方法进行压缩然后在发送出去</li>
 <li>分块传输编码：降低出错重传的代价，使用16位进行块标识，最后一个块标识为”0(CR+LF)”</li>
 </ol>
 <h3 id="与http协作的web服务器"><a href="#与http协作的web服务器" class="headerlink" title="与http协作的web服务器"></a>与http协作的web服务器</h3><p><strong>（1）代理</strong></p>
-<p><img src="/images/blogimg//blogimg/http/5.png"></p>
+<p><img src="/images/blogimg/http/5.png"></p>
 <ul>
 <li>作用：接受请求并转发个响应的其他请求</li>
 <li>优势：利用缓存减少带宽，流量控制，访问日志</li>
 </ul>
 <p><strong>（2）网关</strong></p>
-<p><img src="/images/blogimg//blogimg/http/6.png"></p>
+<p><img src="/images/blogimg/http/6.png"></p>
 <ul>
 <li>相当于升级http请求，转化成其它协议</li>
 </ul>
 <p><strong>（3）隧道</strong></p>
-<p><img src="/images/blogimg//blogimg/http/7.png"></p>
+<p><img src="/images/blogimg/http/7.png"></p>
 <ul>
 <li>不进行协议解析直接进行信息转化</li>
 </ul>
@@ -675,7 +675,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -804,7 +804,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192240"></script>
+<script src="../../../../js/password-protect.js?v=1771605205139"></script>
 
     <script>
       // 移动端菜单切换

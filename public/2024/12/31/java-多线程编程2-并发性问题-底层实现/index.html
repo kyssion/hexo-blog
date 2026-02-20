@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192153">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205054">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -266,7 +266,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -290,9 +290,9 @@
         <div class="post-body vscode-markdown">
           <h3 id="硬件效率和一致性问题"><a href="#硬件效率和一致性问题" class="headerlink" title="硬件效率和一致性问题"></a>硬件效率和一致性问题</h3><p>由于计算机的存储设备与处理器的运算速度有几个数量级的差距,所以现代计算机系统都不得不加入一层读写速度尽可能接近处理器运算速度的高速缓存(Cache)来作为内存与处理器之间的缓冲:将运算需要使用到的数据复制到缓存中,让运算能快速进行,当运算结束后再从缓存同步回内存之中,这样处理器就无须等待缓慢的内存读写了。</p>
 <p>基于高速缓存的存储交互很好地解决了处理器与内存的速度矛盾,但是也为计算机系统带来更高的复杂度,因为它引入了一个新的问题:缓存一致性(Cache Coherence)。在多处理器系统中,每个处理器都有自己的高速缓存,而它们又共享同一主内存(MainMemory)</p>
-<p><img src="/images/blogimg//blogimg/java/1.png"></p>
+<p><img src="/images/blogimg/java/1.png"></p>
 <h3 id="主内存与工作内存"><a href="#主内存与工作内存" class="headerlink" title="主内存与工作内存"></a>主内存与工作内存</h3><p>Java内存模型规定了所有的变量都存储在主内存(Main Memory)中(此处的主内存与介绍物理硬件时的主内存名字一样,两者也可以互相类比,但此处仅是虚拟机内存的一部分)。每条线程还有自己的工作内存(Working Memory,可与前面讲的处理器高速缓存类比),线程的工作内存中保存了被该线程使用到的变量的主内存副本拷贝 ,线程对变量的所有操作(读取、赋值等)都必须在工作内存中进行,而不能直接读写主内存中的变量 。</p>
-<p><img src="/images/blogimg//blogimg/java/2.png"></p>
+<p><img src="/images/blogimg/java/2.png"></p>
 <p>主内存与工作内存之间具体的交互协议,即一个变量如何从主内存拷贝到工作内存、如何从工作内存同步回主内存之类的实现细节,Java内存模型中定义了以下8种操作来完成,虚拟机实现时必须保证下面提及的每一种操作都是原子的、不可再分的</p>
 <ol>
 <li>lock(锁定):作用于主内存的变量,它把一个变量标识为一条线程独占的状态。</li>
@@ -324,9 +324,9 @@
 <p>结论:一个操作“时间上的先发生”不代表这个操作会是“先行发生“</p>
 </blockquote>
 <h3 id="Java与线程"><a href="#Java与线程" class="headerlink" title="Java与线程"></a>Java与线程</h3><p>对于Sun JDK来说,它的Windows版与Linux版都是使用一对一的线程模型实现的,一条Java线程就映射到一条轻量级进程之中,因为Windows和Linux系统提供的线程模型就是一对一的</p>
-<p><img src="/images/blogimg//blogimg/java/3.png"></p>
+<p><img src="/images/blogimg/java/3.png"></p>
 <h3 id="Java线程调度"><a href="#Java线程调度" class="headerlink" title="Java线程调度"></a>Java线程调度</h3><p>线程调度是指系统为线程分配处理器使用权的过程,主要调度方式有两种,分别是协同式线程调度(CooperativeThreads-Scheduling)和抢占式线程调度(PreemptiveThreads-Scheduling)</p>
-<h3 id="状态转换"><a href="#状态转换" class="headerlink" title="状态转换"></a>状态转换</h3><p><img src="/images/blogimg//blogimg/java/4.png"></p>
+<h3 id="状态转换"><a href="#状态转换" class="headerlink" title="状态转换"></a>状态转换</h3><p><img src="/images/blogimg/java/4.png"></p>
 <ol>
 <li>新建(New):创建后尚未启动的线程处于这种状态。</li>
 <li>运行(Runable):Runable包括了操作系统线程状态中的Running和Ready,也就是处于此状态的线程有可能正在执行,也有可能正在等待着CPU为它分配执行时间。</li>
@@ -758,7 +758,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -887,7 +887,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192153"></script>
+<script src="../../../../js/password-protect.js?v=1771605205055"></script>
 
     <script>
       // 移动端菜单切换

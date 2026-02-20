@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192238">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205137">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -235,7 +235,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -254,7 +254,7 @@
 <p>自从2014年AWS推出Lambda服务后，Serverless一词越来越热，已经成为一种新型的软件设计架构，即Serverless Architecture。作为一种原生于公共云的架构，Serverless有什么优缺点？是否能应用于传统企业程序？是否适合私有云场景？是否像很多文章宣称的一样，会成为未来改变云计算的中坚力量？作为一名云计算行业的老兵，作者想在此文中分享一些自己的观点。</p>
 </blockquote>
 <h3 id="什么是Serverless"><a href="#什么是Serverless" class="headerlink" title="什么是Serverless"></a>什么是Serverless</h3><p>Serverless并不神秘，用一个简单的例子就可讲明。我们设计了一个AI应用，可以识别出图片中人物的人种，我们把它作为一种SaaS服务架设在公共云上提供给客户使用，其典型的后端架构设计如下：</p>
-<p><img src="/images/blogimg//blogimg/serverless/serverless_img1.jpeg"></p>
+<p><img src="/images/blogimg/serverless/serverless_img1.jpeg"></p>
 <p>&nbsp; &nbsp;&nbsp; &nbsp;在该架构中，我们购买的云主机上运行了Tomcat Web Server，用于承载Java编写的AI应用。用户通过API上传图片。受限于云主机的本地存储空间，为了满足大量客户同时上传图片，AI应用实现了一个存储网关将图片导入公共云的对象存储。图片导入完成后，AI应用从对象存储读入图片进行识别，并将结果存入公共云的数据库中（例如RDS），用户使用API查询结果。<br>&nbsp; &nbsp;&nbsp; &nbsp;AI应用上线一段时间后受到了用户的欢迎，越来越多的公司开始使用该服务。根据统计数据，大多数公司在上午9点<del>11点、下午2点</del>5点集中上传图片，为了满足该时间段的突发访问量，我们设置了公共云的&nbsp; &nbsp;&nbsp; &nbsp;Auto-Scaling策略，在访问增加时动态创建更多的云主机来响应客户。AI应用的架构演化成：</p>
 <ul>
 <li>在这个架构中，我们需要做如下事情：</li>
@@ -268,7 +268,7 @@
 <ul>
 <li>下面用Serverless架构改写AI应用：</li>
 </ul>
-<p><img src="/images/blogimg//blogimg/serverless/servless_img2.jpeg"></p>
+<p><img src="/images/blogimg/serverless/servless_img2.jpeg"></p>
 <ul>
 <li><p>多个运行AI应用代码的进程被启动，并发处理用户上传的图片。</p>
 </li>
@@ -733,7 +733,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -862,7 +862,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192239"></script>
+<script src="../../../../js/password-protect.js?v=1771605205137"></script>
 
     <script>
       // 移动端菜单切换

@@ -48,4 +48,4 @@ tags: []
 ## 3. sdk整体的架构图如下
 
 
-![](/images/blogimg//blogimg/jiagou/sdk客户端同步缓存方案.jpg)
+![](/images/blogimg/jiagou/sdk客户端同步缓存方案.jpg)

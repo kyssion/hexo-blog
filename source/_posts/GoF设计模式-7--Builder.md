@@ -13,7 +13,7 @@ tags: [设计模式]
 
 ### 建造者模式类图
 
-![](/images/blogimg//blogimg/GAF/8.png)
+![](/images/blogimg/GAF/8.png)
 
 ### 建造者模式实例
 

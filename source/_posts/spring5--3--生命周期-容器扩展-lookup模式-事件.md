@@ -8,7 +8,7 @@ tags: [spring]
 ### spring javabean的生命周期\容器扩展\lookup方法\spring事件
 
 #### javabean 生命周期控制
-![](/images/blogimg//blogimg/spring/1.jpeg)
+![](/images/blogimg/spring/1.jpeg)
 
 - 使用配置文件的方法
 
@@ -150,7 +150,7 @@ public class UserBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 
 在spring中有一些特殊的操作就是使用BeanFactoryPostProcessor接口，比如类名替换PropertyPlaceholderConfigurer。他可以自动将相关的java properties信息替换成需要的,这里分析一下这个类:
 
-![](/images/blogimg//blogimg/spring/2.jpg)
+![](/images/blogimg/spring/2.jpg)
 
 接口:InitializingBean  --- 只有一个方法afterPropertiesSet 当bean实例化之后将会调用这个方法,我们可以在这里初始化一下属性
 接口:order 可以指定优先级
@@ -213,7 +213,7 @@ public class MyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 
 看一下关系继承图
 
-![](/images/blogimg//blogimg/spring/3.jpg)
+![](/images/blogimg/spring/3.jpg)
 
 重点关注这个接口:ConfigurableListableBeanFactory,这个接口继承了ListableBeanFactory, AutowireCapableBeanFactory, ConfigurableBeanFactory 这三个接口 
 

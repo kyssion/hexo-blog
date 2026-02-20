@@ -8,7 +8,7 @@ tags: [netty]
 
 之前有一个netty的数据流处理图
 
-![](/images/blogimg//blogimg/netty/8.png)
+![](/images/blogimg/netty/8.png)
 
 在这张图中可以体现出在ChannelPipeline中将ChannelHandler链接在一起以组织处理逻辑,并且使用ChannelHandlerContext传递参数
 
@@ -25,7 +25,7 @@ tags: [netty]
 
 channelHandler的状态扭转如下
 
-![](/images/blogimg//blogimg/netty/9.png)
+![](/images/blogimg/netty/9.png)
 
 2. channelHandler生命周期
 
@@ -113,7 +113,7 @@ ChannelOutboundHandler的一个强大的功能是可以按需推迟操作或者�
 
 你可以使用ChannelInboundHandlerAdapter和ChannelOutboundHandlerAdapter类作为自己的ChannelHandler的起始点。这两个适配器分别提供了ChannelInboundHandler和ChannelOutboundHandler的基本实现。通过扩展抽象类ChannelHandlerAdapter，它们获得了它们共同的超接口ChannelHandler的方法。
 
-![](/images/blogimg//blogimg/netty/10.png)
+![](/images/blogimg/netty/10.png)
 
 ChannelHandlerAdapter还提供了实用方法isSharable()
 

@@ -31,7 +31,7 @@ ChannelEventLoopchannelFutureChannelHandlerchannelPipelinebootstrap
 
 Channel、EventLoop、Thread、EventLoopGroup之间的关系如下图：
 
-![](/images/blogimg//blogimg/netty/1.png)
+![](/images/blogimg/netty/1.png)
 
 ### 三.ChannelFuure接口
 
@@ -51,7 +51,7 @@ chanelPpeline接口为ChannelHandler链提供了容器，并定义了用在该�
 
 ChnanelPipeline中流动的是事件（事件中可能附加数据）。Netty定义了两种事件类型：入站（inbound）事件和出站（outbound）事件。ChannelPipeline使用拦截过滤器模式使用户可以掌控ChannelHandler处理事件的流程。注意：事件在ChannelPipeline中不自动流动而需要调用ChannelHandlerContext中诸如fileXXX()或者read()类似的方法将事件从一个ChannelHandler传播到下一个ChannelHandler
 
-![](/images/blogimg//blogimg/netty/2.png)
+![](/images/blogimg/netty/2.png)
 
 > 特殊东西ChannelHandlerContext
 
@@ -68,4 +68,4 @@ EventLoopGroup的数量|1|2
 
 workGroup，其中boss用来监控tcp链接,worker用来处理io事件。
 
-![](/images/blogimg//blogimg/netty/3.png)
+![](/images/blogimg/netty/3.png)

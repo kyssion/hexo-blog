@@ -20,17 +20,17 @@ tags: [jvm虚拟机]
 ### 1.相关算法
 #### （1）标记清除算法
 
-![](/images/blogimg//blogimg/jvm/2.png)
+![](/images/blogimg/jvm/2.png)
 - 老年代有应用
 #### （2）复制算法
 
-![](/images/blogimg//blogimg/jvm/3.png)
+![](/images/blogimg/jvm/3.png)
 
 - 主要用在新生代，发生gc的时候将Eden区的数据转移到surver区
 
 #### （3）标记整理算法
 
-![](/images/blogimg//blogimg/jvm/4.png)
+![](/images/blogimg/jvm/4.png)
 
 - 主要用在老年代思想就是标记+移动
 
@@ -57,13 +57,13 @@ tags: [jvm虚拟机]
 
 明确一个观点:虽然我们是在对各个收集器进行比较,但并非为了挑选出一个最好的收集器。因为直到现在为止还没有最好的收集器出现,更加没有万能的收集器,所以我们选择的只是对具体应用最合适的收集器。这点不需要多加解释就能证明:如果有一种放之四海皆准、任何场景下都适用的完美收集器存在,那HotSpot虚拟机就没必要实现那么多不同的收集器了。
 
-![](/images/blogimg//blogimg/jvm/5.png)
+![](/images/blogimg/jvm/5.png)
 
 #### （1）Serial收集器（串行收集器）
 
 只会使用一个CPU或一条收集线程去完成垃圾收集工作,更重要的是在它进行垃圾收集时,必须暂停其他所有的工作线程,直到它收集结束
 
-![](/images/blogimg//blogimg/jvm/6.png)
+![](/images/blogimg/jvm/6.png)
 
 适合在单线成环境下进行使用，缺点性能太低
 
@@ -88,7 +88,7 @@ Parallel Scavenge配合工作 ,所以在JDK 1.5中使用CMS来收集老年代的
 
 CMS(Concurrent Mark Sweep)收集器是一种以获取最短回收停顿时间为目标的收集器。目前很大一部分的Java应用集中在互联网站或者B/S系统的服务端上,这类应用尤其重视服务的响应速度,希望系统停顿时间最短,以给用户带来较好的体验。
 
-![](/images/blogimg//blogimg/jvm/7.png)
+![](/images/blogimg/jvm/7.png)
 
 **特点：**
 
@@ -112,9 +112,9 @@ CMS(Concurrent Mark Sweep)收集器是一种以获取最短回收停顿时间为
 
 G1的新生代收集跟ParNew类似，当新生代占用达到一定比例的时候，开始出发收集。
 
-![](/images/blogimg//blogimg/jvm/8.png)
+![](/images/blogimg/jvm/8.png)
 
-![](/images/blogimg//blogimg/jvm/9.png)
+![](/images/blogimg/jvm/9.png)
 
 被圈起的绿色部分为新生代的区域(region)，经过Young GC后存活的对象被复制到一个或者多个区域空闲中，这些被填充的区域将是新的新生代；当新生代对象的年龄(逃逸过一次Young GC年龄增加１)已经达到某个阈值(ParNew默认15)，被复制到老年代的区域中。
 
@@ -130,16 +130,16 @@ G1的新生代收集跟ParNew类似，当新生代占用达到一定比例的时
 2. Root Region Scanning，程序运行过程中会回收survivor区(存活到老年代)，这一过程必须在young GC之前完成。
 3. Concurrent Marking，在整个堆中进行并发标记(和应用程序并发执行)，此过程可能被young GC中断。在并发标记阶段，若发现区域对象中的所有对象都是垃圾，那个这个区域会被立即回收(图中打X)。同时，并发标记过程中，会计算每个区域的对象活性(区域中存活对象的比例)。
 
-![](/images/blogimg//blogimg/jvm/9.jpg)
+![](/images/blogimg/jvm/9.jpg)
 
 4. Remark, 再标记，会有短暂停顿(STW)。再标记阶段是用来收集 并发标记阶段 产生新的垃圾(并发阶段和应用程序一同运行)；G1中采用了比CMS更快的初始快照算法:snapshot-at-the-beginning (SATB)。
 5. Copy/Clean up，多线程清除失活对象，会有STW。G1将回收区域的存活对象拷贝到新区域，清除Remember Sets，并发清空回收区域并把它返回到空闲区域链表中。
 
-![](/images/blogimg//blogimg/jvm/10.jpg)
+![](/images/blogimg/jvm/10.jpg)
 
 6. 复制/清除过程后。回收区域的活性对象已经被集中回收到深蓝色和深绿色区域。
 
-![](/images/blogimg//blogimg/jvm/11.jpg)
+![](/images/blogimg/jvm/11.jpg)
 
 **关于Remembered Set概念**：G1收集器中，Region之间的对象引用以及其他收集器中的新生代和老年代之间的对象引用是使用Remembered Set来避免扫描全堆。G1中每个Region都有一个与之对应的Remembered Set，虚拟机发现程序对Reference类型数据进行写操作时，会产生一个Write Barrier暂时中断写操作，检查Reference引用的对象是否处于不同的Region之间(在分代中例子中就是检查是否老年代中的对象引用了新生代的对象)，如果是便通过CardTable把相关引用信息记录到被引用对象所属的Region的Remembered Set中。当内存回收时，在GC根节点的枚举范围加入Remembered Set即可保证不对全局堆扫描也不会有遗漏。
 

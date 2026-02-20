@@ -124,7 +124,7 @@ Dubbo 缺省会在启动时检查依赖的服务是否可用，可以通过 chec
 
 如果事件处理的逻辑能迅速完成，并且不会发起新的 IO 请求，比如只是在内存中记个标识，则直接在 IO 线程上处理更快，如果事件处理逻辑较慢，或者需要发起新的IO请求，比如需要查询数据库，则必须派发到IO线程池中
 
-![](/images/blogimg//blogimg/dubbo/6.jpg)
+![](/images/blogimg/dubbo/6.jpg)
 
 ```xml
 <dubbo:protocol name="dubbo" dispatcher="all" threadpool="fixed" threads="100" />
@@ -158,7 +158,7 @@ ThreadPool
 
 只订阅模式：一般和直连连用，解决在测试环境下注册中心共用可能导致，线上业务受到影响的问题
 
-![](/images/blogimg//blogimg/dubbo/7.jpg)
+![](/images/blogimg/dubbo/7.jpg)
 
 禁用注册配置
 
@@ -329,7 +329,7 @@ public class XxxServiceImpl implements XxxService {
 
 ### 参数传递流程图
 
-![](/images/blogimg//blogimg/dubbo/6.png)
+![](/images/blogimg/dubbo/6.png)
 
 > 在服务消费方端设置隐式参数
 
@@ -352,7 +352,7 @@ public class XxxServiceImpl implements XxxService {
 
 ### 异步调用
 
-![](/images/blogimg//blogimg/dubbo/8.jpg)
+![](/images/blogimg/dubbo/8.jpg)
 
 **注意**:要在客户端进行配置
 

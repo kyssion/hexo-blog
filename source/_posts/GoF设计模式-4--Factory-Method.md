@@ -15,7 +15,7 @@ tags: [设计模式]
 
 ### 工厂方法模式的类图
 
-![](/images/blogimg//blogimg/GAF/5.png)
+![](/images/blogimg/GAF/5.png)
 
 从类图中可以看出项目中工厂和产品之间的关系
 

@@ -84,7 +84,7 @@ public class Main {
 
 结果：
 
-![](/images/blogimg//blogimg/spring/1.png)
+![](/images/blogimg/spring/1.png)
 
 结论：函数变成一部执行非阻塞型
 

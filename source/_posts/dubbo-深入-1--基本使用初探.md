@@ -9,7 +9,7 @@ tags: [dubbo]
 
 ### 互联网架构升级过程图
 
-![](/images/blogimg//blogimg/dubbo/1.jpg)
+![](/images/blogimg/dubbo/1.jpg)
 
 单一应用架构(单机部署所有的应用)——>垂直应用架构(将单机的应用部署到相关的各种分开的服务器上，各个服务器相互独立)——>分布式服务架构(在之前的各个部分出现了交互的过程)——>流动计算架构soa(当系统变得复杂，各种交互混乱，玉树出现了基于中央调度的整合配置机制)——>微服务
 
@@ -21,7 +21,7 @@ tags: [dubbo]
 
 ### dubbo的基本架构
 
-![](/images/blogimg//blogimg/dubbo/2.jpg)
+![](/images/blogimg/dubbo/2.jpg)
 
 节点|角色说明
 ---|---

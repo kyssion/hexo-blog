@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192242">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605206207">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -266,7 +266,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -289,7 +289,7 @@
         
         <div class="post-body vscode-markdown">
           <h3 id="策略模式"><a href="#策略模式" class="headerlink" title="策略模式"></a>策略模式</h3><p>这个模式和bridge 模式非常像，如果说区别可能就是bridge强调的是扩展性而stragtegy强调使用方法</p>
-<h3 id="策略模式类图"><a href="#策略模式类图" class="headerlink" title="策略模式类图"></a>策略模式类图</h3><p><img src="/images/blogimg//blogimg/GAF/10.png"></p>
+<h3 id="策略模式类图"><a href="#策略模式类图" class="headerlink" title="策略模式类图"></a>策略模式类图</h3><p><img src="/images/blogimg/GAF/10.png"></p>
 <h3 id="策略模式例子"><a href="#策略模式例子" class="headerlink" title="策略模式例子"></a>策略模式例子</h3><h4 id="context-策略的使用者"><a href="#context-策略的使用者" class="headerlink" title="context 策略的使用者"></a>context 策略的使用者</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> org.kys.Gaf.strategy;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">PlayerContext</span> &#123;<br>    <span class="hljs-keyword">private</span> String name;<br>    <span class="hljs-keyword">private</span> Strategy strategy;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> wincount=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> losecount=<span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">private</span> <span class="hljs-type">int</span> gamecount=<span class="hljs-number">0</span>;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-title function_">PlayerContext</span><span class="hljs-params">(String name, Strategy strategy)</span> &#123;<br>        <span class="hljs-built_in">this</span>.name = name;<br>        <span class="hljs-built_in">this</span>.strategy = strategy;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> Hand <span class="hljs-title function_">nextHand</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> strategy.nextHand();<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">win</span><span class="hljs-params">()</span>&#123;<br>        strategy.study(<span class="hljs-literal">true</span>);<br>        gamecount++;<br>        wincount++;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">lose</span><span class="hljs-params">()</span>&#123;<br>        strategy.study(<span class="hljs-literal">false</span>);<br>        gamecount++;<br>        losecount++;<br>    &#125;<br><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">even</span><span class="hljs-params">()</span>&#123;<br>        gamecount++;<br>    &#125;<br>    <span class="hljs-keyword">public</span> <span class="hljs-type">double</span> <span class="hljs-title function_">winRate</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> (<span class="hljs-type">double</span>)wincount/(<span class="hljs-type">double</span>) gamecount;<br>    &#125;<br>    <span class="hljs-keyword">public</span> String <span class="hljs-title function_">getHandName</span><span class="hljs-params">()</span>&#123;<br>        <span class="hljs-keyword">return</span> strategy.getHandName();<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
 
 <h4 id="strategy-定义的策略接口"><a href="#strategy-定义的策略接口" class="headerlink" title="strategy 定义的策略接口"></a>strategy 定义的策略接口</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> org.kys.Gaf.strategy;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">Strategy</span> &#123;<br>    <span class="hljs-keyword">void</span> <span class="hljs-title function_">study</span><span class="hljs-params">(<span class="hljs-type">boolean</span> win)</span>;<br>    Hand <span class="hljs-title function_">nextHand</span><span class="hljs-params">()</span>;<br>    String <span class="hljs-title function_">getHandName</span><span class="hljs-params">()</span>;<br>&#125;<br><br></code></pre></td></tr></table></figure>
@@ -736,7 +736,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -865,7 +865,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192243"></script>
+<script src="../../../../js/password-protect.js?v=1771605206207"></script>
 
     <script>
       // 移动端菜单切换

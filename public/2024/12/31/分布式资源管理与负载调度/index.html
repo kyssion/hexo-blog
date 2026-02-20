@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192232">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205132">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -250,7 +250,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -268,7 +268,7 @@
           <h1 id="分布式体系结构之集中式结构：一人在上，万人在下"><a href="#分布式体系结构之集中式结构：一人在上，万人在下" class="headerlink" title="分布式体系结构之集中式结构：一人在上，万人在下"></a>分布式体系结构之集中式结构：一人在上，万人在下</h1><p>很多场景下，我们的请求都会汇总到一台服务器上，由这台服务器统一协调我们的请求和其他服务器之间的关系。这种由一台服务器统一管理其他服务器的方式，就是分布式体系结构中的集中式结构（也称为 Master&#x2F;Slave 架构），其中统一管理其他服务器的服务器是主，其他服务器是从，可以形象地比喻为“一人在上，万人在下”。</p>
 <p>集中式结构就是，由一台或多台服务器组成中央服务器，系统内的所有数据都存储在中央服务器中，系统内所有的业务也均先由中央服务器处理。多个节点服务器与中央服务器连接，并将自己的信息汇报给中央服务器，由中央服务器统一进行资源和任务调度：中央服务器根据这些信息，将任务下达给节点服务器；节点服务器执行任务，并将结果反馈给中央服务器。</p>
 <p>集中式结构最大的特点，就是部署结构简单。这是因为，集中式系统的中央服务器往往是多个具有较强计算能力和存储能力的计算机，为此中央服务器进行统一管理和调度任务时，无需考虑对任务的多节点部署，而节点服务器之间无需通信和协作，只要与中央服务器通信协作即可，具体示意图如下所示：</p>
-<p><img src="/images/blogimg//blogimg/newblog/fbs/%E5%88%86%E5%B8%83%E5%BC%8F%E9%9B%86%E4%B8%AD%E5%BC%8F%E6%9E%B6%E6%9E%84.png"></p>
+<p><img src="/images/blogimg/newblog/fbs/%E5%88%86%E5%B8%83%E5%BC%8F%E9%9B%86%E4%B8%AD%E5%BC%8F%E6%9E%B6%E6%9E%84.png"></p>
 <h2 id="经典集中式结构"><a href="#经典集中式结构" class="headerlink" title="经典集中式结构"></a>经典集中式结构</h2><p>Borg 是 Google 内部使用的集群管理系统，采用了典型的集中式结构，负责提交、调度、开始、重启和管理 Google 运行在其上的所有应用。</p>
 <p>在 Borg 中，一个集群称为一个 Cell，每个 Cell 里面有一个 Leader，称为 BorgMaster，即为中央服务器；其他服务器为节点服务器或从服务器，被称为 Borglet。</p>
 <p>首先，我们一起看看 BorgMaster。它由两个进程组成，一个是 Borgmaster 主进程，一个是独立的 scheduler 进程：</p>
@@ -278,7 +278,7 @@
 </ul>
 <p>接下来，我们一起看看 Borglet。它是运行在每个节点机器的一个 agent，负责任务的拉起、停止、重启等，并管理和搜集本服务器资源，将任务的状态、服务器状态等信息上报给 BorgMaster。而 BorgMaster 会周期性地轮询每个 Borglet，以获取节点服务器的状态和资源信息等。</p>
 <p>Borg 的整体架构示意图如下所示：</p>
-<p><img src="/images/blogimg//blogimg/newblog/fbs/Borg%E7%9A%84%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E7%A4%BA%E6%84%8F%E5%9B%BE.png"></p>
+<p><img src="/images/blogimg/newblog/fbs/Borg%E7%9A%84%E6%95%B4%E4%BD%93%E6%9E%B6%E6%9E%84%E7%A4%BA%E6%84%8F%E5%9B%BE.png"></p>
 <p>Borg 的主要用户是 Google 的开发者以及运行 Google 应用和服务的系统管理员（网站可靠性工程师，简称 SRE）。用户以 Job 的形式向 Borg 提交工作，每个 Job 由运行一个或多个运行相同程序的 Task 组成。每个 Job 运行在一个 Borg Cell 中，并将一组机器当做一个单元进行管理。</p>
 <p>Borg 可以运行各种各样的任务，这些任务主要分为两类：</p>
 <ul>
@@ -308,7 +308,7 @@
 <li>kube-proxy：负责为容器（Pod）创建网络代理 &#x2F; 负载平衡服务，从 API Server 获取所有 Server 信息，并根据 Server 信息创建代理服务，这种代理服务称之为 Service。Kube-proxy 主要负责管理 Service 的访问入口，即实现集群内的 Pod 客户端访问 Service，或者是集群外访问 Service，具有相同服务的一组 Pod 可抽象为一个 Service。每个 Service 都有一个虚拟 IP 地址（VIP）和端口号供客户端访问。</li>
 </ul>
 <p>Kubernetes 架构示意图如下所示：</p>
-<p><img src="/images/blogimg//blogimg/newblog/fbs/k8s%E7%A4%BA%E6%84%8F%E5%9B%BE.png"></p>
+<p><img src="/images/blogimg/newblog/fbs/k8s%E7%A4%BA%E6%84%8F%E5%9B%BE.png"></p>
 <p>图中， Kube DNS 负责为整个集群提供 DNS 服务；CNI 是 Container Network Interface 的一个标准的通用接口，用于连接容器管理系统和网络插件。</p>
 <p>与 Borg 不同的是，Kubernetes 主要是一个容器编排引擎，不仅支持 Docker，还支持 Rocket(另一种容器技术)。</p>
 <p>Kubernetes 也已经被很多公司采用，比如网易云、华为在需要使用容器进行资源隔离以运行相关业务的场景下，采用了大规模 Kubernetes 集群。</p>
@@ -325,7 +325,7 @@
 <p>Mesos Master 负责收集和管理所有 Agent 所在服务器的资源和状态，并且对接 Spark、Hadoop 等框架，将集群中服务器的资源信息告知给这些框架，以便这些框架进行任务资源匹配和调度。Mesos Agent 负责任务的拉起、停止、重启等，并负责收集所在服务器的资源 (比如 CPU、内存等) 信息和状态，上报给 Mesos Master。</p>
 <p>Mesos Master 通常采用一主两备的方式，以方便故障处理和恢复。而 Mesos Master 的选主策略，采用的就是 ZAB 算法。</p>
 <p>Mesos 架构示意图如下所示：</p>
-<p><img src="/images/blogimg//blogimg/newblog/fbs/Mesos%E6%9E%B6%E6%9E%84%E7%A4%BA%E6%84%8F%E5%9B%BE.png"></p>
+<p><img src="/images/blogimg/newblog/fbs/Mesos%E6%9E%B6%E6%9E%84%E7%A4%BA%E6%84%8F%E5%9B%BE.png"></p>
 <p>如上所述，Mesos 对接的是框架，并且可以同时对接多个框架，目前已经被很多公司使用。比如，国外的 Twitter、Apple、Airbnb、Uber 等，国内的爱奇艺、去哪儿、携程、当当等。</p>
 <p>这些公司选择 Mesos，主要是因为它具有如下优势：</p>
 <ul>
@@ -741,7 +741,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -870,7 +870,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192233"></script>
+<script src="../../../../js/password-protect.js?v=1771605205133"></script>
 
     <script>
       // 移动端菜单切换

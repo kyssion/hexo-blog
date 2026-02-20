@@ -40,7 +40,7 @@ postgresql和mysql有一些差别,要想开启远程登入权限需要修改两�
 vi postgresql.conf
 ```
 
-![](/images/blogimg//blogimg/postgresql/4.png)
+![](/images/blogimg/postgresql/4.png)
 
 编辑其中的listen_addresses 字段 将原来的listen_addresses = ‘localhost’修改为listen_addresses = ‘*’
 
@@ -48,7 +48,7 @@ vi postgresql.conf
 vi pg_hba.conf
 ```
 
-![](/images/blogimg//blogimg/postgresql/5.png)
+![](/images/blogimg/postgresql/5.png)
 
 修改整个文件变成如上的样子:说明一下,local 表示本地登入的权限使用peer认证(本机使用unix socket认证:注意在这种模式下,linux系统必须切换到相应的用户中才行,这样就不需要使用密码进行登入了),host外网使用的是md5认证(增加安全权限)具体为什么要看一下其他的东西:http://hi-kys.me/?p=361
 
@@ -72,7 +72,7 @@ psql
 sudo -u postgres psql
 ```
 
-![](/images/blogimg//blogimg/postgresql/6.png)
+![](/images/blogimg/postgresql/6.png)
 
 创建新的用户并设置密码
 
@@ -101,7 +101,7 @@ grant ALL on DATABASE database_name TO user_name
 
 使用\du命令查看一下 \q退出
 
-![](/images/blogimg//blogimg/postgresql/7.png)
+![](/images/blogimg/postgresql/7.png)
 
 3. 测试一下
 使用命令

@@ -7,7 +7,7 @@ tags: [mybatis]
 
 ### mybatis 整体反射框架设计
 
-![](/images/blogimg//blogimg/mybatis/1.png)
+![](/images/blogimg/mybatis/1.png)
 
 可以看到，Mybatis对这一块抽象的比较复杂，我们可以看到有几个比较主要的部分：Reflector、Invoker、PropertyTokenizer、MetaClass，MetaObject和ObjectWrapper，下面我们一个一个解析这几个部分，最后合并在一起看看他们是如何协作工作的。
 

@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192159">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205062">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -266,7 +266,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -300,7 +300,7 @@
 
 <p>为什么会这样的呢,这里没有得到权威的答案,但是按照我的猜想,应该是这样的过程</p>
 <p>我们看一下java生成的class文件,发现上面这个类其实生成了三个类</p>
-<p><img src="/images/blogimg//blogimg/java/11.jpg"></p>
+<p><img src="/images/blogimg/java/11.jpg"></p>
 <p>第一个 和最后一个就不用多说了,重点关心一下中间这个,反编译看看</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">class</span> <span class="hljs-title class_">ReflectorTest2$1</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">ReflectorItem</span>&lt;String&gt; &#123;<br>    ReflectorTest2$<span class="hljs-number">1</span>(String s) &#123;<br>        <span class="hljs-built_in">super</span>(s);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
@@ -309,7 +309,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ReflectorTest2</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> <span class="hljs-keyword">throws</span> NoSuchFieldException &#123;<br>        ReflectorItem&lt;String&gt; reflectorItem =<span class="hljs-keyword">new</span> <span class="hljs-title class_">ReflectorItem</span>&lt;&gt;(<span class="hljs-string">&quot;sdf&quot;</span>)&#123;&#125;;<br>        ReflectorItem&lt;String&gt; reflectorItem2 =<span class="hljs-keyword">new</span> <span class="hljs-title class_">ReflectorItem</span>&lt;&gt;(<span class="hljs-string">&quot;sdf&quot;</span>)&#123;&#125;;<br>        ReflectorItem&lt;String&gt; reflectorItem3 =<span class="hljs-keyword">new</span> <span class="hljs-title class_">ReflectorItem</span>&lt;&gt;(<span class="hljs-string">&quot;sdf&quot;</span>)&#123;&#125;;<br>        ReflectorItem&lt;String&gt; reflectorItem4 =<span class="hljs-keyword">new</span> <span class="hljs-title class_">ReflectorItem</span>&lt;&gt;(<span class="hljs-string">&quot;sdf&quot;</span>)&#123;&#125;;<br>        reflectorItem.setItem(<span class="hljs-string">&quot;restset&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>再看看生成的class文件信息</p>
-<p><img src="/images/blogimg//blogimg/java/12.jpg"></p>
+<p><img src="/images/blogimg/java/12.jpg"></p>
 <p>上面的代码中生成了4个泛型匿名内部类类,然后在java的class 文件中同样生成了四个 类名+$+编号的 动态生成class</p>
 <blockquote>
 <p>ps 这个机制其实是java实现匿名内部类的原理,jdk自己new了一个新的对象来实现类的生成</p>
@@ -755,7 +755,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -884,7 +884,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192160"></script>
+<script src="../../../../js/password-protect.js?v=1771605205062"></script>
 
     <script>
       // 移动端菜单切换

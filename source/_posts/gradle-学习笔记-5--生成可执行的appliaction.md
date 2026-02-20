@@ -27,7 +27,7 @@ repositories {
 
 这个是在idea中查看的,可以看出已经出现了run的task
 
-![](/images/blogimg//blogimg/gradle/3.png)
+![](/images/blogimg/gradle/3.png)
 
 
 通过gradle的task --all命令同样可以看见
@@ -42,7 +42,7 @@ run - Runs this project as a JVM application
 
 项目的目录结构如下
 
-![](/images/blogimg//blogimg/gradle/4.png)
+![](/images/blogimg/gradle/4.png)
 
 首先在main方法中实现了一个简单的函数返回一个字符串
 
@@ -112,4 +112,4 @@ BUILD SUCCESSFUL in 0s
 
 > 引申 一下把,看一下这里的测试,当运行了gradle 的build命令的时候,同样会执行测试样例,并且在build的reports文件夹中生成对应的测试报告html
 
-![](/images/blogimg//blogimg/gradle/5.png)
+![](/images/blogimg/gradle/5.png)

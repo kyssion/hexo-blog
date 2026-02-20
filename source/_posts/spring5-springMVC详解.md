@@ -9,13 +9,13 @@ tags: [spring]
 
 ### spring MVC 整体的架构设计
 
-![](/images/blogimg//blogimg/springMVC/1.jpg)
+![](/images/blogimg/springMVC/1.jpg)
 
-![](/images/blogimg//blogimg/springMVC/1.png)
+![](/images/blogimg/springMVC/1.png)
 
-![](/images/blogimg//blogimg/springMVC/2.png)
+![](/images/blogimg/springMVC/2.png)
 
-![](/images/blogimg//blogimg/springMVC/3.png)
+![](/images/blogimg/springMVC/3.png)
 
 spring 自己的webapplication支持嵌套作用域,通过这个方法可以实现spring applicationcongtext的继承特性(继承特性,子作用域可以访问夫作用域的中的属性,但是父作用域中的属性无法访问子作用域中的属性,具体的使用看HierarchicalBeanFactory)
 
@@ -171,7 +171,7 @@ public class SpringServletContainerInitializer implements ServletContainerInitia
 
 如果要说这个类就需要看一下springmvc的流程图
 
-![](/images/blogimg//blogimg/1.png);
+![](/images/blogimg/1.png);
 
 ----
 

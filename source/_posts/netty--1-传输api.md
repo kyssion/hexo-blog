@@ -7,7 +7,7 @@ tags: [netty]
 
 传输API的核心是interfaceChannel，它被用于所有的I/O操作。Channel类的层次结构如图
 
-![](/images/blogimg//blogimg/netty/5.png)
+![](/images/blogimg/netty/5.png)
 
 每个Channel都将会被分配一个ChannelPipeline和ChannelConfig。ChannelConfig包含了该Channel的所有配置设置，并且支持热更新。由于特定的传输可能具有独特的设置，所以它可能会实现一个ChannelConfig的子类型。（请参考ChannelConfig实现对应的Javadoc。）
 

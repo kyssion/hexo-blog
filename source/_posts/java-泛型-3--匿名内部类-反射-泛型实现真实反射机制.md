@@ -71,7 +71,7 @@ class  ReflectorItem<T> {
 
 我们看一下java生成的class文件,发现上面这个类其实生成了三个类
 
-![](/images/blogimg//blogimg/java/11.jpg)
+![](/images/blogimg/java/11.jpg)
 
 第一个 和最后一个就不用多说了,重点关心一下中间这个,反编译看看
 
@@ -101,7 +101,7 @@ public class ReflectorTest2 {
 
 再看看生成的class文件信息
 
-![](/images/blogimg//blogimg/java/12.jpg)
+![](/images/blogimg/java/12.jpg)
 
 上面的代码中生成了4个泛型匿名内部类类,然后在java的class 文件中同样生成了四个 类名+$+编号的 动态生成class
 

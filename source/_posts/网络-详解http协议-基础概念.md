@@ -7,7 +7,7 @@ tags: []
 
 ### http协议的基本流程
 
-![](/images/blogimg//blogimg/http/1.png)
+![](/images/blogimg/http/1.png)
 
 ### url和uri
 
@@ -20,19 +20,19 @@ tags: []
 
 ### http协议支持的请求头
 
-![](/images/blogimg//blogimg/http/2.png)
+![](/images/blogimg/http/2.png)
 
 ### http1.1性能提升
 
 > 持久链接：之前的http协议都是一次请求创建一次tcp链接，1.1升级为创建一次多次tcp请求
 
-![](/images/blogimg//blogimg/http/3.png)
+![](/images/blogimg/http/3.png)
 
 > 管线化：让http请求可以进行异步操作
 
 ### http协议报文结构
 
-![](/images/blogimg//blogimg/http/4.png)
+![](/images/blogimg/http/4.png)
 
 1. 压缩传输内容：将传输的的报文实体使用gzip的方法进行压缩然后在发送出去
 2. 分块传输编码：降低出错重传的代价，使用16位进行块标识，最后一个块标识为"0(CR+LF)"
@@ -41,19 +41,19 @@ tags: []
 
 **（1）代理**
 
-![](/images/blogimg//blogimg/http/5.png)
+![](/images/blogimg/http/5.png)
 
 - 作用：接受请求并转发个响应的其他请求
 - 优势：利用缓存减少带宽，流量控制，访问日志
 
 **（2）网关**
 
-![](/images/blogimg//blogimg/http/6.png)
+![](/images/blogimg/http/6.png)
 
 - 相当于升级http请求，转化成其它协议
 
 **（3）隧道**
 
-![](/images/blogimg//blogimg/http/7.png)
+![](/images/blogimg/http/7.png)
 
 - 不进行协议解析直接进行信息转化

@@ -11,7 +11,7 @@ tags: []
 
 Serverless并不神秘，用一个简单的例子就可讲明。我们设计了一个AI应用，可以识别出图片中人物的人种，我们把它作为一种SaaS服务架设在公共云上提供给客户使用，其典型的后端架构设计如下：
 
-![](/images/blogimg//blogimg/serverless/serverless_img1.jpeg)
+![](/images/blogimg/serverless/serverless_img1.jpeg)
 
 &nbsp; &nbsp;&nbsp; &nbsp;在该架构中，我们购买的云主机上运行了Tomcat Web Server，用于承载Java编写的AI应用。用户通过API上传图片。受限于云主机的本地存储空间，为了满足大量客户同时上传图片，AI应用实现了一个存储网关将图片导入公共云的对象存储。图片导入完成后，AI应用从对象存储读入图片进行识别，并将结果存入公共云的数据库中（例如RDS），用户使用API查询结果。
 &nbsp; &nbsp;&nbsp; &nbsp;AI应用上线一段时间后受到了用户的欢迎，越来越多的公司开始使用该服务。根据统计数据，大多数公司在上午9点~11点、下午2点~5点集中上传图片，为了满足该时间段的突发访问量，我们设置了公共云的&nbsp; &nbsp;&nbsp; &nbsp;Auto-Scaling策略，在访问增加时动态创建更多的云主机来响应客户。AI应用的架构演化成：
@@ -23,7 +23,7 @@ Serverless并不神秘，用一个简单的例子就可讲明。我们设计了�
 &nbsp; &nbsp;&nbsp; &nbsp;要完成这些工作，我们既要开发AI应用，又要营运支撑业务（例如管理云主机生命周期、管理操作系统）。这是当前架构的现实：为20%的核心业务营运80%的支撑业务。
 - 下面用Serverless架构改写AI应用：
 
-![](/images/blogimg//blogimg/serverless/servless_img2.jpeg)
+![](/images/blogimg/serverless/servless_img2.jpeg)
 
 
 - 多个运行AI应用代码的进程被启动，并发处理用户上传的图片。

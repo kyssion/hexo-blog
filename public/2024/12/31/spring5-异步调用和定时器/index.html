@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192188">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205087">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -266,7 +266,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -307,7 +307,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Main</span> &#123;<br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br>        <span class="hljs-type">ApplicationContext</span> <span class="hljs-variable">context</span> <span class="hljs-operator">=</span><span class="hljs-keyword">new</span> <span class="hljs-title class_">AnnotationConfigApplicationContext</span>(SpringConfig.class);<br> <br>        <span class="hljs-type">TaskExecutorConfig</span> <span class="hljs-variable">taskExecutorConfig</span> <span class="hljs-operator">=</span><br>                context.getBean(TaskExecutorConfig.class);<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> a=<span class="hljs-number">0</span>;a&lt;<span class="hljs-number">10</span>;a++)&#123;<br>            taskExecutorConfig.execturonRunOne(a);<br>            taskExecutorConfig.executronRunTwo(a);<br>        &#125;<br>        System.out.println(<span class="hljs-string">&quot;完成&quot;</span>);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>结果：</p>
-<p><img src="/images/blogimg//blogimg/spring/1.png"></p>
+<p><img src="/images/blogimg/spring/1.png"></p>
 <p>结论：函数变成一部执行非阻塞型</p>
 <h3 id="EnableScheduling-允许进行定时操作"><a href="#EnableScheduling-允许进行定时操作" class="headerlink" title="@EnableScheduling 允许进行定时操作"></a>@EnableScheduling 允许进行定时操作</h3><blockquote>
 <p>配置类</p>
@@ -876,7 +876,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -1005,7 +1005,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192188"></script>
+<script src="../../../../js/password-protect.js?v=1771605205088"></script>
 
     <script>
       // 移动端菜单切换

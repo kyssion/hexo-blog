@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../../../../css/mermaid.css">
 
   <link rel="stylesheet" href="../../../../css/vs-code.css">
-  <link rel="stylesheet" href="../../../../css/post.css?v=1771424192171">
+  <link rel="stylesheet" href="../../../../css/post.css?v=1771605205073">
   <link rel="stylesheet" href="../../../../css/tag.css">
   <link rel="stylesheet" href="../../../../css/categories.css">
   <link rel="stylesheet" href="../../../../css/archive.css">
@@ -266,7 +266,7 @@
             
             <span class="updated-date">
               <i class="fas fa-sync-alt"></i>
-              Updated 2026-02-18
+              Updated 2026-02-21
             </span>
                         
               <span class="categories">
@@ -288,7 +288,7 @@
         </div>
         
         <div class="post-body vscode-markdown">
-          <h3 id="mybatis-整体反射框架设计"><a href="#mybatis-整体反射框架设计" class="headerlink" title="mybatis 整体反射框架设计"></a>mybatis 整体反射框架设计</h3><p><img src="/images/blogimg//blogimg/mybatis/1.png"></p>
+          <h3 id="mybatis-整体反射框架设计"><a href="#mybatis-整体反射框架设计" class="headerlink" title="mybatis 整体反射框架设计"></a>mybatis 整体反射框架设计</h3><p><img src="/images/blogimg/mybatis/1.png"></p>
 <p>可以看到，Mybatis对这一块抽象的比较复杂，我们可以看到有几个比较主要的部分：Reflector、Invoker、PropertyTokenizer、MetaClass，MetaObject和ObjectWrapper，下面我们一个一个解析这几个部分，最后合并在一起看看他们是如何协作工作的。</p>
 <h3 id="Reflector"><a href="#Reflector" class="headerlink" title="Reflector"></a>Reflector</h3><p>我对Reflector的理解是 Reflector是对类的描述 ，我们从一段UT开始（代码位于ReflectorTest）：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">static</span> <span class="hljs-keyword">abstract</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AbstractEntity</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Entity</span>&lt;Long&gt; &#123;<br><br>    <span class="hljs-keyword">private</span> Long id;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Long <span class="hljs-title function_">getId</span><span class="hljs-params">()</span> &#123;<br>        <span class="hljs-keyword">return</span> id;<br>    &#125;<br><br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">setId</span><span class="hljs-params">(Long id)</span> &#123;<br>        <span class="hljs-built_in">this</span>.id = id;<br>    &#125;<br>&#125;<br><span class="hljs-keyword">static</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Section</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">AbstractEntity</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">Entity</span>&lt;Long&gt; &#123;<br>&#125;<br><span class="hljs-meta">@Test</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">testGetSetterType</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception &#123;<br>    <span class="hljs-type">ReflectorFactory</span> <span class="hljs-variable">reflectorFactory</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">DefaultReflectorFactory</span>();<br>    <span class="hljs-type">Reflector</span> <span class="hljs-variable">reflector</span> <span class="hljs-operator">=</span> reflectorFactory.findForClass(Section.class);<br>    Assert.assertEquals(Long.class, reflector.getSetterType(<span class="hljs-string">&quot;id&quot;</span>));<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -794,7 +794,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div class="status-item">
       <i class="fas fa-clock"></i>
-      2026-02-18
+      2026-02-21
     </div>
     <div class="status-item">
       Designed By&nbsp; <a href="https://github.com/B143KC47" target="_blank"> BlackCat</a>
@@ -923,7 +923,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 <script src="../../../../js/search.js"></script>
 <script src="../../../../js/theme-switch.js"></script>
 
-<script src="../../../../js/password-protect.js?v=1771424192171"></script>
+<script src="../../../../js/password-protect.js?v=1771605205073"></script>
 
     <script>
       // 移动端菜单切换
